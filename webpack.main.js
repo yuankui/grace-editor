@@ -8,7 +8,7 @@ module.exports = {
     minimize: false
   },
   entry: {
-    main: './electron/index.js'
+    main: './electron/main.js'
   },
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
   target: "electron-main"

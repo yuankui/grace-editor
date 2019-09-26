@@ -7,6 +7,9 @@ asar: true
 directories:
   buildResources: build/
 
+extraMetadata:
+  main: build/main.js
+
 files:
   - "build/**/*"
   - '!**/node_modules/**/*'

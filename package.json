@@ -5,7 +5,7 @@
   "main": "./build/main.js",
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
-    "build-main": "webpack --config webpack.main.js --mode development",
+    "build-main": "webpack --config webpack.main.js --mode production",
     "electron": "cross-env NODE_ENV=development PLUGIN=false electron ./electron",
     "build-renderer": "webpack --mode production",
     "build": "yarn build-renderer && yarn build-main",
