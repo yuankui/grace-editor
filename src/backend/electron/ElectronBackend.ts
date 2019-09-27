@@ -65,36 +65,33 @@ export class ElectronBackend implements Backend {
      * @param dirs
      */
     async expandDir(dirs: Array<string>): Promise<Array<string>> {
-        let subDirs: Array<string> = [];
+        let subDirList: Array<string> = [];
         for (let dir of dirs) {
             let subDirs = await this.listDir(dir);
 
             subDirs = subDirs.map(d => path.join(dir, d));
-            subDirs.push(...subDirs);
+            subDirList.push(...subDirs);
         }
-        return subDirs;
+        return subDirList;
     }
 
     async getPosts(): Promise<Array<Post>> {
         console.log("get posts.............");
         let level1 = await this.expandDir([this.workingDir]);
         let level2 = await this.expandDir(level1);
-        let level3 = await this.expandDir(level2);
-
 
         const posts: Array<Post> = [];
 
-        for (let dir of level3) {
+        for (let dir of level2) {
             try {
                 let post = await this.getPostByPath(dir);
                 posts.push(post);
             } catch (e) {
-                console.log(e);
+                // console.log('not post here:', dir, e);
             }
         }
 
-        // TODO fix this
-        return posts.filter(p => p.parentId === 'todoooo');
+        return posts;
     }
 
     async writeFile(location: string, buffer: Buffer): Promise<any> {
