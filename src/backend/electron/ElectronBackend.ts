@@ -109,6 +109,7 @@ export class ElectronBackend implements Backend {
 
     async saveImage(file: File, id: string): Promise<string> {
         let imageId = uuid();
+        console.log('save image:', id, '->', imageId);
         let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
         let arrayBuffer = await this.readFileAsArrayBuffer(file);
         await this.writeFile(imagePath, new Buffer(arrayBuffer));

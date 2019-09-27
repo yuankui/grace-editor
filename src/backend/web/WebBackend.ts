@@ -38,6 +38,7 @@ export class WebBackend implements Backend {
     }
 
     saveImage(file: File, id: string): Promise<string> {
+        console.log('parse image to base64:', id, file);
         return new Promise<string>((resolve, reject) => {
             let reader = new FileReader();
             reader.onload = ev => {

@@ -28,7 +28,8 @@ interface Props {
     content: RawDraftContentState,
     onChange: StateChange,
     editable: boolean,
-    backend: Backend;
+    backend: Backend,
+    postKey: string,
 }
 
 interface State {
