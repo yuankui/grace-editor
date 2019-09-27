@@ -22,6 +22,12 @@ export class WebBackend implements Backend {
             if (key == null) {
                 break;
             }
+
+            // key regex match
+            if (!key.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)) {
+                continue;
+            }
+
             let value = localStorage.getItem(key);
             if (value == null) {
                 continue;

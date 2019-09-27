@@ -1,7 +1,10 @@
 import {PathLike} from "fs";
 import path from 'path';
 
-const fs: any = (window as any).require('fs');
+let fs: any = {};
+if (window.require != null) {
+    fs = (window as any).require('fs');
+}
 
 function _mkdir(path: PathLike): Promise<any> {
     return new Promise<any>((resolve, reject) => {
