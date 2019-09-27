@@ -1,6 +1,7 @@
 import {Backend, Post} from "../index";
 import path from 'path';
 import uuid from 'uuid/v4';
+import * as fss from './fs/fs';
 
 export function createElectronBackend(working: string): Backend {
     const fs: any = (window as any).require('fs');
@@ -59,6 +60,10 @@ export class ElectronBackend implements Backend {
         })
     }
 
+    /**
+     * list child of dir
+     * @param dirs
+     */
     async expandDir(dirs: Array<string>): Promise<Array<string>> {
         let subDirs: Array<string> = [];
         for (let dir of dirs) {
@@ -71,6 +76,7 @@ export class ElectronBackend implements Backend {
     }
 
     async getPosts(): Promise<Array<Post>> {
+        console.log("get posts.............");
         let level1 = await this.expandDir([this.workingDir]);
         let level2 = await this.expandDir(level1);
         let level3 = await this.expandDir(level2);
@@ -91,9 +97,12 @@ export class ElectronBackend implements Backend {
         return posts.filter(p => p.parentId === 'todoooo');
     }
 
-    writeFile(path: string, buffer: Buffer): Promise<any> {
+    async writeFile(location: string, buffer: Buffer): Promise<any> {
+        const dir = path.dirname(location);
+        await fss.mkdir(dir);
+
         return new Promise<any>((resolve, reject) => {
-            this.fs.writeFile(path, buffer, (err) => {
+            this.fs.writeFile(location, buffer, (err) => {
                 if (err != null)
                     reject(err);
                 resolve("");
@@ -127,7 +136,9 @@ export class ElectronBackend implements Backend {
     }
 
     getPostDir(id: string): string {
-        return path.join(this.workingDir, ...id.split("."));
+        const s1 = id.substring(0, 2);
+        const s2 = id.substr(2);
+        return path.join(this.workingDir, s1, s2);
     }
 
     async savePost(post: Post): Promise<Post> {

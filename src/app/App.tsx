@@ -11,6 +11,7 @@ import {AppStore, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
+import Mousetrap from "mousetrap";
 
 const {Sider, Content} = Layout;
 
@@ -39,15 +40,13 @@ class App extends React.Component<AppProps, AppState> {
 
     componentDidMount(): void {
         const that = this;
-        document.addEventListener("keydown", function (event) {
-
-            if ((event.ctrlKey || event.metaKey) && event.which === 83) {
-                // Save Function
-                that.props.dispatch(new SavePostsCommand());
-                event.preventDefault();
-                return false;
-            }
-        });
+        Mousetrap.bind('command+s', e => {
+            // Save Function
+            that.props.dispatch(new SavePostsCommand());
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        })
     }
 
     onChange = (v: EditorState) => {

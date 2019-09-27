@@ -11,8 +11,6 @@ code {
 
 
 #root {
-  /*margin: 120px;*/
-  padding-left: 200px;
-  padding-right: 200px;
+  padding: 20px;
   height: 100%;
 }
