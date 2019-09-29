@@ -2,6 +2,7 @@
 
 .layout {
     height: 100%;
+    background-color: white;
 }
 
 .ant-layout-content {
@@ -35,19 +36,26 @@
 }
 /*scroll bar*/
 
-
-.title {
+/*title start*/
+.title input {
     font-size: 40px;
     font-weight: bold;
     height: 60px;
     outline: none;
     width: calc(90% - 40px);
     border: none;
-    padding-left: 20px;
 }
-.title::placeholder {
+.title input::placeholder {
     color: darkgray;
 }
+
+.title .locate-button {
+    opacity: 0;
+}
+.title:hover .locate-button {
+    opacity: 1;
+}
+/*title end...*/
 
 /*search bar*/
 .search-bar .icon {

@@ -84,12 +84,11 @@ class App extends React.Component<AppProps, AppState> {
                         this.props.dispatch(new SyncPostCommand());
                     }}
                     onKeyDown={e => e.stopPropagation()}>
-                    <span>
+                    <span className='title'>
                         <Button className='locate-button'>
                             <i className="material-icons">adjust</i>
                         </Button>
-                        <input className={'title'}
-                               placeholder={"Untitled"}
+                        <input placeholder={"Untitled"}
                                value={this.props.editingPost.title}
                                onChange={this.onTitleChange}
                                onKeyPress={this.focus}/>
