@@ -9,6 +9,7 @@ interface Props {
      */
     onSelect: (index: number) => void,
 
+    maxHeight: number,
     /**
      * 根据关键字进行反查结果
      * @param keyword
@@ -24,10 +25,12 @@ interface State {
 
 export class DropdownSelect extends React.Component<Props, State> {
     private readonly textRef: React.RefObject<HTMLInputElement>;
+    private readonly listRef: React.RefObject<HTMLUListElement>;
 
     constructor(props) {
         super(props);
         this.textRef = createRef();
+        this.listRef = createRef();
         this.state = {
             selectIndex: 0,
             children: [],
@@ -56,7 +59,10 @@ export class DropdownSelect extends React.Component<Props, State> {
                    value={this.state.keyword}
                    onKeyDown={e => this.onKeyDown(e)}
                    onChange={e => this.inputChange(e.target.value)}/>
-            <ul className='options'>
+            <ul className='options'
+                ref={this.listRef}
+                style={{maxHeight: this.props.maxHeight}}
+            >
                 {
                     this.state.children.map((e, index) => {
                         const active = 'active-' + (index === this.state.selectIndex);
@@ -81,23 +87,34 @@ export class DropdownSelect extends React.Component<Props, State> {
     }
 
     resetIndex() {
+        this.setIndex(0);
+    }
+
+    setIndex(newIndex: number) {
+        this.scrollTo(newIndex);
         this.setState({
-            selectIndex: 0,
-        });
+            selectIndex: newIndex,
+        })
     }
 
     upIndex() {
         const newIndex = (this.state.selectIndex + 1) % this.state.children.length;
-        this.setState({
-            selectIndex: newIndex,
-        })
+        this.setIndex(newIndex);
+    }
+
+    scrollTo(i: number) {
+        if (this.listRef.current != null) {
+            const e = this.listRef.current.children[i];
+            e.scrollIntoView({
+                behavior: "auto",
+                block: "nearest",
+            });
+        }
     }
 
     downIndex() {
         const newIndex = (this.state.selectIndex - 1 + this.state.children.length) % this.state.children.length;
-        this.setState({
-            selectIndex: newIndex,
-        })
+        this.setIndex(newIndex);
     }
 
     select() {

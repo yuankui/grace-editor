@@ -1,8 +1,6 @@
-import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
-import {MyEditor} from "../Editor/Editor";
-import {convertToRaw, EditorState} from "draft-js";
+import React, {createRef, KeyboardEvent} from 'react';
 import './App.css';
-import {Button, Icon, Layout, Modal, Select} from 'antd';
+import {Button, Layout, Modal} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {connect} from "react-redux";
@@ -14,6 +12,7 @@ import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
 import {DropdownSelect} from "../dropdown-select/select";
+import range from 'range/lib/range';
 
 const {Sider, Content} = Layout;
 
@@ -89,7 +88,7 @@ class App extends React.Component<AppProps, AppState> {
     };
 
     async onSearch(keyword: string): Promise<Array<any>> {
-        return [1, 2, 3, 4]
+        return range.range(1, 100)
             .map(i => (
                 <span key={i}>{keyword + i}</span>
             ))
@@ -110,6 +109,7 @@ class App extends React.Component<AppProps, AppState> {
                                         console.log('select index:', i);
                                         this.toggleSearch();
                                     }}
+                                    maxHeight={200}
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>

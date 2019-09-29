@@ -65,6 +65,7 @@
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
     "prop-types": "^15.7.2",
+    "range": "^0.0.3",
     "react": "^16.8.6",
     "react-codemirror2": "^6.0.0",
     "react-contextmenu": "^2.11.0",

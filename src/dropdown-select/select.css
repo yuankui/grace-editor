@@ -1,4 +1,7 @@
 /*modal search start*/
+.dropdown-select .options{
+    overflow-y: scroll;
+}
 .dropdown-select .select-input {
     width: 100%;
     font-size: 30px;
@@ -24,4 +27,6 @@
     background-color: #5b1d78;
     color: white;
 }
+
+
 /*modal search end*/
