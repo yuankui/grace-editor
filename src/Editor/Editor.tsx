@@ -10,7 +10,6 @@ import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
-import * as MouseTrap from 'mousetrap';
 import 'mousetrap-global-bind/mousetrap-global-bind';
 import './editor.css';
 
