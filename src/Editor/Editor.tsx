@@ -122,9 +122,6 @@ export class MyEditor extends Component<Props, State> {
     }
 
     onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-        if (e.metaKey) {
-            e.preventDefault();
-        }
         if (e.key === 'Escape') {
             if (this.ref.current != null) {
                 this.ref.current.blur();
