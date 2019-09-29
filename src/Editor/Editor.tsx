@@ -10,6 +10,7 @@ import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
+import * as MouseTrap from 'mousetrap';
 import './editor.css';
 
 export interface StateChange {
@@ -103,7 +104,7 @@ export class MyEditor extends Component<Props, State> {
             .reduce((reduction, value) => (reduction as number) + (value as number), 0);
 
         return (
-            <div onBlur={this.save} onKeyDown={this.onEsc} className={'editor saved-' + this.state.saved } onClick={() => this.focus()}>
+            <div onBlur={this.save} onKeyDown={this.onKeyDown} className={'editor saved-' + this.state.saved } onClick={() => this.focus()}>
                 <Editor
                     placeholder={"Start here..."}
                     editorState={this.state.editorState}
@@ -119,10 +120,15 @@ export class MyEditor extends Component<Props, State> {
         );
     }
 
-    onEsc = (e: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Escape') {
             if (this.ref.current != null) {
                 this.ref.current.blur();
+            }
+        } else {
+            if (e.key == 's' && e.metaKey) {
+                this.save();
+                e.preventDefault();
             }
         }
     }
