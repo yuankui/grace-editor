@@ -31,13 +31,11 @@ export class DropdownSelect extends React.Component<Props, State> {
         }
     }
 
-    focusAndReset() {
+    async focusAndReset() {
         if (this.textRef.current != null) {
             this.textRef.current.focus();
         }
-        this.setState({
-            keyword: '',
-        })
+        this.inputChange('');
     }
 
     async componentDidMount() {
