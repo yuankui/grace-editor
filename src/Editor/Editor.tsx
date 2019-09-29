@@ -29,7 +29,6 @@ interface Props {
     onChange: StateChange,
     editable: boolean,
     backend: Backend,
-    postKey: string,
 }
 
 interface State {

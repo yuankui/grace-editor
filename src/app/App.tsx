@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {convertToRaw, EditorState} from "draft-js";
 import './App.css';
-import {Button, Layout} from 'antd';
+import {Button, Icon, Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {connect} from "react-redux";
@@ -85,6 +85,9 @@ class App extends React.Component<AppProps, AppState> {
                     }}
                     onKeyDown={e => e.stopPropagation()}>
                     <span>
+                        <Button className='locate-button'>
+                            <i className="material-icons">adjust</i>
+                        </Button>
                         <input className={'title'}
                                placeholder={"Untitled"}
                                value={this.props.editingPost.title}

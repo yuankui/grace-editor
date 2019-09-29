@@ -41,7 +41,7 @@
     font-weight: bold;
     height: 60px;
     outline: none;
-    width: 100%;
+    width: calc(90% - 40px);
     border: none;
     padding-left: 20px;
 }
@@ -56,4 +56,10 @@
 
 .search-bar .input {
     width: calc(100% - 50px)
+}
+
+.locate-button {
+    border-radius: 20px;
+    padding: 3px;
+    margin: 12px;
 }
