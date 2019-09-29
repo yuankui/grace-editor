@@ -105,7 +105,10 @@ class App extends React.Component<AppProps, AppState> {
                     footer={null}
                     onCancel={e => this.hideSearch()}
                 >
-                    <DropdownSelect ref={this.searchRef} onSelect={(i) => {console.log('select index:', i)}}
+                    <DropdownSelect ref={this.searchRef} onSelect={(i) => {
+                        console.log('select index:', i);
+                        this.toggleSearch();
+                    }}
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>
