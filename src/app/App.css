@@ -71,3 +71,8 @@
     padding: 3px;
     margin: 12px;
 }
+
+/*hide ant close button*/
+.ant-modal-close {
+    display: none;
+}

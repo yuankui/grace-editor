@@ -1,0 +1,27 @@
+/*modal search start*/
+.dropdown-select .select-input {
+    width: 100%;
+    font-size: 30px;
+    outline: none;
+    padding: 5px 10px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: lightgrey;
+}
+.dropdown-select .options {
+    list-style: none;
+    padding: 0px;
+}
+
+.dropdown-select .options li {
+    font-size: 20px;
+    height: 50px;
+    padding: 10px;
+    /*font-weight: bold;*/
+}
+
+.dropdown-select .options li.active-true {
+    background-color: #5b1d78;
+    color: white;
+}
+/*modal search end*/

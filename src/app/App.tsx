@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {convertToRaw, EditorState} from "draft-js";
 import './App.css';
-import {Button, Icon, Layout, Modal} from 'antd';
+import {Button, Icon, Layout, Modal, Select} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {connect} from "react-redux";
@@ -13,6 +13,7 @@ import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
+import {DropdownSelect} from "../dropdown-select/select";
 
 const {Sider, Content} = Layout;
 
@@ -77,18 +78,27 @@ class App extends React.Component<AppProps, AppState> {
             showSearch: false,
         })
     };
+
+    async onSearch(keyword: string): Promise<Array<any>> {
+        return [1, 2, 3, 4]
+            .map(i => (
+                <span key={i}>{keyword + i}</span>
+            ))
+    }
+
     render() {
         return (
             <Layout className='layout'>
                 <Modal
-                    title="Basic Modal"
+                    className='modal-search'
                     visible={this.state.showSearch}
                     onOk={e => this.hideSearch()}
+                    footer={null}
                     onCancel={e => this.hideSearch()}
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <DropdownSelect onSelect={(i) => {console.log('select index:', i)}}
+                                    onSearch={keyword => this.onSearch(keyword)}
+                    />
                 </Modal>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
