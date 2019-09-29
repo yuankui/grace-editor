@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {convertToRaw, EditorState} from "draft-js";
 import './App.css';
-import {Button, Icon, Layout} from 'antd';
+import {Button, Icon, Layout, Modal} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {connect} from "react-redux";
@@ -18,6 +18,7 @@ const {Sider, Content} = Layout;
 
 interface AppState {
     editable: boolean,
+    showSearch: boolean,
 }
 
 interface AppProps {
@@ -36,6 +37,7 @@ class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             editable: true,
+            showSearch: false,
         };
     }
 
@@ -47,7 +49,14 @@ class App extends React.Component<AppProps, AppState> {
             e.preventDefault();
             e.stopPropagation();
             return false;
-        })
+        });
+
+        Mousetrap.bindGlobal("command+o", e => {
+            e.preventDefault();
+            this.setState({
+                showSearch: true,
+            })
+        });
     }
 
     onChange = (v: EditingPost) => {
@@ -63,9 +72,24 @@ class App extends React.Component<AppProps, AppState> {
         }
     };
 
+    hideSearch = () => {
+        this.setState({
+            showSearch: false,
+        })
+    };
     render() {
         return (
             <Layout className='layout'>
+                <Modal
+                    title="Basic Modal"
+                    visible={this.state.showSearch}
+                    onOk={e => this.hideSearch()}
+                    onCancel={e => this.hideSearch()}
+                >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </Modal>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
 
@@ -76,7 +100,7 @@ class App extends React.Component<AppProps, AppState> {
                     onBlur={() => {
                         this.props.dispatch(new SyncPostCommand());
                     }}
-                    onKeyDown={e => e.stopPropagation()}>
+                    >
                     <EditorContent onChange={this.onChange}
                                    backend={this.props.state.backend}
                                    post={this.props.editingPost}

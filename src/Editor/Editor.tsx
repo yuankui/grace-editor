@@ -11,6 +11,7 @@ import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 import * as MouseTrap from 'mousetrap';
+import 'mousetrap-global-bind/mousetrap-global-bind';
 import './editor.css';
 
 export interface StateChange {
@@ -121,6 +122,9 @@ export class MyEditor extends Component<Props, State> {
     }
 
     onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.metaKey) {
+            e.preventDefault();
+        }
         if (e.key === 'Escape') {
             if (this.ref.current != null) {
                 this.ref.current.blur();
