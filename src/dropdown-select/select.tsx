@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './select.css';
+import {createRef} from "react";
 
 /**
  * children & onSearch 二选一
@@ -10,19 +11,33 @@ interface Props {
     onSelect: (index: number) => void,
     onSearch: (keyword: string) => Promise<Array<any>>,
 }
+
 interface State {
     selectIndex: number,
     children: Array<any>,
+    keyword: string,
 }
 
-export class DropdownSelect extends React.Component<Props, State>{
+export class DropdownSelect extends React.Component<Props, State> {
+    private readonly textRef: React.RefObject<HTMLInputElement>;
 
     constructor(props) {
         super(props);
+        this.textRef = createRef();
         this.state = {
             selectIndex: 0,
             children: [],
+            keyword: '',
         }
+    }
+
+    focusAndReset() {
+        if (this.textRef.current != null) {
+            this.textRef.current.focus();
+        }
+        this.setState({
+            keyword: '',
+        })
     }
 
     async componentDidMount() {
@@ -33,8 +48,12 @@ export class DropdownSelect extends React.Component<Props, State>{
     }
 
     render() {
-        return <div className='dropdown-select' >
-            <input className='select-input' onKeyDown={e => this.onKeyDown(e)} onChange={e => this.inputChange(e.target.value)} />
+        return <div className='dropdown-select'>
+            <input ref={this.textRef}
+                   className='select-input'
+                   value={this.state.keyword}
+                   onKeyDown={e => this.onKeyDown(e)}
+                   onChange={e => this.inputChange(e.target.value)}/>
             <ul className='options'>
                 {
                     this.state.children.map((e, index) => {
@@ -49,14 +68,16 @@ export class DropdownSelect extends React.Component<Props, State>{
     }
 
     async inputChange(keyword: string) {
+        this.setState({
+            keyword,
+        });
+        const results = await this.props.onSearch(keyword);
         this.resetIndex();
-        if (this.props.onSearch) {
-            const results = await this.props.onSearch(keyword);
-            this.setState({
-                children: results,
-            })
-        }
+        this.setState({
+            children: results,
+        })
     }
+
     resetIndex() {
         this.setState({
             selectIndex: 0,

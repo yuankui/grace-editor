@@ -31,11 +31,12 @@ interface AppProps {
 
 class App extends React.Component<AppProps, AppState> {
     private readonly editor: React.RefObject<EditorContent>;
+    private readonly searchRef: React.RefObject<DropdownSelect>;
 
     constructor(props: Readonly<any>) {
         super(props);
         this.editor = createRef();
-
+        this.searchRef = createRef();
         this.state = {
             editable: true,
             showSearch: false,
@@ -54,10 +55,18 @@ class App extends React.Component<AppProps, AppState> {
 
         Mousetrap.bindGlobal("command+o", e => {
             e.preventDefault();
-            this.setState({
-                showSearch: true,
-            })
+            that.toggleSearch();
         });
+    }
+
+    toggleSearch() {
+        const showSearch = this.state.showSearch;
+        this.setState({
+            showSearch: !showSearch,
+        });
+        if (this.searchRef.current != null && !showSearch) {
+            this.searchRef.current.focusAndReset();
+        }
     }
 
     onChange = (v: EditingPost) => {
@@ -96,7 +105,7 @@ class App extends React.Component<AppProps, AppState> {
                     footer={null}
                     onCancel={e => this.hideSearch()}
                 >
-                    <DropdownSelect onSelect={(i) => {console.log('select index:', i)}}
+                    <DropdownSelect ref={this.searchRef} onSelect={(i) => {console.log('select index:', i)}}
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>
