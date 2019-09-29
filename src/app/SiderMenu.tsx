@@ -8,7 +8,7 @@ import {Post} from "../backend";
 import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
 import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
-
+import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
 const {TreeNode} = Tree;
 
 export interface Node {
@@ -71,6 +71,7 @@ class SiderMenu extends React.Component<Props, State> {
             return;
         this.props.dispatch(new PostSelectCommand(keys[0]))
     };
+
     renderTreeNodes(data: Array<Node>) {
         return data.map(item => {
             if (item.children) {
@@ -85,13 +86,28 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     renderTitle(item: Node) {
-        return <span onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
-            <Button onClick={e => {
-                this.props.dispatch(new CreateNewPostCommand(item.key));
-                e.stopPropagation();
-            }} className='plus-icon'><Icon type="plus"/></Button>
-            <span>{item.title + (item.saved? "": " *")}</span>
-        </span>
+        return <ContextMenuTrigger id={item.key}>
+            <span onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
+                <Button onClick={e => {
+                    this.props.dispatch(new CreateNewPostCommand(item.key));
+                    e.stopPropagation();
+                }} className='plus-icon'><Icon type="plus"/></Button>
+                <span>{item.title + (item.saved ? "" : " *")}</span>
+            </span>
+            <ContextMenu id={item.key}>
+                <MenuItem data={{foo: 'bar1'}}>
+                    ContextMenu Item 1
+                </MenuItem>
+                <MenuItem data={{foo: 'bar2'}}>
+                    ContextMenu Item 2
+                </MenuItem>
+                <MenuItem divider/>
+                <MenuItem data={{foo: 'bar3'}}>
+                    ContextMenu Item 3
+                </MenuItem>
+            </ContextMenu>
+        </ContextMenuTrigger>;
+
     }
 
     doubleClick = (item: Node, e: React.MouseEvent<HTMLSpanElement>) => {
@@ -177,6 +193,7 @@ function traceRoot(id: string, state: AppStore): Array<string> {
     }
     return a;
 }
+
 function mapState(state: AppStore) {
     return {
         state,

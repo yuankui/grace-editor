@@ -1,5 +1,5 @@
 @import "~antd/dist/antd.css";
-
+@import url(./context-menu.css);
 .layout {
     height: 100%;
     background-color: white;
