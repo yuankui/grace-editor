@@ -40,3 +40,7 @@ main.ant-layout-content {
     bottom: 0;
     color: grey;
 }
+
+.saved-false {
+    box-shadow: 0 0 2px grey;
+}

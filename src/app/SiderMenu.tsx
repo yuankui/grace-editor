@@ -9,6 +9,7 @@ import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
 import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
 import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
+import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 const {TreeNode} = Tree;
 
 export interface Node {
@@ -86,6 +87,7 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     renderTitle(item: Node) {
+        const that = this;
         return <ContextMenuTrigger id={item.key}>
             <span onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
                 <Button onClick={e => {
@@ -95,14 +97,16 @@ class SiderMenu extends React.Component<Props, State> {
                 <span>{item.title + (item.saved ? "" : " *")}</span>
             </span>
             <ContextMenu id={item.key}>
-                <MenuItem data={{foo: 'bar1'}}>
-                    ContextMenu Item 1
+                <MenuItem data={{foo: '删除'}} onClick={event => {
+                    this.props.dispatch(new DeletePostCommand(item.key));
+                }}>
+                    删除
                 </MenuItem>
-                <MenuItem data={{foo: 'bar2'}}>
+                <MenuItem data={{foo: 'test2'}}>
                     ContextMenu Item 2
                 </MenuItem>
                 <MenuItem divider/>
-                <MenuItem data={{foo: 'bar3'}}>
+                <MenuItem data={{foo: 'test3'}}>
                     ContextMenu Item 3
                 </MenuItem>
             </ContextMenu>
@@ -195,11 +199,12 @@ function traceRoot(id: string, state: AppStore): Array<string> {
 }
 
 function mapState(state: AppStore) {
+    const postId = state.currentPost == null ? "" : state.currentPost.id;
     return {
         state,
         list: mapStateToList(state),
-        selectedKeys: [state.currentPost.id],
-        expandedKeys: traceRoot(state.currentPost.id, state),
+        selectedKeys: [postId],
+        expandedKeys: traceRoot(postId, state),
     }
 }
 

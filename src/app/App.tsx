@@ -12,6 +12,7 @@ import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostComma
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
+import EditorContent from "./EditorContent";
 
 const {Sider, Content} = Layout;
 
@@ -27,7 +28,7 @@ interface AppProps {
 }
 
 class App extends React.Component<AppProps, AppState> {
-    private readonly editor: React.RefObject<MyEditor>;
+    private readonly editor: React.RefObject<EditorContent>;
 
     constructor(props: Readonly<any>) {
         super(props);
@@ -49,12 +50,8 @@ class App extends React.Component<AppProps, AppState> {
         })
     }
 
-    onChange = (v: EditorState) => {
-        this.props.dispatch(new UpdateEditingPostCommand({
-            ...this.props.editingPost,
-            saved: false,
-            content: convertToRaw(v.getCurrentContent()),
-        }));
+    onChange = (v: EditingPost) => {
+        this.props.dispatch(new UpdateEditingPostCommand(v));
     };
 
     focus = (e: KeyboardEvent) => {
@@ -66,11 +63,7 @@ class App extends React.Component<AppProps, AppState> {
         }
     };
 
-
     render() {
-        const editorState = this.props.editingPost.content;
-
-        let key = this.props.state.currentPost.id;
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
@@ -84,35 +77,15 @@ class App extends React.Component<AppProps, AppState> {
                         this.props.dispatch(new SyncPostCommand());
                     }}
                     onKeyDown={e => e.stopPropagation()}>
-                    <span className='title'>
-                        <Button className='locate-button'>
-                            <i className="material-icons">adjust</i>
-                        </Button>
-                        <input placeholder={"Untitled"}
-                               value={this.props.editingPost.title}
-                               onChange={this.onTitleChange}
-                               onKeyPress={this.focus}/>
-                    </span>
-                    <MyEditor ref={this.editor}
-                              key={key}
-                              backend={this.props.state.backend}
-                              editable={this.state.editable}
-                              content={editorState}
-                              onChange={this.onChange}/>
+                    <EditorContent onChange={this.onChange}
+                                   backend={this.props.state.backend}
+                                   post={this.props.editingPost}
+                                   ref={this.editor}
+                    />
                 </Content>
             </Layout>
         );
     }
-
-    onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
-        this.props.dispatch(
-            new UpdateEditingPostCommand({
-                ...this.props.editingPost,
-                saved: false,
-                title: value.target.value,
-            })
-        );
-    };
 }
 
 function mapState(state: AppStore) {

@@ -1,5 +1,5 @@
 import React, {Component, KeyboardEvent} from 'react';
-import {convertFromRaw, Editor, EditorState, RawDraftContentState} from 'draft-js';
+import {convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState} from 'draft-js';
 import {EditorPlugin, mergePlugins} from "./plugins";
 import {Backend} from "../backend";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
@@ -26,7 +26,7 @@ export interface EditController {
 
 interface Props {
     content: RawDraftContentState,
-    onChange: StateChange,
+    onChange: (content: RawDraftContentState) => void,
     editable: boolean,
     backend: Backend,
 }
@@ -52,7 +52,7 @@ export class MyEditor extends Component<Props, State> {
 
     save = () => {
         if (!this.state.saved) {
-            this.props.onChange(this.state.editorState);
+            this.props.onChange(convertToRaw(this.state.editorState.getCurrentContent()));
             this.setState({
                 saved: true,
             })
@@ -103,7 +103,7 @@ export class MyEditor extends Component<Props, State> {
             .reduce((reduction, value) => (reduction as number) + (value as number), 0);
 
         return (
-            <div onBlur={this.save} onKeyDown={this.onEsc} className='editor' onClick={() => this.focus()}>
+            <div onBlur={this.save} onKeyDown={this.onEsc} className={'editor saved-' + this.state.saved } onClick={() => this.focus()}>
                 <Editor
                     placeholder={"Start here..."}
                     editorState={this.state.editorState}

@@ -1,7 +1,7 @@
 import {Backend, Post} from "../index";
 import uuid from "uuid/v4";
 
-export function createWebBackend() {
+export function createWebBackend(): Backend {
     return new WebBackend();
 }
 
@@ -68,6 +68,10 @@ export class WebBackend implements Backend {
 
         localStorage.setItem(id, JSON.stringify(newPost));
         return newPost;
+    }
+
+    async deletePost(id: string): Promise<any> {
+        localStorage.removeItem(id);
     }
 
 }

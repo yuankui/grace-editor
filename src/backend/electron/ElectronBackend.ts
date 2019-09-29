@@ -154,4 +154,21 @@ export class ElectronBackend implements Backend {
         }
     }
 
+    async deletePost(id: string): Promise<any> {
+        const postDir = this.getPostDir(id);
+        await this.fs.rmdir(postDir);
+        // return new Promise<any>(
+        //     (resolve, reject) => {
+        //         this.fs.rmdir(postDir, (err: NodeJS.ErrnoException | null) => {
+        //             if (err != null) {
+        //                 resolve();
+        //             } else {
+        //                 reject(err);
+        //             }
+        //         });
+        //     }
+        // );
+
+    }
+
 }

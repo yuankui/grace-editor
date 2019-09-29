@@ -27,7 +27,7 @@ export function createEmptyEditingPost(): EditingPost {
 }
 
 export interface AppStore {
-    currentPost: EditingPost,
+    currentPost: EditingPost | null,
     posts: Immutable.OrderedMap<string, Post>,
     editMode: boolean,
     isOpening: boolean,

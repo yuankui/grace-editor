@@ -11,6 +11,11 @@ export interface Backend {
     saveImage(file: File, id: string): Promise<string>;
 
     /**
+     * 删除文章
+     * @param id
+     */
+    deletePost(id: string): Promise<any>;
+    /**
      * 获取文章属性结构
      */
     getPosts(): Promise<Array<Post>>,
