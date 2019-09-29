@@ -2,13 +2,17 @@ import * as React from 'react';
 import './select.css';
 import {createRef} from "react";
 
-/**
- * children & onSearch 二选一
- * - children： 提供固定的子选项
- * - onSearch: 根据关键字进行反差结果
- */
 interface Props {
+    /**
+     * 选项选择触发事件
+     * @param index
+     */
     onSelect: (index: number) => void,
+
+    /**
+     * 根据关键字进行反查结果
+     * @param keyword
+     */
     onSearch: (keyword: string) => Promise<Array<any>>,
 }
 

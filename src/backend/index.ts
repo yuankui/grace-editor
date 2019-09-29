@@ -1,6 +1,4 @@
 import {RawDraftContentState} from "draft-js";
-import {createElectronBackend} from "./electron/ElectronBackend";
-import {createWebBackend} from "./web/WebBackend";
 
 export interface Backend {
     /**
