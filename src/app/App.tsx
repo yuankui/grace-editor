@@ -5,7 +5,7 @@ import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppStore, EditingPost} from "../redux/store";
+import {AppStore, createBackend, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
@@ -13,6 +13,10 @@ import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
 import {DropdownSelect} from "../dropdown-select/select";
 import range from 'range/lib/range';
+import {AppContent, createEngine} from "./chain/chain";
+import {AllPostTool} from "./chain/tools/AllPostTool";
+import {OpenPostTool} from "./chain/tools/OpenPostTool";
+import {Engine} from "../chain/chain";
 
 const {Sider, Content} = Layout;
 
@@ -31,6 +35,7 @@ interface AppProps {
 class App extends React.Component<AppProps, AppState> {
     private readonly editor: React.RefObject<EditorContent>;
     private readonly searchRef: React.RefObject<DropdownSelect>;
+    private engine: Engine<AppContent>;
 
     constructor(props: Readonly<any>) {
         super(props);
@@ -40,6 +45,14 @@ class App extends React.Component<AppProps, AppState> {
             editable: true,
             showSearch: false,
         };
+
+        this.engine = createEngine({
+            backend: createBackend(),
+            dispatch: this.props.dispatch
+        }, [
+            new AllPostTool(),
+            new OpenPostTool()
+        ]);
     }
 
     componentDidMount(): void {
