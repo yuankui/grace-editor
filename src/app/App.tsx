@@ -144,7 +144,7 @@ class App extends React.Component<AppProps, AppState> {
                                         this.props.dispatch(new OpenPostCommand(data));
                                         this.hideSearch();
                                     }}
-                                    maxHeight={200}
+                                    maxHeight={300}
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>
