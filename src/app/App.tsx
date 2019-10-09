@@ -17,7 +17,9 @@ import {AppContent, createEngine} from "./chain/chain";
 import {AllPostTool} from "./chain/tools/AllPostTool";
 import {OpenPostTool} from "./chain/tools/OpenPostTool";
 import {Engine} from "../chain/chain";
-import {SearchResult} from "./Search";
+import {SearchResult} from "../dropdown-select/Search";
+import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
+
 
 const {Sider, Content} = Layout;
 
@@ -102,15 +104,14 @@ class App extends React.Component<AppProps, AppState> {
     };
 
     async onSearch(keyword: string): Promise<Array<SearchResult>> {
-        return range.range(1, 100)
-            .map(i => (
-                {
-                    title: keyword + i,
-                    subtitle: "1 >> 2 >> 3",
-                    id: i,
-                    key: i,
-                }
-            ))
+        return this.props.state.posts.valueSeq().toArray()
+            .filter(post => post.title.indexOf(keyword) >= 0)
+            .map(post => ({
+                title: post.title,
+                subtitle: post.title,
+                data: post.id,
+                key: post.id,
+            }));
     }
 
     render() {
@@ -124,9 +125,9 @@ class App extends React.Component<AppProps, AppState> {
                     onCancel={e => this.hideSearch()}
                 >
                     <DropdownSelect ref={this.searchRef}
-                                    onSelect={(i) => {
-                                        console.log('select index:', i);
-                                        this.toggleSearch();
+                                    onSelect={(i, data) => {
+                                        this.props.dispatch(new OpenPostCommand(data));
+                                        this.hideSearch();
                                     }}
                                     maxHeight={200}
                                     onSearch={keyword => this.onSearch(keyword)}

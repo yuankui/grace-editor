@@ -1,25 +1,26 @@
 import * as React from 'react';
 import './select.css';
 import {createRef} from "react";
+import {SearchResult} from "./Search";
 
 interface Props {
     /**
      * 选项选择触发事件
      * @param index
      */
-    onSelect: (index: number) => void,
+    onSelect: (index: number, data?: any) => void,
 
     maxHeight: number,
     /**
      * 根据关键字进行反查结果
      * @param keyword
      */
-    onSearch: (keyword: string) => Promise<Array<any>>,
+    onSearch: (keyword: string) => Promise<Array<SearchResult>>,
 }
 
 interface State {
     selectIndex: number,
-    children: Array<any>,
+    children: Array<SearchResult>,
     keyword: string,
 }
 
@@ -92,7 +93,8 @@ export class DropdownSelect extends React.Component<Props, State> {
     }
 
     resetIndex() {
-        this.setIndex(0);
+        if (this.state.children.length >= 0)
+            this.setIndex(0);
     }
 
     setIndex(newIndex: number) {
@@ -110,10 +112,12 @@ export class DropdownSelect extends React.Component<Props, State> {
     scrollTo(i: number) {
         if (this.listRef.current != null) {
             const e = this.listRef.current.children[i];
-            e.scrollIntoView({
-                behavior: "auto",
-                block: "nearest",
-            });
+            if (e != null) {
+                e.scrollIntoView({
+                    behavior: "auto",
+                    block: "nearest",
+                });
+            }
         }
     }
 
@@ -123,7 +127,7 @@ export class DropdownSelect extends React.Component<Props, State> {
     }
 
     select() {
-        this.props.onSelect(this.state.selectIndex);
+        this.props.onSelect(this.state.selectIndex, this.state.children[this.state.selectIndex].data);
     }
 
     onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

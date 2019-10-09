@@ -1,5 +1,6 @@
 export interface SearchResult {
     title: any,
     subtitle: any,
-    id: string,
+    data: any,
+    key: string,
 }
