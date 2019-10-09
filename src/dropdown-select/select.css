@@ -39,5 +39,15 @@ li .list-title {
 
 li .list-subtitle {
     font-size: 0.5em;
+    color: #999999;
 }
+
+li.active-true .list-title {
+    color: white;
+}
+
+li.active-true .list-subtitle {
+    color: #999999;
+}
+
 /*list item end*/

@@ -19,6 +19,8 @@ import {OpenPostTool} from "./chain/tools/OpenPostTool";
 import {Engine} from "../chain/chain";
 import {SearchResult} from "../dropdown-select/Search";
 import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
+import {Post} from "../backend";
+import Immutable from "immutable";
 
 
 const {Sider, Content} = Layout;
@@ -108,10 +110,23 @@ class App extends React.Component<AppProps, AppState> {
             .filter(post => post.title.indexOf(keyword) >= 0)
             .map(post => ({
                 title: post.title,
-                subtitle: post.title,
+                subtitle: this.getPath(post, this.props.state.posts),
                 data: post.id,
                 key: post.id,
             }));
+    }
+
+    getPath(post: Post, posts: Immutable.OrderedMap<string, Post>) : string {
+        let path: Array<string> = [];
+        while (post != null) {
+            path.push(post.title);
+            if (post.parentId == null) {
+                break;
+            }
+            post = posts.get(post.parentId);
+        }
+
+        return "/ " + path.reverse().join(" / ")
     }
 
     render() {
