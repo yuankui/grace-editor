@@ -1,6 +1,6 @@
 import {Command, EditorPlugin} from "../index";
 import Draft, {DraftHandleValue, EditorState, RichUtils} from "draft-js";
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import Immutable from 'immutable';
 
 export function createResetBlockAfterEnter(onChange: StateChange): EditorPlugin {

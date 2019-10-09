@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {MyEditor} from "../Editor/Editor";
+import {RichEditor} from "../Editor/RichEditor";
 import {EditingPost} from "../redux/store";
 import {createRef} from "react";
 import {Button} from "antd";
@@ -13,7 +13,7 @@ export interface Props {
     onChange: (v: EditingPost) => void,
 }
 export default class EditorContent extends React.Component<Props, any> {
-    private readonly editor: React.RefObject<MyEditor>;
+    private readonly editor: React.RefObject<RichEditor>;
 
     constructor(props) {
         super(props);
@@ -38,12 +38,12 @@ export default class EditorContent extends React.Component<Props, any> {
                                onChange={this.onTitleChange}
                                onKeyPress={this.focus}/>
                     </span>
-            <MyEditor ref={this.editor}
-                      key={this.props.post.id}
-                      backend={this.props.backend}
-                      editable={true}
-                      content={editorState}
-                      onChange={this.onContentChange}/>
+            <RichEditor ref={this.editor}
+                        key={this.props.post.id}
+                        backend={this.props.backend}
+                        editable={true}
+                        content={editorState}
+                        onChange={this.onContentChange}/>
         </React.Fragment>
     }
 

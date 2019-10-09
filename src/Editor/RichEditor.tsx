@@ -11,7 +11,7 @@ import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 import 'mousetrap-global-bind/mousetrap-global-bind';
-import './editor.css';
+import './RichEditor.css';
 
 export interface StateChange {
     (value: EditorState): void,
@@ -37,7 +37,7 @@ interface State {
     saved: boolean,
 }
 
-export class MyEditor extends Component<Props, State> {
+export class RichEditor extends Component<Props, State> {
     private readonly ref: React.RefObject<Editor>;
 
     constructor(props: Readonly<Props>) {

@@ -1,5 +1,5 @@
 import {ContentBlock, DraftHandleValue, EditorState, KeyBindingUtil, RichUtils} from "draft-js";
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import {Command, EditorPlugin} from "../index";
 import * as React from "react";
 

@@ -1,5 +1,5 @@
 import {EditorState, DraftHandleValue, RichUtils} from "draft-js";
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import {EditorPlugin} from "../index";
 import React from "react";
 

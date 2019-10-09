@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ReactElement} from "react";
 import {ContentBlock, EditorState, Modifier,} from "draft-js";
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import {Input} from "antd";
 import {ResizableBox, ResizeCallbackData} from 'react-resizable';
 import 'react-resizable/css/styles.css';

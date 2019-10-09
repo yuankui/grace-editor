@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ReactElement} from "react";
 import {ContentBlock, ContentState, EditorState} from "draft-js";
-import {EditController, StateChange} from "../../Editor";
+import {EditController, StateChange} from "../../RichEditor";
 import {Input} from "antd";
 import {Controlled as CodeMirror} from 'react-codemirror2'
 import * as codemirror from 'codemirror';

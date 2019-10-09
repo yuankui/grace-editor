@@ -1,4 +1,4 @@
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import {DraftHandleValue, EditorState, RichUtils} from "draft-js";
 import * as React from "react";
 import {EditorPlugin} from "../index";

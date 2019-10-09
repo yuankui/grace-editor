@@ -1,5 +1,5 @@
 import {ContentBlock, EditorState} from "draft-js";
-import {EditController, StateChange} from "../../Editor";
+import {EditController, StateChange} from "../../RichEditor";
 import {CodeBlock} from "./CodeBlock";
 import {EditorPlugin} from "../index";
 import './index.css';

@@ -1,5 +1,5 @@
 import Draft, {ContentBlock, DraftHandleValue, EditorState} from "draft-js";
-import {StateChange} from "../../Editor";
+import {StateChange} from "../../RichEditor";
 import {ImageBlock} from "./ImageBlock";
 import {EditorPlugin} from "../index";
 import Immutable from "immutable";

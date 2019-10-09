@@ -5,7 +5,7 @@ import {
     EditorState,
     ContentState,
 } from "draft-js";
-import {GetState, StateChange} from "../../Editor";
+import {GetState, StateChange} from "../../RichEditor";
 
 export interface TodoProps {
     block: ContentBlock,

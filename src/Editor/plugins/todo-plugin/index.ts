@@ -1,4 +1,4 @@
-import {GetState, StateChange} from "../../Editor";
+import {GetState, StateChange} from "../../RichEditor";
 import {ContentBlock, ContentState, DraftEditorCommand, DraftHandleValue, EditorState, RichUtils,} from "draft-js";
 import {EditorPlugin} from "../index";
 import {TodoBlock} from "./TodoBlock";
