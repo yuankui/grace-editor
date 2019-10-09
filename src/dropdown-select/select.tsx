@@ -67,7 +67,12 @@ export class DropdownSelect extends React.Component<Props, State> {
                     this.state.children.map((e, index) => {
                         const active = 'active-' + (index === this.state.selectIndex);
                         return (<li key={e.key} className={active}>
-                            {e}
+                            <div className='list-title'>
+                                {e.title}
+                            </div>
+                            <div className='list-subtitle'>
+                                {e.subtitle}
+                            </div>
                         </li>);
                     })
                 }

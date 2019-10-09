@@ -18,8 +18,8 @@
 
 .dropdown-select .options li {
     font-size: 20px;
-    height: 50px;
-    padding: 10px;
+    height: 55px;
+    padding: 5px 10px;
     /*font-weight: bold;*/
 }
 
@@ -30,3 +30,14 @@
 
 
 /*modal search end*/
+
+
+/*list item start*/
+li .list-title {
+    font-weight: bold;
+}
+
+li .list-subtitle {
+    font-size: 0.5em;
+}
+/*list item end*/

@@ -17,6 +17,7 @@ import {AppContent, createEngine} from "./chain/chain";
 import {AllPostTool} from "./chain/tools/AllPostTool";
 import {OpenPostTool} from "./chain/tools/OpenPostTool";
 import {Engine} from "../chain/chain";
+import {SearchResult} from "./Search";
 
 const {Sider, Content} = Layout;
 
@@ -100,10 +101,15 @@ class App extends React.Component<AppProps, AppState> {
         })
     };
 
-    async onSearch(keyword: string): Promise<Array<any>> {
+    async onSearch(keyword: string): Promise<Array<SearchResult>> {
         return range.range(1, 100)
             .map(i => (
-                <span key={i}>{keyword + i}</span>
+                {
+                    title: keyword + i,
+                    subtitle: "1 >> 2 >> 3",
+                    id: i,
+                    key: i,
+                }
             ))
     }
 
