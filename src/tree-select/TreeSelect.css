@@ -5,10 +5,18 @@
 .tree-select {
     padding-left: 5px;
 }
+
 .tree-select ul {
     padding-left: 20px;
 }
 
 .tree-select li {
-    margin: 5px;
+}
+
+div.menu-item {
+    padding: 2px 5px;
+}
+
+.select-item:hover {
+    background-color: #e8e7e4;
 }

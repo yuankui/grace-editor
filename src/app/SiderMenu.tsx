@@ -82,7 +82,7 @@ class SiderMenu extends React.Component<Props, State> {
         return <ContextMenuTrigger id={item.id}>
             <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
                 <button className='expand-button'>
-                    <MaterialIcon value="play_arrow"/>
+                    <span><MaterialIcon value="play_arrow"/></span>
                 </button>
                 <span>{item.title + (item.saved ? "" : " *")}</span>
             </div>

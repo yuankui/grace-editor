@@ -48,7 +48,7 @@ export class TreeSelect extends React.Component<Props, State> {
         const children = this.props.expandFunc(node);
         const key = this.props.keyFunc(node);
         return <li key={key}>
-            <div>{this.props.titleFunc(node)}</div>
+            <div className='select-item'>{this.props.titleFunc(node)}</div>
             <If test={children != null && children.length > 0}>
                 <ul>
                     {children.map(value => this.renderNode(value))}
