@@ -12,6 +12,7 @@ import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
+import {MaterialIcon} from "../utils";
 
 export interface Node {
     key: string,
@@ -46,7 +47,7 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     render() {
-        return <React.Fragment>
+        return <div className={'sider-menu'}>
             <div className='search-bar'>
                 <Input className='input' placeholder="search"/>
                 <span className='icon'>
@@ -59,8 +60,7 @@ class SiderMenu extends React.Component<Props, State> {
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
             />
-
-        </React.Fragment>
+        </div>
     }
 
     expandNode(post: Post): Array<Post> {
@@ -70,6 +70,7 @@ class SiderMenu extends React.Component<Props, State> {
         return post.children.map(id => this.props.posts.get(id))
             .filter(post => post != null);
     }
+
     onSelect = (keys: Array<string>) => {
         if (keys.length === 0)
             return;
@@ -79,13 +80,12 @@ class SiderMenu extends React.Component<Props, State> {
     renderTitle(item: Post) {
         const that = this;
         return <ContextMenuTrigger id={item.id}>
-            <span onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
-                <Button onClick={e => {
-                    that.props.dispatch(new CreateNewPostCommand(item.id));
-                    e.stopPropagation();
-                }} className='plus-icon'><Icon type="plus"/></Button>
+            <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
+                <button className='expand-button'>
+                    <MaterialIcon value="play_arrow"/>
+                </button>
                 <span>{item.title + (item.saved ? "" : " *")}</span>
-            </span>
+            </div>
             <ContextMenu id={item.id}>
                 <MenuItem data={{foo: '删除'}} onClick={event => {
                     that.props.dispatch(new DeletePostCommand(item.id));

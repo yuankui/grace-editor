@@ -1,0 +1,14 @@
+.tree-select, .tree-select ul {
+    list-style: none;
+}
+
+.tree-select {
+    padding-left: 5px;
+}
+.tree-select ul {
+    padding-left: 20px;
+}
+
+.tree-select li {
+    margin: 5px;
+}

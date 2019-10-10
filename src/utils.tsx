@@ -15,3 +15,17 @@ export class If extends React.Component<Props> {
         return null;
     }
 }
+
+export interface IconProps {
+    value: string,
+}
+
+export class MaterialIcon extends React.Component<IconProps> {
+    render(): ReactNode {
+        const styles = {
+            lineHeight: 'inherit',
+            fontSize: 'inherit',
+        };
+        return <i style={styles} className="material-icons">{this.props.value}</i>;
+    }
+}

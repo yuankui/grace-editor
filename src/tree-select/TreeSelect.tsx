@@ -1,5 +1,6 @@
 import React, {ReactNode} from "react";
 import {If} from "../utils";
+import "./TreeSelect.css";
 
 interface Props {
     /**
@@ -38,7 +39,7 @@ interface State {
 
 export class TreeSelect extends React.Component<Props, State> {
     render(): ReactNode {
-        return <ul>
+        return <ul className='tree-select'>
             {this.props.dataSource.map(value => this.renderNode(value))}
         </ul>
     }

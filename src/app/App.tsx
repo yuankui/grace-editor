@@ -2,7 +2,7 @@ import React, {createRef, KeyboardEvent} from 'react';
 import './App.css';
 import {Button, Layout, Modal} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
-import './menu.css';
+import './SiderMenu.css';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, createBackend, EditingPost} from "../redux/store";
