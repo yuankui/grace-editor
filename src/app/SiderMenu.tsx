@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Icon, Input} from "antd";
 import {connect} from "react-redux";
-import {AppStore} from "../redux/store";
+import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
@@ -25,21 +25,13 @@ interface Props {
     posts: Immutable.OrderedMap<string, Post>,
     dispatch: Dispatch<any>,
     state: AppStore,
-    selectedKeys: Array<string>,
-    expandedKeys: Array<string>,
+    siderState: SiderState,
 }
 
 interface State {
 }
 
 class SiderMenu extends React.Component<Props, State> {
-    constructor(props: Readonly<Props>) {
-        super(props);
-        this.state = {
-            expandedKeys: [],
-        }
-    }
-
     render() {
         const topPosts = this.props.posts.toArray()
             .filter(p => p.parentId == null);
@@ -55,9 +47,10 @@ class SiderMenu extends React.Component<Props, State> {
                 titleFunc={post => this.renderTitle(post)}
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
-                expandedKeys={this.props.expandedKeys}
+                expandedKeys={this.props.siderState.expandedKeys}
                 onSelect={key => this.onSelect(key)}
                 onExpand={key => this.onExpandKey(key)}
+                selectedKey={this.props.siderState.selectedKey}
             />
         </div>
     }
@@ -131,8 +124,7 @@ function mapState(state: AppStore) {
     return {
         state,
         posts: state.posts,
-        selectedKeys: [postId],
-        expandedKeys: state.siderState.expandedKeys,
+        siderState: state.siderState
     }
 }
 

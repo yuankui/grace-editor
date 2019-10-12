@@ -1,11 +1,11 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore, SiderState} from "../../store";
-import SiderMenu from "../../../app/SiderMenu";
+import {UpdateStateCommand} from "../UpdateStateCommand";
 
 export class UpdateSideStateCommand extends AppCommand {
-    data: SiderState;
+    data: Partial<SiderState>;
 
-    constructor(data: SiderState) {
+    constructor(data: Partial<SiderState>) {
         super();
         this.data = data;
     }
@@ -15,9 +15,11 @@ export class UpdateSideStateCommand extends AppCommand {
     }
 
     process(store: AppStore): AppStore {
-        return {
-            ...store,
-            siderState: this.data,
-        }
+        return new UpdateStateCommand({
+            siderState: {
+                ...store.siderState,
+                ...this.data,
+            },
+        }).process(store);
     }
 }

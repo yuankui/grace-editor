@@ -28,6 +28,7 @@ export function createEmptyEditingPost(): EditingPost {
 
 export interface SiderState {
     expandedKeys: Array<string>,
+    selectedKey: string,
 }
 
 export interface AppStore {
@@ -47,7 +48,8 @@ export function createEmptyStore(): AppStore {
         posts: Immutable.OrderedMap<string, Post>(),
         backend: createBackend(),
         siderState: {
-            expandedKeys: []
+            expandedKeys: [],
+            selectedKey: '',
         }
     }
 }

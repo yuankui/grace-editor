@@ -34,24 +34,17 @@ interface Props {
      * 展开
      */
     expandedKeys: Array<string>,
-}
-
-interface State {
     /**
      * 被选中
      */
     selectedKey: string,
 }
 
+interface State {
+
+}
+
 export class TreeSelect extends React.Component<Props, State> {
-
-
-    constructor(props: Readonly<Props>) {
-        super(props);
-        this.state = {
-            selectedKey: '',
-        };
-    }
 
     render(): ReactNode {
         return <ul className='tree-select'>
@@ -60,10 +53,6 @@ export class TreeSelect extends React.Component<Props, State> {
     }
 
     select(key: string) {
-        this.setState({
-            selectedKey: key,
-        });
-
         this.props.onSelect(key);
     }
 
@@ -79,7 +68,7 @@ export class TreeSelect extends React.Component<Props, State> {
     renderNode(node: any): ReactNode {
         const children = this.props.expandFunc(node);
         const key = this.props.keyFunc(node);
-        const selected = key === this.state.selectedKey;
+        const selected = key === this.props.selectedKey;
         const expanded = this.contains(this.props.expandedKeys, key);
         const hasChildren = children != null && children.length > 0;
         const classes = [
