@@ -47,6 +47,8 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     render() {
+        const topPosts = this.props.posts.toArray()
+            .filter(p => p.parentId == null);
         return <div className={'sider-menu'}>
             <div className='search-bar'>
                 <Input className='input' placeholder="search"/>
@@ -55,10 +57,12 @@ class SiderMenu extends React.Component<Props, State> {
                 </span>
             </div>
             <TreeSelect
-                dataSource={this.props.posts.toArray()}
+                dataSource={topPosts}
                 titleFunc={post => this.renderTitle(post)}
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
+                expandedKeys={[]}
+                onSelect={key => this.onSelect(key)}
             />
         </div>
     }
@@ -71,10 +75,8 @@ class SiderMenu extends React.Component<Props, State> {
             .filter(post => post != null);
     }
 
-    onSelect = (keys: Array<string>) => {
-        if (keys.length === 0)
-            return;
-        this.props.dispatch(new PostSelectCommand(keys[0]))
+    onSelect = (keys: string) => {
+        this.props.dispatch(new PostSelectCommand(keys))
     };
 
     renderTitle(item: Post) {

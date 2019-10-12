@@ -20,3 +20,7 @@ div.menu-item {
 .select-item:hover {
     background-color: #e8e7e4;
 }
+
+.select-item.selected-true {
+    background-color: #e8e7e4;
+}
