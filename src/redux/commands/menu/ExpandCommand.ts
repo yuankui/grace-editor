@@ -21,10 +21,10 @@ export class ExpandCommand extends AppCommand {
             res.push(key);
 
             const post = store.posts.get(key);
-            if (post == null) {
+            if (post == null || post.parentId == null) {
                 break;
             }
-            key = post.id;
+            key = post.parentId;
         }
 
         return res;

@@ -21,6 +21,7 @@ import {SearchResult} from "../dropdown-select/Search";
 import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
 import {Post} from "../backend";
 import Immutable from "immutable";
+import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
 
 
 const {Sider, Content} = Layout;
@@ -163,6 +164,9 @@ class App extends React.Component<AppProps, AppState> {
                                    backend={this.props.state.backend}
                                    post={this.props.editingPost}
                                    ref={this.editor}
+                                   onLocate={() => {
+                                       this.props.dispatch(new LocatePostCommand(this.props.editingPost.id));
+                                   }}
                     />
                 </Content>
             </Layout>

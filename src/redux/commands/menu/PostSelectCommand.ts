@@ -1,7 +1,8 @@
-import {AppCommand, CommandType} from "./index";
-import {AppStore, EditingPost} from "../store";
-import {convertToEditingPost} from "../utils";
-import {UpdateSideStateCommand} from "./menu/UpdateSideStateCommand";
+import {AppCommand, CommandType} from "../index";
+import {AppStore, EditingPost} from "../../store";
+import {convertToEditingPost} from "../../utils";
+import {UpdateSideStateCommand} from "./UpdateSideStateCommand";
+
 
 export class PostSelectCommand extends AppCommand {
     id: string;

@@ -11,6 +11,7 @@ export interface Props {
     post: EditingPost | null,
     backend: Backend,
     onChange: (v: EditingPost) => void,
+    onLocate: () => void,
 }
 export default class EditorContent extends React.Component<Props, any> {
     private readonly editor: React.RefObject<RichEditor>;
@@ -30,7 +31,7 @@ export default class EditorContent extends React.Component<Props, any> {
         const editingPost: EditingPost = this.props.post;
         return <React.Fragment>
             <span className='title'>
-                        <Button className='locate-button'>
+                        <Button className='locate-button' onClick={e => this.locate()}>
                             <i className="material-icons">adjust</i>
                         </Button>
                         <input placeholder={"Untitled"}
@@ -64,5 +65,9 @@ export default class EditorContent extends React.Component<Props, any> {
         if (this.editor.current != null) {
             this.editor.current.focus();
         }
+    }
+
+    private locate() {
+        this.props.onLocate();
     }
 }

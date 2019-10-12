@@ -5,7 +5,6 @@ import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
-import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
 import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
@@ -13,6 +12,7 @@ import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
+import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 
 export interface Node {
     key: string,

@@ -1,8 +1,7 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import _ from 'lodash';
-import {UpdateSideStateCommand} from "./UpdateSideStateCommand";
 import {ExpandCommand} from "./ExpandCommand";
+import {PostSelectCommand} from "./PostSelectCommand";
 
 export class LocatePostCommand extends AppCommand {
     postId: string;
@@ -21,6 +20,9 @@ export class LocatePostCommand extends AppCommand {
         store = new ExpandCommand(this.postId)
             .process(store);
 
+        // 2. 选中
+        store = new PostSelectCommand(this.postId)
+            .process(store);
         return store;
     }
 }

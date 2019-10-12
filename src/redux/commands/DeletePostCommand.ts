@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {Mapper} from "redux-commands";
-import {PostSelectCommand} from "./PostSelectCommand";
+import {PostSelectCommand} from "./menu/PostSelectCommand";
 
 export class DeletePostCommand extends AppCommand {
     postId: string;
