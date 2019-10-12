@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {If} from "../utils";
+import {If, MaterialIcon} from "../utils";
 import "./TreeSelect.css";
 
 interface Props {
@@ -33,6 +33,8 @@ interface Props {
     payloadFunc?: (data: any) => any,
 
     onSelect: (key: string, payload?: any) => void,
+
+    onExpand: (key: string) => void,
 
     /**
      * 展开
@@ -70,19 +72,52 @@ export class TreeSelect extends React.Component<Props, State> {
 
         this.props.onSelect(key, payload);
     }
+
+    toggleExpand(key: string, e: React.MouseEvent<HTMLSpanElement>) {
+        this.props.onExpand(key);
+        e.stopPropagation();
+    }
+
+    contains(arr: Array<any>, e: any) {
+        return arr.findIndex(k => k == e) >= 0;
+    }
+
     renderNode(node: any): ReactNode {
         const children = this.props.expandFunc(node);
         const key = this.props.keyFunc(node);
         const payload = this.props.payloadFunc == null ? null : this.props.payloadFunc(node);
         const selected = key === this.state.selectedKey;
-
+        const expanded = this.contains(this.props.expandedKeys, key);
+        const hasChildren = children != null && children.length > 0;
+        const classes = [
+            'select-item',
+            'selected-' + selected,
+            'expanded-' + expanded,
+        ];
         return <li key={key}>
             <div onClick={event => this.select(key, payload)}
-                 className={'select-item ' + 'selected-' + selected}>{this.props.titleFunc(node)}</div>
-            <If test={children != null && children.length > 0}>
-                <ul>
-                    {children.map(value => this.renderNode(value))}
-                </ul>
+                 className={classes.join(' ')}>
+                <span className='title-prefix'>
+                    <If test={hasChildren}>
+                        <span className='expand-button' onClick={e => this.toggleExpand(key, e)}>
+                            <MaterialIcon value="play_arrow"/>
+                        </span>
+                    </If>
+                    <If test={!hasChildren}>
+                        <MaterialIcon styles={{
+                            transform: 'scale(0.6)'
+                        }} value="fiber_manual_record"/>
+                    </If>
+                </span>
+
+                {this.props.titleFunc(node)}
+            </div>
+            <If test={expanded}>
+                <If test={hasChildren}>
+                    <ul>
+                        {children.map(value => this.renderNode(value))}
+                    </ul>
+                </If>
             </If>
         </li>
     }

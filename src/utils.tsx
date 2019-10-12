@@ -18,6 +18,7 @@ export class If extends React.Component<Props> {
 
 export interface IconProps {
     value: string,
+    styles?: React.CSSProperties,
 }
 
 export class MaterialIcon extends React.Component<IconProps> {
@@ -25,6 +26,7 @@ export class MaterialIcon extends React.Component<IconProps> {
         const styles = {
             lineHeight: 'inherit',
             fontSize: 'inherit',
+            ...this.props.styles,
         };
         return <i style={styles} className="material-icons">{this.props.value}</i>;
     }

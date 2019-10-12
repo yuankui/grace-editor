@@ -61,12 +61,27 @@ class SiderMenu extends React.Component<Props, State> {
                 titleFunc={post => this.renderTitle(post)}
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
-                expandedKeys={[]}
+                expandedKeys={this.state.expandedKeys}
                 onSelect={key => this.onSelect(key)}
+                onExpand={key => this.onExpandKey(key)}
             />
         </div>
     }
 
+    onExpandKey(key: string) {
+        for (let k of this.state.expandedKeys) {
+            if (k == key) {
+                this.setState({
+                    expandedKeys: this.state.expandedKeys.filter(e => e != key)
+                });
+                return;
+            }
+        }
+
+        this.setState({
+            expandedKeys: [...this.state.expandedKeys, key]
+        })
+    }
     expandNode(post: Post): Array<Post> {
         if (post.children == null) {
             return [];
@@ -83,9 +98,6 @@ class SiderMenu extends React.Component<Props, State> {
         const that = this;
         return <ContextMenuTrigger id={item.id}>
             <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
-                <button className='expand-button'>
-                    <span><MaterialIcon value="play_arrow"/></span>
-                </button>
                 <span>{item.title + (item.saved ? "" : " *")}</span>
             </div>
             <ContextMenu id={item.id}>

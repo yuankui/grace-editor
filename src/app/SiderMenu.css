@@ -18,30 +18,3 @@ div.sider-menu {
 .menu-item {
     user-select: none;
 }
-
-.expand-button {
-    display: inline-block;
-    outline: none;
-    border: none;
-    background-color: inherit;
-    border-radius: 3px;
-    padding: 0 0;
-    height: 20px;
-    width: 20px;
-}
-
-.expand-button > span {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    height: 20px;
-    width: 20px;
-}
-
-.expand-button:hover {
-    background-color: #dad9d7;
-}
-
-.expand-button.expanded-true {
-    transform: rotate(90deg);
-}
