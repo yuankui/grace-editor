@@ -10,29 +10,23 @@ interface Props {
 
     /**
      * 从数据也进行渲染title
-     * @param any
+     * @param data
      */
     titleFunc: (data: any) => ReactNode,
 
     /**
      * 从数据源一个节点进行展开
-     * @param any
+     * @param data
      */
     expandFunc: (data: any) => Array<any>,
 
     /**
      * 节点的key
-     * @param any
+     * @param data
      */
     keyFunc: (data: any) => string,
 
-    /**
-     * 节点的payload，回调的时候用
-     * @param any
-     */
-    payloadFunc?: (data: any) => any,
-
-    onSelect: (key: string, payload?: any) => void,
+    onSelect: (key: string) => void,
 
     onExpand: (key: string) => void,
 
@@ -65,12 +59,12 @@ export class TreeSelect extends React.Component<Props, State> {
         </ul>
     }
 
-    select(key: string, payload: any) {
+    select(key: string) {
         this.setState({
             selectedKey: key,
         });
 
-        this.props.onSelect(key, payload);
+        this.props.onSelect(key);
     }
 
     toggleExpand(key: string, e: React.MouseEvent<HTMLSpanElement>) {
@@ -85,7 +79,6 @@ export class TreeSelect extends React.Component<Props, State> {
     renderNode(node: any): ReactNode {
         const children = this.props.expandFunc(node);
         const key = this.props.keyFunc(node);
-        const payload = this.props.payloadFunc == null ? null : this.props.payloadFunc(node);
         const selected = key === this.state.selectedKey;
         const expanded = this.contains(this.props.expandedKeys, key);
         const hasChildren = children != null && children.length > 0;
@@ -94,7 +87,7 @@ export class TreeSelect extends React.Component<Props, State> {
             'selected-' + selected,
         ];
         return <li key={key}>
-            <div onClick={event => this.select(key, payload)}
+            <div onClick={event => this.select(key)}
                  className={classes.join(' ')}>
                 <span className='title-prefix'>
                     <If test={hasChildren}>
