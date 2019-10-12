@@ -54,7 +54,7 @@ div.menu-item {
     background-color: #dad9d7;
 }
 
-.expand-button.expanded-true {
+.expanded-true {
     transform: rotate(90deg);
 }
 /*expand*/

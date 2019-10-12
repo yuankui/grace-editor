@@ -92,14 +92,13 @@ export class TreeSelect extends React.Component<Props, State> {
         const classes = [
             'select-item',
             'selected-' + selected,
-            'expanded-' + expanded,
         ];
         return <li key={key}>
             <div onClick={event => this.select(key, payload)}
                  className={classes.join(' ')}>
                 <span className='title-prefix'>
                     <If test={hasChildren}>
-                        <span className='expand-button' onClick={e => this.toggleExpand(key, e)}>
+                        <span className={'expand-button' + ' expanded-' + expanded} onClick={e => this.toggleExpand(key, e)}>
                             <MaterialIcon value="play_arrow"/>
                         </span>
                     </If>
