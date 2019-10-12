@@ -14,4 +14,6 @@ export type CommandType = "TestCommand"
     | "ReloadPosts"
     | "MovePost"
     | "DeletePost"
+    | "Menu/ToggleExpand"
+    | "Menu/UpdateSideMenu"
 ;

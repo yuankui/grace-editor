@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Input, Tree} from "antd";
+import {Button, Icon, Input} from "antd";
 import {connect} from "react-redux";
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
@@ -8,11 +8,11 @@ import {Post} from "../backend";
 import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
 import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
-import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
+import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
-import {MaterialIcon} from "../utils";
+import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 
 export interface Node {
     key: string,
@@ -26,10 +26,10 @@ interface Props {
     dispatch: Dispatch<any>,
     state: AppStore,
     selectedKeys: Array<string>,
+    expandedKeys: Array<string>,
 }
 
 interface State {
-    expandedKeys: Array<string>,
 }
 
 class SiderMenu extends React.Component<Props, State> {
@@ -39,12 +39,6 @@ class SiderMenu extends React.Component<Props, State> {
             expandedKeys: [],
         }
     }
-
-    onExpand = (expandedKeys: Array<string>) => {
-        this.setState({
-            expandedKeys
-        })
-    };
 
     render() {
         const topPosts = this.props.posts.toArray()
@@ -61,7 +55,7 @@ class SiderMenu extends React.Component<Props, State> {
                 titleFunc={post => this.renderTitle(post)}
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
-                expandedKeys={this.state.expandedKeys}
+                expandedKeys={this.props.expandedKeys}
                 onSelect={key => this.onSelect(key)}
                 onExpand={key => this.onExpandKey(key)}
             />
@@ -69,19 +63,9 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     onExpandKey(key: string) {
-        for (let k of this.state.expandedKeys) {
-            if (k == key) {
-                this.setState({
-                    expandedKeys: this.state.expandedKeys.filter(e => e != key)
-                });
-                return;
-            }
-        }
-
-        this.setState({
-            expandedKeys: [...this.state.expandedKeys, key]
-        })
+        this.props.dispatch(new ToggleExpandCommand(key));
     }
+
     expandNode(post: Post): Array<Post> {
         if (post.children == null) {
             return [];
@@ -119,12 +103,7 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     doubleClick = (item: Post, e: React.MouseEvent<HTMLSpanElement>) => {
-        let keys = this.state.expandedKeys.filter(key => key !== item.id);
-        if (keys.length === this.state.expandedKeys.length) {
-            this.onExpand([...this.state.expandedKeys, item.id]);
-        } else {
-            this.onExpand(keys);
-        }
+        this.onExpandKey(item.id);
         e.stopPropagation();
     };
 
@@ -147,25 +126,13 @@ class SiderMenu extends React.Component<Props, State> {
     }
 }
 
-
-function traceRoot(id: string, state: AppStore): Array<string> {
-    let a = [id];
-    let post = state.posts.get(id);
-
-    while (post != null && post.parentId != null) {
-        a.push(post.parentId);
-        post = state.posts.get(post.parentId);
-    }
-    return a;
-}
-
 function mapState(state: AppStore) {
     const postId = state.currentPost == null ? "" : state.currentPost.id;
     return {
         state,
         posts: state.posts,
         selectedKeys: [postId],
-        expandedKeys: traceRoot(postId, state),
+        expandedKeys: state.siderState.expandedKeys,
     }
 }
 

@@ -26,12 +26,17 @@ export function createEmptyEditingPost(): EditingPost {
     }
 }
 
+export interface SiderState {
+    expandedKeys: Array<string>,
+}
+
 export interface AppStore {
     currentPost: EditingPost | null,
     posts: Immutable.OrderedMap<string, Post>,
     editMode: boolean,
     isOpening: boolean,
     backend: Backend,
+    siderState: SiderState,
 }
 
 export function createEmptyStore(): AppStore {
@@ -41,6 +46,9 @@ export function createEmptyStore(): AppStore {
         editMode: false,
         posts: Immutable.OrderedMap<string, Post>(),
         backend: createBackend(),
+        siderState: {
+            expandedKeys: []
+        }
     }
 }
 
