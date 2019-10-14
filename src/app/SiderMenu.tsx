@@ -46,6 +46,7 @@ class SiderMenu extends React.Component<Props, State> {
                 titleFunc={post => this.renderTitle(post)}
                 expandFunc={post => this.expandNode(post)}
                 keyFunc={post => post.id}
+                onMove={(src, target) => this.onMove(src, target)}
                 expandedKeys={this.props.siderState.expandedKeys}
                 onSelect={key => this.onSelect(key)}
                 onExpand={key => this.onExpandKey(key)}
@@ -85,18 +86,8 @@ class SiderMenu extends React.Component<Props, State> {
         this.props.dispatch(new CreateNewPostCommand(null));
     };
 
-    private onDrop(options: AntTreeNodeDropEvent) {
-        console.log(options);
-        if (options.dropToGap) {
-            return;
-        }
-
-        const dragKey = options.dragNode.props.eventKey;
-        const targetKey = options.node.props.eventKey;
-        if (dragKey === undefined || targetKey === undefined) {
-            return;
-        }
-        this.props.dispatch(new MovePostCommand(dragKey, targetKey));
+    private onMove(src: string, target: string) {
+        this.props.dispatch(new MovePostCommand(src, target));
     }
 }
 

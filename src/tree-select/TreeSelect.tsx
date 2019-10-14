@@ -39,6 +39,9 @@ interface Props {
      * 被选中
      */
     selectedKey: string,
+
+    // drag & drop
+    onMove?: (src: string, target: string) => void,
 }
 
 interface State {
@@ -105,11 +108,12 @@ export class TreeSelect extends React.Component<Props, State> {
 
                 <div draggable={true}
                      className={"menu-item " + 'dragover-' + isDragonOver}
-                     onDragStart={() => this.onDragStart(key)}
-                     onDragExit={() => this.onDragEnd()}
-                     onDragEnd={() => this.onDragEnd()}
-                     onDrop={() =>this.onDragEnd()}
-                     onDragEnter={() => this.onDragEnter(key)}>
+                     onDragStart={(e) => this.onDragStart(key, e)}
+                     onDragEnter={(e) => this.onDragEnter(key, e)}
+                     onDragExit={(e) => this.clearDragState(e)}
+                     onDragOverCapture={e => e.preventDefault()}
+                     onDrop={(e) => this.onDrop(key, e)}
+                >
                     {this.props.titleFunc(node)}
                 </div>
             </div>
@@ -123,22 +127,31 @@ export class TreeSelect extends React.Component<Props, State> {
         </li>
     }
 
-    private onDragEnter(key: string) {
+    private onDragEnter(key: string, e: React.DragEvent<HTMLDivElement>) {
         this.setState({
             dragOverKey: key,
         })
     }
 
-    private onDragStart(key: string) {
+    private onDragStart(key: string, e: React.DragEvent<HTMLDivElement>) {
         this.setState({
             dragSrcKey: key,
         })
     }
 
-    private onDragEnd() {
+    private clearDragState(e: React.DragEvent<HTMLDivElement>) {
+        e.preventDefault();
         this.setState({
             dragOverKey: '',
             dragSrcKey: '',
         })
+    }
+    private onDrop(key: string, e: React.DragEvent<HTMLDivElement>) {
+        if (this.props.onMove != null) {
+            console.log("move:", this.state.dragSrcKey, key);
+            this.props.onMove(this.state.dragSrcKey, key);
+        }
+
+        this.clearDragState(e);
     }
 }
