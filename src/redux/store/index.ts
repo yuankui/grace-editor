@@ -40,6 +40,21 @@ export interface AppStore {
     siderState: SiderState,
 }
 
+export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>) {
+    const res: Array<string> = [];
+    while (true) {
+        res.push(key);
+
+        const post = posts.get(key);
+        if (post == null || post.parentId == null) {
+            break;
+        }
+        key = post.parentId;
+    }
+
+    return res;
+}
+
 export function createEmptyStore(): AppStore {
     return {
         currentPost: createEmptyEditingPost(),

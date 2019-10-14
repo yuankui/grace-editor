@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore} from "../store";
+import {AppStore, getParents} from "../store";
 import {Post} from "../../backend";
+import _ from 'lodash';
 
 export class MovePostCommand extends AppCommand {
     childKey: string;
@@ -19,6 +20,12 @@ export class MovePostCommand extends AppCommand {
     process(state: AppStore): AppStore {
         const child = state.posts.get(this.childKey);
         const parent = state.posts.get(this.parentKey);
+
+        // 目标节点不能是自己的子节点
+        const path = getParents(this.parentKey, state.posts);
+        if (_.includes(path, this.childKey)) {
+            return state;
+        }
 
         if (child.parentId === this.parentKey) {
             return state;

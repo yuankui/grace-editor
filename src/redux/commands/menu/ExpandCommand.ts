@@ -1,5 +1,5 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore} from "../../store";
+import {AppStore, getParents} from "../../store";
 import _ from 'lodash';
 import {UpdateSideStateCommand} from "./UpdateSideStateCommand";
 
@@ -16,18 +16,7 @@ export class ExpandCommand extends AppCommand {
     }
 
     traceRoot(key: string, store: AppStore): Array<string> {
-        const res: Array<string> = [];
-        while (true) {
-            res.push(key);
-
-            const post = store.posts.get(key);
-            if (post == null || post.parentId == null) {
-                break;
-            }
-            key = post.parentId;
-        }
-
-        return res;
+        return getParents(key, store.posts);
     }
 
     process(store: AppStore): AppStore {
