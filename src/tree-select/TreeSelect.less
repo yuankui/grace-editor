@@ -1,68 +1,72 @@
 @import "../base_style";
 
 .no-list-style {
-    list-style: none;
+  list-style: none;
 }
 
 .tree-select {
-    padding-left: 5px;
+  padding-left: 5px;
+  .no-list-style();
+
+  ul {
+    padding-left: 20px;
     .no-list-style();
-    ul {
-        padding-left: 20px;
-        .no-list-style();
-    }
+  }
 }
 
 div.menu-item {
-    padding: 2px 5px;
-    cursor: pointer;
-    -webkit-user-drag: element;
+  padding: 2px 5px;
+  cursor: pointer;
+  -webkit-user-drag: element;
+
+
 }
 
 .select-item {
-    &:hover {
-        background-color: #e8e7e4;
-    }
+  &:hover {
+    background-color: #e8e7e4;
+  }
 
-    &.selected-true {
-        background-color: #e8e7e4;
-    }
+  &.selected-true {
+    background-color: #e8e7e4;
+  }
 }
 
 // expand
 .title-prefix {
-    float: left;
-    display: inline-block;
-    outline: none;
-    border: none;
-    background-color: inherit;
-    border-radius: 3px;
-    padding: 3px;
-    height: 25px;
-    width: 25px;
-    cursor: default;
-    user-select: none;
-    color: @base-sider-menu-color;
+  float: left;
+  display: inline-block;
+  outline: none;
+  border: none;
+  background-color: inherit;
+  border-radius: 3px;
+  padding: 3px;
+  height: 25px;
+  width: 25px;
+  cursor: default;
+  user-select: none;
+  color: @base-sider-menu-color;
 
-    svg circle {
-        fill: @base-sider-menu-color;
-    }
+  svg circle {
+    fill: @base-sider-menu-color;
+  }
 }
 
 .expand-button {
-    display: flex;
-    justify-content: center; // 水平居中
-    align-items: center; // 垂直居中
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
+  display: flex;
+  justify-content: center; // 水平居中
+  align-items: center; // 垂直居中
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
 
-    &:hover {
-        background-color: #dad9d7;
-    }
+  &:hover {
+    background-color: #dad9d7;
+  }
 }
 
 .expanded-true {
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 }
+
 /*expand*/
