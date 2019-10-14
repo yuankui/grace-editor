@@ -7,8 +7,6 @@ import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
 import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
-import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
-import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
@@ -73,9 +71,9 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     renderTitle(item: Post) {
-        return <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
-            <span>{item.title + (item.saved ? "" : " *")}</span>
-        </div>
+        return (<span onDoubleClick={(e) => this.doubleClick(item, e)}>
+            {item.title + (item.saved ? "" : " *")}
+        </span>);
     }
 
     doubleClick = (item: Post, e: React.MouseEvent<HTMLSpanElement>) => {

@@ -42,10 +42,19 @@ interface Props {
 }
 
 interface State {
-
+    dragOverKey: string,
+    dragSrcKey: string,
 }
 
 export class TreeSelect extends React.Component<Props, State> {
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.state = {
+            dragOverKey: '',
+            dragSrcKey: '',
+        }
+    }
 
     render(): ReactNode {
         return <ul className='tree-select'>
@@ -76,21 +85,33 @@ export class TreeSelect extends React.Component<Props, State> {
             'select-item',
             'selected-' + selected,
         ];
+
+        const isDragonOver = key === this.state.dragOverKey;
+
         return <li key={key}>
-            <div onClick={event => this.select(key)}
+            <div onClick={() => this.select(key)}
                  className={classes.join(' ')}>
                 <span className='title-prefix'>
                     <If test={hasChildren}>
-                        <span className={'expand-button' + ' expanded-' + expanded} onClick={e => this.toggleExpand(key, e)}>
+                        <span className={'expand-button' + ' expanded-' + expanded}
+                              onClick={e => this.toggleExpand(key, e)}>
                             <MaterialIcon value="play_arrow"/>
                         </span>
                     </If>
                     <If test={!hasChildren}>
-                        <Point />
+                        <Point/>
                     </If>
                 </span>
 
-                {this.props.titleFunc(node)}
+                <div draggable={true}
+                     className={"menu-item " + 'dragover-' + isDragonOver}
+                     onDragStart={() => this.onDragStart(key)}
+                     onDragExit={() => this.onDragEnd()}
+                     onDragEnd={() => this.onDragEnd()}
+                     onDrop={() =>this.onDragEnd()}
+                     onDragEnter={() => this.onDragEnter(key)}>
+                    {this.props.titleFunc(node)}
+                </div>
             </div>
             <If test={expanded}>
                 <If test={hasChildren}>
@@ -100,5 +121,24 @@ export class TreeSelect extends React.Component<Props, State> {
                 </If>
             </If>
         </li>
+    }
+
+    private onDragEnter(key: string) {
+        this.setState({
+            dragOverKey: key,
+        })
+    }
+
+    private onDragStart(key: string) {
+        this.setState({
+            dragSrcKey: key,
+        })
+    }
+
+    private onDragEnd() {
+        this.setState({
+            dragOverKey: '',
+            dragSrcKey: '',
+        })
     }
 }
