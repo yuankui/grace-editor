@@ -1,16 +1,14 @@
-.tree-select, .tree-select ul {
+.no-list-style {
     list-style: none;
 }
 
 .tree-select {
     padding-left: 5px;
-}
-
-.tree-select ul {
-    padding-left: 20px;
-}
-
-.tree-select li {
+    .no-list-style();
+    ul {
+        padding-left: 20px;
+        .no-list-style();
+    }
 }
 
 div.menu-item {
@@ -18,15 +16,15 @@ div.menu-item {
     cursor: pointer;
 }
 
-.select-item:hover {
-    background-color: #e8e7e4;
+.select-item {
+    &:hover {
+        background-color: #e8e7e4;
+    }
+
+    &.selected-true {
+        background-color: #e8e7e4;
+    }
 }
-
-.select-item.selected-true {
-    background-color: #e8e7e4;
-}
-
-
 
 // expand
 .title-prefix {
@@ -45,15 +43,15 @@ div.menu-item {
 
 .expand-button {
     display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
+    justify-content: center; // 水平居中
+    align-items: center; // 垂直居中
     height: 100%;
     width: 100%;
     border-radius: 5px;
-}
 
-.expand-button:hover {
-    background-color: #dad9d7;
+    &:hover {
+        background-color: #dad9d7;
+    }
 }
 
 .expanded-true {
