@@ -73,27 +73,9 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     renderTitle(item: Post) {
-        const that = this;
-        return <ContextMenuTrigger id={item.id}>
-            <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
-                <span>{item.title + (item.saved ? "" : " *")}</span>
-            </div>
-            <ContextMenu id={item.id}>
-                <MenuItem data={{foo: '删除'}} onClick={event => {
-                    that.props.dispatch(new DeletePostCommand(item.id));
-                }}>
-                    删除
-                </MenuItem>
-                <MenuItem data={{foo: 'test2'}}>
-                    ContextMenu Item 2
-                </MenuItem>
-                <MenuItem divider/>
-                <MenuItem data={{foo: 'test3'}}>
-                    ContextMenu Item 3
-                </MenuItem>
-            </ContextMenu>
-        </ContextMenuTrigger>;
-
+        return <div onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
+            <span>{item.title + (item.saved ? "" : " *")}</span>
+        </div>
     }
 
     doubleClick = (item: Post, e: React.MouseEvent<HTMLSpanElement>) => {
