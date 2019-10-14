@@ -42,10 +42,21 @@ interface Props {
 
     // drag & drop
     onMove?: (src: string, target: string) => void,
+
+    onMoveBefore?: (src: string, target: string) => void,
+
+    onMoveAfter?: (src: string, target: string) => void,
 }
 
+interface DragTarget {
+    key: string,
+    type: TargetType,
+}
+
+type TargetType = "top" | "bottom" | "self";
+
 interface State {
-    dragOverKey: string,
+    dragOverTarget: DragTarget,
     dragSrcKey: string,
 }
 
@@ -54,7 +65,10 @@ export class TreeSelect extends React.Component<Props, State> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
-            dragOverKey: '',
+            dragOverTarget: {
+                type: "self",
+                key: '',
+            },
             dragSrcKey: '',
         }
     }
@@ -89,7 +103,9 @@ export class TreeSelect extends React.Component<Props, State> {
             'selected-' + selected,
         ];
 
-        const isDragonOver = key === this.state.dragOverKey;
+        const isSelfOver = key === this.state.dragOverTarget.key && this.state.dragOverTarget.type === 'self';
+        const isTopOver = key === this.state.dragOverTarget.key && this.state.dragOverTarget.type === 'top';
+        const isBottomOver = key === this.state.dragOverTarget.key && this.state.dragOverTarget.type === 'bottom';
 
         return <li key={key}>
             <div onClick={() => this.select(key)}
@@ -106,16 +122,32 @@ export class TreeSelect extends React.Component<Props, State> {
                     </If>
                 </span>
 
-                <div draggable={true}
-                     className={"menu-item " + 'dragover-' + isDragonOver}
-                     onDragStart={(e) => this.onDragStart(key, e)}
-                     onDragEnter={(e) => this.onDragEnter(key, e)}
+                <div data-target="top"
+                     draggable={true}
+                     onDragEnter={(e) => this.onDragEnter(key, e, "top")}
+                     onDragOver={e => e.preventDefault()}
+                     onDrop={(e) => this.onDrop(key, e, "top")}
                      onDragExit={(e) => this.clearDragState(e)}
-                     onDragOverCapture={e => e.preventDefault()}
-                     onDrop={(e) => this.onDrop(key, e)}
+                     className={'drag-item-border ' + 'dragover-' + isTopOver}/>
+                <div draggable={true}
+                     data-target='self'
+                     className={"menu-item " + 'dragover-' + isSelfOver}
+                     onDragStart={(e) => this.onDragStart(key, e)}
+                     onDragEnter={(e) => this.onDragEnter(key, e, "self")}
+                     onDragExit={(e) => this.clearDragState(e)}
+                     onDragOver={e => e.preventDefault()}
+                     onDrop={(e) => this.onDrop(key, e, "self")}
                 >
                     {this.props.titleFunc(node)}
                 </div>
+                <div data-target='bottom'
+                     onDragEnter={(e) => this.onDragEnter(key, e, "bottom")}
+                     draggable={true}
+                     onDragOver={e => e.preventDefault()}
+                     onDragExit={(e) => this.clearDragState(e)}
+                     onDrop={(e) => this.onDrop(key, e, "bottom")}
+                     className={'drag-item-border ' + 'dragover-' + isBottomOver}/>
+
             </div>
             <If test={expanded}>
                 <If test={hasChildren}>
@@ -127,9 +159,12 @@ export class TreeSelect extends React.Component<Props, State> {
         </li>
     }
 
-    private onDragEnter(key: string, e: React.DragEvent<HTMLDivElement>) {
+    private onDragEnter(key: string, e: React.DragEvent<HTMLDivElement>, target: TargetType) {
         this.setState({
-            dragOverKey: key,
+            dragOverTarget: {
+                type: target,
+                key
+            }
         })
     }
 
@@ -142,14 +177,26 @@ export class TreeSelect extends React.Component<Props, State> {
     private clearDragState(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         this.setState({
-            dragOverKey: '',
+            dragOverTarget: {
+                key: '',
+                type: "self",
+            },
             dragSrcKey: '',
         })
     }
-    private onDrop(key: string, e: React.DragEvent<HTMLDivElement>) {
-        if (this.props.onMove != null) {
-            console.log("move:", this.state.dragSrcKey, key);
+    private onDrop(key: string, e: React.DragEvent<HTMLDivElement>, target: TargetType) {
+        console.log("move:", this.state.dragSrcKey, key, target);
+
+        if (this.props.onMove != null && target === 'self') {
             this.props.onMove(this.state.dragSrcKey, key);
+        }
+
+        if (this.props.onMoveBefore != null && target === 'top') {
+            this.props.onMoveBefore(this.state.dragSrcKey, key);
+        }
+
+        if (this.props.onMoveAfter != null && target === 'bottom') {
+            this.props.onMoveAfter(this.state.dragSrcKey, key);
         }
 
         this.clearDragState(e);
