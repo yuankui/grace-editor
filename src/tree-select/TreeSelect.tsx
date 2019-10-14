@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
 import {If, MaterialIcon} from "../utils";
-import "./TreeSelect.css";
+import "./TreeSelect.less";
 
 interface Props {
     /**
