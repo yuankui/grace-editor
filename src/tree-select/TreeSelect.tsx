@@ -1,6 +1,7 @@
 import React, {ReactNode} from "react";
 import {If, MaterialIcon} from "../utils";
 import "./TreeSelect.less";
+import Point from "../icons";
 
 interface Props {
     /**
@@ -85,9 +86,7 @@ export class TreeSelect extends React.Component<Props, State> {
                         </span>
                     </If>
                     <If test={!hasChildren}>
-                        <MaterialIcon styles={{
-                            transform: 'scale(0.6)'
-                        }} value="fiber_manual_record"/>
+                        <Point />
                     </If>
                 </span>
 
