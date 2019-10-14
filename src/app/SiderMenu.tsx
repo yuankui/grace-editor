@@ -13,6 +13,7 @@ import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
+import './SiderMenu.less';
 
 export interface Node {
     key: string,
