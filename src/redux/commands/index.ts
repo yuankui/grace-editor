@@ -21,4 +21,5 @@ export type CommandType = "TestCommand"
     | "Menu/UpdateSideMenu"
     | "Menu/LocatePost"
     | "Post/MoveBeforePost"
+    | "Post/RemovePost"
 ;

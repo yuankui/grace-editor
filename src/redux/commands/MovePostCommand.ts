@@ -2,12 +2,13 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore, getParents} from "../store";
 import {Post} from "../../backend";
 import _ from 'lodash';
+import {RemovePostCommand} from "./post/RemovePostCommand";
 
 export class MovePostCommand extends AppCommand {
     childKey: string;
-    parentKey: string;
+    parentKey: string | null;
 
-    constructor(childKey: string, parentKey: string) {
+    constructor(childKey: string, parentKey: string | null) {
         super();
         this.childKey = childKey;
         this.parentKey = parentKey;
@@ -19,6 +20,19 @@ export class MovePostCommand extends AppCommand {
 
     process(state: AppStore): AppStore {
         const child = state.posts.get(this.childKey);
+
+        // 1. remove child
+        state = new RemovePostCommand(this.childKey).process(state);
+        if (this.parentKey == null) {
+            return {
+                ...state,
+                posts: state.posts.set(this.childKey, {
+                    ...child,
+                    parentId: null,
+                })
+            }
+        }
+
         const parent = state.posts.get(this.parentKey);
 
         // 目标节点不能是自己的子节点

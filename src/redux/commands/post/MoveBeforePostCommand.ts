@@ -21,27 +21,12 @@ export class MoveBeforePostCommand extends AppCommand {
     }
 
     async process(state: AppStore): Promise<Mapper<AppStore>> {
+        const oldSrc = state.posts.get(this.src);
 
-        // TODO remove from old parent
         const brother = state.posts.get(this.target);
 
         // move to parent
-        let newState: AppStore;
-        if (brother.parentId == null) {
-            let newSrc: Post = {
-                ...state.posts.get(this.src),
-                parentId: null
-            };
-
-            const newPosts = state.posts.set(this.src, newSrc);
-            newState = {
-                ...state,
-                posts: newPosts,
-            }
-        } else {
-            newState = new MovePostCommand(this.src, brother.parentId).process(state);
-        }
-
+        let newState: AppStore = new MovePostCommand(this.src, brother.parentId).process(state);
 
         // set order
         const newBrother: Post = {
