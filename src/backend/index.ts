@@ -36,7 +36,20 @@ export interface Post {
      * id组成规则，创建时间
      */
     id: string,
+
+    /**
+     * 父id，表示父子关系
+     */
     parentId: string | null,
+
+    /**
+     * 权重，约到约排前面,当精度过细后，要进行一次调整
+     *
+     * (1|2|3)*
+     *
+     * 重排序的时候，默认自己+2，排前-1，排后+1
+     */
+    weight: string,
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,

@@ -12,6 +12,7 @@ import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import './SiderMenu.less';
+import {MoveBeforePostCommand} from "../redux/commands/post/MoveBeforePostCommand";
 
 export interface Node {
     key: string,
@@ -50,11 +51,16 @@ class SiderMenu extends React.Component<Props, State> {
                 expandedKeys={this.props.siderState.expandedKeys}
                 onSelect={key => this.onSelect(key)}
                 onExpand={key => this.onExpandKey(key)}
+                onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
+                onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
                 selectedKey={this.props.siderState.selectedKey}
             />
         </div>
     }
 
+    onMoveBeforeAfter(src: string, target: string, mode: "before" | "after") {
+        this.props.dispatch(new MoveBeforePostCommand(src, target, mode));
+    }
     onExpandKey(key: string) {
         this.props.dispatch(new ToggleExpandCommand(key));
     }

@@ -25,6 +25,9 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
     // 1. 构造map
     for (let post of posts) {
         post.children = [];
+        if (post.weight == null) {
+            post.weight = '';
+        }
         map = map.set(post.id, {...post, saved: true});
     }
 
@@ -50,17 +53,5 @@ export function convertToEditingPost(post: Post): EditingPost {
         tags: post.tags,
         title: post.title,
         content: post.content,
-    }
-}
-
-export function convertToPost(currentPost: EditingPost): Post {
-    return {
-        children: [],
-        parentId: null,
-        id: currentPost.id,
-        title: currentPost.title,
-        tags: currentPost.tags,
-        content: currentPost.content,
-        saved: false,
     }
 }
