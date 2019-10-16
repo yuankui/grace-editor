@@ -12,6 +12,8 @@ import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import './SiderMenu.less';
 import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
+import {MaterialIcon} from "../utils";
+import {OperationButton} from "../common/OperationButton";
 
 export interface Node {
     key: string,
@@ -87,6 +89,9 @@ class SiderMenu extends React.Component<Props, State> {
     renderTitle(item: Post) {
         return (<span onDoubleClick={(e) => this.doubleClick(item, e)}>
             {item.title + (item.saved ? "" : " *")}
+            <OperationButton>
+                <MaterialIcon value='more_horiz'/>
+            </OperationButton>
         </span>);
     }
 
