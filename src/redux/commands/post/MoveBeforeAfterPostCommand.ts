@@ -4,7 +4,7 @@ import {Mapper} from "redux-commands";
 import {MovePostCommand} from "../MovePostCommand";
 import {Post} from "../../../backend";
 
-export class MoveBeforePostCommand extends AppCommand {
+export class MoveBeforeAfterPostCommand extends AppCommand {
     src: string;
     target: string;
     mode: "before" | "after";

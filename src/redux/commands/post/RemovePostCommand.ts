@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import {Post} from "../../../backend";
-import _ from "lodash";
 
 export class RemovePostCommand extends AppCommand {
     private readonly id: string;

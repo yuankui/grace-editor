@@ -5,14 +5,13 @@ import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
-import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import './SiderMenu.less';
-import {MoveBeforePostCommand} from "../redux/commands/post/MoveBeforePostCommand";
+import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
 
 export interface Node {
     key: string,
@@ -59,7 +58,7 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     onMoveBeforeAfter(src: string, target: string, mode: "before" | "after") {
-        this.props.dispatch(new MoveBeforePostCommand(src, target, mode));
+        this.props.dispatch(new MoveBeforeAfterPostCommand(src, target, mode));
     }
     onExpandKey(key: string) {
         this.props.dispatch(new ToggleExpandCommand(key));
