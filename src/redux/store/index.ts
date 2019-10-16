@@ -31,6 +31,8 @@ export interface SiderState {
     selectedKey: string,
 }
 
+export type Posts = Immutable.OrderedMap<string, Post>;
+
 export interface AppStore {
     currentPost: EditingPost | null,
     posts: Immutable.OrderedMap<string, Post>,
