@@ -36,8 +36,7 @@ export default class EditorContent extends React.Component<Props, any> {
                         </Button>
                         <input placeholder={"Untitled"}
                                value={editingPost.title}
-                               onChange={this.onTitleChange}
-                               onKeyPress={this.focus}/>
+                               onChange={this.onTitleChange}/>
                     </span>
             <RichEditor ref={this.editor}
                         key={this.props.post.id}

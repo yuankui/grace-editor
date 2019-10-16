@@ -33,7 +33,9 @@ interface State {
 class SiderMenu extends React.Component<Props, State> {
     render() {
         const topPosts = this.props.posts.toArray()
-            .filter(p => p.parentId == null);
+            .filter(p => p.parentId == null)
+            .sort(this.comparePost);
+
         return <div className={'sider-menu'}>
             <div className='search-bar'>
                 <Input className='input' placeholder="search"/>
@@ -68,8 +70,14 @@ class SiderMenu extends React.Component<Props, State> {
         if (post.children == null) {
             return [];
         }
-        return post.children.map(id => this.props.posts.get(id))
+        const posts = post.children.map(id => this.props.posts.get(id))
             .filter(post => post != null);
+        const sorted = posts.sort(this.comparePost);
+        return sorted;
+    }
+
+    comparePost(a: Post, b: Post): number {
+        return a.weight.localeCompare(b.weight);
     }
 
     onSelect = (keys: string) => {

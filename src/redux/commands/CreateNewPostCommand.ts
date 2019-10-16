@@ -17,13 +17,14 @@ export class CreateNewPostCommand extends AppCommand {
 
     process(store: AppStore): AppStore {
 
-        let newPost = {
+        let newPost: Post = {
             id: createPostId(),
             content: createEmptyContent(),
             saved: true,
             tags: [],
             children: [],
             title: "未命名",
+            weight: '',
             parentId: this.parentId,
         };
 

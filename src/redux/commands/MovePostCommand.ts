@@ -19,6 +19,22 @@ export class MovePostCommand extends AppCommand {
     }
 
     process(state: AppStore): AppStore {
+        // 如果目标是自己的孩子，也直接返回
+        if (this.parentKey != null) {
+            if (_.includes(getParents(this.parentKey, state.posts), this.childKey)) {
+                return state;
+            }
+        }
+
+        // 如果已经是父子关系，也直接退出
+        if (state.posts.get(this.childKey).parentId === this.parentKey) {
+            return state;
+        }
+
+        // 如果是自己，就直接返回
+        if (this.childKey === this.parentKey) {
+            return state;
+        }
         const child = state.posts.get(this.childKey);
 
         // 1. remove child

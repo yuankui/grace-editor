@@ -21,8 +21,7 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
     }
 
     async process(state: AppStore): Promise<Mapper<AppStore>> {
-        const oldSrc = state.posts.get(this.src);
-
+        // TODO fix: duplicate when move child as parents' brother
         const brother = state.posts.get(this.target);
 
         // move to parent
@@ -30,7 +29,7 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
 
         // set order
         const newBrother: Post = {
-            ...brother,
+            ...newState.posts.get(brother.id),
             weight: brother.weight + "2",
             saved: false,
         };

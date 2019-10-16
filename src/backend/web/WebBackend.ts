@@ -56,6 +56,9 @@ export class WebBackend implements Backend {
     }
 
     async savePost(post: Post): Promise<Post> {
+        if (post.title == null) {
+            throw new Error("empty title");
+        }
         let id = post.id;
         if (post.id == null) {
            id = uuid();

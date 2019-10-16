@@ -40,7 +40,7 @@ export interface AppStore {
     siderState: SiderState,
 }
 
-export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>) {
+export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>): Array<string> {
     const res: Array<string> = [];
     while (true) {
         res.push(key);
