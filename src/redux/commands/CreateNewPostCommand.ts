@@ -2,6 +2,8 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {createEmptyContent, createPostId} from "../utils";
 import {Post} from "../../backend";
+import {PostSelectCommand} from "./menu/PostSelectCommand";
+import {ExpandCommand} from "./menu/ExpandCommand";
 
 export class CreateNewPostCommand extends AppCommand {
     parentId: string | null;
@@ -33,23 +35,37 @@ export class CreateNewPostCommand extends AppCommand {
             parent = store.posts.get(this.parentId);
         }
 
+
         if (parent === undefined) {
-            return {
+            store = {
                 ...store,
                 currentPost: newPost,
-                posts: store.posts.set(newPost.id, newPost)
+                posts: store.posts.set(newPost.id, newPost),
+                siderState: {
+                    ...store.siderState,
+                    selectedKey: newPost.id,
+                }
             }
         } else {
             const newParent: Post = {
                 ...parent,
                 children: [...parent.children, newPost.id]
             };
-            return {
+            store = {
                 ...store,
                 currentPost: newPost,
                 posts: store.posts.set(parent.id, newParent)
-                    .set(newPost.id, newPost)
+                    .set(newPost.id, newPost),
+                siderState: {
+                    ...store.siderState,
+                    selectedKey: newPost.id,
+                }
             }
+
+            // expand parent
+            store = new ExpandCommand(parent.id).process(store);
         }
+
+        return store;
     }
 }
