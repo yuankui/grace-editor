@@ -20,6 +20,7 @@ import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
 import {Post} from "../backend";
 import Immutable from "immutable";
 import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
+import {Resizable} from "re-resizable";
 
 
 const {Sider, Content} = Layout;
@@ -147,12 +148,17 @@ class App extends React.Component<AppProps, AppState> {
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>
-                <Sider theme='light' width={300}>
-                    <Button onClick={() => {
+                <Resizable enable={{right: true}} defaultSize={{
+                    width: 300,
+                    height: '100%'
+                }}>
+                    <Sider theme='light' width="100%">
+                        <Button onClick={() => {
 
-                    }}>测试</Button>
-                    <SiderMenu/>
-                </Sider>
+                        }}>测试</Button>
+                        <SiderMenu/>
+                    </Sider>
+                </Resizable>
                 <Content
                     onBlur={() => {
                         this.props.dispatch(new SyncPostCommand());
