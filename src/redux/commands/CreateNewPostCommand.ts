@@ -60,7 +60,7 @@ export class CreateNewPostCommand extends AppCommand {
                     ...store.siderState,
                     selectedKey: newPost.id,
                 }
-            }
+            };
 
             // expand parent
             store = new ExpandCommand(parent.id).process(store);
