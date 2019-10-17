@@ -1,5 +1,5 @@
 import React, {createRef, KeyboardEvent} from 'react';
-import './App.css';
+import './App.less';
 import {Button, Layout, Modal} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
@@ -116,7 +116,7 @@ class App extends React.Component<AppProps, AppState> {
             }));
     }
 
-    getPath(post: Post, posts: Immutable.OrderedMap<string, Post>) : string {
+    getPath(post: Post, posts: Immutable.OrderedMap<string, Post>): string {
         let path: Array<string> = [];
         while (post != null) {
             path.push(post.title);
@@ -148,10 +148,13 @@ class App extends React.Component<AppProps, AppState> {
                                     onSearch={keyword => this.onSearch(keyword)}
                     />
                 </Modal>
-                <Resizable enable={{right: true}} defaultSize={{
-                    width: 300,
-                    height: '100%'
-                }}>
+                <Resizable enable={{right: true}}
+                           handleClasses={{right: 'resize-handle'}}
+                           handleStyles={{right: {width: 5}}}
+                           defaultSize={{
+                               width: 300,
+                               height: '100%'
+                           }}>
                     <Sider theme='light' width="100%">
                         <Button onClick={() => {
 
