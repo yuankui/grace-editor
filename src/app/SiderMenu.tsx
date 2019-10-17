@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Input, Menu, Popover} from "antd";
+import {Button, Icon, Input, Popover} from "antd";
 import {connect} from "react-redux";
 import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
@@ -20,7 +20,6 @@ export interface Node {
     key: string,
     title: string,
     children: Array<Node>,
-    saved: boolean,
 }
 
 interface Props {
@@ -101,7 +100,7 @@ class SiderMenu extends React.Component<Props, State> {
             </ul>
         );
         return (<span onDoubleClick={(e) => this.doubleClick(item, e)}>
-            {item.title + (item.saved ? "" : " *")}
+            {item.title}
             <OperationButton onClick={() => this.createNewPost(item.id)}>
                 <MaterialIcon value='add'/>
             </OperationButton>

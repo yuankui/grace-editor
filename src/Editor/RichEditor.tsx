@@ -104,7 +104,7 @@ export class RichEditor extends Component<Props, State> {
             .reduce((reduction, value) => (reduction as number) + (value as number), 0);
 
         return (
-            <div onBlur={this.save} onKeyDown={this.onKeyDown} className={'editor saved-' + this.state.saved } onClick={() => this.focus()}>
+            <div onBlur={this.save} onKeyDown={this.onKeyDown} className='editor' onClick={() => this.focus()}>
                 <Editor
                     placeholder={"Start here..."}
                     editorState={this.state.editorState}

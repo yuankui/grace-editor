@@ -10,7 +10,6 @@ export interface EditingPost {
     id: string,
     title: string,
     tags: Array<string>,
-    saved: boolean,
     content: RawDraftContentState,
 }
 
@@ -18,7 +17,6 @@ export function createEmptyEditingPost(): EditingPost {
     return {
         id: createPostId(),
         title: '',
-        saved: true,
         tags: [],
         content: convertToRaw(
             EditorState.createEmpty().getCurrentContent()
