@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Input} from "antd";
+import {Button, Icon, Input, Menu, Popover} from "antd";
 import {connect} from "react-redux";
 import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
@@ -14,6 +14,7 @@ import './SiderMenu.less';
 import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
 import {MaterialIcon} from "../utils";
 import {OperationButton} from "../common/OperationButton";
+import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 
 export interface Node {
     key: string,
@@ -42,7 +43,7 @@ class SiderMenu extends React.Component<Props, State> {
             <div className='search-bar'>
                 <Input className='input' placeholder="search"/>
                 <span className='icon'>
-                    <Button onClick={this.createNewPost}><Icon type="edit"/></Button>
+                    <Button onClick={() => this.createNewPost(null)}><Icon type="edit"/></Button>
                 </span>
             </div>
             <TreeSelect
@@ -86,12 +87,30 @@ class SiderMenu extends React.Component<Props, State> {
         this.props.dispatch(new PostSelectCommand(keys))
     };
 
+    delete(e: React.MouseEvent<HTMLAnchorElement>, postId: string) {
+        e.stopPropagation();
+        this.props.dispatch(new DeletePostCommand(postId));
+    }
+
     renderTitle(item: Post) {
+        const menu = (
+            <ul className='actions'>
+                <li>
+                    <a onClick={event => this.delete(event, item.id)}>删除</a>
+                </li>
+            </ul>
+        );
         return (<span onDoubleClick={(e) => this.doubleClick(item, e)}>
             {item.title + (item.saved ? "" : " *")}
-            <OperationButton>
-                <MaterialIcon value='more_horiz'/>
+            <OperationButton onClick={() => this.createNewPost(item.id)}>
+                <MaterialIcon value='add'/>
             </OperationButton>
+
+            <Popover content={menu} trigger="click" placement='bottom'>
+                <OperationButton>
+                    <MaterialIcon value='more_horiz'/>
+                </OperationButton>
+            </Popover>
         </span>);
     }
 
@@ -100,8 +119,8 @@ class SiderMenu extends React.Component<Props, State> {
         e.stopPropagation();
     };
 
-    createNewPost = () => {
-        this.props.dispatch(new CreateNewPostCommand(null));
+    createNewPost = (parentId: string | null) => {
+        this.props.dispatch(new CreateNewPostCommand(parentId));
     };
 
     private onMove(src: string, target: string) {

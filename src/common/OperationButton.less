@@ -1,21 +1,23 @@
 @button-color: hsl(0, 0%, 40%);
+@font-color: hsl(0, 0%, 100%);
 
 .operation-button {
   display: inline-block;
   height: 20px;
   width: 20px;
-
+  margin: 1px;
   border-radius: 5px;
-
+  color: black;
   float: right;
+  background: @font-color;
 
   &:active {
-    background: @button-color;
+    color: black;
+    background-color: lighten(@button-color, 20%);
   }
 
   &:hover {
-    background: lighten(@button-color, 20%);
-    color: @button-color;
+    color: black;
   }
 }
 

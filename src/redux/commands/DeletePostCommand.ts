@@ -25,7 +25,7 @@ export class DeletePostCommand extends AppCommand {
                 posts: newPosts,
             };
             if (post.parentId != null) {
-                currentPosts = new PostSelectCommand(this.postId)
+                currentPosts = new PostSelectCommand(post.parentId)
                     .process(currentPosts);
                 return currentPosts;
             } else {
