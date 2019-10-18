@@ -4,6 +4,8 @@ import {RichEditor} from "../Editor/RichEditor";
 import {Button} from "antd";
 import {Backend, Post} from "../backend";
 import {RawDraftContentState} from 'draft-js';
+import Tags from "./Tags";
+import "./EditorContent.less";
 
 export interface Props {
     post: Post | null,
@@ -11,6 +13,7 @@ export interface Props {
     onChange: (v: Post) => void,
     onLocate: () => void,
 }
+
 export default class EditorContent extends React.Component<Props, any> {
     private readonly editor: React.RefObject<RichEditor>;
     private readonly titleRef: React.RefObject<HTMLInputElement>;
@@ -40,6 +43,9 @@ export default class EditorContent extends React.Component<Props, any> {
                        defaultValue={editingPost.title}
                        onChange={this.onTitleChange}/>
             </span>
+
+            <Tags value={this.props.post.tags}
+                  onChange={this.onTagsChange}/>
             <RichEditor ref={this.editor}
                         key={this.props.post.id}
                         backend={this.props.backend}
@@ -59,7 +65,7 @@ export default class EditorContent extends React.Component<Props, any> {
     componentDidMount(): void {
         if (this.titleRef != null && this.titleRef.current != null) {
             new Mousetrap(this.titleRef.current)
-                // 点击enter，切换到editor
+            // 点击enter，切换到editor
                 .bind("enter", e => {
                     if (this.editor.current != null) {
                         this.editor.current.focus();
@@ -77,6 +83,13 @@ export default class EditorContent extends React.Component<Props, any> {
         this.props.onChange({
             ...this.props.post as Post,
             title: value.target.value,
+        })
+    };
+
+    onTagsChange = (value: Array<string>) => {
+        this.props.onChange({
+            ...this.props.post as Post,
+            tags: value,
         })
     };
 
