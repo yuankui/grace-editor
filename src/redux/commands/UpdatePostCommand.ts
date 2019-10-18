@@ -2,7 +2,7 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore, EditingPost} from "../store";
 import {Post} from "../../backend";
 
-export class UpdateEditingPostCommand extends AppCommand {
+export class UpdatePostCommand extends AppCommand {
     post: EditingPost;
 
     constructor(post: EditingPost) {
@@ -11,7 +11,7 @@ export class UpdateEditingPostCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "UpdateEditingPost";
+        return "UpdatePost";
     }
 
     process(state: AppStore): AppStore {

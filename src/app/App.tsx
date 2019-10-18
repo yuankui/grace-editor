@@ -5,7 +5,7 @@ import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, createBackend, EditingPost} from "../redux/store";
-import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
+import {UpdatePostCommand} from "../redux/commands/UpdatePostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
@@ -87,7 +87,7 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     onChange = (v: EditingPost) => {
-        this.props.dispatch(new UpdateEditingPostCommand(v));
+        this.props.dispatch(new UpdatePostCommand(v));
     };
 
     focus = (e: KeyboardEvent) => {

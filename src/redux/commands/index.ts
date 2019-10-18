@@ -7,7 +7,7 @@ export abstract class AppCommand extends Command<AppStore, CommandType> {
 export type CommandType = "TestCommand"
     | "KittyCommand"
     | "UpdateState"
-    | "UpdateEditingPost"
+    | "UpdatePost"
     | "SyncPost"
     | "CreateNewPost"
     | "PostSelect"

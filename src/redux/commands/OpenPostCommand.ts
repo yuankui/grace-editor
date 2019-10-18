@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {convertToEditingPost} from "../utils";
-import {UpdateEditingPostCommand} from "./UpdateEditingPostCommand";
+import {UpdatePostCommand} from "./UpdatePostCommand";
 
 export class OpenPostCommand extends AppCommand {
     postId: string;
@@ -12,13 +12,13 @@ export class OpenPostCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "UpdateEditingPost";
+        return "UpdatePost";
     }
 
     process(state: AppStore): AppStore {
         let post = state.posts.get(this.postId);
         let editingPost = convertToEditingPost(post);
-        return new UpdateEditingPostCommand(editingPost)
+        return new UpdatePostCommand(editingPost)
             .process(state);
     }
 }

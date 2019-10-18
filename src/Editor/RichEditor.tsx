@@ -96,15 +96,12 @@ export class RichEditor extends Component<Props, State> {
             .getBlockMap()
             .valueSeq()
             .map<number>(value => {
-                if (value != null) {
-                    return value.getLength();
-                }
-                return 0;
+                return value != null ? value.getLength() : 0;
             })
             .reduce((reduction, value) => (reduction as number) + (value as number), 0);
 
         return (
-            <div onBlur={this.save} onKeyDown={this.onKeyDown} className='editor' onClick={() => this.focus()}>
+            <div onBlur={this.save} onKeyDown={this.onKeyDown} className={'editor saved-' + this.state.saved} onClick={() => this.focus()}>
                 <Editor
                     placeholder={"Start here..."}
                     editorState={this.state.editorState}
