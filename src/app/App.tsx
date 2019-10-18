@@ -160,6 +160,7 @@ class App extends React.Component<AppProps, AppState> {
                 </Resizable>
                 <Content>
                     <EditorContent onChange={this.onChange}
+                                   key={this.props.editingPost? this.props.editingPost.id: ""}
                                    backend={this.props.state.backend}
                                    post={this.props.editingPost}
                                    ref={this.editor}
