@@ -1,16 +1,14 @@
 import * as React from 'react';
+import {ChangeEvent, createRef} from 'react';
 import {RichEditor} from "../Editor/RichEditor";
-import {EditingPost} from "../redux/store";
-import {createRef} from "react";
 import {Button} from "antd";
-import {Backend} from "../backend";
-import {ChangeEvent} from "react";
+import {Backend, Post} from "../backend";
 import {RawDraftContentState} from 'draft-js';
 
 export interface Props {
-    post: EditingPost | null,
+    post: Post | null,
     backend: Backend,
-    onChange: (v: EditingPost) => void,
+    onChange: (v: Post) => void,
     onLocate: () => void,
 }
 export default class EditorContent extends React.Component<Props, any> {
@@ -30,7 +28,7 @@ export default class EditorContent extends React.Component<Props, any> {
             </div>
         }
         const editorState = this.props.post.content;
-        const editingPost: EditingPost = this.props.post;
+        const editingPost: Post = this.props.post;
         return <React.Fragment>
             <span className='title'>
                         <Button className='locate-button' onClick={e => this.locate()}>
@@ -52,7 +50,7 @@ export default class EditorContent extends React.Component<Props, any> {
 
     onContentChange = (state: RawDraftContentState) => {
         this.props.onChange({
-            ...this.props.post as EditingPost,
+            ...this.props.post as Post,
             content: state,
         })
     };
@@ -76,7 +74,7 @@ export default class EditorContent extends React.Component<Props, any> {
 
     onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
         this.props.onChange({
-            ...this.props.post as EditingPost,
+            ...this.props.post as Post,
             title: value.target.value,
         })
     };

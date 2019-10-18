@@ -1,11 +1,12 @@
-import {AppCommand, CommandType} from "../index";
-import {AppStore, EditingPost} from "../../store";
+import {CommandType} from "../index";
+import {Posts} from "../../store";
 import {Post} from "../../../backend";
+import {PostCommand} from "./index";
 
-export class UpdatePostCommand extends AppCommand {
-    post: EditingPost;
+export class UpdatePostCommand extends PostCommand {
+    post: Post;
 
-    constructor(post: EditingPost) {
+    constructor(post: Post) {
         super();
         this.post = post;
     }
@@ -14,8 +15,12 @@ export class UpdatePostCommand extends AppCommand {
         return "UpdatePost";
     }
 
-    process(state: AppStore): AppStore {
-        let oldPost = state.posts.get(this.post.id);
+    async save(): Promise<any> {
+        return super.save();
+    }
+
+    processPosts(posts: Posts): Posts {
+        let oldPost = posts.get(this.post.id);
         const children = oldPost == null || oldPost.children == null? []: oldPost.children;
         const newPost: Post = {
             ...oldPost,
@@ -24,10 +29,7 @@ export class UpdatePostCommand extends AppCommand {
             tags: this.post.tags,
             children,
         };
-        return {
-            ...state,
-            posts: state.posts.set(this.post.id, newPost),
-            currentPost: this.post,
-        }
+
+        return posts.set(this.post.id, newPost);
     }
 }

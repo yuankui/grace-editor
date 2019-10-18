@@ -28,7 +28,7 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
         if (post.weight == null) {
             post.weight = '';
         }
-        map = map.set(post.id, {...post, saved: true});
+        map = map.set(post.id, {...post});
     }
 
     // 2. 构造parent
@@ -48,10 +48,6 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
 
 export function convertToEditingPost(post: Post): EditingPost {
     return {
-        saved: true,
         id: post.id,
-        tags: post.tags,
-        title: post.title,
-        content: post.content,
     }
 }

@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
-import {convertToEditingPost} from "../utils";
-import {UpdatePostCommand} from "./UpdatePostCommand";
+import {UpdatePostCommand} from "./post/UpdatePostCommand";
+import {Mapper} from "redux-commands";
 
 export class OpenPostCommand extends AppCommand {
     postId: string;
@@ -15,10 +15,9 @@ export class OpenPostCommand extends AppCommand {
         return "UpdatePost";
     }
 
-    process(state: AppStore): AppStore {
+    process(state: AppStore): Promise<Mapper<AppStore>> {
         let post = state.posts.get(this.postId);
-        let editingPost = convertToEditingPost(post);
-        return new UpdatePostCommand(editingPost)
+        return new UpdatePostCommand(post)
             .process(state);
     }
 }

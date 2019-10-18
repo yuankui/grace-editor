@@ -9,14 +9,14 @@ export class AllPostTool implements Tool<AppContent>{
     }
 
     filter(app: AppContent, commands: Array<CommandItem>): FilterResult {
-        const res = app.getAllPost().map(p => {
-            return new OpenPostCommandItem(p);
-        });
+        // const res = app.getAllPost().map(p => {
+        //     return new OpenPostCommandItem(p);
+        // });
 
         return {
             result: "success",
             msg: "",
-            data: res,
+            data: [],
         }
     }
 

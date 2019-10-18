@@ -5,8 +5,6 @@ import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, createBackend, EditingPost} from "../redux/store";
-import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
-import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
 import {DropdownSelect} from "../dropdown-select/select";
@@ -32,7 +30,7 @@ interface AppState {
 
 interface AppProps {
     state: AppStore,
-    editingPost: EditingPost,
+    editingPost: Post,
     dispatch: Dispatch<any>,
     list: Array<Node>,
 }
@@ -63,8 +61,6 @@ class App extends React.Component<AppProps, AppState> {
     componentDidMount(): void {
         const that = this;
         Mousetrap.bind('command+s', e => {
-            // Save Function
-            that.props.dispatch(new SavePostsCommand());
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -86,8 +82,8 @@ class App extends React.Component<AppProps, AppState> {
         }
     }
 
-    onChange = (v: EditingPost) => {
-        this.props.dispatch(new UpdatePostCommand(v));
+    onChange = (post: Post) => {
+        this.props.dispatch(new UpdatePostCommand(post));
     };
 
     focus = (e: KeyboardEvent) => {
@@ -162,11 +158,7 @@ class App extends React.Component<AppProps, AppState> {
                         <SiderMenu/>
                     </Sider>
                 </Resizable>
-                <Content
-                    onBlur={() => {
-                        this.props.dispatch(new SyncPostCommand());
-                    }}
-                >
+                <Content>
                     <EditorContent onChange={this.onChange}
                                    backend={this.props.state.backend}
                                    post={this.props.editingPost}
@@ -182,9 +174,10 @@ class App extends React.Component<AppProps, AppState> {
 }
 
 function mapState(state: AppStore) {
+    let currentPost = state.posts.get((state.currentPost as EditingPost).id);
     return {
         state,
-        editingPost: state.currentPost,
+        editingPost: currentPost,
     }
 }
 

@@ -8,19 +8,11 @@ import {createWebBackend} from "../../backend/web/WebBackend";
 
 export interface EditingPost {
     id: string,
-    title: string,
-    tags: Array<string>,
-    content: RawDraftContentState,
 }
 
 export function createEmptyEditingPost(): EditingPost {
     return {
         id: createPostId(),
-        title: '',
-        tags: [],
-        content: convertToRaw(
-            EditorState.createEmpty().getCurrentContent()
-        ),
     }
 }
 

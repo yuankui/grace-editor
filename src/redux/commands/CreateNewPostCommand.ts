@@ -2,7 +2,6 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {createEmptyContent, createPostId} from "../utils";
 import {Post} from "../../backend";
-import {PostSelectCommand} from "./menu/PostSelectCommand";
 import {ExpandCommand} from "./menu/ExpandCommand";
 
 export class CreateNewPostCommand extends AppCommand {
@@ -22,7 +21,6 @@ export class CreateNewPostCommand extends AppCommand {
         let newPost: Post = {
             id: createPostId(),
             content: createEmptyContent(),
-            saved: true,
             tags: [],
             children: [],
             title: "未命名",

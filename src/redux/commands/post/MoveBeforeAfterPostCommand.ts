@@ -31,13 +31,11 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
         const newBrother: Post = {
             ...newState.posts.get(brother.id),
             weight: brother.weight + "2",
-            saved: false,
         };
 
         const newSrc: Post = {
             ...newState.posts.get(this.src),
             weight: brother.weight + (this.mode === "before" ? "1" : "3"),
-            saved: false,
         };
 
         await state.backend.savePost(newBrother);

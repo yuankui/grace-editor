@@ -64,7 +64,6 @@ export class MovePostCommand extends AppCommand {
         const newChild: Post = {
             ...child,
             parentId: this.parentKey,
-            saved: false,
         };
 
         const newParent: Post = {
