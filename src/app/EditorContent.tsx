@@ -15,10 +15,12 @@ export interface Props {
 }
 export default class EditorContent extends React.Component<Props, any> {
     private readonly editor: React.RefObject<RichEditor>;
+    private readonly titleRef: React.RefObject<HTMLInputElement>;
 
     constructor(props) {
         super(props);
         this.editor = createRef();
+        this.titleRef = createRef();
     }
 
     render() {
@@ -35,6 +37,7 @@ export default class EditorContent extends React.Component<Props, any> {
                             <i className="material-icons">adjust</i>
                         </Button>
                         <input placeholder={"Untitled"}
+                               ref={this.titleRef}
                                value={editingPost.title}
                                onChange={this.onTitleChange}/>
                     </span>
@@ -53,6 +56,19 @@ export default class EditorContent extends React.Component<Props, any> {
             content: state,
         })
     };
+
+    componentDidMount(): void {
+        if (this.titleRef != null && this.titleRef.current != null) {
+            new Mousetrap(this.titleRef.current)
+                .bind("enter", e => {
+                    if (this.editor.current != null) {
+                        this.editor.current.focus();
+                    }
+                    e.preventDefault();
+                })
+        }
+    }
+
     onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
         this.props.onChange({
             ...this.props.post as EditingPost,
