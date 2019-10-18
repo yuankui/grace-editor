@@ -47,7 +47,5 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
 }
 
 export function convertToEditingPost(post: Post): EditingPost {
-    return {
-        id: post.id,
-    }
+    return post.id;
 }

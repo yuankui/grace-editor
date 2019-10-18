@@ -6,25 +6,20 @@ import {createElectronBackend} from "../../backend/electron/ElectronBackend";
 import {createWebBackend} from "../../backend/web/WebBackend";
 
 
-export interface EditingPost {
-    id: string,
-}
+export type EditingPost= string | null;
 
 export function createEmptyEditingPost(): EditingPost {
-    return {
-        id: createPostId(),
-    }
+    return createPostId();
 }
 
 export interface SiderState {
     expandedKeys: Array<string>,
-    selectedKey: string,
 }
 
 export type Posts = Immutable.OrderedMap<string, Post>;
 
 export interface AppStore {
-    currentPost: EditingPost | null,
+    currentPost: EditingPost,
     posts: Immutable.OrderedMap<string, Post>,
     editMode: boolean,
     isOpening: boolean,
@@ -56,7 +51,6 @@ export function createEmptyStore(): AppStore {
         backend: createBackend(),
         siderState: {
             expandedKeys: [],
-            selectedKey: '',
         }
     }
 }

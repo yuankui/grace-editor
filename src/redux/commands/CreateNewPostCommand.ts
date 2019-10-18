@@ -37,7 +37,7 @@ export class CreateNewPostCommand extends AppCommand {
         if (parent === undefined) {
             store = {
                 ...store,
-                currentPost: newPost,
+                currentPost: newPost.id,
                 posts: store.posts.set(newPost.id, newPost),
                 siderState: {
                     ...store.siderState,
@@ -51,7 +51,7 @@ export class CreateNewPostCommand extends AppCommand {
             };
             store = {
                 ...store,
-                currentPost: newPost,
+                currentPost: newPost.id,
                 posts: store.posts.set(parent.id, newParent)
                     .set(newPost.id, newPost),
                 siderState: {

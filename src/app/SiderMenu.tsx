@@ -56,7 +56,7 @@ class SiderMenu extends React.Component<Props, State> {
                 onExpand={key => this.onExpandKey(key)}
                 onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
                 onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
-                selectedKey={this.props.siderState.selectedKey}
+                selectedKey={this.props.state.currentPost as string}
             />
         </div>
     }
@@ -128,7 +128,6 @@ class SiderMenu extends React.Component<Props, State> {
 }
 
 function mapState(state: AppStore) {
-    const postId = state.currentPost == null ? "" : state.currentPost.id;
     return {
         state,
         posts: state.posts,

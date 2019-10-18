@@ -174,7 +174,7 @@ class App extends React.Component<AppProps, AppState> {
 }
 
 function mapState(state: AppStore) {
-    let currentPost = state.posts.get((state.currentPost as EditingPost).id);
+    let currentPost = state.posts.get(state.currentPost as string);
     return {
         state,
         editingPost: currentPost,

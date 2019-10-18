@@ -15,7 +15,7 @@ export class ReloadPostsCommand extends AppCommand {
 
             let currentPost;
             if (postTree.size !== 0) {
-                currentPost = convertToEditingPost(postTree.toArray()[0]);
+                currentPost = convertToEditingPost(postTree.toArray().filter(p => p.parentId == null)[0]);
             } else {
                 currentPost = createEmptyEditingPost();
             }
