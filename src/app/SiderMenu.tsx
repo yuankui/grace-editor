@@ -100,7 +100,9 @@ class SiderMenu extends React.Component<Props, State> {
             </ul>
         );
         return (<div onDoubleClick={(e) => this.doubleClick(item, e)}>
-            {item.title}
+            <span className='title'>
+                {item.title == ""? "未命名": item.title}
+            </span>
             <OperationButton onClick={() => this.createNewPost(item.id)}>
                 <MaterialIcon value='add'/>
             </OperationButton>
