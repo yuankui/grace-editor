@@ -60,10 +60,15 @@ export default class EditorContent extends React.Component<Props, any> {
     componentDidMount(): void {
         if (this.titleRef != null && this.titleRef.current != null) {
             new Mousetrap(this.titleRef.current)
+                // 点击enter，切换到editor
                 .bind("enter", e => {
                     if (this.editor.current != null) {
                         this.editor.current.focus();
                     }
+                    e.preventDefault();
+                })
+                // 点击保存，禁止默认行为
+                .bind('command+s', e => {
                     e.preventDefault();
                 })
         }
