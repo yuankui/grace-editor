@@ -31,14 +31,15 @@ export default class EditorContent extends React.Component<Props, any> {
         const editingPost: Post = this.props.post;
         return <React.Fragment>
             <span className='title'>
-                        <Button className='locate-button' onClick={e => this.locate()}>
-                            <i className="material-icons">adjust</i>
-                        </Button>
-                        <input placeholder={"Untitled"}
-                               ref={this.titleRef}
-                               value={editingPost.title}
-                               onChange={this.onTitleChange}/>
-                    </span>
+                <Button className='locate-button' onClick={e => this.locate()}>
+                    <i className="material-icons">adjust</i>
+                </Button>
+                <input placeholder={"Untitled"}
+                       key={this.props.post.id}
+                       ref={this.titleRef}
+                       defaultValue={editingPost.title}
+                       onChange={this.onTitleChange}/>
+            </span>
             <RichEditor ref={this.editor}
                         key={this.props.post.id}
                         backend={this.props.backend}
@@ -68,7 +69,7 @@ export default class EditorContent extends React.Component<Props, any> {
                 // 点击保存，禁止默认行为
                 .bind('command+s', e => {
                     e.preventDefault();
-                })
+                });
         }
     }
 
