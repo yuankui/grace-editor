@@ -41,7 +41,6 @@ export class CreateNewPostCommand extends AppCommand {
                 posts: store.posts.set(newPost.id, newPost),
                 siderState: {
                     ...store.siderState,
-                    selectedKey: newPost.id,
                 }
             }
         } else {
@@ -56,7 +55,6 @@ export class CreateNewPostCommand extends AppCommand {
                     .set(newPost.id, newPost),
                 siderState: {
                     ...store.siderState,
-                    selectedKey: newPost.id,
                 }
             };
 

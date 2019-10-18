@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore, EditingPost} from "../../store";
 import {convertToEditingPost} from "../../utils";
-import {UpdateSideStateCommand} from "./UpdateSideStateCommand";
 
 
 export class PostSelectCommand extends AppCommand {
@@ -26,9 +25,7 @@ export class PostSelectCommand extends AppCommand {
             currentPost,
         };
 
-        return new UpdateSideStateCommand({
-            selectedKey: this.id,
-        }).process(state);
+        return state;
     }
 
 }

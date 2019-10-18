@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
-import {UpdatePostCommand} from "./post/UpdatePostCommand";
 import {Mapper} from "redux-commands";
+import {PostSelectCommand} from "./menu/PostSelectCommand";
 
 export class OpenPostCommand extends AppCommand {
     postId: string;
@@ -15,9 +15,9 @@ export class OpenPostCommand extends AppCommand {
         return "UpdatePost";
     }
 
-    process(state: AppStore): Promise<Mapper<AppStore>> {
-        let post = state.posts.get(this.postId);
-        return new UpdatePostCommand(post)
-            .process(state);
+    async process(state: AppStore): Promise<Mapper<AppStore>> {
+        return s => {
+            return new PostSelectCommand(this.postId).process(s);
+        }
     }
 }
