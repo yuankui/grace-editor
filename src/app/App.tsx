@@ -5,7 +5,6 @@ import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, createBackend, EditingPost} from "../redux/store";
-import {UpdatePostCommand} from "../redux/commands/UpdatePostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 import Mousetrap from "mousetrap";
@@ -21,6 +20,7 @@ import {Post} from "../backend";
 import Immutable from "immutable";
 import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
 import {Resizable} from "re-resizable";
+import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 
 
 const {Sider, Content} = Layout;

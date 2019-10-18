@@ -1,6 +1,6 @@
-import {AppCommand, CommandType} from "./index";
-import {AppStore, EditingPost} from "../store";
-import {Post} from "../../backend";
+import {AppCommand, CommandType} from "../index";
+import {AppStore, EditingPost} from "../../store";
+import {Post} from "../../../backend";
 
 export class UpdatePostCommand extends AppCommand {
     post: EditingPost;
