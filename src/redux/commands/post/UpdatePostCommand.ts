@@ -1,5 +1,5 @@
 import {CommandType} from "../index";
-import {Posts} from "../../store";
+import {AppStore, Posts} from "../../store";
 import {Post} from "../../../backend";
 import {PostCommand} from "./index";
 
@@ -15,8 +15,8 @@ export class UpdatePostCommand extends PostCommand {
         return "UpdatePost";
     }
 
-    async save(): Promise<any> {
-        return super.save();
+    async save(state:AppStore): Promise<any> {
+        await state.backend.savePost(this.post);
     }
 
     processPosts(posts: Posts): Posts {

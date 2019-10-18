@@ -99,7 +99,7 @@ class SiderMenu extends React.Component<Props, State> {
                 </li>
             </ul>
         );
-        return (<span onDoubleClick={(e) => this.doubleClick(item, e)}>
+        return (<div onDoubleClick={(e) => this.doubleClick(item, e)}>
             {item.title}
             <OperationButton onClick={() => this.createNewPost(item.id)}>
                 <MaterialIcon value='add'/>
@@ -110,7 +110,7 @@ class SiderMenu extends React.Component<Props, State> {
                     <MaterialIcon value='more_horiz'/>
                 </OperationButton>
             </Popover>
-        </span>);
+        </div>);
     }
 
     doubleClick = (item: Post, e: React.MouseEvent<HTMLSpanElement>) => {

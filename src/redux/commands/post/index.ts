@@ -4,7 +4,7 @@ import {Mapper} from "redux-commands";
 
 export abstract class PostCommand extends AppCommand {
     async process(s: AppStore): Promise<Mapper<AppStore>> {
-        await this.save();
+        await this.save(s);
         return state => {
             const newPosts = this.processPosts(state.posts);
             return {
@@ -14,7 +14,7 @@ export abstract class PostCommand extends AppCommand {
         }
     }
 
-    async save(): Promise<any> {
+    async save(state: AppStore): Promise<any> {
     }
 
     abstract processPosts(posts: Posts): Posts;
