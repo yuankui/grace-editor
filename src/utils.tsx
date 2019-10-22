@@ -31,3 +31,7 @@ export class MaterialIcon extends React.Component<IconProps> {
         return <i style={styles} className="material-icons">{this.props.value}</i>;
     }
 }
+
+export function classNames(names: Array<string>) {
+    return names.join(' ');
+}

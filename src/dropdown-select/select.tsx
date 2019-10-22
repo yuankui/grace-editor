@@ -1,7 +1,8 @@
 import * as React from 'react';
-import './select.css';
+import './select.less';
 import {createRef} from "react";
 import {SearchResult} from "./Search";
+import {classNames} from "../utils";
 
 interface Props {
     /**
@@ -67,14 +68,14 @@ export class DropdownSelect extends React.Component<Props, State> {
                 {
                     this.state.children.map((e, index) => {
                         const active = 'active-' + (index === this.state.selectIndex);
-                        return (<li key={e.key} className={active}>
+                        return (<div key={e.key} className={classNames([active, 'dropdown-select-item'])}>
                             <div className='list-title'>
                                 {e.title}
                             </div>
                             <div className='list-subtitle'>
                                 {e.subtitle}
                             </div>
-                        </li>);
+                        </div>);
                     })
                 }
             </ul>
