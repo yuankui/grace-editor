@@ -80,8 +80,10 @@ export default class Tags extends React.Component<Props, State> {
     }
 
     renderTags(): ReactNode {
-        return this.props.value.map(v => {
-            return <Tag onClose={() => this.removeTag(v)} closable={true}>
+        const tags = _.uniq(this.props.value);
+
+        return tags.map(v => {
+            return <Tag key={v} onClose={() => this.removeTag(v)} closable={true}>
                 {v}
             </Tag>
         });
@@ -93,7 +95,7 @@ export default class Tags extends React.Component<Props, State> {
 
     tagsChange(tags: Array<string>) {
         if (_.isArray(tags)) {
-            this.props.onChange(tags as Array<string>);
+            this.props.onChange(_.uniq(tags as Array<string>));
         } else {
             this.props.onChange([tags as string]);
         }
