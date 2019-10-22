@@ -85,7 +85,11 @@ class SearchDialog extends React.Component<Props, State> {
                 data: post.id,
                 key: post.id,
             }));
+
+
     }
+
+
 
     getPath(post: Post, posts: Immutable.OrderedMap<string, Post>): string {
         let path: Array<string> = [];

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './select.less';
-import {createRef} from "react";
-import {SearchResult} from "./Search";
+import {createRef, ReactNode} from "react";
 import {classNames} from "../utils";
 
 interface Props {
@@ -16,18 +15,20 @@ interface Props {
      * 根据关键字进行反查结果
      * @param keyword
      */
-    onSearch: (keyword: string) => Promise<Array<SearchResult>>,
+    onSearch: (keyword: string) => Promise<Array<any>>,
+
+    renderItem: (item: any) => ReactNode,
 }
 
 interface State {
     selectIndex: number,
-    children: Array<SearchResult>,
+    children: Array<ReactNode>,
     keyword: string,
 }
 
 export class DropdownSelect extends React.Component<Props, State> {
     private readonly textRef: React.RefObject<HTMLInputElement>;
-    private readonly listRef: React.RefObject<HTMLUListElement>;
+    private readonly listRef: React.RefObject<HTMLDivElement>;
 
     constructor(props) {
         super(props);
@@ -61,7 +62,7 @@ export class DropdownSelect extends React.Component<Props, State> {
                    value={this.state.keyword}
                    onKeyDown={e => this.onKeyDown(e)}
                    onChange={e => this.inputChange(e.target.value)}/>
-            <ul className='options'
+            <div className='options'
                 ref={this.listRef}
                 style={{maxHeight: this.props.maxHeight}}
             >
@@ -78,7 +79,7 @@ export class DropdownSelect extends React.Component<Props, State> {
                         </div>);
                     })
                 }
-            </ul>
+            </div>
         </div>;
     }
 
