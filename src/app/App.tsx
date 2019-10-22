@@ -86,9 +86,6 @@ class App extends React.Component<AppProps, AppState> {
                                height: '100%'
                            }}>
                     <Sider theme='light' width="100%">
-                        <Button onClick={() => {
-
-                        }}>测试</Button>
                         <SiderMenu/>
                     </Sider>
                 </Resizable>
