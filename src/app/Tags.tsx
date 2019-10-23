@@ -7,7 +7,7 @@ import {If} from "../utils";
 
 interface Props {
     value: Array<string>,
-    onChange: (value: Array<string>) => void,
+    onChange?: (value: Array<string>) => void,
 }
 
 interface State {
@@ -34,28 +34,30 @@ export default class Tags extends React.Component<Props, State> {
         return <div className='post-tags'>
             {this.renderTags()}
 
-            <If test={this.state.showInput}>
-                <Input
-                    key='tag-input'
-                    ref={this.saveInputRef}
-                    type="text"
-                    size="small"
-                    style={{width: 78}}
-                    value={this.state.inputValue}
-                    onChange={event => this.handleInputChange(event.target.value)}
-                    onBlur={() => this.toggleInput(false)}
-                    onKeyDown={e => {
-                        if (e.key == 'Escape') {
-                            this.toggleInput(false);
-                        }
-                    }}
-                    onPressEnter={() => this.handleInputConfirm()}
-                />
-            </If>
-            <If test={!this.state.showInput}>
-                <Tag className='plus-button' onClick={() => this.toggleInput(true)} style={{background: '#fff', borderStyle: 'dashed'}}>
-                    <Icon type="plus"/> New Tag
-                </Tag>
+            <If test={this.props.onChange != null}>
+                <If test={this.state.showInput}>
+                    <Input
+                        key='tag-input'
+                        ref={this.saveInputRef}
+                        type="text"
+                        size="small"
+                        style={{width: 78}}
+                        value={this.state.inputValue}
+                        onChange={event => this.handleInputChange(event.target.value)}
+                        onBlur={() => this.toggleInput(false)}
+                        onKeyDown={e => {
+                            if (e.key == 'Escape') {
+                                this.toggleInput(false);
+                            }
+                        }}
+                        onPressEnter={() => this.handleInputConfirm()}
+                    />
+                </If>
+                <If test={!this.state.showInput}>
+                    <Tag className='plus-button' onClick={() => this.toggleInput(true)} style={{background: '#fff', borderStyle: 'dashed'}}>
+                        <Icon type="plus"/> New Tag
+                    </Tag>
+                </If>
             </If>
         </div>;
     }
@@ -89,15 +91,21 @@ export default class Tags extends React.Component<Props, State> {
         });
     }
 
+    private change(value: Array<string>) {
+        if (this.props.onChange == null) {
+            return;
+        }
+        this.props.onChange(value);
+    }
     removeTag(value :string) {
-        this.props.onChange(_.remove(this.props.value, v => v == value));
+        this.change(_.remove(this.props.value, v => v == value));
     }
 
     tagsChange(tags: Array<string>) {
         if (_.isArray(tags)) {
-            this.props.onChange(_.uniq(tags as Array<string>));
+            this.change(_.uniq(tags as Array<string>));
         } else {
-            this.props.onChange([tags as string]);
+            this.change([tags as string]);
         }
     }
 

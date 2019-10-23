@@ -11,6 +11,7 @@ import Immutable from "immutable";
 import Mousetrap from "mousetrap";
 import './SearchDialog.less';
 import {findAll} from "../utils";
+import Tags from "./Tags";
 
 interface Props {
     state: AppStore,
@@ -25,6 +26,7 @@ interface SearchOption {
     title: string,
     subtitle: string,
     postId: string,
+    tags: Array<string>,
 }
 
 class SearchDialog extends React.Component<Props, State> {
@@ -82,7 +84,7 @@ class SearchDialog extends React.Component<Props, State> {
         })
     };
 
-    renderOption = (e: any, keyword: string) => {
+    renderOption = (e: SearchOption, keyword: string) => {
         const words = findAll(e.title, keyword);
         const highlightedText = words
             .map(word => {
@@ -99,10 +101,15 @@ class SearchDialog extends React.Component<Props, State> {
             </div>
             <div className='list-subtitle'>
                 {e.subtitle}
+                {this.renderTags(e.tags)}
             </div>
         </div>
     };
 
+    renderTags(tags: Array<string>) {
+        const children = tags.map(t => <div className='search-tag'>{t}</div>);
+        return <div className='search-tags'>{children}</div>;
+    }
     async onSearch(keyword: string): Promise<Array<SearchOption>> {
         return this.props.state.posts.valueSeq().toArray()
             .filter(post => post.title.indexOf(keyword) >= 0)
@@ -110,6 +117,7 @@ class SearchDialog extends React.Component<Props, State> {
                 title: post.title,
                 subtitle: this.getPath(post, this.props.state.posts),
                 postId: post.id,
+                tags: post.tags,
             }));
     }
 
