@@ -1,0 +1,37 @@
+@title-color: black;
+@subtitle-color: lighten(@title-color, 60%);
+@background-color: #5b1d78;
+
+
+.dropdown-select-item {
+  height: 55px;
+  padding: 5px 10px;
+
+  .list-title {
+    color: @title-color;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .list-subtitle {
+    font-size: 0.5em;
+    color: @subtitle-color;
+  }
+
+
+  .tags {
+    font-size: 12px;
+  }
+}
+
+.active-true .dropdown-select-item {
+  background-color: @background-color;
+
+  .list-title {
+    color: contrast(@title-color);
+  }
+
+  .list-subtitle {
+    color: contrast(@subtitle-color);
+  }
+}

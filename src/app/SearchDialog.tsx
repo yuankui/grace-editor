@@ -1,16 +1,15 @@
 import * as React from "react";
-import {ReactNode} from "react";
+import {createRef, ReactNode} from "react";
 import {connect} from 'react-redux';
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
 import {DropdownSelect} from "../dropdown-select/select";
 import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
 import {Modal} from "antd";
-import {SearchResult} from "../dropdown-select/Search";
 import {Post} from "../backend";
 import Immutable from "immutable";
-import {createRef} from "react";
 import Mousetrap from "mousetrap";
+import './SearchDialog.less';
 
 interface Props {
     state: AppStore,
@@ -19,6 +18,12 @@ interface Props {
 
 interface State {
     showSearch: boolean,
+}
+
+interface SearchOption {
+    title: string,
+    subtitle: string,
+    postId: string,
 }
 
 class SearchDialog extends React.Component<Props, State> {
@@ -50,13 +55,13 @@ class SearchDialog extends React.Component<Props, State> {
             onCancel={e => this.hideSearch()}
         >
             <DropdownSelect ref={this.searchRef}
-                            onSelect={(i, data) => {
-                                this.props.dispatch(new OpenPostCommand(data));
+                            onSelect={(i, data: SearchOption) => {
+                                this.props.dispatch(new OpenPostCommand(data.postId));
                                 this.hideSearch();
                             }}
                             maxHeight={300}
                             onSearch={keyword => this.onSearch(keyword)}
-            />
+                            renderItem={this.renderOption}/>
         </Modal>
     }
 
@@ -76,17 +81,25 @@ class SearchDialog extends React.Component<Props, State> {
         })
     };
 
-    async onSearch(keyword: string): Promise<Array<SearchResult>> {
+    renderOption = (e: any) => {
+        return <div className='dropdown-select-item'>
+            <div className='list-title'>
+                {e.title}
+            </div>
+            <div className='list-subtitle'>
+                {e.subtitle}
+            </div>
+        </div>
+    };
+
+    async onSearch(keyword: string): Promise<Array<SearchOption>> {
         return this.props.state.posts.valueSeq().toArray()
             .filter(post => post.title.indexOf(keyword) >= 0)
             .map(post => ({
                 title: post.title,
                 subtitle: this.getPath(post, this.props.state.posts),
-                data: post.id,
-                key: post.id,
+                postId: post.id,
             }));
-
-
     }
 
 

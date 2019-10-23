@@ -8,7 +8,7 @@ interface Props {
      * 选项选择触发事件
      * @param index
      */
-    onSelect: (index: number, data?: any) => void,
+    onSelect: (index: number, data: any) => void,
 
     maxHeight: number,
     /**
@@ -22,7 +22,7 @@ interface Props {
 
 interface State {
     selectIndex: number,
-    children: Array<ReactNode>,
+    options: Array<any>,
     keyword: string,
 }
 
@@ -36,7 +36,7 @@ export class DropdownSelect extends React.Component<Props, State> {
         this.listRef = createRef();
         this.state = {
             selectIndex: 0,
-            children: [],
+            options: [],
             keyword: '',
         }
     }
@@ -51,7 +51,7 @@ export class DropdownSelect extends React.Component<Props, State> {
     async componentDidMount() {
         const results = await this.props.onSearch('');
         this.setState({
-            children: results,
+            options: results,
         })
     }
 
@@ -67,15 +67,10 @@ export class DropdownSelect extends React.Component<Props, State> {
                 style={{maxHeight: this.props.maxHeight}}
             >
                 {
-                    this.state.children.map((e, index) => {
+                    this.state.options.map((e, index) => {
                         const active = 'active-' + (index === this.state.selectIndex);
-                        return (<div key={e.key} className={classNames([active, 'dropdown-select-item'])}>
-                            <div className='list-title'>
-                                {e.title}
-                            </div>
-                            <div className='list-subtitle'>
-                                {e.subtitle}
-                            </div>
+                        return (<div key={index} className={classNames([active])}>
+                            {this.props.renderItem(e)}
                         </div>);
                     })
                 }
@@ -90,12 +85,12 @@ export class DropdownSelect extends React.Component<Props, State> {
         const results = await this.props.onSearch(keyword);
         this.resetIndex();
         this.setState({
-            children: results,
+            options: results,
         })
     }
 
     resetIndex() {
-        if (this.state.children.length >= 0)
+        if (this.state.options.length >= 0)
             this.setIndex(0);
     }
 
@@ -107,7 +102,7 @@ export class DropdownSelect extends React.Component<Props, State> {
     }
 
     upIndex() {
-        const newIndex = (this.state.selectIndex + 1) % this.state.children.length;
+        const newIndex = (this.state.selectIndex + 1) % this.state.options.length;
         this.setIndex(newIndex);
     }
 
@@ -124,12 +119,12 @@ export class DropdownSelect extends React.Component<Props, State> {
     }
 
     downIndex() {
-        const newIndex = (this.state.selectIndex - 1 + this.state.children.length) % this.state.children.length;
+        const newIndex = (this.state.selectIndex - 1 + this.state.options.length) % this.state.options.length;
         this.setIndex(newIndex);
     }
 
     select() {
-        this.props.onSelect(this.state.selectIndex, this.state.children[this.state.selectIndex].data);
+        this.props.onSelect(this.state.selectIndex, this.state.options[this.state.selectIndex]);
     }
 
     onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
