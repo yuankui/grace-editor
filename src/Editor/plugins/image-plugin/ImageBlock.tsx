@@ -4,7 +4,6 @@ import {ContentBlock, EditorState, Modifier,} from "draft-js";
 import {StateChange} from "../../RichEditor";
 import {Input} from "antd";
 import {ResizableBox, ResizeCallbackData} from 'react-resizable';
-import 'react-resizable/css/styles.css';
 
 export interface ImageProps {
     block: ContentBlock,

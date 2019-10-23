@@ -10,7 +10,6 @@ import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
-import './SiderMenu.less';
 import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
 import {MaterialIcon} from "../utils";
 import {OperationButton} from "../common/OperationButton";

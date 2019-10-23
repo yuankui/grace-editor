@@ -2,7 +2,7 @@ import {GetState, StateChange} from "../../RichEditor";
 import {ContentBlock, ContentState, DraftEditorCommand, DraftHandleValue, EditorState, RichUtils,} from "draft-js";
 import {EditorPlugin} from "../index";
 import {TodoBlock} from "./TodoBlock";
-import './index.css';
+import './index.less';
 import {isRange} from "../utils";
 
 /*

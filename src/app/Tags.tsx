@@ -1,8 +1,7 @@
 import * as React from "react";
-import {createRef, ReactNode, RefObject} from "react";
+import {ReactNode} from "react";
 import {Icon, Input, Tag} from "antd";
 import _ from 'lodash';
-import './Tags.less';
 import {If} from "../utils";
 
 interface Props {

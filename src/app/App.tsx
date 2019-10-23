@@ -1,6 +1,5 @@
 import React, {createRef, KeyboardEvent} from 'react';
-import './App.less';
-import {Button, Layout} from 'antd';
+import {Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";

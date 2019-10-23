@@ -11,7 +11,6 @@ import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 import 'mousetrap-global-bind/mousetrap-global-bind';
-import './RichEditor.css';
 
 export interface StateChange {
     (value: EditorState): void,

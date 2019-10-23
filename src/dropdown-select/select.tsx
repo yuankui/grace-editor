@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './select.less';
 import {createRef, ReactNode} from "react";
 import {classNames} from "../utils";
 

@@ -2,7 +2,6 @@ import {ContentBlock, EditorState} from "draft-js";
 import {EditController, StateChange} from "../../RichEditor";
 import {CodeBlock} from "./CodeBlock";
 import {EditorPlugin} from "../index";
-import './index.css';
 
 /**
  * 这个编辑器目前有bug

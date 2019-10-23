@@ -5,7 +5,6 @@ import {Button} from "antd";
 import {Backend, Post} from "../backend";
 import {RawDraftContentState} from 'draft-js';
 import Tags from "./Tags";
-import "./EditorContent.less";
 
 export interface Props {
     post: Post | null,

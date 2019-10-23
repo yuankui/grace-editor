@@ -5,8 +5,6 @@ import {EditController, StateChange} from "../../RichEditor";
 import {Input} from "antd";
 import {Controlled as CodeMirror} from 'react-codemirror2'
 import * as codemirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 
 export interface CodeProps {

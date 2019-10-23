@@ -9,9 +9,7 @@ import {Modal} from "antd";
 import {Post} from "../backend";
 import Immutable from "immutable";
 import Mousetrap from "mousetrap";
-import './SearchDialog.less';
 import {findAll} from "../utils";
-import Tags from "./Tags";
 
 interface Props {
     state: AppStore,

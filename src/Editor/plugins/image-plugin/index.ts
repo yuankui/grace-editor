@@ -3,7 +3,6 @@ import {StateChange} from "../../RichEditor";
 import {ImageBlock} from "./ImageBlock";
 import {EditorPlugin} from "../index";
 import Immutable from "immutable";
-import './index.css';
 
 export function createImagePlugin(state: EditorState, onChange: StateChange): EditorPlugin {
     return {

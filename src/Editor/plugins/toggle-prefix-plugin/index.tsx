@@ -1,7 +1,6 @@
 import {StateChange} from "../../RichEditor";
 import {DraftHandleValue, EditorState, Modifier, RichUtils,} from "draft-js";
 import {Command, EditorPlugin} from "../index";
-import './index.css';
 
 const prefixMap: any = {
     '-': 'unordered-list-item',

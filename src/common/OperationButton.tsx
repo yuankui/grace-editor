@@ -1,5 +1,4 @@
 import React, {ReactNode} from "react";
-import "./OperationButton.less";
 
 
 interface Props {
