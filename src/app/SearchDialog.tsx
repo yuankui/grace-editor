@@ -10,6 +10,7 @@ import {Post} from "../backend";
 import Immutable from "immutable";
 import Mousetrap from "mousetrap";
 import './SearchDialog.less';
+import {findAll} from "../utils";
 
 interface Props {
     state: AppStore,
@@ -81,10 +82,20 @@ class SearchDialog extends React.Component<Props, State> {
         })
     };
 
-    renderOption = (e: any) => {
+    renderOption = (e: any, keyword: string) => {
+        const words = findAll(e.title, keyword);
+        const highlightedText = words
+            .map(word => {
+                if (word === keyword) {
+                    return <span className='highlight'>{word}</span>;
+                } else {
+                    return word;
+                }
+            });
+
         return <div className='dropdown-select-item'>
             <div className='list-title'>
-                {e.title}
+                {highlightedText}
             </div>
             <div className='list-subtitle'>
                 {e.subtitle}
