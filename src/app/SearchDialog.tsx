@@ -3,7 +3,7 @@ import {createRef, ReactNode} from "react";
 import {connect} from 'react-redux';
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
-import {DropdownSelect} from "../dropdown-select/select";
+import {DropdownSelect} from "./DropdownSelect";
 import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
 import {Modal} from "antd";
 import {Post} from "../backend";
