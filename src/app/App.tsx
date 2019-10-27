@@ -15,6 +15,7 @@ import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
 import {Resizable} from "re-resizable";
 import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
+import ButtonActions from "./ButtonActions";
 
 
 const {Sider, Content} = Layout;
@@ -86,6 +87,7 @@ class App extends React.Component<AppProps, AppState> {
                            }}>
                     <Sider theme='light' width="100%">
                         <SiderMenu/>
+                        <ButtonActions />
                     </Sider>
                 </Resizable>
                 <Content>

@@ -14,6 +14,7 @@ import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfter
 import {MaterialIcon} from "../utils";
 import {OperationButton} from "../common/OperationButton";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
+import ButtonActions from "./ButtonActions";
 
 export interface Node {
     key: string,
