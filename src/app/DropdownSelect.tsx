@@ -68,9 +68,9 @@ export class DropdownSelect extends React.Component<Props, State> {
                 {
                     this.state.options.map((e, index) => {
                         const active = 'active-' + (index === this.state.selectIndex);
-                        return (<div key={index} className={classNames([active])}>
+                        return <div key={e.key} className={classNames([active])}>
                             {this.props.renderItem(e, this.state.keyword)}
-                        </div>);
+                        </div>;
                     })
                 }
             </div>

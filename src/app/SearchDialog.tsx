@@ -21,6 +21,7 @@ interface State {
 }
 
 interface SearchOption {
+    key: string,
     title: string,
     subtitle: string,
     postId: string,
@@ -116,6 +117,7 @@ class SearchDialog extends React.Component<Props, State> {
                 subtitle: this.getPath(post, this.props.state.posts),
                 postId: post.id,
                 tags: post.tags,
+                key: post.id,
             }));
     }
 
