@@ -17,6 +17,10 @@ export interface SiderState {
 
 export type Posts = Immutable.OrderedMap<string, Post>;
 
+export interface Settings {
+    workSpace: string,
+}
+
 export interface AppStore {
     currentPost: EditingPost,
     posts: Immutable.OrderedMap<string, Post>,
@@ -25,6 +29,7 @@ export interface AppStore {
     backend: Backend,
     siderState: SiderState,
     router: RouterState,
+    settings: Settings,
 }
 
 export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>): Array<string> {

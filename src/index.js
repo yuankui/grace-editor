@@ -3,13 +3,13 @@ import * as ReactDOM from 'react-dom';
 import './styles/index.less';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
-import {createStore, applyMiddleware, compose} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import {commandMiddleware, enhanceCommandReducer} from "redux-commands";
-import {initReducer} from "./redux/utils";
+import {history, initReducer} from "./redux/utils";
 import {ReloadPostsCommand} from "./redux/commands/ReloadPostsCommand";
 import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
-import {history} from "./redux/utils";
+import ReloadSettingsCommand from "./redux/commands/ReloadSettingsCommand";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,6 +21,7 @@ const store = createStore(enhanceCommandReducer(initReducer),
     )));
 
 store.dispatch(new ReloadPostsCommand());
+store.dispatch(new ReloadSettingsCommand());
 
 ReactDOM.render(
     <Provider store={store}>
