@@ -8,15 +8,20 @@ import {Provider} from "react-redux";
 import {commandMiddleware, enhanceCommandReducer} from "redux-commands";
 import {initReducer} from "./redux/utils";
 import {ReloadPostsCommand} from "./redux/commands/ReloadPostsCommand";
-import {ConnectedRouter} from 'connected-react-router';
+import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
 import {history} from "./redux/utils";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
-const store = createStore(enhanceCommandReducer(initReducer), composeEnhancers(applyMiddleware(commandMiddleware)));
+const store = createStore(enhanceCommandReducer(initReducer),
+    composeEnhancers(applyMiddleware(
+        commandMiddleware,
+        routerMiddleware(history),
+    )));
 
 store.dispatch(new ReloadPostsCommand());
+
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
