@@ -3,13 +3,9 @@ import {Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppStore, createBackend} from "../redux/store";
+import {AppStore} from "../redux/store";
 import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
-import {AppContent, createEngine} from "./chain/chain";
-import {AllPostTool} from "./chain/tools/AllPostTool";
-import {OpenPostTool} from "./chain/tools/OpenPostTool";
-import {Engine} from "../chain/chain";
 import {Post} from "../backend";
 import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
 import {Resizable} from "re-resizable";
@@ -33,7 +29,6 @@ interface AppProps {
 
 class App extends React.Component<AppProps, AppState> {
     private readonly editor: React.RefObject<EditorContent>;
-    private engine: Engine<AppContent>;
 
     constructor(props: Readonly<any>) {
         super(props);
@@ -42,13 +37,6 @@ class App extends React.Component<AppProps, AppState> {
             editable: true,
         };
 
-        this.engine = createEngine({
-            backend: createBackend(),
-            dispatch: this.props.dispatch
-        }, [
-            new AllPostTool(),
-            new OpenPostTool()
-        ]);
     }
 
     componentDidMount(): void {
