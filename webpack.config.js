@@ -20,6 +20,14 @@ module.exports = {
     ],
     devServer: {
         port: 8089,
+    },
+    externals: {
+        // electron: {
+        //     commonjs: 'electron',
+        // },
+        // fs: {
+        //     commonjs: 'fs',
+        // },
     }
 };
 

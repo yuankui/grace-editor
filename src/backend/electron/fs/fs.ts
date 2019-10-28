@@ -3,7 +3,7 @@ import path from 'path';
 
 let fs: any = {};
 if (window.require != null) {
-    fs = (window as any).require('fs');
+    fs = window.require('fs');
 }
 
 function _mkdir(path: PathLike): Promise<any> {
