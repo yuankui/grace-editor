@@ -16,6 +16,7 @@ import {OperationButton} from "../common/OperationButton";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import ButtonActions from "./ButtonActions";
 import {push} from "connected-react-router";
+import PostSelectAction from "../redux/actions/PostSelectAction";
 
 export interface Node {
     key: string,
@@ -83,9 +84,8 @@ class SiderMenu extends React.Component<Props, State> {
         return a.weight.localeCompare(b.weight);
     }
 
-    onSelect = (keys: string) => {
-        this.props.dispatch(push('/post/' + keys));
-        // this.props.dispatch(new PostSelectCommand(keys))
+    onSelect = (postId: string) => {
+        this.props.dispatch(PostSelectAction(postId));
     };
 
     delete(e: React.MouseEvent<HTMLAnchorElement>, postId: string) {
