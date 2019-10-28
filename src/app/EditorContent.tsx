@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
 import {RichEditor} from "../Editor/RichEditor";
-import {Button} from "antd";
 import {Backend, Post} from "../backend";
 import {RawDraftContentState} from 'draft-js';
 import Tags from "./Tags";
@@ -10,7 +9,6 @@ export interface Props {
     post: Post | null,
     backend: Backend,
     onChange: (v: Post) => void,
-    onLocate: () => void,
 }
 
 export default class EditorContent extends React.Component<Props, any> {
@@ -33,9 +31,6 @@ export default class EditorContent extends React.Component<Props, any> {
         const editingPost: Post = this.props.post;
         return <React.Fragment>
             <span className='title'>
-                <Button className='locate-button' onClick={e => this.locate()}>
-                    <i className="material-icons">adjust</i>
-                </Button>
                 <input placeholder={"Untitled"}
                        key={this.props.post.id}
                        ref={this.titleRef}
@@ -96,9 +91,5 @@ export default class EditorContent extends React.Component<Props, any> {
         if (this.editor.current != null) {
             this.editor.current.focus();
         }
-    }
-
-    private locate() {
-        this.props.onLocate();
     }
 }

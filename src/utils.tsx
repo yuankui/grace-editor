@@ -1,4 +1,5 @@
 import React, {ReactNode} from "react";
+import {AppStore} from "./redux/store";
 
 interface Props {
     test: boolean,
@@ -49,4 +50,10 @@ export function findAll(text: string, keyword: string): Array<string> {
             if (index == 0) return [v];
             return [...acc, keyword, v];
         }, []);
+}
+
+export function mapState(state: AppStore) {
+    return {
+        state,
+    }
 }

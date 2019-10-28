@@ -12,6 +12,7 @@ import {Resizable} from "re-resizable";
 import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
 import ButtonActions from "./ButtonActions";
+import Main from "./Main";
 
 
 const {Sider, Content} = Layout;
@@ -79,15 +80,7 @@ class App extends React.Component<AppProps, AppState> {
                     </Sider>
                 </Resizable>
                 <Content>
-                    <EditorContent onChange={this.onChange}
-                                   key={this.props.editingPost? this.props.editingPost.id: ""}
-                                   backend={this.props.state.backend}
-                                   post={this.props.editingPost}
-                                   ref={this.editor}
-                                   onLocate={() => {
-                                       this.props.dispatch(new LocatePostCommand(this.props.editingPost.id));
-                                   }}
-                    />
+                    <Main />
                 </Content>
             </Layout>
         );
