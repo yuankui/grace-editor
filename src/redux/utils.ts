@@ -7,9 +7,9 @@ import {AppStore,
 } from "./store";
 import {Post} from "../backend";
 import Immutable from "immutable";
-import {createBrowserHistory} from "history";
+import {createHashHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
-export const history = createBrowserHistory();
+export const history = createHistory();
 
 export const routerReducer = connectRouter(history);
 
