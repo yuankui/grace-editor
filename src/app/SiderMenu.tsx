@@ -9,13 +9,10 @@ import {MovePostCommand} from "../redux/commands/MovePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
 import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
-import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
 import {MaterialIcon} from "../utils";
 import {OperationButton} from "../common/OperationButton";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
-import ButtonActions from "./ButtonActions";
-import {push} from "connected-react-router";
 import PostSelectAction from "../redux/actions/PostSelectAction";
 
 export interface Node {
@@ -66,6 +63,7 @@ class SiderMenu extends React.Component<Props, State> {
     onMoveBeforeAfter(src: string, target: string, mode: "before" | "after") {
         this.props.dispatch(new MoveBeforeAfterPostCommand(src, target, mode));
     }
+
     onExpandKey(key: string) {
         this.props.dispatch(new ToggleExpandCommand(key));
     }
@@ -103,7 +101,7 @@ class SiderMenu extends React.Component<Props, State> {
         );
         return (<div onDoubleClick={(e) => this.doubleClick(item, e)}>
             <span className='title'>
-                {item.title == ""? "未命名": item.title}
+                {item.title == "" ? "未命名" : item.title}
             </span>
             <OperationButton onClick={() => this.createNewPost(item.id)}>
                 <MaterialIcon value='add'/>
