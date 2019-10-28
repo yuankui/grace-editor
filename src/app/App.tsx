@@ -13,7 +13,9 @@ import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
 import ButtonActions from "./ButtonActions";
 import Main from "./Main";
-
+import Setting from "./hotkeys/Setting";
+import {isHotkey} from 'is-hotkey';
+import {HotKey, HotKeyAction} from "./hotkeys";
 
 const {Sider, Content} = Layout;
 
@@ -41,13 +43,20 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     componentDidMount(): void {
-        Mousetrap.bind('command+s', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+        const hotkeys: Array<HotKeyAction> = [
+            Setting(this.props.dispatch, this.props.state),
+        ];
+
+        window.addEventListener('keydown', e => {
+            for (let hotkey of hotkeys) {
+                if (isHotkey(hotkey.hotkey, e)) {
+                    hotkey.action();
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }
         });
     }
-
 
 
     onChange = (post: Post) => {
