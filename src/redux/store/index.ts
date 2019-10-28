@@ -1,10 +1,9 @@
 import {Backend, Post} from "../../backend";
 import Immutable from 'immutable';
-import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import {createPostId} from "../utils";
 import {createElectronBackend} from "../../backend/electron/ElectronBackend";
 import {createWebBackend} from "../../backend/web/WebBackend";
-
+import {RouterState} from "connected-react-router";
 
 export type EditingPost= string | null;
 
@@ -25,6 +24,7 @@ export interface AppStore {
     isOpening: boolean,
     backend: Backend,
     siderState: SiderState,
+    router: RouterState,
 }
 
 export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>): Array<string> {
@@ -40,19 +40,6 @@ export function getParents(key: string, posts: Immutable.OrderedMap<string, Post
     }
 
     return res;
-}
-
-export function createEmptyStore(): AppStore {
-    return {
-        currentPost: createEmptyEditingPost(),
-        isOpening: false,
-        editMode: false,
-        posts: Immutable.OrderedMap<string, Post>(),
-        backend: createBackend(),
-        siderState: {
-            expandedKeys: [],
-        }
-    }
 }
 
 export function createBackend(): Backend {

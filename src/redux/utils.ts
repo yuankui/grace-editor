@@ -1,8 +1,17 @@
 import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
-import {AppStore, createEmptyStore, EditingPost} from "./store";
+import {AppStore,
+    createBackend,
+    createEmptyEditingPost,
+    EditingPost
+} from "./store";
 import {Post} from "../backend";
 import Immutable from "immutable";
+import {createBrowserHistory} from "history";
+import {connectRouter} from "connected-react-router";
+export const history = createBrowserHistory();
+
+export const routerReducer = connectRouter(history);
 
 export function createPostId(): string {
     return uuid.v4();
@@ -14,9 +23,22 @@ export function createEmptyContent(): RawDraftContentState {
 
 export function initReducer(state: AppStore | undefined, action: any): AppStore {
     if (state !== undefined) {
-        return state;
+        return {
+            ...state,
+            router: routerReducer(state.router, action),
+        };
     }
-    return createEmptyStore();
+    return {
+        currentPost: createEmptyEditingPost(),
+        isOpening: false,
+        editMode: false,
+        posts: Immutable.OrderedMap<string, Post>(),
+        backend: createBackend(),
+        siderState: {
+            expandedKeys: [],
+        },
+        router: routerReducer(undefined, action),
+    };
 }
 
 export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, Post> {
