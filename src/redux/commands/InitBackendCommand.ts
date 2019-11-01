@@ -1,5 +1,8 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore, createBackend} from "../store";
+import {AppStore} from "../store";
+import {Backend} from "../../backend";
+import {createElectronBackend} from "../../backend/electron/ElectronBackend";
+import {createWebBackend} from "../../backend/web/WebBackend";
 
 export class InitBackendCommand extends AppCommand {
     name(): CommandType {
@@ -7,10 +10,21 @@ export class InitBackendCommand extends AppCommand {
     }
 
     process(state: AppStore): AppStore {
-        const backend = createBackend();
+        const backend = this.createBackend(state.settings.workSpace);
         return {
             ...state,
             backend,
+        }
+    }
+
+    createBackend(workSpace: string): Backend {
+        // init backend
+        let userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf(' electron/') > -1) {
+            // Electron-specific code
+            return createElectronBackend(workSpace);
+        } else {
+            return createWebBackend();
         }
     }
 

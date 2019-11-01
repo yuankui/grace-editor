@@ -46,14 +46,3 @@ export function getParents(key: string, posts: Immutable.OrderedMap<string, Post
 
     return res;
 }
-
-export function createBackend(): Backend {
-    // init backend
-    let userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.indexOf(' electron/') > -1) {
-        // Electron-specific code
-        return createElectronBackend("/Users/yuankui/grace-docs");
-    } else {
-        return createWebBackend();
-    }
-}

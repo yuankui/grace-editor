@@ -6,6 +6,8 @@ import {AppStore, Settings} from "../../redux/store";
 import {Dispatch} from "redux";
 import UpdateSettingsCommand from "../../redux/commands/UpdateSettingsCommand";
 import {Form, Input} from "antd";
+import {InitBackendCommand} from "../../redux/commands/InitBackendCommand";
+import {ReloadPostsCommand} from "../../redux/commands/ReloadPostsCommand";
 
 interface Props {
     state: AppStore,
@@ -59,6 +61,8 @@ class SettingView extends React.Component<Props, Settings> {
 
     private save() {
         this.props.dispatch(new UpdateSettingsCommand(this.state));
+        this.props.dispatch(new InitBackendCommand());
+        this.props.dispatch(new ReloadPostsCommand());
     }
 }
 

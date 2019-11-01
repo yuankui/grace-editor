@@ -19,6 +19,6 @@ export default class UpdateSettingsCommand extends AppCommand {
         return {
             ...state,
             settings: this.settings,
-        }
+        };
     }
 }
