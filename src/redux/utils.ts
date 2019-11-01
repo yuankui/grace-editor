@@ -1,14 +1,12 @@
 import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
-import {AppStore,
-    createBackend,
-    createEmptyEditingPost,
-    EditingPost
-} from "./store";
+import {AppStore, createEmptyEditingPost, EditingPost} from "./store";
 import {Post} from "../backend";
 import Immutable from "immutable";
 import {createHashHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
+import {createWebBackend} from "../backend/web/WebBackend";
+
 export const history = createHistory();
 
 export const routerReducer = connectRouter(history);
@@ -33,11 +31,14 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         isOpening: false,
         editMode: false,
         posts: Immutable.OrderedMap<string, Post>(),
-        backend: createBackend(),
+        backend: createWebBackend(),
         siderState: {
             expandedKeys: [],
         },
         router: routerReducer(undefined, action),
+        settings: {
+            workSpace: '',
+        }
     };
 }
 
