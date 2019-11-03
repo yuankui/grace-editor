@@ -1,4 +1,4 @@
-import simplegit, {SimpleGit} from 'simple-git/promise';
+import simplegit, {SimpleGit} from '../../copies/simple-git/promise';
 
 export default interface GitRepo {
     init();

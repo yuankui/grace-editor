@@ -1,6 +1,5 @@
 const {app, BrowserWindow} = require('electron');
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const os = require('os');
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;

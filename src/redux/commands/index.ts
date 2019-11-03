@@ -27,4 +27,5 @@ export type CommandType = "TestCommand"
     | "Post/RemovePost"
     | "Git/Setup"
     | "Git/Status"
+    | "Git/Init"
 ;

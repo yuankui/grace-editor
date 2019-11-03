@@ -2,6 +2,8 @@ const merge = require('webpack-merge');
 const common = require('./config/webpack.common');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
+
 require("babel-polyfill");
 
 module.exports = {
@@ -16,19 +18,14 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
-        })
+        }),
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^(fs|child_process)$/,
+        }),
     ],
     devServer: {
         port: 8089,
     },
-    externals: {
-        // electron: {
-        //     commonjs: 'electron',
-        // },
-        // fs: {
-        //     commonjs: 'fs',
-        // },
-    }
 };
 
 module.exports = merge(common, module.exports);
