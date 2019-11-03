@@ -54,6 +54,9 @@ app.on('ready', () => {
     mainWindow = createMainWindow();
 });
 
+/**
+ * refer: https://electronjs.org/docs/tutorial/devtools-extension
+ */
 function installPlugins() {
     const plugins = [
         '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0', // react
