@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import {GitRepoImpl} from "../../../app/git/GitRepo";
+import simplegit from "../../../copies/simple-git/promise";
 
 export default class GitSetupCommand extends AppCommand {
     name(): CommandType {
@@ -10,7 +10,7 @@ export default class GitSetupCommand extends AppCommand {
     process(state: AppStore): AppStore {
         return {
             ...state,
-            repo: new GitRepoImpl(state.settings.workSpace),
+            repo: simplegit(state.settings.workSpace),
         }
     }
 

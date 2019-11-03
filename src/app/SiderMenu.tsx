@@ -15,6 +15,8 @@ import {OperationButton} from "../common/OperationButton";
 import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import PostSelectAction from "../redux/actions/PostSelectAction";
 import GitStatusCommand from "../redux/commands/git/GitStatusCommand";
+import GitInitCommand from "../redux/commands/git/GitInitCommand";
+import GitCommitCommand from "../redux/commands/git/GitCommitCommand";
 
 export interface Node {
     key: string,
@@ -45,8 +47,14 @@ class SiderMenu extends React.Component<Props, State> {
                     <Button onClick={() => this.createNewPost(null)}><Icon type="edit"/></Button>
                 </span>
                 <button onClick={() => {
+                    this.props.dispatch(new GitInitCommand());
+                }}>测试init</button>
+                <button onClick={() => {
                     this.props.dispatch(new GitStatusCommand());
-                }}>测试</button>
+                }}>测试status</button>
+                <button onClick={() => {
+                    this.props.dispatch(new GitCommitCommand("hello"));
+                }}>测试commit</button>
             </div>
             <TreeSelect
                 dataSource={topPosts}

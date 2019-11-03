@@ -1,18 +1,16 @@
-import {AppCommand, CommandType} from "../index";
+import {CommandType} from "../index";
+import GitCommand from "./GitCommand";
 import {AppStore} from "../../store";
 
-export default class GitInitCommand extends AppCommand {
+export default class GitInitCommand extends GitCommand {
     name(): CommandType {
         return "Git/Init";
     }
 
-    process(state: AppStore): AppStore {
-
+    async processGit(state: AppStore): Promise<AppStore> {
         if (state.repo) {
-            state.repo.init();
+            await state.repo.init();
         }
-
         return state;
     }
-
 }
