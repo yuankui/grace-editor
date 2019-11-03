@@ -3,6 +3,7 @@ const common = require('./config/webpack.common');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
+const _ = require('lodash');
 
 require("babel-polyfill");
 
@@ -20,12 +21,20 @@ module.exports = {
             filename: "./index.html"
         }),
         new webpack.IgnorePlugin({
-            resourceRegExp: /^(fs|child_process)$/,
+            checkResource(resource) {
+                return _.includes([
+                        'fs',
+                        'child_process',
+                    ],
+                    resource);
+            }
         }),
     ],
     devServer: {
         port: 8089,
     },
+
+    target: "electron-renderer"
 };
 
 module.exports = merge(common, module.exports);
