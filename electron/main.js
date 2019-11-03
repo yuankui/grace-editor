@@ -1,7 +1,6 @@
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');
-
-
+const {app, BrowserWindow} = require('electron');
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const os = require('os');
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
@@ -51,13 +50,21 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
+    // installPlugins();
     mainWindow = createMainWindow();
-    if (process.env.PLUGIN === 'true') {
-        const installExtension = require('electron-devtools-installer');
-        const {REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS} = installExtension;
-        const extensions = [REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS];
-        installExtension(extensions)
-            .then((name) => console.log(`Added Extension:  ${name}`))
-            .catch((err) => console.log('An error occurred: ', err));
-    }
 });
+
+/**
+ * refer: https://electronjs.org/docs/tutorial/devtools-extension
+ */
+function installPlugins() {
+    const plugins = [
+        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0', // react
+        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0', // redux
+    ];
+
+    for (let plugin of plugins) {
+        BrowserWindow.addDevToolsExtension(plugin);
+    }
+
+}

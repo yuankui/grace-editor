@@ -10,7 +10,7 @@ module.exports = {
   entry: {
     main: './electron/main.js'
   },
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+  externals: [], // in order to ignore all modules in node_modules folder
   target: "electron-main"
 };
 
