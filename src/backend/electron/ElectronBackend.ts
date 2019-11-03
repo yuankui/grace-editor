@@ -4,7 +4,7 @@ import uuid from 'uuid/v4';
 import * as fss from './fs/fs';
 
 export function createElectronBackend(working: string): Backend {
-    const fs: any = (window as any).require('fs');
+    const fs: any = window.require('fs');
     return new ElectronBackend(working, fs);
 }
 
@@ -156,19 +156,17 @@ export class ElectronBackend implements Backend {
 
     async deletePost(id: string): Promise<any> {
         const postDir = this.getPostDir(id);
-        await this.fs.rmdir(postDir);
-        // return new Promise<any>(
-        //     (resolve, reject) => {
-        //         this.fs.rmdir(postDir, (err: NodeJS.ErrnoException | null) => {
-        //             if (err != null) {
-        //                 resolve();
-        //             } else {
-        //                 reject(err);
-        //             }
-        //         });
-        //     }
-        // );
-
+        return new Promise<any>(
+            (resolve, reject) => {
+                this.fs.rmdir(postDir, (err: NodeJS.ErrnoException | null) => {
+                    if (err != null) {
+                        resolve();
+                    } else {
+                        reject(err);
+                    }
+                });
+            }
+        );
     }
 
 }

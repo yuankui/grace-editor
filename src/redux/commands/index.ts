@@ -25,4 +25,6 @@ export type CommandType = "TestCommand"
     | "Menu/LocatePost"
     | "Post/MoveBeforePost"
     | "Post/RemovePost"
+    | "Git/Setup"
+    | "Git/Status"
 ;

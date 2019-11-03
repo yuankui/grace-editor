@@ -11,6 +11,7 @@ import {ReloadPostsCommand} from "./redux/commands/ReloadPostsCommand";
 import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
 import ReloadSettingsCommand from "./redux/commands/ReloadSettingsCommand";
 import {InitBackendCommand} from "./redux/commands/InitBackendCommand";
+import GitSetupCommand from "./redux/commands/git/GitSetupCommand";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,6 +24,7 @@ const store = createStore(enhanceCommandReducer(initReducer),
 
 store.dispatch(new ReloadSettingsCommand());
 store.dispatch(new InitBackendCommand());
+store.dispatch(new GitSetupCommand());
 store.dispatch(new ReloadPostsCommand());
 
 ReactDOM.render(

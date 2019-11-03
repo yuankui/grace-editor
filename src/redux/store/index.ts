@@ -4,6 +4,7 @@ import {createPostId} from "../utils";
 import {createElectronBackend} from "../../backend/electron/ElectronBackend";
 import {createWebBackend} from "../../backend/web/WebBackend";
 import {RouterState} from "connected-react-router";
+import GitRepo from "../../app/git/GitRepo";
 
 export type EditingPost= string | null;
 
@@ -30,6 +31,7 @@ export interface AppStore {
     siderState: SiderState,
     router: RouterState,
     settings: Settings,
+    repo?: GitRepo,
 }
 
 export function getParents(key: string, posts: Immutable.OrderedMap<string, Post>): Array<string> {
