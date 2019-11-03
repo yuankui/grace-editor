@@ -55,6 +55,9 @@ class SiderMenu extends React.Component<Props, State> {
                 <button onClick={() => {
                     this.props.dispatch(new GitCommitCommand("hello"));
                 }}>测试commit</button>
+                <pre>
+                    TODO: add git log
+                </pre>
             </div>
             <TreeSelect
                 dataSource={topPosts}
