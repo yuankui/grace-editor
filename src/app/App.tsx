@@ -16,6 +16,7 @@ import Main from "./Main";
 import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
 import {HotKey, HotKeyAction} from "./hotkeys";
+import {mapState} from "../utils";
 
 const {Sider, Content} = Layout;
 
@@ -25,9 +26,7 @@ interface AppState {
 
 interface AppProps {
     state: AppStore,
-    editingPost: Post,
     dispatch: Dispatch<any>,
-    list: Array<Node>,
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -74,33 +73,28 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         return (
-            <Layout className='layout'>
-                <SearchDialog />
-                <Resizable enable={{right: true}}
-                           handleClasses={{right: 'resize-handle'}}
-                           handleStyles={{right: {width: 5}}}
-                           defaultSize={{
-                               width: 300,
-                               height: '100%'
-                           }}>
-                    <Sider theme='light' width="100%">
-                        <SiderMenu/>
-                        <ButtonActions />
-                    </Sider>
-                </Resizable>
-                <Content>
-                    <Main />
-                </Content>
-            </Layout>
+            <div>
+                <div id='header'></div>
+                <Layout className='layout'>
+                    <SearchDialog />
+                    <Resizable enable={{right: true}}
+                               handleClasses={{right: 'resize-handle'}}
+                               handleStyles={{right: {width: 5}}}
+                               defaultSize={{
+                                   width: 300,
+                                   height: '100%'
+                               }}>
+                        <Sider theme='light' width="100%">
+                            <SiderMenu/>
+                            <ButtonActions />
+                        </Sider>
+                    </Resizable>
+                    <Content>
+                        <Main />
+                    </Content>
+                </Layout>
+            </div>
         );
-    }
-}
-
-function mapState(state: AppStore) {
-    let currentPost = state.posts.get(state.currentPost as string);
-    return {
-        state,
-        editingPost: currentPost,
     }
 }
 
