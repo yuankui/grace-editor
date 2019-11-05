@@ -40,39 +40,40 @@ class SiderMenu extends React.Component<Props, State> {
             .filter(p => p.parentId == null)
             .sort(this.comparePost);
 
-        return <div className={'sider-menu'}>
-            <div className='search-bar'>
-                <Input className='input' placeholder="search"/>
-                <span className='icon'>
-                    <Button onClick={() => this.createNewPost(null)}><Icon type="edit"/></Button>
-                </span>
-                <button onClick={() => {
-                    this.props.dispatch(new GitInitCommand());
-                }}>测试init</button>
-                <button onClick={() => {
-                    this.props.dispatch(new GitStatusCommand());
-                }}>测试status</button>
-                <button onClick={() => {
-                    this.props.dispatch(new GitCommitCommand("hello"));
-                }}>测试commit</button>
-                <pre>
-                    TODO: add git log
-                </pre>
-            </div>
-            <TreeSelect
-                dataSource={topPosts}
-                titleFunc={post => this.renderTitle(post)}
-                expandFunc={post => this.expandNode(post)}
-                keyFunc={post => post.id}
-                onMove={(src, target) => this.onMove(src, target)}
-                expandedKeys={this.props.siderState.expandedKeys}
-                onSelect={key => this.onSelect(key)}
-                onExpand={key => this.onExpandKey(key)}
-                onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
-                onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
-                selectedKey={this.props.state.currentPost as string}
-            />
-        </div>
+        return (
+            <div className='sider-menu drag-handle'>
+                <div>
+                    <Button className='create-button' onClick={() => this.createNewPost(null)}><Icon type="edit"/>新建</Button>
+                    <button onClick={() => {
+                        this.props.dispatch(new GitInitCommand());
+                    }}>测试init
+                    </button>
+                    <button onClick={() => {
+                        this.props.dispatch(new GitStatusCommand());
+                    }}>测试status
+                    </button>
+                    <button onClick={() => {
+                        this.props.dispatch(new GitCommitCommand("hello"));
+                    }}>测试commit
+                    </button>
+                    <pre>
+                            TODO: add git log
+                        </pre>
+                </div>
+                <TreeSelect
+                    dataSource={topPosts}
+                    titleFunc={post => this.renderTitle(post)}
+                    expandFunc={post => this.expandNode(post)}
+                    keyFunc={post => post.id}
+                    onMove={(src, target) => this.onMove(src, target)}
+                    expandedKeys={this.props.siderState.expandedKeys}
+                    onSelect={key => this.onSelect(key)}
+                    onExpand={key => this.onExpandKey(key)}
+                    onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
+                    onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
+                    selectedKey={this.props.state.currentPost as string}
+                />
+            </div>);
     }
 
     onMoveBeforeAfter(src: string, target: string, mode: "before" | "after") {

@@ -30,7 +30,7 @@ export default class EditorContent extends React.Component<Props, any> {
         const editorState = this.props.post.content;
         const editingPost: Post = this.props.post;
         return <React.Fragment>
-            <span className='title'>
+            <span className='title drag-handle'>
                 <input placeholder={"Untitled"}
                        key={this.props.post.id}
                        ref={this.titleRef}

@@ -1,13 +1,11 @@
 import React, {createRef, KeyboardEvent} from 'react';
 import {Layout} from 'antd';
-import SiderMenu, {Node} from './SiderMenu';
+import SiderMenu from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../redux/store";
-import Mousetrap from "mousetrap";
 import EditorContent from "./EditorContent";
 import {Post} from "../backend";
-import {LocatePostCommand} from "../redux/commands/menu/LocatePostCommand";
 import {Resizable} from "re-resizable";
 import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
@@ -15,7 +13,7 @@ import ButtonActions from "./ButtonActions";
 import Main from "./Main";
 import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
-import {HotKey, HotKeyAction} from "./hotkeys";
+import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
 
 const {Sider, Content} = Layout;
@@ -73,26 +71,23 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         return (
-            <div>
-                <div id='header'></div>
-                <Layout className='layout'>
-                    <SearchDialog />
-                    <Resizable enable={{right: true}}
-                               handleClasses={{right: 'resize-handle'}}
-                               handleStyles={{right: {width: 5}}}
-                               defaultSize={{
-                                   width: 300,
-                                   height: '100%'
-                               }}>
-                        <Sider theme='light' width="100%">
-                            <SiderMenu/>
-                            <ButtonActions />
-                        </Sider>
-                    </Resizable>
-                    <Content>
-                        <Main />
-                    </Content>
-                </Layout>
+            <div className='layout'>
+                <SearchDialog/>
+                <Resizable enable={{right: true}}
+                           handleClasses={{right: 'resize-handle'}}
+                           handleStyles={{right: {width: 5}}}
+                           defaultSize={{
+                               width: 300,
+                               height: '100%'
+                           }}>
+                    <Sider theme='light' width="100%">
+                        <SiderMenu/>
+                        <ButtonActions/>
+                    </Sider>
+                </Resizable>
+                <Content>
+                    <Main/>
+                </Content>
             </div>
         );
     }
