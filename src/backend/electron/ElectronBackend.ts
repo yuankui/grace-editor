@@ -1,11 +1,10 @@
 import {Backend, PostDTO} from "../index";
 import path from 'path';
 import uuid from 'uuid/v4';
-import * as fss from './fs/fs';
+import FileSystem from "./FileSystem";
 
 export function createElectronBackend(working: string): Backend {
-    const fs: any = window.require('fs');
-    return new ElectronBackend(working, fs);
+    return new ElectronBackend(working, new FileSystem());
 }
 
 /**
@@ -13,9 +12,9 @@ export function createElectronBackend(working: string): Backend {
  */
 export class ElectronBackend implements Backend {
     private readonly workingDir: string = "";
-    private fs: any;
+    private fs: FileSystem;
 
-    constructor(workingDir: string, fs: any) {
+    constructor(workingDir: string, fs: FileSystem) {
         this.fs = fs;
         this.workingDir = workingDir;
     }
@@ -32,32 +31,10 @@ export class ElectronBackend implements Backend {
     }
 
     async getPostByPath(dirPath: string): Promise<PostDTO> {
-        let buffer = await this.readFile(path.join(dirPath, 'index.json'));
+        let buffer = await this.fs.readFile(path.join(dirPath, 'index.json'));
         let text = buffer.toString('utf-8');
         let json = JSON.parse(text);
         return json;
-    }
-
-    readFile(file: string): Promise<Buffer> {
-        return new Promise<Buffer>((resolve, reject) => {
-            this.fs.readFile(file, ((err, data) => {
-                if (err != null) {
-                    reject(err);
-                }
-                resolve(data);
-            }));
-        })
-    }
-
-    listDir(path: string): Promise<Array<string>> {
-        return new Promise<Array<string>>((resolve, reject) => {
-            this.fs.readdir(path, (err, files) => {
-                if (err != null) {
-                    reject(err);
-                }
-                resolve(files);
-            })
-        })
     }
 
     /**
@@ -67,7 +44,7 @@ export class ElectronBackend implements Backend {
     async expandDir(dirs: Array<string>): Promise<Array<string>> {
         let subDirList: Array<string> = [];
         for (let dir of dirs) {
-            let subDirs = await this.listDir(dir);
+            let subDirs = await this.fs.listDir(dir);
 
             subDirs = subDirs.map(d => path.join(dir, d));
             subDirList.push(...subDirs);
@@ -94,25 +71,12 @@ export class ElectronBackend implements Backend {
         return posts;
     }
 
-    async writeFile(location: string, buffer: Buffer): Promise<any> {
-        const dir = path.dirname(location);
-        await fss.mkdir(dir);
-
-        return new Promise<any>((resolve, reject) => {
-            this.fs.writeFile(location, buffer, (err) => {
-                if (err != null)
-                    reject(err);
-                resolve("");
-            });
-        })
-    }
-
     async saveImage(file: File, id: string): Promise<string> {
         let imageId = uuid();
         console.log('save image:', id, '->', imageId);
         let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
         let arrayBuffer = await this.readFileAsArrayBuffer(file);
-        await this.writeFile(imagePath, new Buffer(arrayBuffer));
+        await this.fs.writeFile(imagePath, new Buffer(arrayBuffer));
         return imageId;
     }
 
@@ -147,7 +111,7 @@ export class ElectronBackend implements Backend {
 
         let json = JSON.stringify(post);
         let postPath = path.join(this.getPostDir(id as string), 'index.json');
-        await this.writeFile(postPath, new Buffer(json, 'utf-8'));
+        await this.fs.writeFile(postPath, new Buffer(json, 'utf-8'));
         return {
             ...post,
             id
@@ -156,17 +120,7 @@ export class ElectronBackend implements Backend {
 
     async deletePost(id: string): Promise<any> {
         const postDir = this.getPostDir(id);
-        return new Promise<any>(
-            (resolve, reject) => {
-                this.fs.rmdir(postDir, (err: NodeJS.ErrnoException | null) => {
-                    if (err != null) {
-                        resolve();
-                    } else {
-                        reject(err);
-                    }
-                });
-            }
-        );
+        await this.fs.rmdir(postDir);
     }
 
 }
