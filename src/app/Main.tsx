@@ -9,7 +9,7 @@ import SettingView from "./main/SettingView";
 class Main extends React.Component {
     render(): ReactNode {
         return <Switch>
-            <Route path='/post/:postId' component={PostView}>
+            <Route path='/posts' component={PostView}>
             </Route>
 
             <Route path='/settings'>

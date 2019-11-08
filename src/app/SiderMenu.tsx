@@ -17,6 +17,7 @@ import GitStatusCommand from "../redux/commands/git/GitStatusCommand";
 import GitInitCommand from "../redux/commands/git/GitInitCommand";
 import GitCommitCommand from "../redux/commands/git/GitCommitCommand";
 import {createPostId} from "../redux/utils";
+import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 
 export interface Node {
     key: string,
@@ -106,7 +107,8 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     onSelect = (postId: string) => {
-        this.props.dispatch(PostSelectAction(postId));
+        this.props.dispatch(new PostSelectCommand(postId));
+        this.props.dispatch(PostSelectAction());
     };
 
     delete(e: React.MouseEvent<HTMLAnchorElement>, postId: string) {

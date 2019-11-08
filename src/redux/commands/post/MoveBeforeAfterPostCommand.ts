@@ -16,7 +16,7 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "Post/MoveBeforePost";
+        return "Post/MoveBeforeAfterPost";
     }
 
     async process(state: AppStore): Promise<Mapper<AppStore>> {
