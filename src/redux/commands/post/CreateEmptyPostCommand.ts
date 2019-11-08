@@ -30,7 +30,9 @@ export class CreateEmptyPostCommand extends AppCommand {
             ...postsStore,
             posts: postsStore.posts.set(this.postId, newPost),
             parentMap: postsStore.parentMap.set(this.postId, null),
-            childrenMap: postsStore.childrenMap.set(null, [...postsStore.childrenMap.get(null), this.postId])
+            childrenMap: postsStore.childrenMap
+                .set(null, [...postsStore.childrenMap.get(null), this.postId])
+                .set(this.postId, [])
         };
 
 

@@ -65,7 +65,7 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     for (let post of posts) {
         parentMap = parentMap.set(post.id, post.parentId);
         const parentId = post.parentId == null ? null : post.parentId;
-        childrenMap = childrenMap.set(post.parentId, [...(childrenMap.get(parentId)), post.id])
+        childrenMap = childrenMap.set(parentId, [...(childrenMap.get(parentId)), post.id])
     }
     return {
         posts: map,
@@ -83,7 +83,7 @@ export function remove<T>(list: Array<T>, item: T): Array<T> {
     return list.filter(value => value != item);
 }
 
-export function addChildren(childrenMap: Immutable.Map<string | undefined, Array<string>>, parent: string | undefined, child: string) {
+export function addChildren(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
     return childrenMap
         .set(parent, [
             ...childrenMap.get(parent),

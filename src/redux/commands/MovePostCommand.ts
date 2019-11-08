@@ -44,7 +44,7 @@ export class MovePostCommand extends AppCommand {
 
         // 1. remove child
         const oldPost: Post = oldPosts.posts.get(this.childId);
-        state = new RemovePostCommand(this.childId).process(state);
+        state = new MoveToRootCommand(this.childId).process(state);
 
         const newPosts: PostsStore = {
             ...state.posts,
