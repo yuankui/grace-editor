@@ -1,10 +1,9 @@
 import React, {ReactNode} from "react";
 import {mapState} from "../../utils";
 import {connect} from "react-redux";
-import {AppStore} from "../../redux/store";
+import {AppStore, Post} from "../../redux/store";
 import {Dispatch} from "redux";
 import EditorContent from "../EditorContent";
-import {Post} from "../../backend";
 import {UpdatePostCommand} from "../../redux/commands/post/UpdatePostCommand";
 import { match } from "react-router";
 

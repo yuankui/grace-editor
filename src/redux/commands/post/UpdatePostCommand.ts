@@ -1,6 +1,5 @@
 import {CommandType} from "../index";
-import {AppStore, Posts} from "../../store";
-import {Post} from "../../../backend";
+import {AppStore, Post, PostsStore} from "../../store";
 import {PostCommand} from "./index";
 
 export class UpdatePostCommand extends PostCommand {
@@ -12,24 +11,29 @@ export class UpdatePostCommand extends PostCommand {
     }
 
     name(): CommandType {
-        return "UpdatePost";
+        return "Post/Update";
     }
 
-    async save(state:AppStore): Promise<any> {
-        await state.backend.savePost(this.post);
+    async save(state: AppStore): Promise<any> {
+        await state.backend.savePost({
+            ...this.post,
+            parentId: state.posts.parentMap.get(this.post.id),
+        });
     }
 
-    processPosts(posts: Posts): Posts {
-        let oldPost = posts.get(this.post.id);
-        const children = oldPost == null || oldPost.children == null? []: oldPost.children;
+    processPosts(posts: PostsStore): PostsStore {
+        let oldPost = posts.posts.get(this.post.id);
+
         const newPost: Post = {
             ...oldPost,
             content: this.post.content,
             title: this.post.title,
             tags: this.post.tags,
-            children,
         };
 
-        return posts.set(this.post.id, newPost);
+        return {
+            ...posts,
+            posts: posts.posts.set(this.post.id, newPost),
+        };
     }
 }

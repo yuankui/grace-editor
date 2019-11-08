@@ -1,15 +1,14 @@
 import * as React from "react";
 import {createRef, ReactNode} from "react";
 import {connect} from 'react-redux';
-import {AppStore} from "../redux/store";
+import {AppStore, Post, PostsStore} from "../redux/store";
 import {Dispatch} from "redux";
 import {DropdownSelect} from "./DropdownSelect";
-import {OpenPostCommand} from "../redux/commands/OpenPostCommand";
 import {Modal} from "antd";
-import {Post} from "../backend";
 import Immutable from "immutable";
 import Mousetrap from "mousetrap";
 import {findAll} from "../utils";
+import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 
 interface Props {
     state: AppStore,
@@ -58,7 +57,7 @@ class SearchDialog extends React.Component<Props, State> {
         >
             <DropdownSelect ref={this.searchRef}
                             onSelect={(i, data: SearchOption) => {
-                                this.props.dispatch(new OpenPostCommand(data.postId));
+                                this.props.dispatch(new PostSelectCommand(data.postId));
                                 this.hideSearch();
                             }}
                             maxHeight={300}
@@ -109,28 +108,32 @@ class SearchDialog extends React.Component<Props, State> {
         const children = tags.map(t => <div className='search-tag'>{t}</div>);
         return <div className='search-tags'>{children}</div>;
     }
+
     async onSearch(keyword: string): Promise<Array<SearchOption>> {
         return this.props.state.posts.posts.valueSeq().toArray()
             .filter(post => post.title.indexOf(keyword) >= 0)
             .map(post => ({
                 title: post.title,
-                subtitle: this.getPath(post, this.props.state.posts.posts),
+                subtitle: this.getPath(post.id, this.props.state.posts),
                 postId: post.id,
                 tags: post.tags,
                 key: post.id,
             }));
     }
 
-
-
-    getPath(post: Post, posts: Immutable.OrderedMap<string, Post>): string {
+    getPath(postId: string, posts: PostsStore): string {
         let path: Array<string> = [];
-        while (post != null) {
+
+        while (postId != null) {
+            let post: Post = posts.posts.get(postId);
             path.push(post.title);
-            if (post.parentId == null) {
+
+            const parentId = posts.parentMap.get(postId);
+            if (parentId == null) {
                 break;
             }
-            post = posts.get(post.parentId);
+
+            postId = parentId;
         }
 
         return "/ " + path.reverse().join(" / ")

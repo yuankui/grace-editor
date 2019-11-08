@@ -5,26 +5,32 @@ export abstract class AppCommand extends Command<AppStore, CommandType> {
 }
 
 export type CommandType = "TestCommand"
-    | "KittyCommand"
     | "Setting/Reload"
     | "Setting/Update"
+
+    | "KittyCommand"
     | "UpdateState"
-    | "UpdatePost"
+    | "Post/Update"
     | "SyncPost"
     | "CreateNewPost"
     | "PostSelect"
     | "SavePosts"
     | "ReloadPosts"
     | "InitBackend"
-    | "MovePost"
-    | "DeletePost"
+    | "Post/Delete"
+
     | "Menu/ToggleExpand"
     | "Menu/Expand"
     | "Menu/Collapse"
     | "Menu/UpdateSideMenu"
     | "Menu/LocatePost"
+
     | "Post/MoveBeforePost"
     | "Post/RemovePost"
+    | "Post/CreateEmpty"
+    | "Post/Move"
+    | "Post/MoveToRoot"
+
     | "Git/Setup"
     | "Git/Status"
     | "Git/Commit"

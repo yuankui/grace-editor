@@ -1,15 +1,17 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
-import {createEmptyContent, createPostId} from "../utils";
-import {Post} from "../../backend";
 import {ExpandCommand} from "./menu/ExpandCommand";
+import {CreateEmptyPostCommand} from "./post/CreateEmptyPostCommand";
+import {MovePostCommand} from "./MovePostCommand";
 
 export class CreateNewPostCommand extends AppCommand {
     parentId: string | null;
+    private readonly postId: string;
 
-    constructor(parentId: string | null) {
+    constructor(postId: string, parentId: string | null) {
         super();
         this.parentId = parentId;
+        this.postId = postId;
     }
 
     name(): CommandType {
@@ -18,53 +20,15 @@ export class CreateNewPostCommand extends AppCommand {
 
     process(store: AppStore): AppStore {
 
-        let newPost: Post = {
-            id: createPostId(),
-            content: createEmptyContent(),
-            tags: [],
-            children: [],
-            title: "未命名",
-            weight: '',
-            parentId: this.parentId,
-        };
+        // create new under null(root)
+        store = new CreateEmptyPostCommand(this.postId).process(store);
 
-        let parent: Post | undefined = undefined;
-        if (this.parentId != null) {
-            parent = store.posts.posts.get(this.parentId);
-        }
+        // move to parent
+        store = new MovePostCommand(this.postId, this.parentId).process(store);
 
-
-        if (parent === undefined) {
-            store = {
-                ...store,
-                posts: {
-                    posts: store.posts.posts.set(newPost.id, newPost),
-                    currentPostId: newPost.id,
-                },
-                siderState: {
-                    ...store.siderState,
-                }
-            }
-        } else {
-            const newParent: Post = {
-                ...parent,
-                children: [...parent.children, newPost.id]
-            };
-            store = {
-                ...store,
-                posts: {
-                    posts: store.posts.posts.set(parent.id, newParent)
-                        .set(newPost.id, newPost),
-                    currentPostId: newPost.id,
-                },
-                siderState: {
-                    ...store.siderState,
-                }
-            };
-
-            // expand parent
-            store = new ExpandCommand(parent.id).process(store);
-        }
+        // expand parent
+        if (this.parentId != null)
+            store = new ExpandCommand(this.parentId).process(store);
 
         return store;
     }

@@ -16,7 +16,7 @@ export class ExpandCommand extends AppCommand {
     }
 
     traceRoot(key: string, store: AppStore): Array<string> {
-        return getParents(key, store.posts.posts);
+        return getParents(key, store.posts);
     }
 
     process(store: AppStore): AppStore {

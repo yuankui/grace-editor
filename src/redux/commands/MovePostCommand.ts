@@ -1,99 +1,61 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore, getParents} from "../store";
-import {Post} from "../../backend";
+import {AppStore, getParents, Post, PostsStore} from "../store";
 import _ from 'lodash';
 import {RemovePostCommand} from "./post/RemovePostCommand";
+import {MoveToRootCommand} from "./post/MoveToRootCommand";
+import {addChildren} from "../utils";
 
 export class MovePostCommand extends AppCommand {
-    childKey: string;
-    parentKey: string | null;
+    childId: string;
+    parentId: string | null;
 
     constructor(childKey: string, parentKey: string | null) {
         super();
-        this.childKey = childKey;
-        this.parentKey = parentKey;
+        this.childId = childKey;
+        this.parentId = parentKey;
     }
 
     name(): CommandType {
-        return "MovePost";
+        return "Post/Move";
     }
 
     process(state: AppStore): AppStore {
-        // 如果目标是自己的孩子，也直接返回
-        if (this.parentKey != null) {
-            if (_.includes(getParents(this.parentKey, state.posts.posts), this.childKey)) {
-                return state;
-            }
+        const oldPosts = state.posts;
+
+        // 如果父目录是空，表示挪到顶级目录
+        if (this.parentId == null) {
+            return new MoveToRootCommand(this.childId).process(state);
         }
 
-        // 如果已经是父子关系，也直接退出
-        if (state.posts.posts.get(this.childKey).parentId === this.parentKey) {
+        // 如果目标是自己的孩子，也直接返回
+        if (_.includes(getParents(this.parentId, state.posts), this.childId)) {
+            return state;
+        }
+
+        // 如果已经是【直接父子】关系，也直接退出
+        if (oldPosts.parentMap.get(this.childId) === this.parentId) {
             return state;
         }
 
         // 如果是自己，就直接返回
-        if (this.childKey === this.parentKey) {
+        if (this.childId === this.parentId) {
             return state;
         }
-        const child = state.posts.posts.get(this.childKey);
 
         // 1. remove child
-        state = new RemovePostCommand(this.childKey).process(state);
-        if (this.parentKey == null) {
-            return {
-                ...state,
-                posts: {
-                    ...state.posts,
-                    posts: state.posts.posts.set(this.childKey, {
-                        ...child,
-                        parentId: null,
-                    })
-                }
-            }
-        }
+        const oldPost: Post = oldPosts.posts.get(this.childId);
+        state = new RemovePostCommand(this.childId).process(state);
 
-        const parent = state.posts.posts.get(this.parentKey);
-
-        // 目标节点不能是自己的子节点
-        const path = getParents(this.parentKey, state.posts.posts);
-        if (_.includes(path, this.childKey)) {
-            return state;
-        }
-
-        if (child.parentId === this.parentKey) {
-            return state;
-        }
-
-        const newChild: Post = {
-            ...child,
-            parentId: this.parentKey,
+        const newPosts: PostsStore = {
+            ...state.posts,
+            posts: state.posts.posts.set(this.childId, oldPost),
+            parentMap: state.posts.parentMap.set(this.childId, this.parentId),
+            childrenMap: addChildren(state.posts.childrenMap, this.parentId, this.childId),
         };
 
-        const newParent: Post = {
-            ...parent,
-            children: [...parent.children, this.childKey]
-        };
-
-        let posts = state.posts.posts
-            .set(this.childKey, newChild)
-            .set(this.parentKey, newParent);
-
-        if (child.parentId != null) {
-            const oldParent = posts.get(child.parentId);
-            const children = oldParent.children.filter(key => key !== this.childKey);
-            const newOldParent = {
-                ...oldParent,
-                children
-            };
-
-            posts = posts.set(oldParent.id, newOldParent);
-        }
         return {
             ...state,
-            posts: {
-                ...state.posts,
-                posts: posts
-            }
+            posts: newPosts,
         }
     }
 

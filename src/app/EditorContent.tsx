@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
 import {RichEditor} from "../Editor/RichEditor";
-import {Backend, Post} from "../backend";
+import {Backend} from "../backend";
 import {RawDraftContentState} from 'draft-js';
 import Tags from "./Tags";
+import {Post} from "../redux/store";
 
 export interface Props {
     post: Post | null,

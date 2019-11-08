@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore} from "../store";
-import {buildPostTree, convertToEditingPost, createPostId} from "../utils";
+import {AppStore, PostsStore} from "../store";
+import {buildPostTree} from "../utils";
 import {Mapper} from "redux-commands";
 
 export class ReloadPostsCommand extends AppCommand {
@@ -11,21 +11,20 @@ export class ReloadPostsCommand extends AppCommand {
     async process(state: AppStore): Promise<Mapper<AppStore>> {
         let posts = await state.backend.getPosts();
         return (s: AppStore): AppStore => {
-            let postTree = buildPostTree(posts);
+            let postsStore: PostsStore = buildPostTree(posts);
 
-            let currentPost;
-            if (postTree.size !== 0) {
-                currentPost = convertToEditingPost(postTree.toArray().filter(p => p.parentId == null)[0]);
-            } else {
-                currentPost = createPostId();
+            let currentPost: string | null = null;
+            const children = postsStore.childrenMap.get(null);
+            if (children == null || children.length == 0) {
+                currentPost = children[0];
             }
 
             return {
                 ...s,
                 posts: {
-                    posts: postTree,
+                    ...postsStore,
                     currentPostId: currentPost,
-                },
+                }
             }
         }
     }

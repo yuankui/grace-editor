@@ -1,10 +1,9 @@
 import React from "react";
 import {Button, Icon, Popover} from "antd";
 import {connect} from "react-redux";
-import {AppStore, SiderState} from "../redux/store";
+import {AppStore, Post, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
-import {Post} from "../backend";
 import {MovePostCommand} from "../redux/commands/MovePostCommand";
 import {TreeSelect} from "../tree-select/TreeSelect";
 import Immutable from "immutable";
@@ -17,6 +16,7 @@ import PostSelectAction from "../redux/actions/PostSelectAction";
 import GitStatusCommand from "../redux/commands/git/GitStatusCommand";
 import GitInitCommand from "../redux/commands/git/GitInitCommand";
 import GitCommitCommand from "../redux/commands/git/GitCommitCommand";
+import {createPostId} from "../redux/utils";
 
 export interface Node {
     key: string,
@@ -36,8 +36,9 @@ interface State {
 
 class SiderMenu extends React.Component<Props, State> {
     render() {
-        const topPosts = this.props.posts.toArray()
-            .filter(p => p.parentId == null)
+        const postMap = this.props.state.posts.posts;
+        const topPosts = this.props.state.posts.childrenMap.get(null)
+            .map(id => postMap.get(id))
             .sort(this.comparePost);
 
         return (
@@ -85,13 +86,15 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     expandNode(post: Post): Array<Post> {
-        if (post.children == null) {
+        if (this.props.state.posts.childrenMap.get(post.id).length == 0) {
             return [];
         }
-        const posts = post.children.map(id => this.props.posts.get(id))
-            .filter(post => post != null);
-        const sorted = posts.sort(this.comparePost);
-        return sorted;
+
+        const posts = this.props.state.posts.childrenMap.get(post.id)
+            .map(id => this.props.state.posts.posts.get(id))
+            .sort(this.comparePost);
+
+        return posts;
     }
 
     comparePost(a: Post, b: Post): number {
@@ -137,7 +140,7 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     createNewPost = (parentId: string | null) => {
-        this.props.dispatch(new CreateNewPostCommand(parentId));
+        this.props.dispatch(new CreateNewPostCommand(createPostId(), parentId));
     };
 
     private onMove(src: string, target: string) {

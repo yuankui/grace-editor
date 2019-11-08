@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {Mapper} from "redux-commands";
-import {PostSelectCommand} from "./menu/PostSelectCommand";
+import {RemovePostCommand} from "./post/RemovePostCommand";
 
 export class DeletePostCommand extends AppCommand {
     postId: string;
@@ -12,31 +12,13 @@ export class DeletePostCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "DeletePost";
+        return "Post/Delete";
     }
 
     async process(store: AppStore): Promise<Mapper<AppStore>> {
         await store.backend.deletePost(this.postId);
         return s => {
-            const newPosts = s.posts.posts.delete(this.postId);
-            const post = s.posts.posts.get(this.postId);
-            let currentPosts: AppStore = {
-                ...s,
-                posts: {
-                    ...s.posts,
-                    posts: newPosts,
-                },
-            };
-            if (post.parentId != null) {
-                currentPosts = new PostSelectCommand(post.parentId)
-                    .process(currentPosts);
-                return currentPosts;
-            } else {
-                return {
-                    ...currentPosts,
-                    currentPost: null,
-                };
-            }
+            return new RemovePostCommand(this.postId).process(s);
         }
     }
 }

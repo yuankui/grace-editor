@@ -1,4 +1,4 @@
-import {Backend, Post} from "../index";
+import {Backend, PostDTO} from "../index";
 import path from 'path';
 import uuid from 'uuid/v4';
 import * as fss from './fs/fs';
@@ -26,12 +26,12 @@ export class ElectronBackend implements Backend {
         return id.substring(0, 2) + "." + id.substring(2, 4) + "." + id.substring(4);
     }
 
-    async getPost(id: string): Promise<Post> {
+    async getPost(id: string): Promise<PostDTO> {
         const dirPath = path.join(this.workingDir, ...id.split("."));
         return this.getPostByPath(dirPath);
     }
 
-    async getPostByPath(dirPath: string): Promise<Post> {
+    async getPostByPath(dirPath: string): Promise<PostDTO> {
         let buffer = await this.readFile(path.join(dirPath, 'index.json'));
         let text = buffer.toString('utf-8');
         let json = JSON.parse(text);
@@ -75,12 +75,12 @@ export class ElectronBackend implements Backend {
         return subDirList;
     }
 
-    async getPosts(): Promise<Array<Post>> {
+    async getPosts(): Promise<Array<PostDTO>> {
         console.log("get posts.............");
         let level1 = await this.expandDir([this.workingDir]);
         let level2 = await this.expandDir(level1);
 
-        const posts: Array<Post> = [];
+        const posts: Array<PostDTO> = [];
 
         for (let dir of level2) {
             try {
@@ -139,7 +139,7 @@ export class ElectronBackend implements Backend {
         return path.join(this.workingDir, s1, s2);
     }
 
-    async savePost(post: Post): Promise<Post> {
+    async savePost(post: PostDTO): Promise<PostDTO> {
         let id = post.id;
         if (post.id == null) {
             id = this.generateId();

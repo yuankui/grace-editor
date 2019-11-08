@@ -1,18 +1,15 @@
 import {AppCommand} from "../index";
-import {AppStore, Posts} from "../../store";
+import {AppStore, PostsStore} from "../../store";
 import {Mapper} from "redux-commands";
 
 export abstract class PostCommand extends AppCommand {
     async process(s: AppStore): Promise<Mapper<AppStore>> {
         await this.save(s);
         return state => {
-            const newPosts = this.processPosts(state.posts.posts);
+            const newPosts = this.processPosts(state.posts);
             return <AppStore>{
                 ...state,
-                posts: {
-                    ...state.posts,
-                    posts: newPosts,
-                },
+                posts: newPosts,
             }
         }
     }
@@ -20,5 +17,5 @@ export abstract class PostCommand extends AppCommand {
     async save(state: AppStore): Promise<any> {
     }
 
-    abstract processPosts(posts: Posts): Posts;
+    abstract processPosts(posts: PostsStore): PostsStore;
 }

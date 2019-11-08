@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore} from "../../store";
-import {Post} from "../../../backend";
+import {AppStore, PostsStore} from "../../store";
+import {MovePostCommand} from "../MovePostCommand";
+import {remove} from "../../utils";
 
 export class RemovePostCommand extends AppCommand {
     private readonly id: string;
@@ -15,33 +16,22 @@ export class RemovePostCommand extends AppCommand {
     }
 
     process(state: AppStore): AppStore {
+        // move to root
+        state = new MovePostCommand(this.id, null).process(state);
 
-        const post = state.posts.posts.get(this.id);
-        if (post.parentId != null) {
-            const parent = state.posts.posts.get(post.parentId);
-            const newParent: Post = {
-                ...parent,
-                children: parent.children.filter(p => p != post.id),
-            };
+        const {posts: postStore} = state;
 
-            state  = {
-                ...state,
-                posts: {
-                    ...state.posts,
-                    posts: state.posts.posts.set(newParent.id, newParent)
-                },
-            }
-        }
-
-        state = {
-            ...state,
-            posts: {
-                ...state.posts,
-                posts: state.posts.posts.remove(this.id)
-            },
+        const newPostsStore: PostsStore = {
+            ...postStore,
+            posts: postStore.posts.remove(this.id),
+            parentMap: postStore.parentMap.remove(this.id),
+            childrenMap: postStore.childrenMap.set(null, remove(postStore.childrenMap.get(null), this.id)),
         };
 
-        return state;
+        return {
+            ...state,
+            posts: newPostsStore,
+        };
     }
 
 }

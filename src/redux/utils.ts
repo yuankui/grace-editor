@@ -1,7 +1,7 @@
 import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
-import {AppStore} from "./store";
-import {Post} from "../backend";
+import {AppStore, Post, PostsStore} from "./store";
+import {PostDTO} from "../backend";
 import Immutable from "immutable";
 import {createHashHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
@@ -28,8 +28,10 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
     }
     return {
         posts: {
+            childrenMap: Immutable.OrderedMap(),
             currentPostId: null,
             posts: Immutable.OrderedMap<string, Post>(),
+            parentMap: Immutable.Map(),
         },
         backend: createWebBackend(),
         siderState: {
@@ -42,33 +44,52 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
     };
 }
 
-export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, Post> {
+export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     let map: Immutable.OrderedMap<string, Post> = Immutable.OrderedMap<string, Post>();
+    let childrenMap = Immutable.OrderedMap<string | null, Array<string>>();
+    let parentMap: Immutable.Map<string, string | null> = Immutable.Map();
 
     // 1. 构造map
     for (let post of posts) {
-        post.children = [];
-        if (post.weight == null) {
-            post.weight = '';
-        }
-        map = map.set(post.id, {...post});
+        const weight = post.weight == null ? '' : post.weight;
+        const newPost: Post = {
+            ...post,
+            weight,
+        };
+        map = map.set(post.id, newPost);
+        childrenMap = childrenMap.set(post.id, []);
     }
 
-    // 2. 构造parent
+    // 2. 构造parentMap, childrenMap
     for (let post of posts) {
-        if (post.parentId == null) {
-            continue;
-        }
-        let parent = map.get(post.parentId);
-        if (parent == null) {
-            post.parentId = null;
-        } else {
-            parent.children = [...parent.children, post.id];
-        }
+        parentMap = parentMap.set(post.id, post.parentId);
+        childrenMap = childrenMap.set(post.parentId, [...childrenMap.get(post.parentId), post.id])
     }
-    return map;
+    return {
+        posts: map,
+        currentPostId: null,
+        childrenMap,
+        parentMap
+    };
 }
 
 export function convertToEditingPost(post: Post): string {
     return post.id;
+}
+
+export function remove<T>(list: Array<T>, item: T): Array<T> {
+    return list.filter(value => value != item);
+}
+
+export function addChildren(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
+    return childrenMap
+        .set(parent, [
+            ...childrenMap.get(parent),
+            child
+        ]);
+}
+
+export function removeChild(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
+    return childrenMap
+        .set(parent, remove(childrenMap.get(parent), child));
 }

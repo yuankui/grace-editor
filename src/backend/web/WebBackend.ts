@@ -1,4 +1,4 @@
-import {Backend, Post} from "../index";
+import {Backend, PostDTO} from "../index";
 import uuid from "uuid/v4";
 
 export function createWebBackend(): Backend {
@@ -7,7 +7,7 @@ export function createWebBackend(): Backend {
 
 export class WebBackend implements Backend {
 
-    async getPost(id: string): Promise<Post|null> {
+    async getPost(id: string): Promise<PostDTO|null> {
         let item = localStorage.getItem(id);
         if (item == null) {
             return null;
@@ -15,8 +15,8 @@ export class WebBackend implements Backend {
         return JSON.parse(item);
     }
 
-    async getPosts(): Promise<Array<Post>> {
-        let posts: Array<Post> = [];
+    async getPosts(): Promise<Array<PostDTO>> {
+        let posts: Array<PostDTO> = [];
         for (let i = 0; i < 1000; i++) {
             let key = localStorage.key(i);
             if (key == null) {
@@ -55,7 +55,7 @@ export class WebBackend implements Backend {
         })
     }
 
-    async savePost(post: Post): Promise<Post> {
+    async savePost(post: PostDTO): Promise<PostDTO> {
         if (post.title == null) {
             throw new Error("empty title");
         }
@@ -64,7 +64,7 @@ export class WebBackend implements Backend {
            id = uuid();
         }
 
-        let newPost: Post = {
+        let newPost: PostDTO = {
             ...post,
             id,
         };

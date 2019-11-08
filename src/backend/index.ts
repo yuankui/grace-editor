@@ -16,22 +16,22 @@ export interface Backend {
     /**
      * 获取文章属性结构
      */
-    getPosts(): Promise<Array<Post>>,
+    getPosts(): Promise<Array<PostDTO>>,
 
     /**
      * 保存文章
      * @param post
      */
-    savePost(post: Post): Promise<Post>,
+    savePost(post: PostDTO): Promise<PostDTO>,
 
     /**
      * 获取文章详情
      * @param id
      */
-    getPost(id: string): Promise<Post | null>,
+    getPost(id: string): Promise<PostDTO | null>,
 }
 
-export interface Post {
+export interface PostDTO {
     /**
      * id组成规则，创建时间
      */
@@ -53,5 +53,4 @@ export interface Post {
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,
-    children: Array<string>,
 }
