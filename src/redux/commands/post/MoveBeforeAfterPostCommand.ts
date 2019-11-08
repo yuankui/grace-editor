@@ -23,17 +23,17 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
         const parentId = state.posts.parentMap.get(this.brother);
 
         // move to parent
-        let newState: AppStore = new MovePostCommand(this.src, parentId).process(state);
+        state = new MovePostCommand(this.src, parentId).process(state);
         const brotherPost: Post = state.posts.posts.get(this.brother);
 
         // set order
         const newBrother: Post = {
-            ...newState.posts.posts.get(this.brother),
+            ...state.posts.posts.get(this.brother),
             weight: brotherPost.weight + "2",
         };
 
         const newSrc: Post = {
-            ...newState.posts.posts.get(this.src),
+            ...state.posts.posts.get(this.src),
             weight: brotherPost.weight + (this.mode === "before" ? "1" : "3"),
         };
 
@@ -49,10 +49,10 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
 
         return s => {
             return {
-                ...newState,
+                ...state,
                 posts: {
                     ...state.posts,
-                    posts: newState.posts.posts
+                    posts: state.posts.posts
                         .set(newSrc.id, newSrc)
                         .set(newBrother.id, newBrother),
                 },
