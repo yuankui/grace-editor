@@ -16,9 +16,9 @@ export class RemovePostCommand extends AppCommand {
 
     process(state: AppStore): AppStore {
 
-        const post = state.posts.get(this.id);
+        const post = state.posts.posts.get(this.id);
         if (post.parentId != null) {
-            const parent = state.posts.get(post.parentId);
+            const parent = state.posts.posts.get(post.parentId);
             const newParent: Post = {
                 ...parent,
                 children: parent.children.filter(p => p != post.id),
@@ -26,13 +26,19 @@ export class RemovePostCommand extends AppCommand {
 
             state  = {
                 ...state,
-                posts: state.posts.set(newParent.id, newParent),
+                posts: {
+                    ...state.posts,
+                    posts: state.posts.posts.set(newParent.id, newParent)
+                },
             }
         }
 
         state = {
             ...state,
-            posts: state.posts.remove(this.id),
+            posts: {
+                ...state.posts,
+                posts: state.posts.posts.remove(this.id)
+            },
         };
 
         return state;

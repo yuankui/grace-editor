@@ -110,11 +110,11 @@ class SearchDialog extends React.Component<Props, State> {
         return <div className='search-tags'>{children}</div>;
     }
     async onSearch(keyword: string): Promise<Array<SearchOption>> {
-        return this.props.state.posts.valueSeq().toArray()
+        return this.props.state.posts.posts.valueSeq().toArray()
             .filter(post => post.title.indexOf(keyword) >= 0)
             .map(post => ({
                 title: post.title,
-                subtitle: this.getPath(post, this.props.state.posts),
+                subtitle: this.getPath(post, this.props.state.posts.posts),
                 postId: post.id,
                 tags: post.tags,
                 key: post.id,

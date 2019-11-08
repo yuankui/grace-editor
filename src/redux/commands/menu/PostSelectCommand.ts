@@ -1,5 +1,5 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore, EditingPost} from "../../store";
+import {AppStore} from "../../store";
 import {convertToEditingPost} from "../../utils";
 
 
@@ -17,12 +17,15 @@ export class PostSelectCommand extends AppCommand {
 
     process(state: AppStore): AppStore {
         // 2. switch post
-        let post = state.posts.get(this.id);
-        let currentPost: EditingPost = convertToEditingPost(post);
+        let post = state.posts.posts.get(this.id);
+        let currentPost: string = convertToEditingPost(post);
 
         state = {
             ...state,
-            currentPost,
+            posts: {
+                ...state.posts,
+                currentPostId: currentPost,
+            },
         };
 
         return state;

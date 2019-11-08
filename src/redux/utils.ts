@@ -1,6 +1,6 @@
 import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
-import {AppStore, createEmptyEditingPost, EditingPost} from "./store";
+import {AppStore} from "./store";
 import {Post} from "../backend";
 import Immutable from "immutable";
 import {createHashHistory as createHistory} from "history";
@@ -27,10 +27,10 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         };
     }
     return {
-        currentPost: createEmptyEditingPost(),
-        isOpening: false,
-        editMode: false,
-        posts: Immutable.OrderedMap<string, Post>(),
+        posts: {
+            currentPostId: null,
+            posts: Immutable.OrderedMap<string, Post>(),
+        },
         backend: createWebBackend(),
         siderState: {
             expandedKeys: [],
@@ -69,6 +69,6 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
     return map;
 }
 
-export function convertToEditingPost(post: Post): EditingPost {
+export function convertToEditingPost(post: Post): string {
     return post.id;
 }

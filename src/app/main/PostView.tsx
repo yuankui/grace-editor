@@ -26,7 +26,7 @@ class PostView extends React.Component<Props> {
         }
 
         const postId = this.props.match.params.postId;
-        const post = this.props.state.posts.get(postId);
+        const post = this.props.state.posts.posts.get(postId);
         if (post == null) {
             return null;
         }

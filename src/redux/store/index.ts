@@ -5,12 +5,6 @@ import {RouterState} from "connected-react-router";
 import {SimpleGit} from "../../copies/simple-git/promise";
 
 
-export type EditingPost= string | null;
-
-export function createEmptyEditingPost(): EditingPost {
-    return createPostId();
-}
-
 export interface SiderState {
     expandedKeys: Array<string>,
 }
@@ -21,11 +15,13 @@ export interface Settings {
     workSpace: string,
 }
 
-export interface AppStore {
-    currentPost: EditingPost,
+export interface PostsStore {
     posts: Immutable.OrderedMap<string, Post>,
-    editMode: boolean,
-    isOpening: boolean,
+    currentPostId: string | null,
+
+}
+export interface AppStore {
+    posts: PostsStore,
     backend: Backend,
     siderState: SiderState,
     router: RouterState,

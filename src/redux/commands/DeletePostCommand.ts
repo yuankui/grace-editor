@@ -18,11 +18,14 @@ export class DeletePostCommand extends AppCommand {
     async process(store: AppStore): Promise<Mapper<AppStore>> {
         await store.backend.deletePost(this.postId);
         return s => {
-            const newPosts = s.posts.delete(this.postId);
-            const post = s.posts.get(this.postId);
-            let currentPosts = {
+            const newPosts = s.posts.posts.delete(this.postId);
+            const post = s.posts.posts.get(this.postId);
+            let currentPosts: AppStore = {
                 ...s,
-                posts: newPosts,
+                posts: {
+                    ...s.posts,
+                    posts: newPosts,
+                },
             };
             if (post.parentId != null) {
                 currentPosts = new PostSelectCommand(post.parentId)

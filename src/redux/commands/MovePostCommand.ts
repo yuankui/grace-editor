@@ -21,13 +21,13 @@ export class MovePostCommand extends AppCommand {
     process(state: AppStore): AppStore {
         // 如果目标是自己的孩子，也直接返回
         if (this.parentKey != null) {
-            if (_.includes(getParents(this.parentKey, state.posts), this.childKey)) {
+            if (_.includes(getParents(this.parentKey, state.posts.posts), this.childKey)) {
                 return state;
             }
         }
 
         // 如果已经是父子关系，也直接退出
-        if (state.posts.get(this.childKey).parentId === this.parentKey) {
+        if (state.posts.posts.get(this.childKey).parentId === this.parentKey) {
             return state;
         }
 
@@ -35,24 +35,27 @@ export class MovePostCommand extends AppCommand {
         if (this.childKey === this.parentKey) {
             return state;
         }
-        const child = state.posts.get(this.childKey);
+        const child = state.posts.posts.get(this.childKey);
 
         // 1. remove child
         state = new RemovePostCommand(this.childKey).process(state);
         if (this.parentKey == null) {
             return {
                 ...state,
-                posts: state.posts.set(this.childKey, {
-                    ...child,
-                    parentId: null,
-                })
+                posts: {
+                    ...state.posts,
+                    posts: state.posts.posts.set(this.childKey, {
+                        ...child,
+                        parentId: null,
+                    })
+                }
             }
         }
 
-        const parent = state.posts.get(this.parentKey);
+        const parent = state.posts.posts.get(this.parentKey);
 
         // 目标节点不能是自己的子节点
-        const path = getParents(this.parentKey, state.posts);
+        const path = getParents(this.parentKey, state.posts.posts);
         if (_.includes(path, this.childKey)) {
             return state;
         }
@@ -71,7 +74,7 @@ export class MovePostCommand extends AppCommand {
             children: [...parent.children, this.childKey]
         };
 
-        let posts = state.posts
+        let posts = state.posts.posts
             .set(this.childKey, newChild)
             .set(this.parentKey, newParent);
 
@@ -87,7 +90,10 @@ export class MovePostCommand extends AppCommand {
         }
         return {
             ...state,
-            posts
+            posts: {
+                ...state.posts,
+                posts: posts
+            }
         }
     }
 

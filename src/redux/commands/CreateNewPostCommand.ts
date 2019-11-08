@@ -30,15 +30,17 @@ export class CreateNewPostCommand extends AppCommand {
 
         let parent: Post | undefined = undefined;
         if (this.parentId != null) {
-            parent = store.posts.get(this.parentId);
+            parent = store.posts.posts.get(this.parentId);
         }
 
 
         if (parent === undefined) {
             store = {
                 ...store,
-                currentPost: newPost.id,
-                posts: store.posts.set(newPost.id, newPost),
+                posts: {
+                    posts: store.posts.posts.set(newPost.id, newPost),
+                    currentPostId: newPost.id,
+                },
                 siderState: {
                     ...store.siderState,
                 }
@@ -50,9 +52,11 @@ export class CreateNewPostCommand extends AppCommand {
             };
             store = {
                 ...store,
-                currentPost: newPost.id,
-                posts: store.posts.set(parent.id, newParent)
-                    .set(newPost.id, newPost),
+                posts: {
+                    posts: store.posts.posts.set(parent.id, newParent)
+                        .set(newPost.id, newPost),
+                    currentPostId: newPost.id,
+                },
                 siderState: {
                     ...store.siderState,
                 }

@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore, createEmptyEditingPost} from "../store";
-import {buildPostTree, convertToEditingPost} from "../utils";
+import {AppStore} from "../store";
+import {buildPostTree, convertToEditingPost, createPostId} from "../utils";
 import {Mapper} from "redux-commands";
 
 export class ReloadPostsCommand extends AppCommand {
@@ -17,13 +17,15 @@ export class ReloadPostsCommand extends AppCommand {
             if (postTree.size !== 0) {
                 currentPost = convertToEditingPost(postTree.toArray().filter(p => p.parentId == null)[0]);
             } else {
-                currentPost = createEmptyEditingPost();
+                currentPost = createPostId();
             }
 
             return {
                 ...s,
-                posts: postTree,
-                currentPost
+                posts: {
+                    posts: postTree,
+                    currentPostId: currentPost,
+                },
             }
         }
     }

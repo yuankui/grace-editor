@@ -6,10 +6,13 @@ export abstract class PostCommand extends AppCommand {
     async process(s: AppStore): Promise<Mapper<AppStore>> {
         await this.save(s);
         return state => {
-            const newPosts = this.processPosts(state.posts);
-            return {
+            const newPosts = this.processPosts(state.posts.posts);
+            return <AppStore>{
                 ...state,
-                posts: newPosts,
+                posts: {
+                    ...state.posts,
+                    posts: newPosts,
+                },
             }
         }
     }

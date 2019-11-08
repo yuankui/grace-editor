@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Input, Popover} from "antd";
+import {Button, Icon, Popover} from "antd";
 import {connect} from "react-redux";
 import {AppStore, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
@@ -71,7 +71,7 @@ class SiderMenu extends React.Component<Props, State> {
                     onExpand={key => this.onExpandKey(key)}
                     onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
                     onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
-                    selectedKey={this.props.state.currentPost as string}
+                    selectedKey={this.props.state.posts.currentPostId as string}
                 />
             </div>);
     }
@@ -148,7 +148,7 @@ class SiderMenu extends React.Component<Props, State> {
 function mapState(state: AppStore) {
     return {
         state,
-        posts: state.posts,
+        posts: state.posts.posts,
         siderState: state.siderState
     }
 }
