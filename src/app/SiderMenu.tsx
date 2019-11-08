@@ -48,7 +48,7 @@ class SiderMenu extends React.Component<Props, State> {
 
         return (
             <div className='sider-menu drag-handle'>
-                <div>
+                <div className='drag-handle'>
                     <Button className='create-button' onClick={() => this.createNewPost(null)}><Icon type="edit"/>新建</Button>
                     <button onClick={() => {
                         this.props.dispatch(new GitInitCommand());
