@@ -7,7 +7,8 @@ let mainWindow;
 function createMainWindow() {
     const window = new BrowserWindow({
         //https://electronjs.org/docs/api/frameless-window#%E5%8F%AF%E6%8B%96%E6%8B%BD%E5%8C%BA
-        titleBarStyle: "hidden",
+        // todo add this
+        // titleBarStyle: "hidden",
         webPreferences: {
             nodeIntegration: true
         }

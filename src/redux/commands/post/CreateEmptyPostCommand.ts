@@ -35,6 +35,11 @@ export class CreateEmptyPostCommand extends AppCommand {
                 .set(this.postId, [])
         };
 
+        store.backend.savePost({
+            ...newPost,
+            parentId: null,
+        });
+
 
         return {
             ...store,

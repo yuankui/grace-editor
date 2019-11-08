@@ -23,12 +23,18 @@ export class CreateNewPostCommand extends AppCommand {
         // create new under null(root)
         store = new CreateEmptyPostCommand(this.postId).process(store);
 
-        // move to parent
-        store = new MovePostCommand(this.postId, this.parentId).process(store);
-
         // expand parent
-        if (this.parentId != null)
+        if (this.parentId != null) {
+            // move to parent
+            store = new MovePostCommand(this.postId, this.parentId).process(store);
             store = new ExpandCommand(this.parentId).process(store);
+        }
+
+        const post = store.posts.posts.get(this.postId);
+        store.backend.savePost({
+            ...post,
+            parentId: this.parentId,
+        });
 
         return store;
     }
