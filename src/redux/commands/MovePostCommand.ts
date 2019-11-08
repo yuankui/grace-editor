@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore, getParents, Post, PostsStore} from "../store";
 import _ from 'lodash';
-import {RemovePostCommand} from "./post/RemovePostCommand";
 import {MoveToRootCommand} from "./post/MoveToRootCommand";
 import {addChildren} from "../utils";
 

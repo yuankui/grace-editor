@@ -18,11 +18,18 @@ export class MoveToRootCommand extends AppCommand {
 
         const parentId = state.posts.parentMap.get(this.postId);
 
+        let childrenMap = state.posts.childrenMap;
+
+        // remove
+        childrenMap = childrenMap.set(parentId, remove(childrenMap.get(parentId), this.postId));
+
+        // add
+        childrenMap = childrenMap.set(null, [...childrenMap.get(null), this.postId]);
+
         const newPostStore: PostsStore = {
             ...state.posts,
             parentMap: state.posts.parentMap.set(this.postId, null),
-            childrenMap: state.posts.childrenMap.set(null, [...state.posts.childrenMap.get(null), this.postId])
-                .set(parentId, remove(state.posts.childrenMap.get(parentId), this.postId))
+            childrenMap: childrenMap
         };
 
         return {
