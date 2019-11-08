@@ -49,6 +49,7 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     let childrenMap = Immutable.OrderedMap<string | null, Array<string>>();
     let parentMap: Immutable.Map<string, string | null> = Immutable.Map();
 
+    childrenMap = childrenMap.set(null, []);
     // 1. 构造map
     for (let post of posts) {
         const weight = post.weight == null ? '' : post.weight;
@@ -63,7 +64,8 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     // 2. 构造parentMap, childrenMap
     for (let post of posts) {
         parentMap = parentMap.set(post.id, post.parentId);
-        childrenMap = childrenMap.set(post.parentId, [...childrenMap.get(post.parentId), post.id])
+        const parentId = post.parentId == null ? null : post.parentId;
+        childrenMap = childrenMap.set(post.parentId, [...(childrenMap.get(parentId)), post.id])
     }
     return {
         posts: map,
@@ -81,7 +83,7 @@ export function remove<T>(list: Array<T>, item: T): Array<T> {
     return list.filter(value => value != item);
 }
 
-export function addChildren(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
+export function addChildren(childrenMap: Immutable.Map<string | undefined, Array<string>>, parent: string | undefined, child: string) {
     return childrenMap
         .set(parent, [
             ...childrenMap.get(parent),
@@ -89,7 +91,7 @@ export function addChildren(childrenMap: Immutable.Map<string | null, Array<stri
         ]);
 }
 
-export function removeChild(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
+export function removeChild(childrenMap: Immutable.Map<string | undefined, Array<string>>, parent: string | undefined, child: string) {
     return childrenMap
         .set(parent, remove(childrenMap.get(parent), child));
 }

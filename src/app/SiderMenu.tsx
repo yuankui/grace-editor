@@ -37,7 +37,11 @@ interface State {
 class SiderMenu extends React.Component<Props, State> {
     render() {
         const postMap = this.props.state.posts.posts;
-        const topPosts = this.props.state.posts.childrenMap.get(null)
+
+        let topIds = this.props.state.posts.childrenMap.get(null);
+        if (topIds == null)
+            topIds = [];
+        const topPosts = topIds
             .map(id => postMap.get(id))
             .sort(this.comparePost);
 
