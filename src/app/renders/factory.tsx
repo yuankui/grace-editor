@@ -8,7 +8,6 @@ export function getRender(post: Post) : ComponentType<RenderProps> {
         slatejs: SlatejsRender,
     };
 
-    console.log('post', post);
     if (renders[post.format]) {
         return renders[post.format];
     }
