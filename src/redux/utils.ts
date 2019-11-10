@@ -95,7 +95,7 @@ export function addChildren(childrenMap: Immutable.Map<string | null, Array<stri
         ]);
 }
 
-export function removeChild(childrenMap: Immutable.Map<string | undefined, Array<string>>, parent: string | undefined, child: string) {
+export function removeChild(childrenMap: Immutable.Map<string | null, Array<string>>, parent: string | null, child: string) {
     return childrenMap
         .set(parent, remove(childrenMap.get(parent), child));
 }

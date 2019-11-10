@@ -1,8 +1,7 @@
 import {AppCommand, CommandType} from "./index";
-import {AppStore, getParents, Post, PostsStore} from "../store";
+import {AppStore, getParents} from "../store";
 import _ from 'lodash';
-import {MoveToRootCommand} from "./post/MoveToRootCommand";
-import {addChildren} from "../utils";
+import {addChildren, removeChild} from "../utils";
 
 export class MovePostCommand extends AppCommand {
     childId: string;
@@ -21,13 +20,8 @@ export class MovePostCommand extends AppCommand {
     process(state: AppStore): AppStore {
         const oldPosts = state.posts;
 
-        // 如果父目录是空，表示挪到顶级目录
-        if (this.parentId == null) {
-            return new MoveToRootCommand(this.childId).process(state);
-        }
-
         // 如果目标是自己的孩子，也直接返回
-        if (_.includes(getParents(this.parentId, state.posts), this.childId)) {
+        if (this.parentId != null && _.includes(getParents(this.parentId, state.posts), this.childId)) {
             return state;
         }
 
@@ -41,20 +35,25 @@ export class MovePostCommand extends AppCommand {
             return state;
         }
 
-        // 1. remove child
-        const oldPost: Post = oldPosts.posts.get(this.childId);
-        state = new MoveToRootCommand(this.childId).process(state);
+        const oldParentId = oldPosts.parentMap.get(this.childId);
 
-        const newPosts: PostsStore = {
-            ...state.posts,
-            posts: state.posts.posts.set(this.childId, oldPost),
-            parentMap: state.posts.parentMap.set(this.childId, this.parentId),
-            childrenMap: addChildren(state.posts.childrenMap, this.parentId, this.childId),
-        };
+        let {parentMap, childrenMap} = oldPosts;
+        // 1. 处理老节点的父子关系
+        childrenMap = removeChild(childrenMap, oldParentId, this.childId);
+
+        // 2. 处理新节点的父子关系
+        childrenMap = addChildren(childrenMap, this.parentId, this.childId);
+
+        // 3.  节点的 parent
+        parentMap = parentMap.set(this.childId, this.parentId);
 
         return {
             ...state,
-            posts: newPosts,
+            posts: {
+                ...oldPosts,
+                childrenMap,
+                parentMap,
+            },
         }
     }
 
