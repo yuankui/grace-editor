@@ -10,7 +10,7 @@ export function createHeaderPlugin(): Plugin {
             // new line at the end
             if (isHotkey('enter', event.nativeEvent)) {
                 let isEndOfBlock = editor.value.selection.focus.isAtEndOfNode(editor.value.focusBlock);
-                if (isEndOfBlock) {
+                if (isEndOfBlock && editor.value.focusBlock.type.startsWith(prefix)) {
                     editor.insertBlock('paragraph');
                     return;
                 }
