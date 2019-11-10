@@ -1,4 +1,4 @@
-import {RawDraftContentState} from "draft-js";
+import {PostFormat} from "../PostFormat";
 
 export interface Backend {
     /**
@@ -52,5 +52,6 @@ export interface PostDTO {
     weight: string,
     title: string,
     tags: Array<string>,
-    content: RawDraftContentState,
+    format: PostFormat,
+    content: any,
 }
