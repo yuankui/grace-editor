@@ -3,6 +3,7 @@ import React from "react";
 import {Editor} from 'slate-react'
 import {Value} from 'slate';
 import './TestPage.less';
+import isHotkey from "is-hotkey";
 
 const initialValue = Value.fromJSON({
     document: {
@@ -31,13 +32,25 @@ export default class TestPage extends React.Component<any, State> {
     };
 
     // On change, update the app's React state with the new editor value.
-    onChange = ({value}) => {
+    onChange = (value: Value) => {
+        console.log('value', value.toJSON());
         this.setState({value})
     };
 
     render() {
         return <div className='test-container'>
-            <Editor value={this.state.value} onChange={this.onChange}/>
+            <Editor value={this.state.value}
+                    onKeyDown={(event, editor, next) => {
+                        let isHeader1 = isHotkey('Meta+1', event.nativeEvent);
+
+                        if (isHeader1) {
+                            editor.setBlocks('heading-one');
+                            return;
+                        }
+
+                        next();
+                    }}
+                    onChange={e => this.onChange(e.value)}/>
         </div>
     }
 }
