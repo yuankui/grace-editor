@@ -1,6 +1,5 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore, PostsStore} from "../../store";
-import {MovePostCommand} from "../MovePostCommand";
 import {remove} from "../../utils";
 
 export class RemovePostCommand extends AppCommand {
@@ -16,16 +15,14 @@ export class RemovePostCommand extends AppCommand {
     }
 
     process(state: AppStore): AppStore {
-        // move to root
-        state = new MovePostCommand(this.id, null).process(state);
-
         const {posts: postStore} = state;
+        const parentId = postStore.parentMap.get(this.id);
 
         const newPostsStore: PostsStore = {
             ...postStore,
             posts: postStore.posts.remove(this.id),
             parentMap: postStore.parentMap.remove(this.id),
-            childrenMap: postStore.childrenMap.set(null, remove(postStore.childrenMap.get(null), this.id)),
+            childrenMap: postStore.childrenMap.set(parentId, remove(postStore.childrenMap.get(parentId), this.id)),
         };
 
         return {

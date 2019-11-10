@@ -63,12 +63,12 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
 
     // 2. 构造parentMap, childrenMap
     for (let post of posts) {
-        parentMap = parentMap.set(post.id, post.parentId);
         let parentId = post.parentId == null ? null : post.parentId;
         if (parentId == null || map.get(parentId) == null) {
             // 不存在 parent
             parentId = null;
         }
+        parentMap = parentMap.set(post.id, parentId);
         childrenMap = childrenMap.set(parentId, [...(childrenMap.get(parentId)), post.id])
     }
     return {

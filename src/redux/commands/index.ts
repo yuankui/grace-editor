@@ -18,6 +18,7 @@ export type CommandType = "TestCommand"
     | "ReloadPosts"
     | "InitBackend"
     | "Post/Delete"
+    | "Post/DeleteRecursive"
 
     | "Menu/ToggleExpand"
     | "Menu/Expand"
