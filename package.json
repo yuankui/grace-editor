@@ -85,6 +85,8 @@
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "simple-git": "^1.126.0",
+    "slate": "^0.47.9",
+    "slate-react": "^0.22.10",
     "uuid": "^3.3.3",
     "webpack-merge": "^4.2.2"
   },
