@@ -5,10 +5,9 @@ import {AppStore, Post, PostsStore} from "../redux/store";
 import {Dispatch} from "redux";
 import {DropdownSelect} from "./DropdownSelect";
 import {Modal} from "antd";
-import Immutable from "immutable";
-import Mousetrap from "mousetrap";
 import {findAll} from "../utils";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
+import isHotkey from "is-hotkey";
 
 interface Props {
     state: AppStore,
@@ -40,9 +39,11 @@ class SearchDialog extends React.Component<Props, State> {
 
     componentDidMount(): void {
         const that = this;
-        Mousetrap.bindGlobal("command+o", e => {
-            e.preventDefault();
-            that.toggleSearch();
+        window.addEventListener("keydown", e => {
+            if (isHotkey('meta+o', e)) {
+                e.preventDefault();
+                that.toggleSearch();
+            }
         });
     }
 

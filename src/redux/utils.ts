@@ -15,8 +15,23 @@ export function createPostId(): string {
     return uuid.v4();
 }
 
-export function createEmptyContent(): RawDraftContentState {
-    return convertToRaw(EditorState.createEmpty().getCurrentContent());
+export function createEmptyContent(): any {
+    return {
+        document: {
+            nodes: [
+                {
+                    object: 'block',
+                    type: 'paragraph',
+                    nodes: [
+                        {
+                            object: 'text',
+                            text: 'start from here',
+                        },
+                    ],
+                },
+            ],
+        },
+    }
 }
 
 export function initReducer(state: AppStore | undefined, action: any): AppStore {

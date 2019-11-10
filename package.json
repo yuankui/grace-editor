@@ -70,8 +70,6 @@
     "is-hotkey": "^0.1.6",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.15",
-    "mousetrap": "^1.6.3",
-    "mousetrap-global-bind": "^1.1.0",
     "prop-types": "^15.7.2",
     "range": "^0.0.3",
     "re-resizable": "^6.1.0",

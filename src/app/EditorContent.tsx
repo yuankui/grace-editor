@@ -2,9 +2,10 @@ import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
 import {RichEditor} from "../Editor/RichEditor";
 import {Backend} from "../backend";
-import {RawDraftContentState} from 'draft-js';
 import Tags from "./Tags";
 import {Post} from "../redux/store";
+import {getRender} from "./renders/factory";
+import isHotkey from "is-hotkey";
 
 export interface Props {
     post: Post | null,
@@ -23,54 +24,52 @@ export default class EditorContent extends React.Component<Props, any> {
     }
 
     render() {
+
         if (this.props.post == null) {
             return <div>
                 还未打开文档哦。
             </div>
         }
-        const editorState = this.props.post.content;
-        const editingPost: Post = this.props.post;
+
+        const post: Post = this.props.post;
+
+        let Editor = getRender(post);
         return <React.Fragment>
             <span className='title drag-handle'>
                 <input placeholder={"Untitled"}
-                       key={this.props.post.id}
+                       key={post.id}
                        ref={this.titleRef}
-                       defaultValue={editingPost.title}
+                       defaultValue={post.title}
                        onChange={this.onTitleChange}/>
             </span>
 
-            <Tags value={this.props.post.tags}
+            <Tags value={post.tags}
                   onChange={this.onTagsChange}/>
-            <RichEditor ref={this.editor}
-                        key={this.props.post.id}
-                        backend={this.props.backend}
-                        editable={true}
-                        content={editorState}
-                        onChange={this.onContentChange}/>
+            <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
         </React.Fragment>
     }
 
-    onContentChange = (state: RawDraftContentState) => {
+    onContentChange = (value: any) => {
         this.props.onChange({
             ...this.props.post as Post,
-            content: state,
+            content: value,
         })
     };
 
     componentDidMount(): void {
         if (this.titleRef != null && this.titleRef.current != null) {
-            new Mousetrap(this.titleRef.current)
-            // 点击enter，切换到editor
-                .bind("enter", e => {
+            this.titleRef.current.addEventListener("onkeydown", e => {
+                // 点击enter，切换到editor
+                if (isHotkey('enter', e as KeyboardEvent)) {
                     if (this.editor.current != null) {
                         this.editor.current.focus();
                     }
                     e.preventDefault();
-                })
-                // 点击保存，禁止默认行为
-                .bind('command+s', e => {
+                } else if (isHotkey('meta+s', e as KeyboardEvent)) {
+                    // 点击保存，禁止默认行为
                     e.preventDefault();
-                });
+                }
+            });
         }
     }
 
