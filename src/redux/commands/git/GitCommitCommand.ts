@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import GitCommand from "./GitCommand";
+import {message} from "antd";
 
 export default class GitCommitCommand extends GitCommand {
     private readonly message: string;
@@ -18,7 +19,7 @@ export default class GitCommitCommand extends GitCommand {
         if (state.repo) {
             await state.repo.add('.');
             const log = await state.repo.commit(this.message);
-            console.log(log);
+            message.info("commit success");
         }
 
         return state;
