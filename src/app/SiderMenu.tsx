@@ -19,6 +19,7 @@ import GitCommitCommand from "../redux/commands/git/GitCommitCommand";
 import {createPostId} from "../redux/utils";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import {DeletePostRecursiveCommand} from "../redux/commands/DeletePostRecursiveCommand";
+import GitManager from "./GitManager/GitManager";
 
 export interface Node {
     key: string,
@@ -51,22 +52,7 @@ class SiderMenu extends React.Component<Props, State> {
             <div className='sider-menu'>
                 <div className='side-handle'/>
                 <div>
-                    <Button className='create-button' onClick={() => this.createNewPost(null)}><Icon type="edit"/>新建</Button>
-                    <button onClick={() => {
-                        this.props.dispatch(new GitInitCommand());
-                    }}>测试init
-                    </button>
-                    <button onClick={() => {
-                        this.props.dispatch(new GitStatusCommand());
-                    }}>测试status
-                    </button>
-                    <button onClick={() => {
-                        this.props.dispatch(new GitCommitCommand("hello"));
-                    }}>测试commit
-                    </button>
-                    <pre>
-                            TODO: add git log
-                        </pre>
+                    <GitManager />
                 </div>
                 <TreeSelect
                     dataSource={topPosts}
