@@ -41,16 +41,28 @@ export default class TestPage extends React.Component<any, State> {
         return <div className='test-container'>
             <Editor value={this.state.value}
                     onKeyDown={(event, editor, next) => {
-                        let isHeader1 = isHotkey('Meta+1', event.nativeEvent);
+                        if (isHotkey('Meta+1', event.nativeEvent)) {
+                            const isH1 = editor.value.blocks.some(block => block != null && block.type == 'h1');
 
-                        if (isHeader1) {
-                            editor.setBlocks('heading-one');
-                            return;
+                            editor.setBlocks(isH1 ? 'paragraph' : 'h1');
+                            return true
+                        } else {
+                            next();
                         }
-
-                        next();
                     }}
+                    renderBlock={this.renderBlock}
                     onChange={e => this.onChange(e.value)}/>
         </div>
+    }
+
+    renderBlock = (props, editor, next) => {
+        switch (props.node.type) {
+            case 'h1':
+                return <h1>
+                    {props.children}
+                </h1>;
+            default:
+                return next()
+        }
     }
 }
