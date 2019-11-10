@@ -76,7 +76,7 @@ export class ElectronBackend implements Backend {
         console.log('save image:', id, '->', imageId);
         let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
         let arrayBuffer = await this.readFileAsArrayBuffer(file);
-        await this.fs.writeFile(imagePath, new Buffer(arrayBuffer));
+        await this.fs.writeFile(imagePath, Buffer.from(arrayBuffer));
         return imageId;
     }
 
@@ -111,7 +111,8 @@ export class ElectronBackend implements Backend {
 
         let json = JSON.stringify(post);
         let postPath = path.join(this.getPostDir(id as string), 'index.json');
-        await this.fs.writeFile(postPath, new Buffer(json, 'utf-8'));
+        await this.fs.writeFile(postPath, Buffer.from(json, 'utf-8'));
+
         return {
             ...post,
             id
