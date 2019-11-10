@@ -36,11 +36,6 @@ export class MaterialIcon extends React.Component<IconProps> {
 export function classNames(names: Array<string>) {
     return names.join(' ');
 }
-
-export interface SearchText {
-    text: string,
-    highlight: boolean,
-}
 export function findAll(text: string, keyword: string): Array<string> {
     if(!keyword) {
         return [text];
