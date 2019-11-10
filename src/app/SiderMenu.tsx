@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Popover} from "antd";
+import {Popover} from "antd";
 import {connect} from "react-redux";
 import {AppStore, Post, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
@@ -11,15 +11,10 @@ import {ToggleExpandCommand} from "../redux/commands/menu/ToggleExpandCommand";
 import {MoveBeforeAfterPostCommand} from "../redux/commands/post/MoveBeforeAfterPostCommand";
 import {MaterialIcon} from "../utils";
 import {OperationButton} from "../common/OperationButton";
-import {DeletePostCommand} from "../redux/commands/DeletePostCommand";
 import PostSelectAction from "../redux/actions/PostSelectAction";
-import GitStatusCommand from "../redux/commands/git/GitStatusCommand";
-import GitInitCommand from "../redux/commands/git/GitInitCommand";
-import GitCommitCommand from "../redux/commands/git/GitCommitCommand";
 import {createPostId} from "../redux/utils";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import {DeletePostRecursiveCommand} from "../redux/commands/DeletePostRecursiveCommand";
-import GitManager from "./GitManager/GitManager";
 
 export interface Node {
     key: string,
@@ -50,10 +45,6 @@ class SiderMenu extends React.Component<Props, State> {
 
         return (
             <div className='sider-menu'>
-                <div className='side-handle'/>
-                <div>
-                    <GitManager />
-                </div>
                 <TreeSelect
                     dataSource={topPosts}
                     titleFunc={post => this.renderTitle(post)}

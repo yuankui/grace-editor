@@ -32,9 +32,8 @@ class GitManager extends React.Component<Props, State> {
         const list = this.state.logs
             .map((log, i) => <li key={i}>{log}</li>);
 
-        return <div>
+        return <div className='git-manager'>
             <div className='tools'>
-                {buttons}
                 <InputButton onConfirm={message => this.save(message)}>
                     commit
                 </InputButton>

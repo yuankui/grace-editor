@@ -25,15 +25,21 @@ export default class InputButton extends React.Component<Props, State> {
         if (this.state.showInput) {
             return <span>
                 <Input
+                    ref={o => {
+                        if (o) {
+                            o.focus();
+                        }
+                    }}
+                    style={{width: '150px'}}
                     onBlur={e => this.hideInput()}
                     value={this.state.text}
                     onPressEnter={() => this.confirm()}
                     onChange={e => this.updateText(e.target.value)}/>
             </span>
         } else {
-            return <button onClick={() => this.showInput()}>
+            return <a onClick={() => this.showInput()}>
                 {this.props.children}
-            </button>
+            </a>
         }
     }
 

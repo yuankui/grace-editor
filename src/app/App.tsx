@@ -14,6 +14,7 @@ import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
+import GitManager from "./GitManager/GitManager";
 
 const {Sider, Content} = Layout;
 
@@ -70,23 +71,28 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         return (
-            <div className='layout'>
-                <SearchDialog/>
-                <Resizable enable={{right: true}}
-                           handleClasses={{right: 'resize-handle'}}
-                           handleStyles={{right: {width: 5}}}
-                           defaultSize={{
-                               width: 300,
-                               height: '100%'
-                           }}>
-                    <Sider theme='light' width="100%">
-                        <SiderMenu/>
-                        <ButtonActions/>
-                    </Sider>
-                </Resizable>
-                <Content>
-                    <Main/>
-                </Content>
+            <div>
+                <div className='side-handle'>
+                    <GitManager/>
+                </div>
+                <div className='layout'>
+                    <SearchDialog/>
+                    <Resizable enable={{right: true}}
+                               handleClasses={{right: 'resize-handle'}}
+                               handleStyles={{right: {width: 5}}}
+                               defaultSize={{
+                                   width: 300,
+                                   height: '100%'
+                               }}>
+                        <Sider theme='light' width="100%">
+                            <SiderMenu/>
+                            <ButtonActions/>
+                        </Sider>
+                    </Resizable>
+                    <Content>
+                        <Main/>
+                    </Content>
+                </div>
             </div>
         );
     }
