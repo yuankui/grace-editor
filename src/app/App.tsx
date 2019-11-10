@@ -15,6 +15,7 @@ import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
 import GitManager from "./GitManager/GitManager";
+import Test from "./hotkeys/Test";
 
 const {Sider, Content} = Layout;
 
@@ -42,6 +43,7 @@ class App extends React.Component<AppProps, AppState> {
     componentDidMount(): void {
         const hotkeys: Array<HotKeyAction> = [
             Setting(this.props.dispatch, this.props.state),
+            Test(this.props.dispatch, this.props.state),
         ];
 
         window.addEventListener('keydown', e => {

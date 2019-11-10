@@ -13,6 +13,7 @@ import ReloadSettingsCommand from "./redux/commands/ReloadSettingsCommand";
 import {InitBackendCommand} from "./redux/commands/InitBackendCommand";
 import GitSetupCommand from "./redux/commands/git/GitSetupCommand";
 import PostSelectAction from "./redux/actions/PostSelectAction";
+import {push} from 'connected-react-router';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -28,6 +29,8 @@ store.dispatch(new InitBackendCommand());
 store.dispatch(new GitSetupCommand());
 store.dispatch(new ReloadPostsCommand());
 store.dispatch(PostSelectAction());
+
+store.dispatch(push('/test'));
 
 ReactDOM.render(
     <Provider store={store}>

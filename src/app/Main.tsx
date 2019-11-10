@@ -5,6 +5,7 @@ import {Switch, Route} from "react-router";
 import Welcome from "./main/Welcome";
 import PostView from "./main/PostView";
 import SettingView from "./main/SettingView";
+import TestPage from "./Test/TestPage";
 
 class Main extends React.Component {
     render(): ReactNode {
@@ -16,9 +17,12 @@ class Main extends React.Component {
                 <SettingView/>
             </Route>
 
-            <Route path='/' component={Welcome}>
+            <Route path='/test'>
+                <TestPage />
             </Route>
 
+            <Route path='/' component={Welcome}>
+            </Route>
         </Switch>
     }
 }
