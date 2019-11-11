@@ -2,10 +2,10 @@ import {Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 
-export default function ToggleBlock(prefix: string,
-                                    event: React.KeyboardEvent<Element>,
-                                    editor: CoreEditor,
-                                    callback: (editor: CoreEditor) => void) {
+export default function ToggleBlockOnPrefix(prefix: string,
+                                            event: React.KeyboardEvent<Element>,
+                                            editor: CoreEditor,
+                                            callback: (editor: CoreEditor) => void) {
         // 空格触发list
         if (isHotkey(' ', event.nativeEvent)) {
             if (editor.value.focusBlock.type == 'paragraph') {

@@ -2,7 +2,7 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
-import ToggleBlock from "../common";
+import ToggleBlockOnPrefix from "../common";
 
 /**
  * TODO add list indent & unIndent
@@ -11,7 +11,7 @@ export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             // 空格触发list
-            if (ToggleBlock('-', event, editor, e => {
+            if (ToggleBlockOnPrefix('-', event, editor, e => {
                 e.command('toggleList', 'bulleted-list');
             })) return;
 
@@ -30,9 +30,10 @@ export function createListPlugin(): Plugin {
             }
             if (isHotkey('meta+l', event.nativeEvent)) {
                 editor.command('toggleList', 'bulleted-list');
-            } else {
-                next();
+                return;
             }
+
+            next();
         },
         commands: {
             toggleList: (editor: Editor, args: any) => {
