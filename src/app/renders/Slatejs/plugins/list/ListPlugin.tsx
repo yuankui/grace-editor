@@ -9,6 +9,8 @@ import isHotkey from "is-hotkey";
 export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
+
+            // 空格触发list
             if (isHotkey(' ', event.nativeEvent)) {
                 if (editor.value.focusBlock.type == 'paragraph') {
                     const previous = editor.value.focusBlock.text.substring(0, editor.value.selection.focus.offset);
@@ -16,6 +18,22 @@ export function createListPlugin(): Plugin {
                         editor.moveFocusToStartOfNode(editor.value.startBlock)
                             .delete()
                             .command('toggleList', 'bulleted-list');
+                        event.preventDefault();
+                        return;
+                    }
+                }
+            }
+
+            // 在空白enter取消list
+            if (isHotkey('enter', event.nativeEvent)) {
+                if (editor.value.focusBlock.type == 'list-item') {
+                    if (editor.value.focusBlock.text == '') {
+                        editor
+                            .setBlocks('paragraph')
+                            .unwrapBlock('bulleted-list')
+                            .unwrapBlock('numbered-list')
+                        ;
+
                         event.preventDefault();
                         return;
                     }
