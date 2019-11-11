@@ -2,7 +2,7 @@ import {Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 
-export default function ToggleBlockOnPrefix(prefix: string,
+export function ToggleBlockOnPrefix(prefix: string,
                                             event: React.KeyboardEvent<Element>,
                                             editor: CoreEditor,
                                             callback: () => void) {

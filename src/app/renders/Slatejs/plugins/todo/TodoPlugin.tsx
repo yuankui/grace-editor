@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import ToggleBlockOnPrefix from "../common";
+import {ToggleBlockOnPrefix} from "../common";
 import {Checkbox} from "antd";
 
 const blockType = 'todo-block';

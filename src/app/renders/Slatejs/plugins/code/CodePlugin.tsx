@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import ToggleBlockOnPrefix from "../common";
+import {ToggleBlockOnPrefix} from "../common";
 import isHotkey from "is-hotkey";
 
 const CodeBlock = 'code-block';
@@ -19,6 +19,7 @@ export function createCodePlugin(): Plugin {
                     return;
                 }
             }
+
             if (isHotkey('shift+enter', event.nativeEvent)) {
                 if (editor.value.focusBlock.type == CodeBlock) {
                     editor.insertBlock('paragraph');

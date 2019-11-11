@@ -2,7 +2,7 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
-import ToggleBlockOnPrefix from "../common";
+import {ToggleBlockOnPrefix} from "../common";
 
 /**
  * TODO add list indent & unIndent
