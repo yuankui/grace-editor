@@ -2,8 +2,7 @@ import {Render, RenderProps} from "../renders";
 import React, {ReactNode} from "react";
 import {Editor, Plugin} from "slate-react";
 import {Value} from "slate";
-import {createHeaderPlugin} from "./plugins/header/HeaderPlugin";
-import {createListPlugin} from "./plugins/list/ListPlugin";
+import createSlateEditorPlugins from "./plugins/plugins";
 
 interface State {
     value: any,
@@ -15,10 +14,7 @@ export default class SlatejsRender extends Render<State> {
         super(props);
         this.state = {
             value: Value.fromJSON(this.props.value),
-            plugins: [
-                createHeaderPlugin(),
-                createListPlugin(),
-            ],
+            plugins: createSlateEditorPlugins(),
         };
     }
 
