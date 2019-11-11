@@ -3,7 +3,7 @@ import React, {ReactNode} from "react";
 import {Editor, Plugin} from "slate-react";
 import {Value} from "slate";
 import {createHeaderPlugin} from "./plugins/header/HeaderPlugin";
-import {createListPlugin} from "./plugins/ListPlugin";
+import {createListPlugin} from "./plugins/list/ListPlugin";
 
 interface State {
     value: any,
