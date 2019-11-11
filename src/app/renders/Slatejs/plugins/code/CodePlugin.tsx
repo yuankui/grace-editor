@@ -19,6 +19,14 @@ export function createCodePlugin(): Plugin {
                     return;
                 }
             }
+
+            if (isHotkey('shift+enter', event.nativeEvent)) {
+                if (editor.value.focusBlock.type == CodeBlock) {
+                    editor.insertBlock('paragraph');
+                    event.preventDefault();
+                    return;
+                }
+            }
             next();
         },
 
