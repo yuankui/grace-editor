@@ -3,6 +3,9 @@ import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
 
+/**
+ * TODO add list indent & unIndent
+ */
 export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
