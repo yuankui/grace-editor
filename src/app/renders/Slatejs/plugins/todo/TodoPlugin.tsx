@@ -8,9 +8,9 @@ const blockType = 'todo-block';
 export function createTodoPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-            if (ToggleBlockOnPrefix('[]', event, editor, e => {
+            if (ToggleBlockOnPrefix('[]', event, editor, () => {
                 const blockKey = editor.value.focusBlock.key;
-                e.setNodeByKey(blockKey, {
+                editor.setNodeByKey(blockKey, {
                         type: blockType,
                         data: {
                             checked: false,

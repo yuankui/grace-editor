@@ -4,25 +4,21 @@ import ToggleBlockOnPrefix from "../common";
 import isHotkey from "is-hotkey";
 
 const CodeBlock = 'code-block';
+const CodeLineBlock = 'code-block-line';
 
 export function createCodePlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-            if (ToggleBlockOnPrefix('^', event, editor, e => {
-                e.setBlocks(CodeBlock);
+            if (ToggleBlockOnPrefix('^', event, editor, () => {
+                editor.setBlocks(CodeLineBlock)
+                    .wrapBlock(CodeBlock);
             })) return;
 
-            if (isHotkey('enter', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == CodeBlock) {
-                    editor.insertText("\n");
-                    event.preventDefault();
-                    return;
-                }
-            }
-
             if (isHotkey('shift+enter', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == CodeBlock) {
-                    editor.insertBlock('paragraph');
+                if (editor.value.focusBlock.type == CodeLineBlock) {
+                    editor.insertBlock('paragraph')
+                        .unwrapBlock(CodeBlock);
+
                     event.preventDefault();
                     return;
                 }
@@ -33,6 +29,8 @@ export function createCodePlugin(): Plugin {
         renderBlock: (props, editor, next) => {
             if (props.node.type == CodeBlock) {
                 return <pre className={CodeBlock} {...props.attributes}>{props.children}</pre>
+            } else if (props.node.type == CodeLineBlock) {
+                return <pre className={CodeLineBlock}>{props.children}</pre>
             } else {
                 return next();
             }

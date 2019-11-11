@@ -11,8 +11,8 @@ export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             // 空格触发list
-            if (ToggleBlockOnPrefix('-', event, editor, e => {
-                e.command('toggleList', 'bulleted-list');
+            if (ToggleBlockOnPrefix('-', event, editor, () => {
+                editor.command('toggleList', 'bulleted-list');
             })) return;
 
             // 在空白enter取消list
