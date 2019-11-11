@@ -22,3 +22,22 @@ export function ToggleBlockOnPrefix(prefix: string,
         }
         return false;
 }
+
+
+export function readFile(file: Blob): Promise<ArrayBuffer> {
+    return new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const arrayBuffer: ArrayBuffer = reader.result;
+            resolve(arrayBuffer);
+        };
+
+        const onError = (ev) => {
+            reject(ev);
+        };
+        reader.onerror = onError;
+        reader.onabort = onError;
+        // read file
+        reader.readAsArrayBuffer(file);
+    })
+}

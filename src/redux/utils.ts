@@ -1,11 +1,10 @@
-import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
 import {AppStore, Post, PostsStore} from "./store";
 import {PostDTO} from "../backend";
 import Immutable from "immutable";
 import {createHashHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
-import {createWebBackend} from "../backend/web/WebBackend";
+import {createElectronBackend} from "../backend/electron/ElectronBackend";
 
 export const history = createHistory();
 
@@ -48,7 +47,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             posts: Immutable.OrderedMap<string, Post>(),
             parentMap: Immutable.Map(),
         },
-        backend: createWebBackend(),
+        backend: createElectronBackend(''),
         siderState: {
             expandedKeys: [],
         },

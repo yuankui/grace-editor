@@ -1,6 +1,8 @@
 import React from "react";
+import {AppStore} from "../../redux/store";
 
 export interface RenderProps {
+    state: AppStore,
     value: any,
     onChange: OnChange<any>,
 }

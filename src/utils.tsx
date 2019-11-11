@@ -47,7 +47,10 @@ export function findAll(text: string, keyword: string): Array<string> {
         }, []);
 }
 
-export function mapState(state: AppStore) {
+interface StoreProps {
+    state: AppStore,
+}
+export function mapState(state: AppStore): StoreProps {
     return {
         state,
     }

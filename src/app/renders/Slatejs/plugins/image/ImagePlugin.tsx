@@ -1,10 +1,11 @@
 import {Plugin} from 'slate-react';
 import React from "react";
 import {CodeBlock} from "../code/CodePlugin";
-import Draft, {EditorState} from "draft-js";
-import Immutable from "immutable";
+import {AppStore} from "../../../../../redux/store";
+import ImageBlock from "./ImageBlock";
+import isHotkey from "is-hotkey";
 
-const ImageBlock = 'image-block';
+export const ImageBlockType = 'image-block';
 
 function insertImage(editor, param, target) {
     if (target) {
@@ -12,87 +13,73 @@ function insertImage(editor, param, target) {
     }
 
     editor.insertBlock({
-        type: 'image',
+        type: ImageBlockType,
         data: {
-            src: param.url,
-            size: param.size,
+            imageId: param.imageId,
         },
     })
 }
 
-export function createImagePlugin(): Plugin {
+export function createImagePlugin(store: AppStore): Plugin {
     return {
-        onPaste: (event, editor, next) => {
+        schema: {
+            blocks: {
+                'image-block': {
+                    isVoid: true,
+                },
+            }
+        },
+
+        onKeyDown: (event, editor, next) => {
+            if (editor.value.focusBlock.type != ImageBlockType) {
+                next();
+                return;
+            }
+
+            if (isHotkey('enter', event.nativeEvent)) {
+                editor.insertBlock('paragraph');
+                event.preventDefault();
+                return;
+            }
+
+            next();
+        },
+        onPaste: async (event, editor, next) => {
             // 如果在code里面，就不处理
             if (editor.value.focusBlock.type == CodeBlock) {
                 next();
                 return;
             }
 
-            if (1 == 1) {
-                const files = event.clipboardData.files;
+            event.preventDefault();
+            const files = event.clipboardData.files;
 
-                for (let i = 0; i < files.length; i++) {
-                    const file = files.item(i);
-                    if (file == null) continue;
+            for (let i = 0; i < files.length; i++) {
+                const file = files.item(i);
+                if (file == null) continue;
 
-                    let reader = new FileReader();
-                    reader.onload = async () => {
-                        const url: any = reader.result;
-                        if (url == null) {
-                            return;
-                        }
+                let imageId = await store.backend.saveImage(file, store.posts.currentPostId as string);
 
-                        const size = await getImageSize(url);
-
-                        editor.command(insertImage, {
-                            src: url,
-                            size: size,
-                        });
-                    };
-
-                    // read file
-                    reader.readAsDataURL(file);
-                }
-
-
-                return;
+                editor.command(insertImage, {
+                    imageId: imageId,
+                });
             }
+
         },
 
         renderBlock: (props, editor, next) => {
             const {attributes, node, isFocused} = props;
 
-            if (node.type === ImageBlock) {
-                const src = node.data.get('src');
+            if (node.type === ImageBlockType) {
+                const imageId = node.data.get('imageId');
+                // <ImageBlock attributes={attributes} imageId={imageId} isFocused={isFocused}/>
+                // <img {...attributes} src='https://www.baidu.com/img/bd_logo1.png?where=super' />
                 return (
-                    <img
-                        {...attributes}
-                        src={src}
-                        className={ImageBlock + " " + 'focus-' + isFocused}
-                    />
+                    <ImageBlock attributes={attributes} imageId={imageId} isFocused={isFocused}/>
                 );
             }
 
             return next();
         },
     }
-}
-
-/**
- * the hack way
- */
-async function getImageSize(url: string): Promise<any> {
-    let img = new Image();
-
-    return new Promise((resolve, reject) => {
-            img.onload = function (this: GlobalEventHandlers, ev: Event) {
-                resolve({
-                    width: img.width / 2,
-                    height: img.height / 2,
-                })
-            };
-            img.src = url;
-        }
-    );
 }

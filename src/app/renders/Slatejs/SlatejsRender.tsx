@@ -3,18 +3,20 @@ import React, {ReactNode} from "react";
 import {Editor, Plugin} from "slate-react";
 import {Value} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
+import {connect} from "react-redux";
+import {mapState} from "../../../utils";
 
 interface State {
     value: any,
-    plugins: Array<Plugin>
+    plugins: Array<Plugin>,
 }
 
-export default class SlatejsRender extends Render<State> {
+class SlatejsRender extends Render<State> {
     constructor(props: Readonly<RenderProps>) {
         super(props);
         this.state = {
             value: Value.fromJSON(this.props.value),
-            plugins: createSlateEditorPlugins(),
+            plugins: createSlateEditorPlugins(this.props.state),
         };
     }
 
@@ -32,3 +34,5 @@ export default class SlatejsRender extends Render<State> {
         this.props.onChange(value.toJSON());
     };
 }
+
+export default connect(mapState)(SlatejsRender);

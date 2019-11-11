@@ -34,8 +34,8 @@ export default class EditorContent extends React.Component<Props, any> {
         const post: Post = this.props.post;
 
         let Editor = getRender(post);
-        return <React.Fragment>
-            <span className='title drag-handle'>
+        return <div className='post-editor'>
+            <span className='title'>
                 <input placeholder={"Untitled"}
                        key={post.id}
                        ref={this.titleRef}
@@ -43,10 +43,9 @@ export default class EditorContent extends React.Component<Props, any> {
                        onChange={this.onTitleChange}/>
             </span>
 
-            <Tags value={post.tags}
-                  onChange={this.onTagsChange}/>
+            {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
             <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
-        </React.Fragment>
+        </div>
     }
 
     onContentChange = (value: any) => {

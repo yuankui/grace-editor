@@ -18,8 +18,6 @@ import GitManager from "./GitManager/GitManager";
 import Test from "./hotkeys/Test";
 import CreatePost from "./hotkeys/CreatePost";
 
-const {Sider, Content} = Layout;
-
 interface AppState {
     editable: boolean,
 }
@@ -79,8 +77,8 @@ class App extends React.Component<AppProps, AppState> {
                 <div className='side-handle'>
                     <GitManager/>
                 </div>
+                <SearchDialog/>
                 <div className='layout'>
-                    <SearchDialog/>
                     <Resizable enable={{right: true}}
                                handleClasses={{right: 'resize-handle'}}
                                handleStyles={{right: {width: 5}}}
@@ -88,14 +86,14 @@ class App extends React.Component<AppProps, AppState> {
                                    width: 300,
                                    height: '100%'
                                }}>
-                        <Sider theme='light' width="100%">
+                        <div>
                             <SiderMenu/>
                             <ButtonActions/>
-                        </Sider>
+                        </div>
                     </Resizable>
-                    <Content>
+                    <div className='main-content'>
                         <Main/>
-                    </Content>
+                    </div>
                 </div>
             </div>
         );

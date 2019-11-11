@@ -8,6 +8,7 @@ export interface Backend {
      */
     saveImage(file: File, id: string): Promise<string>;
 
+    getImageUrl(postId: string, id: string): string;
     /**
      * 删除文章
      * @param id

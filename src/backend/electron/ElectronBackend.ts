@@ -44,6 +44,10 @@ export class ElectronBackend implements Backend {
     async expandDir(dirs: Array<string>): Promise<Array<string>> {
         let subDirList: Array<string> = [];
         for (let dir of dirs) {
+            let stats = await this.fs.stats(dir);
+            if (!stats.isDirectory()) {
+                continue;
+            }
             let subDirs = await this.fs.listDir(dir);
 
             subDirs = subDirs.map(d => path.join(dir, d));
@@ -74,7 +78,7 @@ export class ElectronBackend implements Backend {
     async saveImage(file: File, id: string): Promise<string> {
         let imageId = uuid();
         console.log('save image:', id, '->', imageId);
-        let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
+        let imagePath = path.join(this.getPostDir(id), imageId);
         let arrayBuffer = await this.readFileAsArrayBuffer(file);
         await this.fs.writeFile(imagePath, Buffer.from(arrayBuffer));
         return imageId;
@@ -93,7 +97,7 @@ export class ElectronBackend implements Backend {
             fileReader.onabort = ev => {
                 reject(ev);
             };
-            fileReader.readAsBinaryString(file);
+            fileReader.readAsArrayBuffer(file);
         })
     }
 
@@ -122,6 +126,10 @@ export class ElectronBackend implements Backend {
     async deletePost(id: string): Promise<any> {
         const postDir = this.getPostDir(id);
         await this.fs.rmdir(postDir);
+    }
+
+    getImageUrl(postId: string, id: string): string {
+        return 'file://' + path.join(this.getPostDir(postId), id);
     }
 
 }

@@ -3,7 +3,7 @@ import React, {ComponentType} from "react";
 import SlatejsRender from "./Slatejs/SlatejsRender";
 import {RenderProps} from "./renders";
 
-export function getRender(post: Post) : ComponentType<RenderProps> {
+export function getRender(post: Post) : ComponentType<Partial<RenderProps>> {
     const renders = {
         slatejs: SlatejsRender,
     };

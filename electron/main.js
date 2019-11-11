@@ -9,7 +9,8 @@ function createMainWindow() {
         //https://electronjs.org/docs/api/frameless-window#%E5%8F%AF%E6%8B%96%E6%8B%BD%E5%8C%BA
         titleBarStyle: "hidden",
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            webSecurity: false,
         }
     });
 

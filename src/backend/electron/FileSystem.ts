@@ -2,6 +2,7 @@ import path from 'path';
 import {PathLike, Stats} from "fs";
 const fs = window.require('fs');
 
+
 export default class FileSystem {
     private _mkdir(path: PathLike): Promise<any> {
         return new Promise<any>((resolve, reject) => {
@@ -47,6 +48,7 @@ export default class FileSystem {
         await this.mkdir(dir);
 
         return new Promise<any>((resolve, reject) => {
+
             fs.writeFile(location, buffer, (err) => {
                 if (err != null)
                     reject(err);
