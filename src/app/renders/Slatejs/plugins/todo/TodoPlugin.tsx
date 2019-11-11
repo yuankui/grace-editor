@@ -9,7 +9,13 @@ export function createTodoPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             if (ToggleBlock('[]', event, editor, e => {
-                e.setBlocks(blockType);
+                const blockKey = editor.value.focusBlock.key;
+                e.setNodeByKey(blockKey, {
+                        type: blockType,
+                        data: {
+                            checked: false,
+                        }
+                    })
             })) return;
             next();
         },
@@ -17,7 +23,14 @@ export function createTodoPlugin(): Plugin {
         renderBlock: (props, editor, next) => {
             if (props.node.type == blockType) {
                 return <div {...props.attributes} className={blockType}>
-                    <Checkbox className='check-box'/>
+                    <Checkbox className='check-box' checked={props.node.data.get('checked')} onChange={e => {
+                        editor.setNodeByKey(props.node.key, {
+                            type: blockType,
+                            data: {
+                                checked: e.target.checked,
+                            }
+                        })
+                    }}/>
                     {props.children}
                 </div>
             } else {
