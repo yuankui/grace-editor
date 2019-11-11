@@ -1,12 +1,34 @@
 import {Plugin} from 'slate-react';
 import isHotkey from "is-hotkey";
 import React from "react";
+import {ToggleBlockOnPrefix} from "../common";
 
 const prefix = 'header-';
 
 export function createHeaderPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
+
+            // header-1
+            if (ToggleBlockOnPrefix('#', event, editor, () => {
+                editor.setBlocks(prefix + '1');
+            })) return;
+
+            // header-2
+            if (ToggleBlockOnPrefix('##', event, editor, () => {
+                editor.setBlocks(prefix + '2');
+            })) return;
+
+            // header-3
+            if (ToggleBlockOnPrefix('###', event, editor, () => {
+                editor.setBlocks(prefix + '3');
+            })) return;
+
+            // header-4
+            if (ToggleBlockOnPrefix('####', event, editor, () => {
+                editor.setBlocks(prefix + '4');
+            })) return;
+
             // new line at the end
             if (isHotkey('enter', event.nativeEvent)) {
                 let isEndOfBlock = editor.value.selection.focus.isAtEndOfNode(editor.value.focusBlock);

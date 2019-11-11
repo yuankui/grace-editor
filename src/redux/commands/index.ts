@@ -36,5 +36,6 @@ export type CommandType = "TestCommand"
     | "Git/Status"
     | "Git/Commit"
     | "Git/Push"
+    | "Git/Pull"
     | "Git/Init"
 ;

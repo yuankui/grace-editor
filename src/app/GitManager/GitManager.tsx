@@ -6,6 +6,7 @@ import {AppStore} from "../../redux/store";
 import GitCommitCommand from "../../redux/commands/git/GitCommitCommand";
 import InputButton from "./InputButton";
 import GitPushCommand from "../../redux/commands/git/GitPushCommand";
+import GitPullCommand from "../../redux/commands/git/GitPullCommand";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -36,10 +37,13 @@ class GitManager extends React.Component<Props, State> {
         return <div className='git-manager'>
             <div className='tools'>
                 <InputButton onConfirm={message => this.save(message)}>
-                    commit
+                    Commit
                 </InputButton>
                 <a onClick={() => this.props.dispatch(new GitPushCommand())}>
-                    push
+                    Push
+                </a>
+                <a onClick={() => this.props.dispatch(new GitPullCommand())}>
+                    Pull
                 </a>
             </div>
             <ul>

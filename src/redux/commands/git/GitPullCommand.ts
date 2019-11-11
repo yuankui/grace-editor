@@ -7,17 +7,24 @@ import NProgress from 'nprogress';
 NProgress.configure({
 });
 
-export default class GitPushCommand extends GitCommand {
+export default class GitPullCommand extends GitCommand {
     name(): CommandType {
-        return "Git/Push";
+        return "Git/Pull";
     }
 
     async processGit(state: AppStore): Promise<AppStore> {
         if (state.repo) {
             NProgress.start();
-            const log = await state.repo.push('origin', 'master');
-            NProgress.done();
-            message.info("push success");
+            try {
+                await state.repo.pull('origin', 'master');
+                message.info("pull success");
+                NProgress.done();
+            } catch (e) {
+                message.error(e.toString());
+                NProgress.done();
+            }
+
+
         }
 
         return state;
