@@ -28,11 +28,9 @@ export function createListPlugin(): Plugin {
             if (isHotkey('enter', event.nativeEvent)) {
                 if (editor.value.focusBlock.type == 'list-item') {
                     if (editor.value.focusBlock.text == '') {
-                        editor
-                            .setBlocks('paragraph')
+                        editor.setBlocks('paragraph')
                             .unwrapBlock('bulleted-list')
-                            .unwrapBlock('numbered-list')
-                        ;
+                            .unwrapBlock('numbered-list');
 
                         event.preventDefault();
                         return;
