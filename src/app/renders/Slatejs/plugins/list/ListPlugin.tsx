@@ -9,6 +9,18 @@ import isHotkey from "is-hotkey";
 export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
+            if (isHotkey(' ', event.nativeEvent)) {
+                if (editor.value.focusBlock.type == 'paragraph') {
+                    const previous = editor.value.focusBlock.text.substring(0, editor.value.selection.focus.offset);
+                    if (previous == '-') {
+                        editor.moveFocusToStartOfNode(editor.value.startBlock)
+                            .delete()
+                            .command('toggleList', 'bulleted-list');
+                        event.preventDefault();
+                        return;
+                    }
+                }
+            }
             if (isHotkey('meta+l', event.nativeEvent)) {
                 editor.command('toggleList', 'bulleted-list');
             } else {
