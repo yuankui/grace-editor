@@ -86,10 +86,8 @@ class App extends React.Component<AppProps, AppState> {
                                    width: 300,
                                    height: '100%'
                                }}>
-                        <div>
-                            <SiderMenu/>
-                            <ButtonActions/>
-                        </div>
+                        <SiderMenu/>
+                        <ButtonActions/>
                     </Resizable>
                     <div className='main-content'>
                         <Main/>
