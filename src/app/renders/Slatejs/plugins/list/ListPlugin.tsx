@@ -2,6 +2,7 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
+import ToggleBlock from "../common";
 
 /**
  * TODO add list indent & unIndent
@@ -9,20 +10,10 @@ import isHotkey from "is-hotkey";
 export function createListPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-
             // 空格触发list
-            if (isHotkey(' ', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == 'paragraph') {
-                    const previous = editor.value.focusBlock.text.substring(0, editor.value.selection.focus.offset);
-                    if (previous == '-') {
-                        editor.moveFocusToStartOfNode(editor.value.startBlock)
-                            .delete()
-                            .command('toggleList', 'bulleted-list');
-                        event.preventDefault();
-                        return;
-                    }
-                }
-            }
+            if (ToggleBlock('-', event, editor, e => {
+                e.command('toggleList', 'bulleted-list');
+            })) return;
 
             // 在空白enter取消list
             if (isHotkey('enter', event.nativeEvent)) {
