@@ -2,7 +2,7 @@ import {Render, RenderProps} from "../renders";
 import React, {ReactNode} from "react";
 import {Editor, Plugin} from "slate-react";
 import {Value} from "slate";
-import {createHeaderPlugin} from "./plugins/HeaderPlugin";
+import {createHeaderPlugin} from "./plugins/header/HeaderPlugin";
 import {createListPlugin} from "./plugins/ListPlugin";
 
 interface State {
