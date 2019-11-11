@@ -12,21 +12,40 @@ export function createCodePlugin(): Plugin {
                 editor.setBlocks(CodeBlock);
             })) return;
 
-            if (isHotkey('enter', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == CodeBlock) {
-                    editor.insertText("\n");
-                    event.preventDefault();
-                    return;
-                }
+            if (editor.value.focusBlock.type != CodeBlock) {
+                next();
+                return;
             }
 
-            if (isHotkey('shift+enter', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == CodeBlock) {
-                    editor.insertBlock('paragraph');
-                    event.preventDefault();
-                    return;
-                }
+            if (isHotkey('enter', event.nativeEvent)) {
+                editor.insertText("\n");
+                event.preventDefault();
+                return;
             }
+
+            if (isHotkey('tab', event.nativeEvent)) {
+                editor.insertText('    ');
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
+            if (isHotkey('shift+enter', event.nativeEvent)) {
+                editor.insertBlock('paragraph');
+                event.preventDefault();
+                return;
+            }
+            next();
+        },
+
+        onPaste: (event, editor, next) => {
+            if (editor.value.focusBlock.type == CodeBlock) {
+                event.clipboardData.items[0].getAsString(data => {
+                    editor.insertText(data);
+                });
+                event.preventDefault();
+                return;
+            }
+
             next();
         },
 
