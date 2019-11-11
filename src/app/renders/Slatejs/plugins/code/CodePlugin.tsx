@@ -28,9 +28,9 @@ export function createCodePlugin(): Plugin {
 
         renderBlock: (props, editor, next) => {
             if (props.node.type == CodeBlock) {
-                return <pre className={CodeBlock} {...props.attributes}>{props.children}</pre>
+                return <pre className={CodeBlock} {...props.attributes}>{props.children}</pre>;
             } else if (props.node.type == CodeLineBlock) {
-                return <pre className={CodeLineBlock}>{props.children}</pre>
+                return <div className={CodeLineBlock}>{props.children}</div>
             } else {
                 return next();
             }
