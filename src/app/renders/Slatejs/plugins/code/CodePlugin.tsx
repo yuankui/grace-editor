@@ -3,7 +3,7 @@ import React from "react";
 import {ToggleBlockOnPrefix} from "../common";
 import isHotkey from "is-hotkey";
 
-const CodeBlock = 'code-block';
+export const CodeBlock = 'code-block';
 
 export function createCodePlugin(): Plugin {
     return {
