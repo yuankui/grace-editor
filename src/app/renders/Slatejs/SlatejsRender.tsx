@@ -24,6 +24,7 @@ export default class SlatejsRender extends Render<State> {
 
     render(): ReactNode {
         return <Editor value={this.state.value}
+                       className='slate-editor'
                        plugins={this.state.plugins}
                        onChange={e => this.onChange(e.value)}/>
     }
