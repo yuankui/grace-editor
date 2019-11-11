@@ -16,6 +16,7 @@ import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
 import GitManager from "./GitManager/GitManager";
 import Test from "./hotkeys/Test";
+import CreatePost from "./hotkeys/CreatePost";
 
 const {Sider, Content} = Layout;
 
@@ -44,6 +45,7 @@ class App extends React.Component<AppProps, AppState> {
         const hotkeys: Array<HotKeyAction> = [
             Setting(this.props.dispatch, this.props.state),
             Test(this.props.dispatch, this.props.state),
+            CreatePost(this.props.dispatch, this.props.state),
         ];
 
         window.addEventListener('keydown', e => {
