@@ -5,6 +5,8 @@ import {createTodoPlugin} from "./todo/TodoPlugin";
 import {createCodePlugin} from "./code/CodePlugin";
 import {createImagePlugin} from "./image/ImagePlugin";
 import {AppStore} from "../../../../redux/store";
+import createHighlightPlugin from "./highlight/HighlightPlugin";
+import {createCommonPlugin} from "./common";
 
 export default function createSlateEditorPlugins(store: AppStore): Array<Plugin> {
     return [
@@ -13,5 +15,7 @@ export default function createSlateEditorPlugins(store: AppStore): Array<Plugin>
         createTodoPlugin(),
         createCodePlugin(),
         createImagePlugin(store),
+        createHighlightPlugin(),
+        createCommonPlugin(),
     ];
 }

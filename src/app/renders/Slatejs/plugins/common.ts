@@ -1,6 +1,7 @@
 import {Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
+import {Plugin} from 'slate-react';
 
 export function ToggleBlockOnPrefix(prefix: string,
                                             event: React.KeyboardEvent<Element>,
@@ -23,21 +24,7 @@ export function ToggleBlockOnPrefix(prefix: string,
         return false;
 }
 
-
-export function readFile(file: Blob): Promise<ArrayBuffer> {
-    return new Promise<ArrayBuffer>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const arrayBuffer: ArrayBuffer = reader.result;
-            resolve(arrayBuffer);
-        };
-
-        const onError = (ev) => {
-            reject(ev);
-        };
-        reader.onerror = onError;
-        reader.onabort = onError;
-        // read file
-        reader.readAsArrayBuffer(file);
-    })
+export function createCommonPlugin(): Plugin {
+    return {
+    }
 }
