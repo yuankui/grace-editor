@@ -27,6 +27,7 @@ dmg:
 mac:
   target: dmg
   category: public.app-category.tools
+  icon: electron/Grace.icns
 
 win:
   target: nsis

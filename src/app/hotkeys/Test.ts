@@ -7,7 +7,7 @@ export default function Test(dispatch: Dispatch<any>, state: AppStore): HotKeyAc
     return {
         hotkey: 'Meta+t',
         action() {
-            dispatch(push('/test'));
+            dispatch(push('/'));
         }
     }
 }
