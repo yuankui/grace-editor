@@ -15,6 +15,10 @@ export function createListPlugin(): Plugin {
                 editor.command('toggleList', 'bulleted-list');
             })) return;
 
+            if (ToggleBlockOnPrefix('1.', event, editor, () => {
+                editor.command('toggleList', 'numbered-list');
+            })) return;
+
             // 在空白enter取消list
             if (isHotkey('enter', event.nativeEvent)) {
                 if (editor.value.focusBlock.type == 'list-item') {

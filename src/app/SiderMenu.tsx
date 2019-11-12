@@ -125,7 +125,9 @@ class SiderMenu extends React.Component<Props, State> {
     };
 
     createNewPost = (parentId: string | null) => {
-        this.props.dispatch(new CreateNewPostCommand(createPostId(), parentId));
+        const postId = createPostId();
+        this.props.dispatch(new CreateNewPostCommand(postId, parentId));
+        this.props.dispatch(new PostSelectCommand(postId));
     };
 
     private onMove(src: string, target: string) {
