@@ -5,6 +5,7 @@ import {Value} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
+import {parseToc} from "./plugins/toc/TocPlugin";
 
 interface State {
     value: any,
@@ -31,6 +32,9 @@ class SlatejsRender extends Render<State> {
     onChange = (value: Value) => {
         this.setState({value});
         console.log('value', JSON.stringify(value.toJSON()));
+        const blocks = parseToc(value);
+        const titles = blocks.map(b => `${b.type}: ${b.text}`);
+        console.log('title', titles);
         this.props.onChange(value.toJSON());
     };
 }

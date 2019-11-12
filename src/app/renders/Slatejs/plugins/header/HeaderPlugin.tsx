@@ -3,7 +3,7 @@ import isHotkey from "is-hotkey";
 import React from "react";
 import {ToggleBlockOnPrefix} from "../common";
 
-const prefix = 'header-';
+export const HeaderTypePrefix = 'header-';
 
 export function createHeaderPlugin(): Plugin {
     return {
@@ -11,28 +11,28 @@ export function createHeaderPlugin(): Plugin {
 
             // header-1
             if (ToggleBlockOnPrefix('#', event, editor, () => {
-                editor.setBlocks(prefix + '1');
+                editor.setBlocks(HeaderTypePrefix + '1');
             })) return;
 
             // header-2
             if (ToggleBlockOnPrefix('##', event, editor, () => {
-                editor.setBlocks(prefix + '2');
+                editor.setBlocks(HeaderTypePrefix + '2');
             })) return;
 
             // header-3
             if (ToggleBlockOnPrefix('###', event, editor, () => {
-                editor.setBlocks(prefix + '3');
+                editor.setBlocks(HeaderTypePrefix + '3');
             })) return;
 
             // header-4
             if (ToggleBlockOnPrefix('####', event, editor, () => {
-                editor.setBlocks(prefix + '4');
+                editor.setBlocks(HeaderTypePrefix + '4');
             })) return;
 
             // new line at the end
             if (isHotkey('enter', event.nativeEvent)) {
                 let isEndOfBlock = editor.value.selection.focus.isAtEndOfNode(editor.value.focusBlock);
-                if (isEndOfBlock && editor.value.focusBlock.type.startsWith(prefix)) {
+                if (isEndOfBlock && editor.value.focusBlock.type.startsWith(HeaderTypePrefix)) {
                     editor.insertBlock('paragraph');
                     return;
                 }
@@ -41,7 +41,7 @@ export function createHeaderPlugin(): Plugin {
             // toggle
             for (let i of [1, 2, 3, 4, 5]) {
                 if (isHotkey('meta+' + i, event.nativeEvent)) {
-                    const newBlockType = prefix + i;
+                    const newBlockType = HeaderTypePrefix + i;
                     if (editor.value.focusBlock.type == newBlockType) {
                         editor.setBlocks('paragraph');
                     } else {
@@ -54,7 +54,7 @@ export function createHeaderPlugin(): Plugin {
         },
 
         renderBlock: (props, editor, next) => {
-            if (props.node.type.startsWith(prefix)) {
+            if (props.node.type.startsWith(HeaderTypePrefix)) {
                 return <div className={props.node.type}>{props.children}</div>
             } else {
                 return next();
