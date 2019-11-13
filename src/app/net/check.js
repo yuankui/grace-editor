@@ -1,11 +1,7 @@
 const net = require('net');
 
-const startTime = Date.now();
-
-// const ipPort = 'sg2.moocute.xyz:65164';
-const ipPort = 'hk8.kozow.com:60100';
-
 function checkHost(ipPort) {
+    const startTime = Date.now();
     const [ip, port] = ipPort.split(':');
     return new Promise((resolve, reject) => {
         const socket = net.connect({
@@ -24,6 +20,6 @@ function checkHost(ipPort) {
     })
 }
 
-checkHost(ipPort)
-    .then(value => console.log('cost time', value))
-    .catch(e => console.log('error', e));
+module.exports = {
+    checkHost,
+};

@@ -73,10 +73,22 @@ function parseHost(str) {
 // const host = parseHost(testHost);
 // console.log(host);
 
-const url = 'https://www.ssrzero.xyz/link/MhC0eHHBKVsIUA7x';
+const url = 'https://www.ssrzero.xyz/link/mRNW5NawDzpEKWgF';
+
+const {checkHost} = require('./check');
 
 getHosts(url)
     .then(hosts => {
-        console.log(hosts)
+        hosts.forEach(host => {
+            const hostPort = `${host.server}:${host.server_port}`;
+            checkHost(hostPort)
+                .then(time=> {
+                    console.log(time, host.remarks, hostPort);
+                })
+                .catch(err => {
+                    console.log('error', host.remarks, err.toString());
+                })
+        })
     })
     .catch(e => console.log('error=>', e));
+
