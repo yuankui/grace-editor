@@ -27,9 +27,14 @@ export function ToggleBlockOnPrefix(prefix: string,
 export function createCommonPlugin(): Plugin {
     return {
         onPaste: (event, editor, next) => {
+            if (event.clipboardData.items[0].kind == 'file') {
+                next();
+                return;
+            }
             event.clipboardData.items[0].getAsString(data => {
                 editor.insertText(data);
             });
+
             event.preventDefault();
         },
         onKeyDown: (event, editor, next) => {
