@@ -1,11 +1,8 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
-import {RichEditor} from "../Editor/RichEditor";
 import {Backend} from "../backend";
-import Tags from "./Tags";
 import {Post} from "../redux/store";
 import {getRender} from "./renders/factory";
-import isHotkey from "is-hotkey";
 
 export interface Props {
     post: Post | null,
@@ -14,12 +11,10 @@ export interface Props {
 }
 
 export default class EditorContent extends React.Component<Props, any> {
-    private readonly editor: React.RefObject<RichEditor>;
     private readonly titleRef: React.RefObject<HTMLInputElement>;
 
     constructor(props) {
         super(props);
-        this.editor = createRef();
         this.titleRef = createRef();
     }
 
@@ -55,23 +50,6 @@ export default class EditorContent extends React.Component<Props, any> {
         })
     };
 
-    componentDidMount(): void {
-        if (this.titleRef != null && this.titleRef.current != null) {
-            this.titleRef.current.addEventListener("onkeydown", e => {
-                // 点击enter，切换到editor
-                if (isHotkey('enter', e as KeyboardEvent)) {
-                    if (this.editor.current != null) {
-                        this.editor.current.focus();
-                    }
-                    e.preventDefault();
-                } else if (isHotkey('meta+s', e as KeyboardEvent)) {
-                    // 点击保存，禁止默认行为
-                    e.preventDefault();
-                }
-            });
-        }
-    }
-
     onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
         this.props.onChange({
             ...this.props.post as Post,
@@ -85,10 +63,4 @@ export default class EditorContent extends React.Component<Props, any> {
             tags: value,
         })
     };
-
-    focus() {
-        if (this.editor.current != null) {
-            this.editor.current.focus();
-        }
-    }
 }
