@@ -32,5 +32,14 @@ export function createCommonPlugin(): Plugin {
             });
             event.preventDefault();
         },
+        onKeyDown: (event, editor, next) => {
+            if (isHotkey('shift+enter', event.nativeEvent)) {
+                editor.insertBlock('paragraph');
+                event.preventDefault();
+                return;
+            }
+
+            next();
+        }
     }
 }
