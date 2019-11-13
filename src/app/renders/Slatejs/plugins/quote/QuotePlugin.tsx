@@ -17,6 +17,14 @@ export function createQuotePlugin(): Plugin {
                 return;
             }
 
+            if (isHotkey('backspace', event.nativeEvent)) {
+                if (editor.value.focusBlock.text == '') {
+                    editor.setBlocks('paragraph');
+                    event.preventDefault();
+                    return;
+                }
+            }
+
             if (isHotkey('enter', event.nativeEvent)) {
                 editor.insertText("\n");
                 event.preventDefault();
