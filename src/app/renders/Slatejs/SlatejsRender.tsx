@@ -6,6 +6,7 @@ import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
 import {parseToc} from "./plugins/toc/TocPlugin";
+import {createCommonPlugin} from "./plugins/common";
 
 interface State {
     value: any,
@@ -25,6 +26,7 @@ class SlatejsRender extends Render<State> {
         return <Editor value={this.state.value}
                        className='slate-editor'
                        plugins={this.state.plugins}
+                       onPaste={createCommonPlugin().onPaste}
                        onChange={e => this.onChange(e.value)}/>
     }
 

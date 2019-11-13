@@ -37,18 +37,6 @@ export function createCodePlugin(): Plugin {
             next();
         },
 
-        onPaste: (event, editor, next) => {
-            if (editor.value.focusBlock.type == CodeBlock) {
-                event.clipboardData.items[0].getAsString(data => {
-                    editor.insertText(data);
-                });
-                event.preventDefault();
-                return;
-            }
-
-            next();
-        },
-
         renderBlock: (props, editor, next) => {
             if (props.node.type == CodeBlock) {
                 return <pre className={CodeBlock} {...props.attributes}>{props.children}</pre>;
