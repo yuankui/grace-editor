@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "@types/codemirror": "^0.0.80",
-    "@types/draft-js": "^0.10.34",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/is-hotkey": "^0.1.1",
     "@types/jest": "^24.0.15",
@@ -65,7 +64,6 @@
     "babel-polyfill": "^6.26.0",
     "codemirror": "^5.49.2",
     "connected-react-router": "^6.5.2",
-    "draft-js": "^0.11.0",
     "electron-devtools-installer": "^2.2.4",
     "immutable": "^3.8.2",
     "is-hotkey": "^0.1.6",
