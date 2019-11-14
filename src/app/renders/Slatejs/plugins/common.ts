@@ -2,6 +2,7 @@ import {Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
+import Prism from 'prismjs';
 
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
