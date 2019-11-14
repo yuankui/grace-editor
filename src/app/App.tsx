@@ -1,5 +1,4 @@
 import React, {createRef, KeyboardEvent} from 'react';
-import {Layout} from 'antd';
 import SiderMenu from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
@@ -8,7 +7,6 @@ import EditorContent from "./EditorContent";
 import {Resizable} from "re-resizable";
 import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
-import ButtonActions from "./ButtonActions";
 import Main from "./Main";
 import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
@@ -62,18 +60,10 @@ class App extends React.Component<AppProps, AppState> {
         this.props.dispatch(new UpdatePostCommand(post));
     };
 
-    focus = (e: KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            const editor = this.editor.current;
-            if (editor != null) {
-                editor.focus();
-            }
-        }
-    };
-
     render() {
         return (
             <div>
+                <div id='demo'/>
                 <div className='side-handle'>
                     <GitManager/>
                 </div>
