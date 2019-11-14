@@ -25,6 +25,7 @@ class SlatejsRender extends Render<State> {
     render(): ReactNode {
         return <Editor value={this.state.value}
                        className='slate-editor'
+                       placeholder="Start from here..."
                        plugins={this.state.plugins}
                        onPaste={createCommonPlugin().onPaste}
                        onChange={e => this.onChange(e.value)}/>
