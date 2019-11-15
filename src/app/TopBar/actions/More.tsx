@@ -61,9 +61,6 @@ class More extends React.Component<MoreProps, MoreState> {
         const actions = <div style={{
             width: 200,
         }}>
-            <Link to='/settings'>
-                hello
-            </Link>
             <TitleAction title='黑暗模式' onClick={() => {
                 this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
             }}>
