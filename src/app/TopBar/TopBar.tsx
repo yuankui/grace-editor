@@ -36,22 +36,24 @@ class TopBar extends React.Component<Props, State> {
         const list = this.state.logs
             .map((log, i) => <li key={i}>{log}</li>);
 
-        return <div className='git-manager'>
-            <div className='tools'>
-                <InputButton onConfirm={message => this.save(message)}>
-                    Commit
-                </InputButton>
-                <a onClick={() => this.props.dispatch(new GitPushCommand())}>
-                    Push
-                </a>
-                <a onClick={() => this.props.dispatch(new GitPullCommand())}>
-                    Pull
-                </a>
-                <More />
+        return <div className='top-bar-container'>
+            <div className='top-bar'>
+                <div className='tools'>
+                    <InputButton onConfirm={message => this.save(message)}>
+                        Commit
+                    </InputButton>
+                    <a onClick={() => this.props.dispatch(new GitPushCommand())}>
+                        Push
+                    </a>
+                    <a onClick={() => this.props.dispatch(new GitPullCommand())}>
+                        Pull
+                    </a>
+                    <More />
+                </div>
+                <ul>
+                    {list}
+                </ul>
             </div>
-            <ul>
-                {list}
-            </ul>
         </div>
     }
 

@@ -62,9 +62,8 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <div>
                 <div id='demo'/>
-                <div className='side-handle'>
-                    <TopBar/>
-                </div>
+
+                <TopBar/>
                 <SearchDialog/>
                 <div className='layout'>
                     <Resizable enable={{right: true}}

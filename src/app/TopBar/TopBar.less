@@ -1,19 +1,39 @@
 @import 'actions/More.less';
 
-.git-manager {
-  float: right;
+@top-bar-height: 40px;
 
-  padding: 4px;
-  a {
-    display: inline-block;
-    color: black;
-    padding: 4px;
-    margin-right: 4px;
+.top-bar-container {
+  height: @top-bar-height;
+  width: 100%;
+}
 
-    border-radius: 5px;
+.top-bar {
+  height: @top-bar-height;
+  width: 100%;
+  background-color: white;
+  position: fixed;
 
-    &:hover {
-      background-color: #EFEFEF;
+  top: 0;
+
+  .drag-handle();
+
+  .tools {
+    float: right;
+
+    a {
+      display: inline-block;
+      color: black;
+      padding: 4px;
+      margin-right: 4px;
+
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #EFEFEF;
+      }
     }
   }
+
+  padding: 4px;
+
 }
