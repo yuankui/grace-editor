@@ -11,6 +11,7 @@ export interface SiderState {
 
 export interface Settings {
     workSpace: string,
+    isDarkMode: boolean,
 }
 
 export interface Post {

@@ -1,32 +1,85 @@
-import React, {ReactNode} from "react";
-import {Rotate} from "../../../utils";
+import React, {Component} from "react";
+import {mapState, Rotate} from "../../../utils";
 import {Icon, Popover, Switch} from "antd";
+import {connect} from "react-redux";
+import {AppStore} from "../../../redux/store";
+import {Dispatch} from "redux";
+import {SetDarkModeCommand} from "../../../redux/commands/settings/ToggleDarkModeCommand";
+import {push} from "connected-react-router";
+import {Link} from "react-router-dom";
 
-function Menu(props: {title: string, children: any}) {
-    return <div className='menu-container'>
-        <div className='title'>
-            {props.title}
-        </div>
-        <div className='content'>
-            {props.children}
-        </div>
-    </div>
+interface TitleActionProps {
+    title: string,
+    children?: any,
+    onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
 }
-class MoreActions extends React.Component {
-    render(): ReactNode {
-        return <div style={{
-            width: 200,
-        }}>
-            <Menu title='黑暗模式1'>
-                <Switch/>
-            </Menu>
+
+class TitleAction extends Component<TitleActionProps> {
+    private onClick(event: React.MouseEvent<HTMLDivElement>) {
+        if (this.props.onClick) {
+            this.props.onClick(event);
+        }
+    }
+
+    render() {
+        return <div className='menu-container' onClick={e => this.onClick(e)}>
+            <div className='title'>
+                {this.props.title}
+            </div>
+            <div className='content'>
+                {this.props.children}
+            </div>
         </div>
     }
 }
 
-export default class More extends React.Component {
+interface MoreProps {
+    state: AppStore,
+    dispatch: Dispatch<any>,
+}
+
+interface MoreState {
+    showPopup: boolean,
+}
+
+class More extends React.Component<MoreProps, MoreState> {
+
+    constructor(props: Readonly<MoreProps>) {
+        super(props);
+        this.state = {
+            showPopup: false,
+        }
+    }
+
+    toggle(show: boolean) {
+        this.setState({
+            showPopup: show,
+        })
+    }
     render() {
-        return <Popover placement="bottom" content={<MoreActions/>} trigger="click">
+        const isDarkMode = !!this.props.state.settings.isDarkMode;
+        const actions = <div style={{
+            width: 200,
+        }}>
+            <Link to='/settings'>
+                hello
+            </Link>
+            <TitleAction title='黑暗模式1' onClick={() => {
+                this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
+            }}>
+                <Switch checked={isDarkMode}/>
+            </TitleAction>
+            <TitleAction title='设置' onClick={() => {
+                this.props.dispatch(push('/settings'));
+                this.toggle(false);
+            }}/>
+        </div>;
+
+        return <Popover placement="bottom"
+                        content={actions}
+                        visible={this.state.showPopup}
+                        onVisibleChange={visible => this.toggle(visible)}
+                        trigger="click">
             <a>
                 <Rotate deg={90}>
                     <Icon type='more'/>
@@ -35,3 +88,5 @@ export default class More extends React.Component {
         </Popover>
     }
 }
+
+export default connect(mapState)(More);
