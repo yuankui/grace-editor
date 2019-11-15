@@ -2,7 +2,6 @@ import {Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
-import Prism from 'prismjs';
 
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
@@ -42,8 +41,12 @@ function getSelectionCoords() {
     return {x: x, y: y};
 }
 
-export function createCommonPlugin(): Plugin {
+export function createGlobalPlugin(): Plugin {
     return {
+        onCopy: (event, editor, next) => {
+            const data = event.clipboardData;
+            next();
+        },
         onSelect: (event, editor, next) => {
             const {x, y} = getSelectionCoords();
             console.log({x, y});

@@ -1,5 +1,5 @@
 import React from "react";
-import {mapState} from "../../utils";
+import {mapState, Rotate} from "../../utils";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../../redux/store";
@@ -7,6 +7,8 @@ import GitCommitCommand from "../../redux/commands/git/GitCommitCommand";
 import InputButton from "./InputButton";
 import GitPushCommand from "../../redux/commands/git/GitPushCommand";
 import GitPullCommand from "../../redux/commands/git/GitPullCommand";
+import {Button, Icon} from "antd";
+import More from "./actions/More";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -17,7 +19,7 @@ interface State {
     logs: Array<string>,
 }
 
-class GitManager extends React.Component<Props, State> {
+class TopBar extends React.Component<Props, State> {
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -45,6 +47,7 @@ class GitManager extends React.Component<Props, State> {
                 <a onClick={() => this.props.dispatch(new GitPullCommand())}>
                     Pull
                 </a>
+                <More />
             </div>
             <ul>
                 {list}
@@ -74,4 +77,4 @@ class GitManager extends React.Component<Props, State> {
 
 }
 
-export default connect(mapState)(GitManager);
+export default connect(mapState)(TopBar);

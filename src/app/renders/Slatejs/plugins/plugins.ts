@@ -6,7 +6,7 @@ import {createCodePlugin} from "./code/CodePlugin";
 import {createImagePlugin} from "./image/ImagePlugin";
 import {AppStore} from "../../../../redux/store";
 import createHighlightPlugin from "./highlight/HighlightPlugin";
-import {createCommonPlugin} from "./common";
+import {createGlobalPlugin} from "./common";
 import {createQuotePlugin} from "./quote/QuotePlugin";
 
 export default function createSlateEditorPlugins(store: AppStore): Array<Plugin> {
@@ -17,7 +17,7 @@ export default function createSlateEditorPlugins(store: AppStore): Array<Plugin>
         createCodePlugin(),
         createImagePlugin(store),
         createHighlightPlugin(),
-        createCommonPlugin(),
+        createGlobalPlugin(),
         createQuotePlugin(),
     ];
 }

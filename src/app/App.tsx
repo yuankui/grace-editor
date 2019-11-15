@@ -12,9 +12,8 @@ import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
-import GitManager from "./GitManager/GitManager";
-import Test from "./hotkeys/Test";
 import CreatePost from "./hotkeys/CreatePost";
+import TopBar from "./TopBar/TopBar";
 
 interface AppState {
     editable: boolean,
@@ -40,7 +39,6 @@ class App extends React.Component<AppProps, AppState> {
     componentDidMount(): void {
         const hotkeys: Array<HotKeyAction> = [
             Setting(this.props.dispatch, this.props.state),
-            Test(this.props.dispatch, this.props.state),
             CreatePost(this.props.dispatch, this.props.state),
         ];
 
@@ -65,7 +63,7 @@ class App extends React.Component<AppProps, AppState> {
             <div>
                 <div id='demo'/>
                 <div className='side-handle'>
-                    <GitManager/>
+                    <TopBar/>
                 </div>
                 <SearchDialog/>
                 <div className='layout'>

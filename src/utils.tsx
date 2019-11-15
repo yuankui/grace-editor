@@ -17,6 +17,22 @@ export class If extends React.Component<Props> {
     }
 }
 
+
+interface RotateProps {
+    deg: number,
+}
+
+export class Rotate extends React.Component<RotateProps> {
+    render() {
+        return <span style={{
+            transform: `rotate(${this.props.deg}deg)`,
+            display: 'inline-block',
+        }}>
+            {this.props.children}
+        </span>;
+    }
+}
+
 export interface IconProps {
     value: string,
     styles?: React.CSSProperties,
