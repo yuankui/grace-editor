@@ -1,13 +1,13 @@
 import {mapState} from "../../utils";
 import {connect} from "react-redux";
 import React from "react";
-import PathSelect from "../PathSelect/index";
 import {AppStore, Settings} from "../../redux/store";
 import {Dispatch} from "redux";
 import UpdateSettingsCommand from "../../redux/commands/UpdateSettingsCommand";
-import {Form, Input} from "antd";
 import {InitBackendCommand} from "../../redux/commands/InitBackendCommand";
 import {ReloadPostsCommand} from "../../redux/commands/ReloadPostsCommand";
+import ElectronSelect from "../PathSelect/ElectronSelect";
+import {Button} from "antd";
 
 interface Props {
     state: AppStore,
@@ -22,35 +22,26 @@ class SettingView extends React.Component<Props, Settings> {
     }
 
     render() {
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 4 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 20 },
-                sm: { span: 16 },
-            },
-        };
-
-        return <Form {...formItemLayout}>
+        return <div className='app-setting-view'>
             <h1>
                 设置
             </h1>
 
-
-            <Form.Item label='工作区路径'>
-                <Input value={this.state.workSpace? this.state.workSpace: ''} disabled={true}/>
-                <PathSelect
-                    onChoose={path => this.updateWorkSpace(path)}>
+            <div>
+                <div>
+                    工作区路径
+                </div>
+                <ElectronSelect
+                    value={this.state.workSpace? this.state.workSpace: ''}
+                    onChange={path => this.updateWorkSpace(path)}>
                     选择路径
-                </PathSelect>
-            </Form.Item>
+                </ElectronSelect>
+            </div>
 
             <hr />
 
-            <button onClick={() => this.save()}>保存</button>
-        </Form>
+            <Button onClick={() => this.save()} type="primary">保存</Button>
+        </div>
     }
 
     updateWorkSpace(path: string) {
