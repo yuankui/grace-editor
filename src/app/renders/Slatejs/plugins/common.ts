@@ -24,37 +24,10 @@ export function ToggleBlockOnPrefix(prefix: string,
     return false;
 }
 
-function getSelectionCoords() {
-    let sel = document.getSelection(), range, rect;
-    let x = 0, y = 0;
-    if (sel && sel.rangeCount) {
-        range = sel.getRangeAt(0).cloneRange();
-        if (range.getClientRects) {
-            range.collapse(true);
-            if (range.getClientRects().length > 0) {
-                rect = range.getClientRects()[0];
-                x = rect.left;
-                y = rect.top;
-            }
-        }
-    }
-    return {x: x, y: y};
-}
-
 export function createGlobalPlugin(): Plugin {
     return {
         onCopy: (event, editor, next) => {
             const data = event.clipboardData;
-            next();
-        },
-        onSelect: (event, editor, next) => {
-            const {x, y} = getSelectionCoords();
-            console.log({x, y});
-            const el = document.getElementById('demo');
-            if (el) {
-                el.style.left = `${x}px`;
-                el.style.top = `${y}px`;
-            }
             next();
         },
         onPaste: (event, editor, next) => {

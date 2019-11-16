@@ -61,8 +61,6 @@ class App extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div style={{height: '100%'}}>
-                <div id='demo'/>
-
                 <TopBar/>
                 <SearchDialog/>
                 <div className='layout'>

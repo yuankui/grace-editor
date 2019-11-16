@@ -8,8 +8,9 @@ import {AppStore} from "../../../../redux/store";
 import createHighlightPlugin from "./highlight/HighlightPlugin";
 import {createGlobalPlugin} from "./common";
 import {createQuotePlugin} from "./quote/QuotePlugin";
+import createHintPlugin, {OnHintChange} from "./hint/HintPlugin";
 
-export default function createSlateEditorPlugins(store: AppStore): Array<Plugin> {
+export default function createSlateEditorPlugins(store: AppStore, onHint: OnHintChange): Array<Plugin> {
     return [
         createHeaderPlugin(),
         createListPlugin(),
@@ -19,5 +20,6 @@ export default function createSlateEditorPlugins(store: AppStore): Array<Plugin>
         createHighlightPlugin(),
         createGlobalPlugin(),
         createQuotePlugin(),
+        createHintPlugin(onHint),
     ];
 }
