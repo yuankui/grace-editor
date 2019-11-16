@@ -33,7 +33,10 @@ export default class HeaderAction implements HintAction {
     }
 
     action(editor: Editor): void {
-        editor.insertBlock(HeaderTypePrefix + this.level);
+        const blockType = HeaderTypePrefix + this.level;
+
+        editor.setBlocks(blockType)
+            .deleteBackward();
     }
 
     icon(width: number): ReactNode {

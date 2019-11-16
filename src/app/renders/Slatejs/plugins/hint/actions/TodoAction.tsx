@@ -5,7 +5,8 @@ import {TodoBlockType} from "../../todo/TodoPlugin";
 
 export default class TodoAction implements HintAction {
     action(editor: Editor): void {
-        editor.insertBlock(TodoBlockType);
+        editor.setBlocks(TodoBlockType)
+            .deleteBackward();
     }
 
     icon(width: number): ReactNode {

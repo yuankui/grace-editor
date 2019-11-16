@@ -41,4 +41,5 @@ export type CommandType = "TestCommand"
     | "Git/Init"
 
     | "Hint/Update"
+    | "Hint/Toggle"
 ;

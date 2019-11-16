@@ -11,6 +11,7 @@ import {HintAction} from "./actions";
 import HeaderAction from "./actions/HeaderAction";
 import TodoAction from "./actions/TodoAction";
 import {Listile} from "../../../../Listile";
+import {HintToggleCommand} from "../../../../../redux/commands/hint/HintToggleCommand";
 
 interface Props {
     state: AppStore,
@@ -87,19 +88,25 @@ class BlockList extends React.Component<Props, State> {
                 mask={false}
                 onCancel={() => this.toggle(false)}
                 style={style}>
-                <DropdownSelect onSelect={(index, data) => {
+                <DropdownSelect
+                    onSelect={(index, action: HintAction) => {
+                        this.props.dispatch(new HintToggleCommand(false));
 
-                }}
-                                maxHeight={200}
-                                ref={ref => {
-                                    if (ref) {
-                                        ref.focusAndReset();
-                                    }
-                                }}
-                                onSearch={async () => {
-                                    return this.state.groups.flatMap(g => g.actions);
-                                }}
-                                renderItem={this.renderAction}
+                        setTimeout(() => {
+                            action.action(this.props.editor);
+                            this.props.editor.focus();
+                        }, 100);
+                    }}
+                    maxHeight={200}
+                    ref={ref => {
+                        if (ref) {
+                            ref.focusAndReset();
+                        }
+                    }}
+                    onSearch={async () => {
+                        return this.state.groups.flatMap(g => g.actions);
+                    }}
+                    renderItem={this.renderAction}
                 />
             </Modal>
         );
