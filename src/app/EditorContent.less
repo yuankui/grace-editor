@@ -1,3 +1,21 @@
+@app-title-height: 60px;
+@app-bottom-height: 70px;
+
 .post-editor {
   padding: 0 20px;
+  height: 100%;
+  width: 800px;
+
+  .title {
+    height: @app-title-height;
+  }
+
+  .content {
+    max-height: 100%;
+    height: calc(100% - @app-title-height - @app-bottom-height);
+  }
+
+  .bottom {
+    height: @app-bottom-height;
+  }
 }

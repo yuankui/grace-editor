@@ -30,16 +30,21 @@ export default class EditorContent extends React.Component<Props, any> {
 
         let Editor = getRender(post);
         return <div className='post-editor'>
-            <span className='title'>
+            <div className='title'>
                 <input placeholder={"Untitled"}
                        key={post.id}
                        ref={this.titleRef}
                        defaultValue={post.title}
                        onChange={this.onTitleChange}/>
-            </span>
+            </div>
 
             {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
-            <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
+            <div className='content'>
+                <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
+            </div>
+            <div className='bottom'>
+                hello kitty
+            </div>
         </div>
     }
 

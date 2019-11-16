@@ -4,6 +4,11 @@
 @import (css) '~codemirror/theme/material.css';
 @import '../redux/commands/git/GitPushCommand.less';
 
+html {
+  user-select: none;
+  overflow: hidden;
+}
+
 .theme-default {
   @import 'theme/default';
   @import (multiple) './main';
