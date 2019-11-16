@@ -40,7 +40,7 @@ export default function createHintPlugin(onHintChange: OnHintChange): Plugin {
             next();
         },
         renderEditor: (props, editor, next) => {
-            return <div>
+            return <div style={{height: '100%'}}>
                 <BlockList/>
                 {next()}
             </div>
