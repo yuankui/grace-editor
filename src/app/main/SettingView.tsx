@@ -27,7 +27,7 @@ class SettingView extends React.Component<Props, Settings> {
                 设置
             </h1>
 
-            <div>
+            <div className='app-setting-content'>
                 <div>
                     工作区路径
                 </div>
@@ -37,8 +37,6 @@ class SettingView extends React.Component<Props, Settings> {
                     选择路径
                 </ElectronSelect>
             </div>
-
-            <hr />
 
             <Button onClick={() => this.save()} type="primary">保存</Button>
         </div>
