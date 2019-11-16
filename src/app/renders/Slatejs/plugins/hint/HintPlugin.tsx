@@ -7,7 +7,7 @@ import {Dispatch} from "redux";
 import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
 
 
-function getSelectionCoords() {
+export function getSelectionCoords() {
     let sel = document.getSelection(), range, rect;
     let x = 0, y = 0;
     if (sel && sel.rangeCount) {

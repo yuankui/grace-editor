@@ -38,6 +38,7 @@ export interface SlateHint {
 
 export interface Slatejs {
     hint: SlateHint,
+    inlineHint: SlateHint,
 }
 
 export interface AppStore {
