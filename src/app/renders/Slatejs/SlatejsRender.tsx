@@ -7,26 +7,24 @@ import {connect} from "react-redux";
 import {mapState} from "../../../utils";
 import {parseToc} from "./plugins/toc/TocPlugin";
 import {createGlobalPlugin} from "./plugins/common";
-import {OnHintChange} from "./plugins/hint/HintPlugin";
+
 
 interface State {
     value: any,
     plugins: Array<Plugin>,
+
 }
 
 
 class SlatejsRender extends Render<State> {
+
     constructor(props: Readonly<RenderProps>) {
         super(props);
         this.state = {
             value: Value.fromJSON(this.props.value),
-            plugins: createSlateEditorPlugins(this.props.state, this.onHintChange),
+            plugins: createSlateEditorPlugins(this.props.state, this.props.dispatch),
         };
     }
-
-    onHintChange: OnHintChange = (x, y, show) => {
-
-    };
 
     render(): ReactNode {
         return <Editor value={this.state.value}

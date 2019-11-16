@@ -54,6 +54,14 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         router: routerReducer(undefined, action),
         settings: {
             workSpace: '',
+            isDarkMode: false,
+        },
+        slatejs: {
+            hint: {
+                x: 0,
+                y: 0,
+                show: false,
+            }
         }
     };
 }

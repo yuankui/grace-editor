@@ -30,6 +30,16 @@ export interface PostsStore {
     parentMap: Immutable.Map<string, string | null>,
 }
 
+export interface SlateHint {
+    x: number,
+    y: number,
+    show: boolean,
+}
+
+export interface Slatejs {
+    hint: SlateHint,
+}
+
 export interface AppStore {
     posts: PostsStore,
     backend: Backend,
@@ -37,6 +47,7 @@ export interface AppStore {
     router: RouterState,
     settings: Settings,
     repo?: SimpleGit,
+    slatejs: Slatejs,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {

@@ -3,6 +3,7 @@ import {AppStore, Settings} from "../store";
 
 const emptySetting: Settings = {
     workSpace: '',
+    isDarkMode: false,
 };
 
 export default class ReloadSettingsCommand extends AppCommand {

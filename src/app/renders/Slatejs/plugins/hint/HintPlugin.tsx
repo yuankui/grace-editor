@@ -2,10 +2,10 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import BlockList from "./BlockList";
 import isHotkey from "is-hotkey";
+import {AppStore} from "../../../../../redux/store";
+import {Dispatch} from "redux";
+import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
 
-export interface OnHintChange {
-    (x: number, y: number, show: boolean): void;
-}
 
 function getSelectionCoords() {
     let sel = document.getSelection(), range, rect;
@@ -24,7 +24,7 @@ function getSelectionCoords() {
     return {x: x, y: y};
 }
 
-export default function createHintPlugin(onHintChange: OnHintChange): Plugin {
+export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             if (!isHotkey('/', event.nativeEvent)) {
@@ -32,16 +32,18 @@ export default function createHintPlugin(onHintChange: OnHintChange): Plugin {
             }
 
             const {x, y} = getSelectionCoords();
-            const el = document.getElementById('demo');
-            if (el) {
-                el.style.left = `${x}px`;
-                el.style.top = `${y}px`;
-            }
-            next();
+
+            // next();
+
+            dispatch(new HintUpdateCommand({
+                x,
+                y,
+                show: true,
+            }));
         },
         renderEditor: (props, editor, next) => {
             return <div style={{height: '100%'}}>
-                <BlockList/>
+                <BlockList editor={editor}/>
                 {next()}
             </div>
         }
