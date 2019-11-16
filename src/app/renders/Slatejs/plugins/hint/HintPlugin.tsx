@@ -33,13 +33,15 @@ export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any
 
             const {x, y} = getSelectionCoords();
 
-            // next();
+            next();
 
-            dispatch(new HintUpdateCommand({
-                x,
-                y,
-                show: true,
-            }));
+            setTimeout(() => {
+                dispatch(new HintUpdateCommand({
+                    x,
+                    y,
+                    show: true,
+                }));
+            }, 200);
         },
         renderEditor: (props, editor, next) => {
             return <div style={{height: '100%'}}>

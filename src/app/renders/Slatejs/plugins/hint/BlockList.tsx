@@ -3,9 +3,10 @@ import {mapState} from "../../../../../utils";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {Input, Modal} from "antd";
+import {Modal} from "antd";
 import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
 import {Editor} from "slate";
+import {DropdownSelect} from "../../../../DropdownSelect";
 
 interface Props {
     state: AppStore,
@@ -32,6 +33,7 @@ class BlockList extends React.Component<Props> {
             }, 100)
         }
     }
+
     render() {
         const hint = this.props.state.slatejs.hint;
 
@@ -43,7 +45,7 @@ class BlockList extends React.Component<Props> {
             top: hint.y + heightOffset,
             left: hint.x,
             width: width,
-            height: 300,
+            height: 600,
         };
 
         return (
@@ -55,20 +57,22 @@ class BlockList extends React.Component<Props> {
                 mask={false}
                 onCancel={() => this.toggle(false)}
                 style={style}>
-                <div>
-                    <Input
-                        ref={ref => {
-                            if (ref) ref.focus();
-                        }}
-                        value='hello kitty'/>
-                </div>
+                <DropdownSelect onSelect={(index, data) => {
 
-                <ul>
-                    <li>hello</li>
-                    <li>hello</li>
-                    <li>hello</li>
-                    <li>hello</li>
-                </ul>
+                }}
+                                maxHeight={200}
+                                ref={ref => {
+                                    if (ref) {
+                                        ref.focusAndReset();
+                                    }
+                                }}
+                                onSearch={async () => {
+                                    return [1, 2, 3, 4, 5, 6, 7, 8];
+                                }}
+                                renderItem={(item, keyword) => {
+                                    return <li>{item}</li>
+                                }}
+                />
             </Modal>
         );
     }
