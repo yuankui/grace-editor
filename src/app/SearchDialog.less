@@ -7,6 +7,17 @@
   height: 55px;
   padding: 5px 10px;
 
+  &.active-true {
+    background-color: @background-color;
+    .list-title {
+      color: contrast(@title-color);
+    }
+
+    .list-subtitle {
+      color: contrast(@subtitle-color);
+    }
+  }
+
   .list-title {
     color: @title-color;
     font-weight: bold;
@@ -20,18 +31,6 @@
 
   .tags {
     font-size: 12px;
-  }
-}
-
-.active-true .dropdown-select-item {
-  background-color: @background-color;
-
-  .list-title {
-    color: contrast(@title-color);
-  }
-
-  .list-subtitle {
-    color: contrast(@subtitle-color);
   }
 }
 

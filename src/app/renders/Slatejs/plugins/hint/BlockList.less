@@ -3,14 +3,10 @@
     z-index: 99;
     top: 0;
     left: 0;
-
-    li {
-        list-style: none;
-        height: 50px;
-        background-color: #20a0ff;
-    }
-
-    .active-true li {
-        background-color: red;
+    background-color: @base-background-color;
+    .app-list-tile {
+        &.active-true {
+            background-color: @base-hover-background-color;
+        }
     }
 }

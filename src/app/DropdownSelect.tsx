@@ -16,7 +16,7 @@ interface Props {
      */
     onSearch: (keyword: string) => Promise<Array<any>>,
 
-    renderItem: (item: any, keyword: string) => ReactNode,
+    renderItem: (item: any, keyword: string, isActive: boolean) => ReactNode,
 }
 
 interface State {
@@ -67,10 +67,8 @@ export class DropdownSelect extends React.Component<Props, State> {
             >
                 {
                     this.state.options.map((e, index) => {
-                        const active = 'active-' + (index === this.state.selectIndex);
-                        return <div key={e.key} className={classNames([active])}>
-                            {this.props.renderItem(e, this.state.keyword)}
-                        </div>;
+                        const active = (index === this.state.selectIndex);
+                        return this.props.renderItem(e, this.state.keyword, active);
                     })
                 }
             </div>

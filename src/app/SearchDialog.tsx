@@ -83,7 +83,7 @@ class SearchDialog extends React.Component<Props, State> {
         })
     };
 
-    renderOption = (e: SearchOption, keyword: string) => {
+    renderOption = (e: SearchOption, keyword: string, active: boolean) => {
         const words = findAll(e.title, keyword);
         const highlightedText = words
             .map(word => {
@@ -94,7 +94,7 @@ class SearchDialog extends React.Component<Props, State> {
                 }
             });
 
-        return <div className='dropdown-select-item'>
+        return <div key={e.key} className={'dropdown-select-item' + " active-" + active}>
             <div className='list-title'>
                 {highlightedText}
             </div>
@@ -102,7 +102,7 @@ class SearchDialog extends React.Component<Props, State> {
                 {e.subtitle}
                 {this.renderTags(e.tags)}
             </div>
-        </div>
+        </div>;
     };
 
     renderTags(tags: Array<string>) {

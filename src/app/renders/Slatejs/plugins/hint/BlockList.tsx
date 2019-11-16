@@ -1,4 +1,4 @@
-import React, {CSSProperties} from "react";
+import React, {CSSProperties, ReactNode} from "react";
 import {mapState} from "../../../../../utils";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
@@ -7,6 +7,10 @@ import {Modal} from "antd";
 import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
 import {Editor} from "slate";
 import {DropdownSelect} from "../../../../DropdownSelect";
+import {HintAction} from "./actions";
+import HeaderAction from "./actions/HeaderAction";
+import TodoAction from "./actions/TodoAction";
+import {Listile} from "../../../../Listile";
 
 interface Props {
     state: AppStore,
@@ -17,7 +21,33 @@ interface Props {
 const width = 300;
 const heightOffset = 30;
 
-class BlockList extends React.Component<Props> {
+interface ActionGroup {
+    title: string,
+    actions: Array<HintAction>,
+}
+
+interface State {
+    groups: Array<ActionGroup>,
+}
+
+class BlockList extends React.Component<Props, State> {
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.state = {
+            groups: [
+                {
+                    title: "Basic blocks",
+                    actions: [
+                        new HeaderAction(1),
+                        new HeaderAction(2),
+                        new HeaderAction(3),
+                        new TodoAction(),
+                    ],
+                }
+            ]
+        }
+    }
 
     toggle(show: boolean) {
         const hint = this.props.state.slatejs.hint;
@@ -67,14 +97,24 @@ class BlockList extends React.Component<Props> {
                                     }
                                 }}
                                 onSearch={async () => {
-                                    return [1, 2, 3, 4, 5, 6, 7, 8];
+                                    return this.state.groups.flatMap(g => g.actions);
                                 }}
-                                renderItem={(item, keyword) => {
-                                    return <li>{item}</li>
-                                }}
+                                renderItem={this.renderAction}
                 />
             </Modal>
         );
+
+    }
+
+    renderAction = (item: HintAction, keyword: string, isActive: boolean): ReactNode => {
+        return <Listile key={item.title()}
+                        leading={<div style={{width: 50}}>
+                            {item.icon(50)}
+                        </div>}
+                        title={item.title()}
+                        subtitle={item.subtitle()}
+                        className={'active-' + isActive}
+        />;
     }
 }
 
