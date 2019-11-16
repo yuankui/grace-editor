@@ -5,6 +5,7 @@ import isHotkey from "is-hotkey";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
+import SelectionToolbar from "../selection-hint/SelectionToolbar";
 
 
 export function getSelectionCoords() {
@@ -41,13 +42,13 @@ export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any
                     y,
                     show: true,
                 }));
-            }, 200);
+            }, 100);
         },
         renderEditor: (props, editor, next) => {
-            return <div style={{height: '100%'}}>
+            return <>
                 <BlockList editor={editor}/>
                 {next()}
-            </div>
+            </>
         }
     }
 };

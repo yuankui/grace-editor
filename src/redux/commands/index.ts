@@ -42,4 +42,7 @@ export type CommandType = "TestCommand"
 
     | "Hint/Update"
     | "Hint/Toggle"
+
+    | "ToolsHint/Toggle"
+    | "ToolsHint/Update"
 ;

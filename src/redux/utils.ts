@@ -61,6 +61,11 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 x: 0,
                 y: 0,
                 show: false,
+            },
+            toolsHint: {
+                x: 0,
+                y: 0,
+                show: false,
             }
         }
     };
