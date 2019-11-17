@@ -4,6 +4,11 @@ import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
 import {ToggleBlockOnPrefix} from "../common";
 
+export const CommandToggleList = 'toggleList';
+export const BlockTypeBulletedList = 'bulleted-list';
+export const BlockTypeNumberedList = 'numbered-list';
+export const BlockTypeListItem = 'list-item';
+
 /**
  * TODO add list indent & unIndent
  */
@@ -12,42 +17,38 @@ export function createListPlugin(): Plugin {
         onKeyDown: (event, editor, next) => {
             // 空格触发list
             if (ToggleBlockOnPrefix('-', event, editor, () => {
-                editor.command('toggleList', 'bulleted-list');
+                editor.command('toggleList', BlockTypeBulletedList);
             })) return;
 
             if (ToggleBlockOnPrefix('1.', event, editor, () => {
-                editor.command('toggleList', 'numbered-list');
+                editor.command('toggleList', BlockTypeNumberedList);
             })) return;
 
             // 在空白enter取消list
             if (isHotkey('enter', event.nativeEvent)) {
-                if (editor.value.focusBlock.type == 'list-item') {
+                if (editor.value.focusBlock.type == BlockTypeListItem) {
                     if (editor.value.focusBlock.text == '') {
                         editor.setBlocks('paragraph')
-                            .unwrapBlock('bulleted-list')
-                            .unwrapBlock('numbered-list');
+                            .unwrapBlock(BlockTypeBulletedList)
+                            .unwrapBlock(BlockTypeNumberedList);
 
                         event.preventDefault();
                         return;
                     }
                 }
             }
-            if (isHotkey('meta+l', event.nativeEvent)) {
-                editor.command('toggleList', 'bulleted-list');
-                return;
-            }
 
             next();
         },
         commands: {
-            toggleList: (editor: Editor, args: any) => {
+            [CommandToggleList]: (editor: Editor, args: any) => {
                 const {value} = editor;
                 const {document} = value;
                 const type = args;
 
 
                 // Handle the extra wrapping required for list buttons.
-                const isList = editor.value.focusBlock.type == 'list-item';
+                const isList = editor.value.focusBlock.type == BlockTypeListItem;
 
                 const isType = value.blocks.some(block => {
                     return !!document.getClosest((block as Block).key, parent => (parent as any).type === type);
@@ -61,11 +62,11 @@ export function createListPlugin(): Plugin {
                 } else if (isList) {
                     editor
                         .unwrapBlock(
-                            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
+                            type === BlockTypeBulletedList ? BlockTypeNumberedList : BlockTypeBulletedList
                         )
                         .wrapBlock(type)
                 } else {
-                    editor = editor.setBlocks('list-item').wrapBlock(type)
+                    editor = editor.setBlocks(BlockTypeListItem).wrapBlock(type)
                 }
 
                 return editor;
@@ -76,11 +77,11 @@ export function createListPlugin(): Plugin {
             const {attributes, children, node} = props;
 
             switch (node.type) {
-                case 'bulleted-list':
+                case BlockTypeBulletedList:
                     return <ul {...attributes}>{children}</ul>;
-                case 'list-item':
+                case BlockTypeListItem:
                     return <li {...attributes}>{children}</li>;
-                case 'numbered-list':
+                case BlockTypeNumberedList:
                     return <ol {...attributes}>{children}</ol>;
                 default:
                     return next();
