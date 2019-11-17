@@ -6,9 +6,24 @@ import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {ToolsHintToggleCommand} from "../../../../../redux/commands/tools-hint/ToolsHintToggleCommand";
 import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/ToolsHintUpdateCommand";
+import {createTools, Tool} from "./tools";
+import isHotkey from "is-hotkey";
+
+const tools = createTools().filter(t => t !== "Separator")
+    .map(t => t as Tool)
+    .filter(t => t.hotkey != null);
 
 export default function createSelectionHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
     return {
+        onKeyDown: (event, editor, next) => {
+            for (let tool of tools) {
+                if (isHotkey(tool.hotkey as string, event.nativeEvent)) {
+                    tool.action(editor);
+                    return;
+                }
+            }
+            next();
+        },
         onSelect: (event, editor, next) => {
             // not select a range
             if (editor.value.selection.isCollapsed) {

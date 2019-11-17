@@ -5,6 +5,7 @@ import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {Editor} from "slate";
 import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/ToolsHintUpdateCommand";
+import {createTools, Tool, ToolOrSeparator} from "./tools";
 
 
 interface Props {
@@ -13,12 +14,19 @@ interface Props {
     editor: Editor,
 }
 
-const heightOffset = 50;
+interface State {
+    tools: Array<ToolOrSeparator>,
+}
 
-class SelectionToolbar extends React.Component<Props> {
+const heightOffset = 25;
+
+class SelectionToolbar extends React.Component<Props, State> {
 
     constructor(props: Readonly<any>) {
         super(props);
+        this.state = {
+            tools: createTools(),
+        }
     }
 
     toggle(show: boolean) {
@@ -42,13 +50,26 @@ class SelectionToolbar extends React.Component<Props> {
             top: hint.y + heightOffset,
         };
 
-        console.log('style', style);
+        const tools = this.state.tools.map((t, index) => {
+            if (t === "Separator") {
+                return <div key={index} className='separator'/>
+            } else {
+                return (
+                    <div key={index}
+                         onClick={(e) => {
+                             t.action(this.props.editor);
+                             this.props.editor.focus();
+                             e.stopPropagation();
+                             e.preventDefault();
+                         }}
+                         className='app-editor-tool'>{t.title}</div>
+                )
+            }
+        });
 
         return (
-            <div style={style} onClick={(e) => {
-                e.stopPropagation();
-            }} className='app-editor-toolbar'>
-                <input />
+            <div style={style} className='app-editor-toolbar'>
+                {tools}
             </div>
         );
     }
