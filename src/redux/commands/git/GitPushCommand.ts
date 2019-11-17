@@ -15,9 +15,14 @@ export default class GitPushCommand extends GitCommand {
     async processGit(state: AppStore): Promise<AppStore> {
         if (state.repo) {
             NProgress.start();
-            const log = await state.repo.push('origin', 'master');
-            NProgress.done();
-            message.info("push success");
+            try {
+                const log = await state.repo.push('origin', 'master');
+                message.info("push success");
+            } catch (e) {
+                message.error("push error" + e.toString());
+            } finally {
+                NProgress.done();
+            }
         }
 
         return state;
