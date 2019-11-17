@@ -43,7 +43,7 @@ export default class EditorContent extends React.Component<Props, any> {
                 <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
             </div>
             <div className='bottom'>
-                this is the bottom.
+                this is the bottom line.
             </div>
         </div>
     }

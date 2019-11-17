@@ -5,8 +5,8 @@ import {Value} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
-import {parseToc} from "./plugins/toc/TocPlugin";
 import {createGlobalPlugin} from "./plugins/common";
+import {parseToc} from "./plugins/toc/TableOfContent";
 
 
 interface State {

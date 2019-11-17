@@ -1,12 +1,35 @@
 .app-toc-container {
   position: relative;
+
   .app-post-toc {
     position: absolute;
     right: 0;
     top: 0;
-    width: 100px;
-    height: 100px;
-    background-color: #20a0ff;
+    background-color: @base-background-color;
+    box-shadow: 0 0 1px;
+    border-radius: 5px;
     z-index: 99;
+
+    .app-toc-drawer {
+      transition: all 0.3s;
+      overflow: hidden;
+      padding: 10px;
+      ul {
+        li {
+          padding: 5px;
+          cursor: pointer;
+          &:hover {
+            background-color: @base-hover-background-color;
+          }
+        }
+      }
+
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
