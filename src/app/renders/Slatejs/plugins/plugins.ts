@@ -12,6 +12,7 @@ import {createGlobalPlugin} from "./common";
 import {createQuotePlugin} from "./quote/QuotePlugin";
 import createHintPlugin from "./hint/HintPlugin";
 import createSelectionHintPlugin from "./selection-hint/SelectionHintPlugin";
+import createInlinePlugin from "./inline/InlinePlugin";
 
 export default function createSlateEditorPlugins(store: AppStore, dispatch: Dispatch<any>): Array<Plugin> {
     return [
@@ -25,5 +26,6 @@ export default function createSlateEditorPlugins(store: AppStore, dispatch: Disp
         createQuotePlugin(),
         createHintPlugin(store, dispatch),
         createSelectionHintPlugin(store, dispatch),
+        createInlinePlugin(),
     ];
 }
