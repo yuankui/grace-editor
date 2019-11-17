@@ -5,9 +5,14 @@ import {MarkTypeBold} from "../../inline/InlinePlugin";
 
 export default function createBoldTool(): Tool {
     return {
+        isActive(editor: Editor): boolean {
+            const marks = editor.value.focusText.marks;
+            const active = marks != null && marks.toArray()
+                .some(m => m && m.type === MarkTypeBold);
+            return active;
+        },
         title: <b>B</b>,
         hotkey: 'meta+b',
-        markType: MarkTypeBold,
         action(editor: Editor): void {
             editor.toggleMark(MarkTypeBold);
         }

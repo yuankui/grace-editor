@@ -16,6 +16,11 @@ const tools = createTools().filter(t => t !== "Separator")
 export default function createSelectionHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
+            if (isHotkey('escape', event.nativeEvent) && store.slatejs.toolsHint.show) {
+                dispatch(new ToolsHintToggleCommand(false));
+                return;
+            }
+
             for (let tool of tools) {
                 if (isHotkey(tool.hotkey as string, event.nativeEvent)) {
                     tool.action(editor);
@@ -23,6 +28,24 @@ export default function createSelectionHintPlugin(store: AppStore, dispatch: Dis
                 }
             }
             next();
+        },
+        onClick: (event, editor, next) => {
+            // not select a range
+            if (editor.value.selection.isCollapsed) {
+                next();
+                return;
+            }
+
+            const {left: x, bottom: y} = getSelectionCoords();
+
+            next();
+
+            setTimeout(() => {
+                dispatch(new ToolsHintUpdateCommand({
+                    show: true,
+                    x, y
+                }));
+            }, 100)
         },
         onSelect: (event, editor, next) => {
             // not select a range

@@ -10,7 +10,7 @@ import createResetTool from "./ResetTool";
 export interface Tool {
     title: ReactNode,
     hotkey?: string,
-    markType: string,
+    isActive(editor: Editor): boolean,
     action(editor: Editor): void,
 }
 
