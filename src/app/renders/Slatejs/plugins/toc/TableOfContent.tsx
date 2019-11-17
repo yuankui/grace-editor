@@ -88,7 +88,7 @@ export default class TableOfContent extends React.Component<Props, State> {
         const width = 250;
 
         return <div className='app-post-toc' style={{display}}>
-            <Button onClick={() => this.toggle()} icon='ordered-list'/>
+            <Button size='small' onClick={() => this.toggle()} icon='ordered-list'/>
             <Drawer width={width} show={this.state.visible} className='app-toc-drawer'>
                 {this.renderTitle(titleBlocks)}
             </Drawer>
