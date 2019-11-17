@@ -14,6 +14,7 @@ export default function createResetTool(): Tool {
             for (let inlineMarkType of InlineMarkTypes) {
                 e = e.removeMark(inlineMarkType);
             }
+            e.setBlocks('paragraph');
         }
     }
 }

@@ -6,6 +6,7 @@ import createLineThroughTool from "./LineThroughTool";
 import createCodeTool from "./CodeTool";
 import createUnderLineTool from "./UnderLineTool";
 import createResetTool from "./ResetTool";
+import createHeadingTool from "./HeadingTool";
 
 export interface Tool {
     title: ReactNode,
@@ -27,5 +28,9 @@ export function createTools(): Array<ToolOrSeparator> {
         createUnderLineTool(),
         "Separator",
         createCodeTool(),
+        "Separator",
+        createHeadingTool(1),
+        createHeadingTool(2),
+        createHeadingTool(3),
     ]
 }
