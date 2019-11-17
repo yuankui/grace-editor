@@ -24,8 +24,19 @@ export function ToggleBlockOnPrefix(prefix: string,
     return false;
 }
 
+export const CommandToggleParagraph = 'toggleParagraph';
+
 export function createGlobalPlugin(): Plugin {
     return {
+        commands: {
+            [CommandToggleParagraph]: (editor, args) => {
+                editor.setBlocks({
+                    type: 'paragraph',
+                    data: undefined,
+                });
+                return editor;
+            },
+        },
         onCopy: (event, editor, next) => {
             const data = event.clipboardData;
             next();

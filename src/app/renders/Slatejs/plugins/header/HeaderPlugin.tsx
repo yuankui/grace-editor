@@ -1,7 +1,7 @@
 import {Plugin} from 'slate-react';
 import isHotkey from "is-hotkey";
 import React from "react";
-import {ToggleBlockOnPrefix} from "../common";
+import {CommandToggleParagraph, ToggleBlockOnPrefix} from "../common";
 
 export const HeaderTypePrefix = 'header-';
 
@@ -43,7 +43,7 @@ export function createHeaderPlugin(): Plugin {
                 if (isHotkey('meta+' + i, event.nativeEvent)) {
                     const newBlockType = HeaderTypePrefix + i;
                     if (editor.value.focusBlock.type == newBlockType) {
-                        editor.setBlocks('paragraph');
+                        editor.command(CommandToggleParagraph);
                     } else {
                         editor.setBlocks(newBlockType);
                     }

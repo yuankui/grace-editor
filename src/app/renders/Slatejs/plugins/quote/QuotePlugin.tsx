@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {ToggleBlockOnPrefix} from "../common";
+import {CommandToggleParagraph, ToggleBlockOnPrefix} from "../common";
 import isHotkey from "is-hotkey";
 
 export const QuoteBlockType = 'quote-block';
@@ -19,7 +19,7 @@ export function createQuotePlugin(): Plugin {
 
             if (isHotkey('backspace', event.nativeEvent)) {
                 if (editor.value.focusBlock.text == '') {
-                    editor.setBlocks('paragraph');
+                    editor.command(CommandToggleParagraph);
                     event.preventDefault();
                     return;
                 }
