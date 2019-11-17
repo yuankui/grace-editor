@@ -8,6 +8,7 @@ import {InitBackendCommand} from "../../redux/commands/InitBackendCommand";
 import {ReloadPostsCommand} from "../../redux/commands/ReloadPostsCommand";
 import ElectronSelect from "../PathSelect/ElectronSelect";
 import {Button} from "antd";
+import GitInitCommand from "../../redux/commands/git/GitInitCommand";
 
 interface Props {
     state: AppStore,
@@ -28,14 +29,21 @@ class SettingView extends React.Component<Props, Settings> {
             </h1>
 
             <div className='app-setting-content'>
-                <div>
+                <p>
                     工作区路径
-                </div>
+                </p>
                 <ElectronSelect
                     value={this.state.workSpace? this.state.workSpace: ''}
                     onChange={path => this.updateWorkSpace(path)}>
                     选择路径
                 </ElectronSelect>
+
+                <p>
+                    初始化工作区
+                </p>
+                <Button type='danger' onClick={() => {
+                    this.props.dispatch(new GitInitCommand());
+                }}>初始化</Button>
             </div>
 
             <Button onClick={() => this.save()} type="primary">保存</Button>

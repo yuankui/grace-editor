@@ -9,6 +9,9 @@ import GitPushCommand from "../../redux/commands/git/GitPushCommand";
 import GitPullCommand from "../../redux/commands/git/GitPullCommand";
 import {Button, Icon} from "antd";
 import More from "./actions/More";
+import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
+import {createPostId} from "../../redux/utils";
+import PostSelectAction from "../../redux/actions/PostSelectAction";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -39,6 +42,10 @@ class TopBar extends React.Component<Props, State> {
         return <div className='top-bar-container'>
             <div className='top-bar'>
                 <div className='tools'>
+                    <a onClick={() => {
+                        this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
+                        this.props.dispatch(PostSelectAction());
+                    }}>Create New</a>
                     <InputButton onConfirm={message => this.save(message)}>
                         Commit
                     </InputButton>
