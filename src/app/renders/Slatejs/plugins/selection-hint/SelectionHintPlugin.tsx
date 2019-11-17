@@ -9,10 +9,13 @@ import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/T
 
 export default function createSelectionHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
     return {
-
         onSelect: (event, editor, next) => {
             // not select a range
             if (editor.value.selection.isCollapsed) {
+
+                setTimeout(() => {
+                    dispatch(new ToolsHintToggleCommand(false));
+                }, 100);
                 next();
                 return;
             }
@@ -35,9 +38,5 @@ export default function createSelectionHintPlugin(store: AppStore, dispatch: Dis
                 {next()}
             </>
         },
-
-        onBlur: (event, editor, next) => {
-            dispatch(new ToolsHintToggleCommand(false));
-        }
     }
 }

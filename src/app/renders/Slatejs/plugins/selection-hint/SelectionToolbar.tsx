@@ -46,9 +46,11 @@ class SelectionToolbar extends React.Component<Props> {
         console.log('style', style);
 
         return (
-            <FloatBox style={style} className='app-editor-toolbar'>
-                hello
-            </FloatBox>
+            <div id='app-toolbar-portal'>
+                <div style={style} className='app-editor-toolbar'>
+                    hello
+                </div>
+            </div>
         );
     }
 }

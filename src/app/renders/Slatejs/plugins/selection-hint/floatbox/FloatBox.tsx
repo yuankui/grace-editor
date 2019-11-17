@@ -1,7 +1,7 @@
 import React, {CSSProperties} from "react";
 import ReactDOM from 'react-dom';
 
-const bodyEl = document.getElementsByTagName('body')[0];
+const parent = document.getElementById('app-toolbar-portal');
 
 
 interface Props {
@@ -14,7 +14,6 @@ export default class FloatBox extends React.Component<Props> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.el = document.createElement('div');
-
     }
 
     componentDidMount() {
@@ -26,11 +25,13 @@ export default class FloatBox extends React.Component<Props> {
         // 或者在后代节点中使用 ‘autoFocus’，
         // 则需添加 state 到 Modal 中，
         // 仅当 Modal 被插入 DOM 树中才能渲染子元素。
-        bodyEl.appendChild(this.el);
+        if (parent)
+            parent.appendChild(this.el);
     }
 
     componentWillUnmount() {
-        bodyEl.removeChild(this.el);
+        if (parent)
+            parent.removeChild(this.el);
     }
 
     render() {
