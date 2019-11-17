@@ -5,7 +5,6 @@ import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {Editor} from "slate";
 import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/ToolsHintUpdateCommand";
-import FloatBox from "./floatbox/FloatBox";
 
 
 interface Props {
@@ -46,10 +45,10 @@ class SelectionToolbar extends React.Component<Props> {
         console.log('style', style);
 
         return (
-            <div id='app-toolbar-portal'>
-                <div style={style} className='app-editor-toolbar'>
-                    hello
-                </div>
+            <div style={style} onClick={(e) => {
+                e.stopPropagation();
+            }} className='app-editor-toolbar'>
+                <input />
             </div>
         );
     }
