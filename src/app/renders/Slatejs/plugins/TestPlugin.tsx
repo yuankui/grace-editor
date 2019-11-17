@@ -13,8 +13,9 @@ export default function createTestPlugin(): Plugin {
                         Wrap
                     </InputButton>
                     <InputButton onConfirm={message => {
-                        editor.unwrapBlock(message);
-                    }}>UnWrap</InputButton>
+                        const ret = editor.query('isInBlock', message);
+                        console.log('is-in-block', ret);
+                    }}>isInBlock</InputButton>
                 </div>
                 {next()}
             </>
