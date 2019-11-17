@@ -35,7 +35,7 @@ export default function createSelectionHintPlugin(store: AppStore, dispatch: Dis
                 return;
             }
 
-            const {x, y} = getSelectionCoords();
+            const {left: x, bottom: y} = getSelectionCoords();
 
             next();
 

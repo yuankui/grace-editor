@@ -5,24 +5,31 @@ import isHotkey from "is-hotkey";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
-import SelectionToolbar from "../selection-hint/SelectionToolbar";
 
 
 export function getSelectionCoords() {
     let sel = document.getSelection(), range, rect;
-    let x = 0, y = 0;
     if (sel && sel.rangeCount) {
         range = sel.getRangeAt(0).cloneRange();
         if (range.getClientRects) {
             range.collapse(true);
             if (range.getClientRects().length > 0) {
                 rect = range.getClientRects()[0];
-                x = rect.left;
-                y = rect.top;
+                return {
+                    left: rect.left,
+                    top: rect.top,
+                    right: rect.right,
+                    bottom: rect.bottom,
+                };
             }
         }
     }
-    return {x: x, y: y};
+    return {
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+    };
 }
 
 export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
@@ -32,7 +39,7 @@ export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any
                 return next();
             }
 
-            const {x, y} = getSelectionCoords();
+            const {left: x, top: y} = getSelectionCoords();
 
             next();
 

@@ -7,6 +7,7 @@ export default function createCodeTool(): Tool {
     return {
         title: "<>",
         hotkey: 'meta+e',
+        markType: MarkTypeCode,
         action(editor: Editor): void {
             editor.toggleMark(MarkTypeCode);
         }

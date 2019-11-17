@@ -6,6 +6,7 @@ import {MarkTypeLineThrough} from "../../inline/InlinePlugin";
 export default function createLineThroughTool(): Tool {
     return {
         title: <span style={{textDecoration: 'line-through'}}>S</span>,
+        markType: MarkTypeLineThrough,
         action(editor: Editor): void {
             editor.toggleMark(MarkTypeLineThrough)
         }

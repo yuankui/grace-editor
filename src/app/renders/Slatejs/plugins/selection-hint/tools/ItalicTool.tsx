@@ -7,8 +7,9 @@ export default function createItalicTool(): Tool {
     return {
         title: <i>i</i>,
         hotkey: 'meta+i',
+        markType: MarkTypeItalic,
         action(editor: Editor): void {
-            editor.setInlines(MarkTypeItalic);
+            editor.toggleMark(MarkTypeItalic);
         }
     }
 }

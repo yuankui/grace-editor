@@ -54,6 +54,10 @@ class SelectionToolbar extends React.Component<Props, State> {
             if (t === "Separator") {
                 return <div key={index} className='separator'/>
             } else {
+                const marks = this.props.editor.value.focusText.marks;
+                const active = marks != null && marks.toArray()
+                    .some(m => m && m.type === t.markType);
+
                 return (
                     <div key={index}
                          onClick={(e) => {
@@ -62,7 +66,7 @@ class SelectionToolbar extends React.Component<Props, State> {
                              e.stopPropagation();
                              e.preventDefault();
                          }}
-                         className='app-editor-tool'>{t.title}</div>
+                         className={'app-editor-tool' + " active-" + active}>{t.title}</div>
                 )
             }
         });
