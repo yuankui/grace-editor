@@ -12,7 +12,6 @@ import {createGlobalPlugin} from "./plugins/common";
 interface State {
     value: any,
     plugins: Array<Plugin>,
-
 }
 
 
