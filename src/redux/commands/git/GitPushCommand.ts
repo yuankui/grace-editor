@@ -25,6 +25,7 @@ export default class GitPushCommand extends GitCommand {
             }
         }
 
+
         return state;
     }
 
