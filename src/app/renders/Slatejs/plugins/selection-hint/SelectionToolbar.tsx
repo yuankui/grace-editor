@@ -1,5 +1,4 @@
 import React, {CSSProperties, ReactNode} from "react";
-import {Modal} from "antd";
 import {mapState} from "../../../../../utils";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
