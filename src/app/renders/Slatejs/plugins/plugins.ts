@@ -30,6 +30,6 @@ export default function createSlateEditorPlugins(store: AppStore, dispatch: Disp
         createSelectionHintPlugin(store, dispatch),
         createInlinePlugin(),
         createTocPlugin(),
-        createTestPlugin(),
+        // createTestPlugin(),
     ];
 }
