@@ -1,4 +1,4 @@
-import React from "react";
+import React, {CSSProperties} from "react";
 import ReactDOM from 'react-dom';
 
 const bodyEl = document.getElementsByTagName('body')[0];
@@ -6,6 +6,7 @@ const bodyEl = document.getElementsByTagName('body')[0];
 
 interface Props {
     className?: string,
+    style: CSSProperties,
 }
 export default class FloatBox extends React.Component<Props> {
     private readonly el: HTMLDivElement;
@@ -13,8 +14,7 @@ export default class FloatBox extends React.Component<Props> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.el = document.createElement('div');
-        if (this.props.className)
-            this.el.className = this.props.className;
+
     }
 
     componentDidMount() {
@@ -35,7 +35,9 @@ export default class FloatBox extends React.Component<Props> {
 
     render() {
         return ReactDOM.createPortal(
-            this.props.children,
+            <div className={this.props.className} style={this.props.style}>
+                {this.props.children}
+            </div>,
             this.el,
         );
     }

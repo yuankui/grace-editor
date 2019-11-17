@@ -40,13 +40,14 @@ class SelectionToolbar extends React.Component<Props> {
         }
 
         const style: CSSProperties = {
-            top: hint.y + heightOffset,
             left: hint.x,
-            height: 600,
+            top: hint.y + heightOffset,
         };
 
+        console.log('style', style);
+
         return (
-            <FloatBox className='app-editor-toolbar'>
+            <FloatBox style={style} className='app-editor-toolbar'>
                 hello
             </FloatBox>
         );
