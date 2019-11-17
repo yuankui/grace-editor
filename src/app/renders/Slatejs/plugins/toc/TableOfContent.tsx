@@ -90,12 +90,12 @@ export default class TableOfContent extends React.Component<Props, State> {
         return <div className='app-post-toc' style={{display}}>
             <Button size='small' onClick={() => this.toggle()} icon='ordered-list'/>
             <Drawer width={width} show={this.state.visible} className='app-toc-drawer'>
-                {this.renderTitle(titleBlocks)}
+                {this.renderTitle(titleBlocks, '0')}
             </Drawer>
         </div>;
     }
 
-    renderTitle(blocks: Array<Block>): ReactNode {
+    renderTitle(blocks: Array<Block>, key: string): ReactNode {
         if (blocks.length == 0) {
             return null;
         }
@@ -117,13 +117,11 @@ export default class TableOfContent extends React.Component<Props, State> {
                 }
             }
 
-
-
-            const titleLi = <li>{blocks[first].text}</li>;
+            const titleLi = <li key={first}>{blocks[first].text}</li>;
             result.push(titleLi);
 
             if (first + 1 < next) {
-                const children = this.renderTitle(blocks.slice(first + 1, next));
+                const children = this.renderTitle(blocks.slice(first + 1, next), (first+1).toString());
                 result.push(children);
             }
 
@@ -134,7 +132,7 @@ export default class TableOfContent extends React.Component<Props, State> {
             }
         }
 
-        return <ul>
+        return <ul key={key}>
             {result}
         </ul>
     }

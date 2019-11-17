@@ -14,6 +14,7 @@ import createHintPlugin from "./hint/HintPlugin";
 import createSelectionHintPlugin from "./selection-hint/SelectionHintPlugin";
 import createInlinePlugin from "./inline/InlinePlugin";
 import {createTocPlugin} from "./toc/TocPlugin";
+import createTestPlugin from "./TestPlugin";
 
 export default function createSlateEditorPlugins(store: AppStore, dispatch: Dispatch<any>): Array<Plugin> {
     return [
@@ -29,5 +30,6 @@ export default function createSlateEditorPlugins(store: AppStore, dispatch: Disp
         createSelectionHintPlugin(store, dispatch),
         createInlinePlugin(),
         createTocPlugin(),
+        createTestPlugin(),
     ];
 }
