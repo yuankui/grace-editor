@@ -24,7 +24,7 @@ export function createEmptyContent(): any {
                     nodes: [
                         {
                             object: 'text',
-                            text: 'start from here',
+                            text: '',
                         },
                     ],
                 },
