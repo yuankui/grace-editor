@@ -3,16 +3,16 @@ import React from "react";
 import {ToggleBlockOnPrefix} from "../common";
 import isHotkey from "is-hotkey";
 
-export const CodeBlock = 'code-block';
+export const BlockTypeCodeBlock = 'code-block';
 
 export function createCodePlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             if (ToggleBlockOnPrefix('^', event, editor, () => {
-                editor.setBlocks(CodeBlock);
+                editor.setBlocks(BlockTypeCodeBlock);
             })) return;
 
-            if (editor.value.focusBlock.type != CodeBlock) {
+            if (editor.value.focusBlock.type != BlockTypeCodeBlock) {
                 next();
                 return;
             }
@@ -38,8 +38,8 @@ export function createCodePlugin(): Plugin {
         },
 
         renderBlock: (props, editor, next) => {
-            if (props.node.type == CodeBlock) {
-                return <pre className={CodeBlock} {...props.attributes}>{props.children}</pre>;
+            if (props.node.type == BlockTypeCodeBlock) {
+                return <pre className={BlockTypeCodeBlock} {...props.attributes}>{props.children}</pre>;
             } else {
                 return next();
             }

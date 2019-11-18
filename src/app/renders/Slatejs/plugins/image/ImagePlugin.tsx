@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {CodeBlock} from "../code/CodePlugin";
+import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {AppStore} from "../../../../../redux/store";
 import ImageBlock from "./ImageBlock";
 import isHotkey from "is-hotkey";
@@ -46,7 +46,7 @@ export function createImagePlugin(store: AppStore): Plugin {
         },
         onPaste: async (event, editor, next) => {
             // 如果在code里面，就不处理
-            if (editor.value.focusBlock.type == CodeBlock) {
+            if (editor.value.focusBlock.type == BlockTypeCodeBlock) {
                 next();
                 return;
             }

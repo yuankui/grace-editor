@@ -12,6 +12,7 @@ import HeaderAction from "./actions/HeaderAction";
 import TodoAction from "./actions/TodoAction";
 import {Listile} from "../../../../Listile";
 import {HintToggleCommand} from "../../../../../redux/commands/hint/HintToggleCommand";
+import CodeBlockAction from "./actions/CodeBlockAction";
 
 interface Props {
     state: AppStore,
@@ -44,6 +45,7 @@ class BlockList extends React.Component<Props, State> {
                         new HeaderAction(2),
                         new HeaderAction(3),
                         new TodoAction(),
+                        new CodeBlockAction(),
                     ],
                 }
             ]
