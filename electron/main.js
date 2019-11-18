@@ -52,7 +52,9 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-    // installPlugins();
+    if (isDevelopment) {
+        installPlugins();
+    }
     mainWindow = createMainWindow();
 });
 
