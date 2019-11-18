@@ -14,22 +14,24 @@ import createHintPlugin from "./hint/HintPlugin";
 import createSelectionHintPlugin from "./selection-hint/SelectionHintPlugin";
 import createInlinePlugin from "./inline/InlinePlugin";
 import {createTocPlugin} from "./toc/TocPlugin";
-import createTestPlugin from "./TestPlugin";
+import createLinkPlugin from "./link/LinkPlugin";
+import {GetState} from "../SlatejsRender";
 
-export default function createSlateEditorPlugins(store: AppStore, dispatch: Dispatch<any>): Array<Plugin> {
+export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
     return [
         createHeaderPlugin(),
         createListPlugin(),
         createTodoPlugin(),
         createCodePlugin(),
-        createImagePlugin(store),
+        createImagePlugin(getState),
         createHighlightPlugin(),
         createGlobalPlugin(),
         createQuotePlugin(),
-        createHintPlugin(store, dispatch),
-        createSelectionHintPlugin(store, dispatch),
+        createHintPlugin(dispatch),
+        createSelectionHintPlugin(getState, dispatch),
         createInlinePlugin(),
         createTocPlugin(),
+        createLinkPlugin(getState, dispatch),
         // createTestPlugin(),
     ];
 }

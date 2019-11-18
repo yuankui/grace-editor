@@ -4,6 +4,7 @@ import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {AppStore} from "../../../../../redux/store";
 import ImageBlock from "./ImageBlock";
 import isHotkey from "is-hotkey";
+import {GetState} from "../../SlatejsRender";
 
 export const ImageBlockType = 'image-block';
 
@@ -20,7 +21,7 @@ function insertImage(editor, param, target) {
     })
 }
 
-export function createImagePlugin(store: AppStore): Plugin {
+export function createImagePlugin(getState: GetState): Plugin {
     return {
         schema: {
             blocks: {
@@ -58,7 +59,7 @@ export function createImagePlugin(store: AppStore): Plugin {
                 const file = files.item(i);
                 if (file == null) continue;
 
-                let imageId = await store.backend.saveImage(file, store.posts.currentPostId as string);
+                let imageId = await getState().backend.saveImage(file, getState().posts.currentPostId as string);
 
                 editor.command(insertImage, {
                     imageId: imageId,

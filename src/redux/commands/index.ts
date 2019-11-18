@@ -45,4 +45,6 @@ export type CommandType = "TestCommand"
 
     | "ToolsHint/Toggle"
     | "ToolsHint/Update"
+
+    | "Slate/Link/Update"
 ;

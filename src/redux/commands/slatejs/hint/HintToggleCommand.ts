@@ -1,5 +1,5 @@
-import {AppCommand, CommandType} from "../index";
-import {AppStore} from "../../store";
+import {AppCommand, CommandType} from "../../index";
+import {AppStore} from "../../../store";
 import {HintUpdateCommand} from "./HintUpdateCommand";
 
 export class HintToggleCommand extends AppCommand {

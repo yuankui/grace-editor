@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {mapState} from "../../../utils";
 import {createGlobalPlugin} from "./plugins/common";
 import {parseToc} from "./plugins/toc/TableOfContent";
+import {AppStore} from "../../../redux/store";
 
 
 interface State {
@@ -14,6 +15,9 @@ interface State {
     plugins: Array<Plugin>,
 }
 
+export interface GetState {
+    (): AppStore,
+}
 
 class SlatejsRender extends Render<State> {
 
@@ -21,7 +25,7 @@ class SlatejsRender extends Render<State> {
         super(props);
         this.state = {
             value: Value.fromJSON(this.props.value),
-            plugins: createSlateEditorPlugins(this.props.state, this.props.dispatch),
+            plugins: createSlateEditorPlugins(() => this.props.state, this.props.dispatch),
         };
     }
 

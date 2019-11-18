@@ -4,7 +4,8 @@ import BlockList from "./BlockList";
 import isHotkey from "is-hotkey";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
+import {HintUpdateCommand} from "../../../../../redux/commands/slatejs/hint/HintUpdateCommand";
+import {GetState} from "../../SlatejsRender";
 
 
 export function getSelectionCoords() {
@@ -32,7 +33,7 @@ export function getSelectionCoords() {
     };
 }
 
-export default function createHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
+export default function createHintPlugin(dispatch: Dispatch<any>): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
             if (!isHotkey('/', event.nativeEvent)) {

@@ -2,18 +2,20 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import {getSelectionCoords} from "../hint/HintPlugin";
 import SelectionToolbar from "./SelectionToolbar";
-import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {ToolsHintToggleCommand} from "../../../../../redux/commands/tools-hint/ToolsHintToggleCommand";
-import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/ToolsHintUpdateCommand";
+import {ToolsHintToggleCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintToggleCommand";
+import {ToolsHintUpdateCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintUpdateCommand";
 import {createTools, Tool} from "./tools";
 import isHotkey from "is-hotkey";
+import {GetState} from "../../SlatejsRender";
 
-const tools = createTools().filter(t => t !== "Separator")
-    .map(t => t as Tool)
-    .filter(t => t.hotkey != null);
 
-export default function createSelectionHintPlugin(store: AppStore, dispatch: Dispatch<any>): Plugin {
+export default function createSelectionHintPlugin(getState: GetState, dispatch: Dispatch<any>): Plugin {
+    const tools = createTools(getState, dispatch)
+        .filter(t => t !== "Separator")
+        .map(t => t as Tool)
+        .filter(t => t.hotkey != null);
+
     return {
         onKeyDown: (event, editor, next) => {
             if (isHotkey('escape', event.nativeEvent)) {

@@ -1,5 +1,5 @@
-import {AppCommand, CommandType} from "../index";
-import {AppStore} from "../../store";
+import {AppCommand, CommandType} from "../../index";
+import {AppStore} from "../../../store";
 import {ToolsHintUpdateCommand} from "./ToolsHintUpdateCommand";
 
 export class ToolsHintToggleCommand extends AppCommand {

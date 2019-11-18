@@ -7,6 +7,9 @@ import createCodeTool from "./CodeTool";
 import createUnderLineTool from "./UnderLineTool";
 import createResetTool from "./ResetTool";
 import createHeadingTool from "./HeadingTool";
+import createLinkTool from "./LinkTool";
+import {GetState} from "../../../SlatejsRender";
+import {Dispatch} from "redux";
 
 export interface Tool {
     title: ReactNode,
@@ -18,7 +21,7 @@ export interface Tool {
 export type ToolOrSeparator = Tool | "Separator";
 
 // return groups of tools
-export function createTools(): Array<ToolOrSeparator> {
+export function createTools(getState: GetState, dispatch: Dispatch<any>): Array<ToolOrSeparator> {
     return [
         createResetTool(),
         "Separator",
@@ -32,5 +35,7 @@ export function createTools(): Array<ToolOrSeparator> {
         createHeadingTool(1),
         createHeadingTool(2),
         createHeadingTool(3),
+        "Separator",
+        createLinkTool(getState, dispatch),
     ]
 }

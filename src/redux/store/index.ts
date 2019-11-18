@@ -36,9 +36,15 @@ export interface SlateHint {
     show: boolean,
 }
 
+// 超链接相关
+export interface SlateLink {
+    show: boolean,
+    url: string,
+}
 export interface Slatejs {
     hint: SlateHint,
     toolsHint: SlateHint,
+    link: SlateLink,
 }
 
 export interface AppStore {

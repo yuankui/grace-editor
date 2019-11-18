@@ -1,7 +1,7 @@
-import {AppCommand, CommandType} from "../index";
-import {AppStore, SlateHint} from "../../store";
+import {AppCommand, CommandType} from "../../index";
+import {AppStore, SlateHint} from "../../../store";
 
-export class ToolsHintUpdateCommand extends AppCommand {
+export class HintUpdateCommand extends AppCommand {
     private readonly  hint: SlateHint;
 
     constructor(hint: SlateHint) {
@@ -10,7 +10,7 @@ export class ToolsHintUpdateCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "ToolsHint/Update";
+        return "Hint/Update";
     }
 
     process(store: AppStore): AppStore {
@@ -18,7 +18,7 @@ export class ToolsHintUpdateCommand extends AppCommand {
             ...store,
             slatejs: {
                 ...store.slatejs,
-                toolsHint: this.hint,
+                hint: this.hint,
             }
         }
     }

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {Editor} from "slate";
-import {ToolsHintUpdateCommand} from "../../../../../redux/commands/tools-hint/ToolsHintUpdateCommand";
+import {ToolsHintUpdateCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintUpdateCommand";
 import {createTools, Tool, ToolOrSeparator} from "./tools";
 
 
@@ -25,7 +25,7 @@ class SelectionToolbar extends React.Component<Props, State> {
     constructor(props: Readonly<any>) {
         super(props);
         this.state = {
-            tools: createTools(),
+            tools: createTools(() => this.props.state, this.props.dispatch),
         }
     }
 

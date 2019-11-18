@@ -4,14 +4,14 @@ import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {Modal} from "antd";
-import {HintUpdateCommand} from "../../../../../redux/commands/hint/HintUpdateCommand";
+import {HintUpdateCommand} from "../../../../../redux/commands/slatejs/hint/HintUpdateCommand";
 import {Editor} from "slate";
 import {DropdownSelect} from "../../../../DropdownSelect";
 import {HintAction} from "./actions";
 import HeaderAction from "./actions/HeaderAction";
 import TodoAction from "./actions/TodoAction";
 import {Listile} from "../../../../Listile";
-import {HintToggleCommand} from "../../../../../redux/commands/hint/HintToggleCommand";
+import {HintToggleCommand} from "../../../../../redux/commands/slatejs/hint/HintToggleCommand";
 import CodeBlockAction from "./actions/CodeBlockAction";
 
 interface Props {
@@ -118,7 +118,7 @@ class BlockList extends React.Component<Props, State> {
     renderAction = (item: HintAction, keyword: string, isActive: boolean): ReactNode => {
         return <Listile key={item.title()}
                         leading={<div style={{width: 50}}>
-                            {item.icon(50)}
+                            {item.icon(30)}
                         </div>}
                         title={item.title()}
                         subtitle={item.subtitle()}
