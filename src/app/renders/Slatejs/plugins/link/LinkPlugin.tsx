@@ -10,6 +10,13 @@ export const InlineTypeLink = 'inline-link';
 
 export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<any>): Plugin {
     return {
+        schema: {
+            inlines: {
+                [InlineTypeLink]: {
+                    isAtomic: true,
+                }
+            }
+        },
         renderInline: (props, editor, next) => {
             const {node} = props;
 
