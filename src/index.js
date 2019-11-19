@@ -25,6 +25,8 @@ const store = createStore(enhanceCommandReducer(initReducer),
     )));
 
 store.dispatch(new ReloadSettingsCommand());
+
+console.log(store.getState());
 store.dispatch(new InitBackendCommand());
 store.dispatch(new GitSetupCommand());
 store.dispatch(new ReloadPostsCommand());

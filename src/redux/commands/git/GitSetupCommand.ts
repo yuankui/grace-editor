@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import nodegit from 'nodegit';
+
 import {Mapper} from "redux-commands";
 
 export default class GitSetupCommand extends AppCommand {
@@ -9,7 +9,13 @@ export default class GitSetupCommand extends AppCommand {
     }
 
     async process(state: AppStore): Promise<Mapper<AppStore>> {
-        const repository = await nodegit.Repository.open(state.settings.git.localPath);
+        let localPath = '';
+        if (state.settings.git && state.settings.git.localPath) {
+            localPath = state.settings.git.localPath;
+        }
+
+        const nodegit = window.require('nodegit');
+        const repository = await nodegit.Repository.open(localPath);
         return s => {
             return {
                 ...s,

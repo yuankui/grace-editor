@@ -9,6 +9,7 @@ import {ReloadPostsCommand} from "../../redux/commands/ReloadPostsCommand";
 import ElectronSelect from "../PathSelect/ElectronSelect";
 import {Button} from "antd";
 import GitInitCommand from "../../redux/commands/git/GitInitCommand";
+import GitSetupCommand from "../../redux/commands/git/GitSetupCommand";
 
 interface Props {
     state: AppStore,
@@ -23,7 +24,10 @@ class SettingView extends React.Component<Props, Settings> {
     }
 
     render() {
-        const workSpace = this.state.git.localPath;
+        let workSpace = '';
+        if (this.state && this.state.git && this.state.git.localPath) {
+            workSpace = this.state.git.localPath;
+        }
         return <div className='app-setting-view'>
             <h1>
                 设置
@@ -34,7 +38,7 @@ class SettingView extends React.Component<Props, Settings> {
                     工作区路径
                 </p>
                 <ElectronSelect
-                    value={workSpace? workSpace: ''}
+                    value={workSpace ? workSpace : ''}
                     onChange={path => this.updateWorkSpace(path)}>
                     选择路径
                 </ElectronSelect>
@@ -65,6 +69,7 @@ class SettingView extends React.Component<Props, Settings> {
         this.props.dispatch(new UpdateSettingsCommand(this.state));
         this.props.dispatch(new InitBackendCommand());
         this.props.dispatch(new ReloadPostsCommand());
+        this.props.dispatch(new GitSetupCommand());
     }
 }
 
