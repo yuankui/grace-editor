@@ -5,6 +5,7 @@ import {InlineMarkTypes, MarkTypeBold} from "../../inline/InlinePlugin";
 
 export default function createResetTool(): Tool {
     return {
+        hint: 'Clean Format',
         isActive(editor: Editor): boolean {
             return false;
         },

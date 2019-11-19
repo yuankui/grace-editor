@@ -5,6 +5,7 @@ import {MarkTypeLineThrough} from "../../inline/InlinePlugin";
 
 export default function createLineThroughTool(): Tool {
     return {
+        hint: 'Line Through',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const marks = editor.value.document.getMarksAtRange({

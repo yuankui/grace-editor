@@ -6,6 +6,7 @@ import {HeaderTypePrefix} from "../../header/HeaderPlugin";
 
 export default function createHeadingTool(level: number): Tool {
     return {
+        hint: 'Heading ' + level,
         isActive(editor: Editor): boolean {
             if (editor.value.focusBlock.type === (HeaderTypePrefix + level)) {
                 return true;

@@ -5,6 +5,7 @@ import {MarkTypeUnderline} from "../../inline/InlinePlugin";
 
 export default function createUnderLineTool(): Tool {
     return {
+        hint: "Underline",
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const marks = editor.value.document.getMarksAtRange({

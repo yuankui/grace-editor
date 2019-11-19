@@ -5,10 +5,10 @@ import {InlineTypeLink} from "../../link/LinkPlugin";
 import {LinkUpdateCommand} from "../../../../../../redux/commands/slatejs/link/LinkUpdateCommand";
 import {GetState} from "../../../SlatejsRender";
 import {Dispatch} from "redux";
-import {MarkTypeUnderline} from "../../inline/InlinePlugin";
 
 export default function createLinkTool(getState: GetState, dispatch: Dispatch<any>): Tool {
     return {
+        hint: 'Link',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const inlines = editor.value.document.getInlinesAtRange({

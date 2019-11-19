@@ -6,6 +6,7 @@ import {Dispatch} from "redux";
 import {Editor} from "slate";
 import {ToolsHintUpdateCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintUpdateCommand";
 import {createTools, Tool, ToolOrSeparator} from "./tools";
+import {Popover, Tooltip} from "antd";
 
 
 interface Props {
@@ -56,14 +57,17 @@ class SelectionToolbar extends React.Component<Props, State> {
             } else {
                 const active = t.isActive(this.props.editor);
                 return (
-                    <div key={index}
-                         onClick={(e) => {
-                             t.action(this.props.editor);
-                             this.props.editor.focus();
-                             e.stopPropagation();
-                             e.preventDefault();
-                         }}
-                         className={'app-editor-tool' + " active-" + active}>{t.title}</div>
+                    <Tooltip title={t.hint}>
+
+                        <div key={index}
+                             onClick={(e) => {
+                                 t.action(this.props.editor);
+                                 this.props.editor.focus();
+                                 e.stopPropagation();
+                                 e.preventDefault();
+                             }}
+                             className={'app-editor-tool' + " active-" + active}>{t.title}</div>
+                    </Tooltip>
                 )
             }
         });

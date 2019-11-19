@@ -5,6 +5,7 @@ import {MarkTypeCode} from "../../inline/InlinePlugin";
 
 export default function createCodeTool(): Tool {
     return {
+        hint: 'Inline Code',
         title: "<>",
         hotkey: 'meta+e',
         isActive(editor: Editor): boolean {

@@ -5,6 +5,7 @@ import {MarkTypeItalic} from "../../inline/InlinePlugin";
 
 export default function createItalicTool(): Tool {
     return {
+        hint: 'Italic',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const marks = editor.value.document.getMarksAtRange({

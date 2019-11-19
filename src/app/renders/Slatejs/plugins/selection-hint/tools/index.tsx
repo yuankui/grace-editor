@@ -12,6 +12,7 @@ import {GetState} from "../../../SlatejsRender";
 import {Dispatch} from "redux";
 
 export interface Tool {
+    hint: string,
     title: ReactNode,
     hotkey?: string,
     isActive(editor: Editor): boolean,

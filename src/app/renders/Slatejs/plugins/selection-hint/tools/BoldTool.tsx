@@ -5,6 +5,7 @@ import {MarkTypeBold} from "../../inline/InlinePlugin";
 
 export default function createBoldTool(): Tool {
     return {
+        hint: 'Bold',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const marks = editor.value.document.getMarksAtRange({
