@@ -9,7 +9,7 @@ export class InitBackendCommand extends AppCommand {
     }
 
     process(state: AppStore): AppStore {
-        const backend = this.createBackend(state.settings.workSpace);
+        const backend = this.createBackend(state.settings.git.localPath);
         return {
             ...state,
             backend,

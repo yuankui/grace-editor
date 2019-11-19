@@ -23,6 +23,7 @@ class SettingView extends React.Component<Props, Settings> {
     }
 
     render() {
+        const workSpace = this.state.git.localPath;
         return <div className='app-setting-view'>
             <h1>
                 设置
@@ -33,7 +34,7 @@ class SettingView extends React.Component<Props, Settings> {
                     工作区路径
                 </p>
                 <ElectronSelect
-                    value={this.state.workSpace? this.state.workSpace: ''}
+                    value={workSpace? workSpace: ''}
                     onChange={path => this.updateWorkSpace(path)}>
                     选择路径
                 </ElectronSelect>
@@ -42,7 +43,7 @@ class SettingView extends React.Component<Props, Settings> {
                     初始化工作区
                 </p>
                 <Button type='danger' onClick={() => {
-                    this.props.dispatch(new GitInitCommand(this.state.workSpace));
+                    this.props.dispatch(new GitInitCommand(workSpace));
                 }}>初始化</Button>
             </div>
 
@@ -52,7 +53,11 @@ class SettingView extends React.Component<Props, Settings> {
 
     updateWorkSpace(path: string) {
         this.setState({
-            workSpace: path,
+            ...this.state,
+            git: {
+                ...this.state.git,
+                localPath: path,
+            }
         })
     }
 

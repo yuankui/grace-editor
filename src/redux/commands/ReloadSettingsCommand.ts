@@ -2,8 +2,11 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore, Settings} from "../store";
 
 const emptySetting: Settings = {
-    workSpace: '',
     isDarkMode: false,
+    git: {
+        localPath: '',
+        remote: '',
+    }
 };
 
 export default class ReloadSettingsCommand extends AppCommand {

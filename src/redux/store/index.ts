@@ -1,7 +1,6 @@
 import {Backend} from "../../backend";
 import Immutable from 'immutable';
 import {RouterState} from "connected-react-router";
-import {SimpleGit} from "../../copies/simple-git/promise";
 import {PostFormat} from "../../PostFormat";
 import {Repository} from 'nodegit';
 
@@ -9,8 +8,13 @@ export interface SiderState {
     expandedKeys: Array<string>,
 }
 
+export interface GitSetting {
+    localPath: string,
+    remote: string,
+}
+
 export interface Settings {
-    workSpace: string,
+    git: GitSetting,
     isDarkMode: boolean,
 }
 

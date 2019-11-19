@@ -1,17 +1,20 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import simplegit from "../../../copies/simple-git/promise";
+import nodegit from 'nodegit';
+import {Mapper} from "redux-commands";
 
 export default class GitSetupCommand extends AppCommand {
     name(): CommandType {
         return "Git/Setup";
     }
 
-    process(state: AppStore): AppStore {
-        return {
-            ...state,
-            repo: simplegit(state.settings.workSpace),
+    async process(state: AppStore): Promise<Mapper<AppStore>> {
+        const repository = await nodegit.Repository.open(state.settings.git.localPath);
+        return s => {
+            return {
+                ...s,
+                repo: repository,
+            }
         }
     }
-
 }

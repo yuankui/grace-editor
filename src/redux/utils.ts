@@ -53,7 +53,10 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         },
         router: routerReducer(undefined, action),
         settings: {
-            workSpace: '',
+            git: {
+                localPath: '',
+                remote: '',
+            },
             isDarkMode: false,
         },
         slatejs: {

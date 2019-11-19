@@ -1,11 +1,11 @@
-const {Reference, Repository, Index, Signature} = require('nodegit');
+const nodegit = require('nodegit');
 
 var repo;
 var index;
 var oid;
 var paths;
 
-const promise = Repository.open('/Users/yuankui/grace-docs')
+const promise = nodegit.Repository.open('/Users/yuankui/grace-docs')
     .then(r => {
         repo = r;
         return repo.getStatus()
@@ -13,7 +13,7 @@ const promise = Repository.open('/Users/yuankui/grace-docs')
     .then(status => {
         const paths = [];
         for (let s of status) {
-            paths.push(s.path());
+            paths.push(s);
         }
         return paths;
     })
@@ -26,7 +26,13 @@ const promise = Repository.open('/Users/yuankui/grace-docs')
         index = i;
     })
     .then(() => {
-        const promises = paths.map(p => index.addByPath(p));
+        const promises = paths.map(p => {
+            if (p.isDeleted()) {
+                index.removeByPath(p.path());
+            } else {
+                index.addByPath(p)
+            }
+        });
         return Promise.all(promises);
     })
     .then(() => {
@@ -37,15 +43,15 @@ const promise = Repository.open('/Users/yuankui/grace-docs')
     })
     .then(oidResult => {
         oid = oidResult;
-        return Reference.nameToId(repo, 'HEAD');
+        return nodegit.Reference.nameToId(repo, 'HEAD');
     })
     .then(function (head) {
         return repo.getCommit(head);
     })
     .then(function(parent) {
-        const author = Signature.now("yuankui",
+        const author = nodegit.Signature.now("yuankui",
             "schacon@gmail.com");
-        const committer = Signature.now("yuankui2",
+        const committer = nodegit.Signature.now("yuankui2",
             "scott@github.com");
 
         return repo.createCommit("HEAD", author, committer, "this is message", oid, [parent]);

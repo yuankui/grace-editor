@@ -23,7 +23,7 @@ export default class GitInitCommand extends GitCommand {
         if (state.repo) {
             try {
                 try {
-                    let stats = await new FileSystem().stats(path.join(state.settings.workSpace, '.git'));
+                    let stats = await new FileSystem().stats(path.join(state.settings.git.localPath, '.git'));
                     if (stats != null && stats.isDirectory()) {
                         message.info('already a git repo');
                         return state;
