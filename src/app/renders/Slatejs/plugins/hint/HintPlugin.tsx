@@ -2,10 +2,9 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import BlockList from "./BlockList";
 import isHotkey from "is-hotkey";
-import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {HintUpdateCommand} from "../../../../../redux/commands/slatejs/hint/HintUpdateCommand";
-import {GetState} from "../../SlatejsRender";
+import {BlockTypeCodeBlock} from "../code/CodePlugin";
 
 
 export function getSelectionCoords() {
@@ -36,7 +35,7 @@ export function getSelectionCoords() {
 export default function createHintPlugin(dispatch: Dispatch<any>): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-            if (!isHotkey('/', event.nativeEvent)) {
+            if (!isHotkey('meta+/', event.nativeEvent)) {
                 return next();
             }
 
