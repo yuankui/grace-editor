@@ -23,7 +23,7 @@ export class CreateEmptyPostCommand extends AppCommand {
             content: createEmptyContent(),
             tags: [],
             title: "未命名",
-            format: 'slatejs',
+            format: 'richText',
             weight: '',
         };
 
