@@ -15,6 +15,7 @@ import createInlinePlugin from "./inline/InlinePlugin";
 import {createTocPlugin} from "./toc/TocPlugin";
 import createLinkPlugin from "./link/LinkPlugin";
 import {GetState} from "../SlatejsRender";
+import createChildrenPlugin from "./children/ChildrenPlugin";
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
     return [
@@ -31,6 +32,7 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createInlinePlugin(),
         createTocPlugin(),
         createLinkPlugin(getState, dispatch),
+        createChildrenPlugin(getState),
         // createTestPlugin(),
     ];
 }

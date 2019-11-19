@@ -3,6 +3,8 @@ import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
 
+export const BlockParagraph = 'paragraph';
+
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
                                     editor: CoreEditor,

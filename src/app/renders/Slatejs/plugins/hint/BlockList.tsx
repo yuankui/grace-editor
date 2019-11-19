@@ -13,6 +13,7 @@ import TodoAction from "./actions/TodoAction";
 import {Listile} from "../../../../Listile";
 import {HintToggleCommand} from "../../../../../redux/commands/slatejs/hint/HintToggleCommand";
 import CodeBlockAction from "./actions/CodeBlockAction";
+import ChildrenAction from "./actions/ChildrenAction";
 
 interface Props {
     state: AppStore,
@@ -46,6 +47,7 @@ class BlockList extends React.Component<Props, State> {
                         new HeaderAction(3),
                         new TodoAction(),
                         new CodeBlockAction(),
+                        new ChildrenAction(),
                     ],
                 }
             ]
@@ -128,6 +130,9 @@ class BlockList extends React.Component<Props, State> {
     }
 
     private static seqMatch(key: string, str: string): boolean {
+        if (key == '') {
+            return true;
+        }
         key = key.toLowerCase();
         str = str.toLowerCase();
         let strIndex = 0;
