@@ -18,7 +18,7 @@ interface State {
     tools: Array<ToolOrSeparator>,
 }
 
-const heightOffset = 25;
+const heightOffset = 70;
 
 class SelectionToolbar extends React.Component<Props, State> {
 
@@ -47,7 +47,7 @@ class SelectionToolbar extends React.Component<Props, State> {
 
         const style: CSSProperties = {
             left: hint.x,
-            top: hint.y + heightOffset,
+            top: hint.y - heightOffset,
         };
 
         const tools = this.state.tools.map((t, index) => {
