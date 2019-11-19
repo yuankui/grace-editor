@@ -105,8 +105,20 @@ class BlockList extends React.Component<Props, State> {
                             ref.focusAndReset();
                         }
                     }}
-                    onSearch={async () => {
-                        return this.state.groups.flatMap(g => g.actions);
+                    onSearch={async (keyword) => {
+                        return this.state.groups
+                            .map(g => {
+                                const allActions = g.actions;
+                                const filtered = allActions.filter(a => {
+                                    return BlockList.seqMatch(keyword, a.title())
+                                        || BlockList.seqMatch(keyword, a.subtitle());
+                                });
+                                return {
+                                    ...g,
+                                    actions: filtered,
+                                }
+                            })
+                            .flatMap(g => g.actions);
                     }}
                     renderItem={this.renderAction}
                 />
@@ -115,6 +127,29 @@ class BlockList extends React.Component<Props, State> {
 
     }
 
+    private static seqMatch(key: string, str: string): boolean {
+        key = key.toLowerCase();
+        str = str.toLowerCase();
+        let strIndex = 0;
+        for (let i = 0; i < key.length; i++) {
+            const char = key[i];
+
+            for (; strIndex < str.length; strIndex++) {
+                if (str[strIndex] === char) {
+                    if (i === key.length - 1) {
+                        return true;
+                    }
+                    break;
+                }
+            }
+
+            // str 都找完了，但是 key 还没有匹配完
+            if (strIndex >= str.length && i < key.length - 1) {
+                return false;
+            }
+        }
+        return false;
+    }
     renderAction = (item: HintAction, keyword: string, isActive: boolean): ReactNode => {
         return <Listile key={item.title()}
                         leading={<div style={{width: 50}}>
