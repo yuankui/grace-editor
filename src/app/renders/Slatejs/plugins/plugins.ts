@@ -1,5 +1,4 @@
 import {Plugin} from 'slate';
-import {AppStore} from "../../../../redux/store";
 import {Dispatch} from "redux";
 
 import {createHeaderPlugin} from "./header/HeaderPlugin";
@@ -8,7 +7,7 @@ import {createTodoPlugin} from "./todo/TodoPlugin";
 import {createCodePlugin} from "./code/CodePlugin";
 import {createImagePlugin} from "./image/ImagePlugin";
 import createHighlightPlugin from "./highlight/HighlightPlugin";
-import {createGlobalPlugin} from "./common";
+import {createCommonPlugin} from "./common";
 import {createQuotePlugin} from "./quote/QuotePlugin";
 import createHintPlugin from "./hint/HintPlugin";
 import createSelectionHintPlugin from "./selection-hint/SelectionHintPlugin";
@@ -25,7 +24,7 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createCodePlugin(),
         createImagePlugin(getState),
         createHighlightPlugin(),
-        createGlobalPlugin(),
+        createCommonPlugin(),
         createQuotePlugin(),
         createHintPlugin(dispatch),
         createSelectionHintPlugin(getState, dispatch),

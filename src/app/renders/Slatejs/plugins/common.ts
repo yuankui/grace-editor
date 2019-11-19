@@ -26,7 +26,7 @@ export function ToggleBlockOnPrefix(prefix: string,
 
 export const CommandToggleParagraph = 'toggleParagraph';
 
-export function createGlobalPlugin(): Plugin {
+export function createCommonPlugin(): Plugin {
     return {
         commands: {
             [CommandToggleParagraph]: (editor, args) => {
@@ -41,6 +41,7 @@ export function createGlobalPlugin(): Plugin {
             const data = event.clipboardData;
             next();
         },
+        // paste 只能上全局性的，不能是插件式的
         onPaste: (event, editor, next) => {
             if (event.clipboardData.items[0].kind == 'file') {
                 next();

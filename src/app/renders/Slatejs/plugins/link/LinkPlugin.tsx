@@ -5,7 +5,7 @@ import {Dispatch} from "redux";
 import {LinkUpdateCommand} from "../../../../../redux/commands/slatejs/link/LinkUpdateCommand";
 import {GetState} from "../../SlatejsRender";
 import LinkModal from "./LinkModal";
-import {Button, Icon, Popover, Tooltip} from "antd";
+import {Button, Popover, Tooltip} from "antd";
 
 export const InlineTypeLink = 'inline-link';
 
@@ -48,7 +48,9 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
             </div>;
             return <Popover trigger='click' overlayClassName='app-link-popover' content={content}>
                 <a href={url} onClick={() =>{
-
+                    // select on click
+                    editor.moveAnchorToStartOfInline()
+                        .moveFocusToEndOfInline();
                 }} {...props.attributes}>
                     {props.children}
                 </a>

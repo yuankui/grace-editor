@@ -5,7 +5,7 @@ import {Value} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
-import {createGlobalPlugin} from "./plugins/common";
+import {createCommonPlugin} from "./plugins/common";
 import {parseToc} from "./plugins/toc/TableOfContent";
 import {AppStore} from "../../../redux/store";
 
@@ -34,7 +34,7 @@ class SlatejsRender extends Render<State> {
                        className='slate-editor'
                        placeholder="Start from here..."
                        plugins={this.state.plugins}
-                       onPaste={createGlobalPlugin().onPaste}
+                       onPaste={createCommonPlugin().onPaste}
                        onChange={e => this.onChange(e.value)}/>
     }
 
