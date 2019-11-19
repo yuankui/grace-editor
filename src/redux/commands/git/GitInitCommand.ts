@@ -4,8 +4,17 @@ import {AppStore} from "../../store";
 import {message} from "antd";
 import FileSystem from '../../../backend/electron/FileSystem';
 import path from 'path';
+import {Repository} from "nodegit";
 
 export default class GitInitCommand extends GitCommand {
+
+    private readonly workspace: string;
+
+    constructor(workspace: string) {
+        super();
+        this.workspace = workspace;
+    }
+
     name(): CommandType {
         return "Git/Init";
     }
@@ -20,7 +29,7 @@ export default class GitInitCommand extends GitCommand {
                         return state;
                     }
                 } catch (e) {
-                    await state.repo.init();
+                    await Repository.init(this.workspace, Number(false));
                     message.info("Init workspace success");
                 }
             } catch (e) {

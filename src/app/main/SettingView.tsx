@@ -42,7 +42,7 @@ class SettingView extends React.Component<Props, Settings> {
                     初始化工作区
                 </p>
                 <Button type='danger' onClick={() => {
-                    this.props.dispatch(new GitInitCommand());
+                    this.props.dispatch(new GitInitCommand(this.state.workSpace));
                 }}>初始化</Button>
             </div>
 
