@@ -7,6 +7,7 @@ import isHotkey from "is-hotkey";
 export const TodoBlockType = 'todo-block';
 export const PaddingBlockType = 'padding-block';
 export const QueryIsInBlock = 'isInBlock';
+export const QueryIsInInline = 'isInInline';
 export const CommandToggleTodo = 'toggleTodo';
 
 export function createTodoPlugin(): Plugin {
@@ -23,6 +24,17 @@ export function createTodoPlugin(): Plugin {
                 let ancestors = editor.value.document.getAncestors(block.key);
                 if (ancestors) {
                     return ancestors.toArray().some(a => a.object === 'block' && a.type === queryBlock)
+                }
+
+                return false;
+            },
+            [QueryIsInInline]: (editor, args) => {
+                const queryInline = args as string;
+                let text = editor.value.focusText;
+
+                let ancestors = editor.value.document.getAncestors(text.key);
+                if (ancestors) {
+                    return ancestors.toArray().some(a => a.object === 'inline' && a.type === queryInline)
                 }
 
                 return false;

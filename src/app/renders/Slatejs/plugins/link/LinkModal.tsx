@@ -3,9 +3,10 @@ import {Button, Input, Modal} from "antd";
 import React from "react";
 import {InlineTypeLink} from "./LinkPlugin";
 import {GetState} from "../../SlatejsRender";
-import {Editor} from "slate";
+import {Editor, Inline, InlineJSON, Range} from "slate";
 import {Dispatch} from "redux";
 import {ToolsHintToggleCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintToggleCommand";
+import {QueryIsInInline} from "../todo/TodoPlugin";
 
 interface Props {
     getState: GetState,
@@ -15,14 +16,31 @@ interface Props {
 
 export default class LinkModal extends React.Component<Props> {
     private onOk() {
-        const url = this.props.getState().slatejs.link.url;
+        const editor = this.props.editor;
+        const {url, linkKey} = this.props.getState().slatejs.link;
 
-        this.props.editor.wrapInline({
+        const inline: InlineJSON = {
             type: InlineTypeLink,
             data: {
                 url: url,
+            },
+        };
+
+        if (linkKey == '') {
+            // 新增链接
+            if (editor.query(QueryIsInInline, InlineTypeLink)) {
+                editor.unwrapInline(InlineTypeLink)
+                    .wrapInline(inline);
+            } else {
+                editor.wrapInline(inline);
+
             }
-        });
+        } else {
+            editor.moveFocusToEndOfInline()
+                .moveAnchorToStartOfInline()
+                .unwrapInline(InlineTypeLink)
+                .wrapInline(inline);
+        }
 
         setTimeout(() => {
             this.hideModal();
@@ -30,7 +48,7 @@ export default class LinkModal extends React.Component<Props> {
     }
 
     hideModal() {
-        this.props.dispatch(new LinkUpdateCommand({url: '', show: false}));
+        this.props.dispatch(new LinkUpdateCommand({url: '', show: false, linkKey: ''}));
         this.props.dispatch(new ToolsHintToggleCommand(false));
         setTimeout(() => {
             this.props.editor.focus();
@@ -65,8 +83,8 @@ export default class LinkModal extends React.Component<Props> {
                    }}
                    onChange={e => {
                        this.props.dispatch(new LinkUpdateCommand({
+                           ...this.props.getState().slatejs.link,
                            url: e.target.value,
-                           show: true,
                        }))
                    }}
                    value={state.slatejs.link.url}/>

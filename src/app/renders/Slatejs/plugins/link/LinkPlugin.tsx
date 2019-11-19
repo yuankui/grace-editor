@@ -32,6 +32,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                     <Button size='small' onClick={()=> dispatch(new LinkUpdateCommand({
                         show: true,
                         url: url,
+                        linkKey: node.key,
                     }))} icon='edit'/>
                 </Tooltip>
                 <Tooltip title='Delete Link'>
@@ -55,7 +56,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
         },
         onKeyDown: (event, editor, next) => {
             if (isHotkey('meta+l', event.nativeEvent)) {
-                dispatch(new LinkUpdateCommand({show: true, url: ''}));
+                dispatch(new LinkUpdateCommand({show: true, url: '', linkKey: ''}));
                 return;
             }
             next();

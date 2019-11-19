@@ -70,6 +70,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             link: {
                 show: false,
                 url: '',
+                linkKey: '',
             }
         }
     };

@@ -9,15 +9,17 @@ import {Dispatch} from "redux";
 export default function createLinkTool(getState: GetState, dispatch: Dispatch<any>): Tool {
     return {
         isActive(editor: Editor): boolean {
-            return editor.value.focusInline && editor.value.focusInline.type === InlineTypeLink;
+            return false;
         },
         title: <u>Link</u>,
         hotkey: 'meta+l',
 
         action(editor: Editor): void {
+
             dispatch(new LinkUpdateCommand({
                 show: true,
                 url: '',
+                linkKey: '',
             }))
         }
     }

@@ -8,7 +8,6 @@ export const HeaderTypePrefix = 'header-';
 export function createHeaderPlugin(): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-
             // header-1
             if (ToggleBlockOnPrefix('#', event, editor, () => {
                 editor.setBlocks(HeaderTypePrefix + '1');

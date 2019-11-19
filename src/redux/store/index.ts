@@ -40,6 +40,7 @@ export interface SlateHint {
 export interface SlateLink {
     show: boolean,
     url: string,
+    linkKey: string,
 }
 export interface Slatejs {
     hint: SlateHint,

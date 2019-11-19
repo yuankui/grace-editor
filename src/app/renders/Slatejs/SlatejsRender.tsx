@@ -44,7 +44,7 @@ class SlatejsRender extends Render<State> {
         console.log('value', JSON.stringify(value.toJSON()));
         const blocks = parseToc(value);
         const titles = blocks.map(b => `${b.type}: ${b.text}`);
-        console.log('title', titles);
+        // console.log('title', titles);
         this.props.onChange(value.toJSON());
     };
 }
