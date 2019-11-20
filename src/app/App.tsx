@@ -65,6 +65,8 @@ class App extends React.Component<AppProps, AppState> {
                 <SearchDialog/>
                 <div className='layout'>
                     <Resizable enable={{right: true}}
+                               minWidth={200}
+                               maxWidth={400}
                                handleClasses={{right: 'resize-handle'}}
                                handleStyles={{right: {width: 5}}}
                                defaultSize={{

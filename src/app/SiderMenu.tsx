@@ -1,5 +1,5 @@
 import React from "react";
-import {Popover} from "antd";
+import {Collapse, Popover} from "antd";
 import {connect} from "react-redux";
 import {AppStore, Post, SiderState} from "../redux/store";
 import {Dispatch} from "redux";
@@ -15,6 +15,7 @@ import PostSelectAction from "../redux/actions/PostSelectAction";
 import {createPostId} from "../redux/utils";
 import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import {DeletePostRecursiveCommand} from "../redux/commands/DeletePostRecursiveCommand";
+import Favorite from "./favorite/Favorite";
 
 export interface Node {
     key: string,
@@ -45,19 +46,25 @@ class SiderMenu extends React.Component<Props, State> {
 
         return (
             <div className='sider-menu'>
-                <TreeSelect
-                    dataSource={topPosts}
-                    titleFunc={post => this.renderTitle(post)}
-                    expandFunc={post => this.expandNode(post)}
-                    keyFunc={post => post.id}
-                    onMove={(src, target) => this.onMove(src, target)}
-                    expandedKeys={this.props.siderState.expandedKeys}
-                    onSelect={key => this.onSelect(key)}
-                    onExpand={key => this.onExpandKey(key)}
-                    onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
-                    onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
-                    selectedKey={this.props.state.posts.currentPostId as string}
-                />
+                <Favorite/>
+
+                <Collapse>
+                    <Collapse.Panel showArrow={false} header={<span className='title'>Articles</span>} key="1">
+                        <TreeSelect
+                            dataSource={topPosts}
+                            titleFunc={post => this.renderTitle(post)}
+                            expandFunc={post => this.expandNode(post)}
+                            keyFunc={post => post.id}
+                            onMove={(src, target) => this.onMove(src, target)}
+                            expandedKeys={this.props.siderState.expandedKeys}
+                            onSelect={key => this.onSelect(key)}
+                            onExpand={key => this.onExpandKey(key)}
+                            onMoveBefore={(src, target) => this.onMoveBeforeAfter(src, target, "before")}
+                            onMoveAfter={(src, target) => this.onMoveBeforeAfter(src, target, "after")}
+                            selectedKey={this.props.state.posts.currentPostId as string}
+                        />
+                    </Collapse.Panel>
+                </Collapse>
             </div>);
     }
 
