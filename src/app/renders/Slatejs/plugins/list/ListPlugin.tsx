@@ -2,7 +2,7 @@ import {Plugin} from 'slate-react';
 import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
-import {ToggleBlockOnPrefix} from "../common";
+import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
 
 export const CommandToggleList = 'toggleList';
 export const CommandIndentList = 'indentList';
@@ -76,9 +76,9 @@ export function createListPlugin(): Plugin {
 
                 if (isList && isType) {
                     editor
-                        .setBlocks('paragraph')
-                        .unwrapBlock('bulleted-list')
-                        .unwrapBlock('numbered-list')
+                        .setBlocks(BlockParagraph)
+                        .unwrapBlock(BlockTypeBulletedList)
+                        .unwrapBlock(BlockTypeNumberedList)
                 } else if (isList) {
                     editor
                         .unwrapBlock(

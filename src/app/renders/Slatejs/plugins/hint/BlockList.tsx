@@ -14,6 +14,9 @@ import {Listile} from "../../../../Listile";
 import {HintToggleCommand} from "../../../../../redux/commands/slatejs/hint/HintToggleCommand";
 import CodeBlockAction from "./actions/CodeBlockAction";
 import ChildrenAction from "./actions/ChildrenAction";
+import ListAction from "./actions/ListAction";
+import {BlockTypeBulletedList, BlockTypeNumberedList} from "../list/ListPlugin";
+import QuoteAction from "./actions/QuoteAction";
 
 interface Props {
     state: AppStore,
@@ -48,6 +51,9 @@ class BlockList extends React.Component<Props, State> {
                         new TodoAction(),
                         new CodeBlockAction(),
                         new ChildrenAction(),
+                        new ListAction(BlockTypeNumberedList),
+                        new ListAction(BlockTypeBulletedList),
+                        new QuoteAction(),
                     ],
                 }
             ]
