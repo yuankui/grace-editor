@@ -1,4 +1,4 @@
-import {Editor as CoreEditor} from "slate";
+import {Block, Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
@@ -63,6 +63,26 @@ export function createCommonPlugin(): Plugin {
             }
 
             next();
+        },
+        schema: {
+            document: {
+                nodes: [
+                    {
+                        // match: {
+                        //     type: 'paragraph'
+                        // },
+                        min: 1,
+                    },
+                ],
+                normalize: (editor, { code, node }) => {
+                    if (code === 'child_min_invalid') {
+                            // const block = Block.create(index === 0 ? 'title' : 'paragraph');
+                        const block = Block.create('paragraph');
+                        const size = editor.value.document.nodes.size;
+                        return editor.insertNodeByKey(node.key, size, block);
+                    }
+                },
+            },
         }
     }
 }
