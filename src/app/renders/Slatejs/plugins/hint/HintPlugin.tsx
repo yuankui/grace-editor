@@ -4,7 +4,6 @@ import BlockList from "./BlockList";
 import isHotkey from "is-hotkey";
 import {Dispatch} from "redux";
 import {HintUpdateCommand} from "../../../../../redux/commands/slatejs/hint/HintUpdateCommand";
-import {BlockTypeCodeBlock} from "../code/CodePlugin";
 
 
 export function getSelectionCoords() {

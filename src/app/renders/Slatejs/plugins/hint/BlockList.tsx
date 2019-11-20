@@ -24,8 +24,7 @@ interface Props {
     editor: Editor,
 }
 
-const width = 300;
-const heightOffset = 30;
+const width = 520;
 
 interface ActionGroup {
     title: string,
@@ -82,12 +81,18 @@ class BlockList extends React.Component<Props, State> {
             return null;
         }
 
+        const {innerHeight: windowHeight, innerWidth: windowWidth} = window;
+
         const style: CSSProperties = {
-            top: hint.y + heightOffset,
-            left: hint.x,
+            top: Math.max(windowHeight / 2 - 300 / 2, 0),
+            left: windowWidth / 2 - width / 2,
             width: width,
-            height: 600,
         };
+
+        console.log(hint);
+        console.log(style);
+        console.log(window.innerHeight);
+        console.log(window.innerWidth);
 
         return (
             <Modal
