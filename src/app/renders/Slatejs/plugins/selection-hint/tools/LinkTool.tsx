@@ -11,7 +11,7 @@ export default function createLinkTool(getState: GetState, dispatch: Dispatch<an
         hint: 'Link',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
-            const inlines = editor.value.document.getInlinesAtRange({
+            const inlines = editor.value.document.getLeafInlinesAtRange({
                 focus,
                 anchor,
             });

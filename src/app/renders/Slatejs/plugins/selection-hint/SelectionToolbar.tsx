@@ -57,18 +57,17 @@ class SelectionToolbar extends React.Component<Props, State> {
             } else {
                 const active = t.isActive(this.props.editor);
                 return (
-                    <Tooltip title={t.hint}>
-
-                        <div key={index}
-                             onClick={(e) => {
-                                 t.action(this.props.editor);
-                                 this.props.editor.focus();
-                                 e.stopPropagation();
-                                 e.preventDefault();
-                             }}
-                             className={'app-editor-tool' + " active-" + active}>{t.title}</div>
+                    <Tooltip key={index} title={t.hint}>
+                        <div
+                            onClick={(e) => {
+                                t.action(this.props.editor);
+                                this.props.editor.focus();
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}
+                            className={'app-editor-tool' + " active-" + active}>{t.title}</div>
                     </Tooltip>
-                )
+                );
             }
         });
 

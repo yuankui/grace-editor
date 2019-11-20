@@ -48,7 +48,7 @@ class SiderMenu extends React.Component<Props, State> {
             <div className='sider-menu'>
                 <Favorite/>
 
-                <Collapse>
+                <Collapse defaultActiveKey={1}>
                     <Collapse.Panel showArrow={false} header={<span className='title'>Articles</span>} key="1">
                         <TreeSelect
                             dataSource={topPosts}

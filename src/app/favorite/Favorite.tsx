@@ -2,12 +2,17 @@ import React from "react";
 import {mapState} from "../../utils";
 import {connect} from "react-redux";
 import {Collapse} from "antd";
+import {AppStore} from "../../redux/store";
 
-class Favorite extends React.Component {
+interface Props {
+    state: AppStore,
+}
+
+class Favorite extends React.Component<Props> {
     render() {
         return <Collapse>
             <Collapse.Panel showArrow={false} header={<span className='title'>Favorite</span>} key="1">
-                <p>Hello kitty</p>
+               To Be Coming...
             </Collapse.Panel>
         </Collapse>
     }
