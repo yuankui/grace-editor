@@ -17,6 +17,7 @@ import {PostSelectCommand} from "../redux/commands/menu/PostSelectCommand";
 import {DeletePostRecursiveCommand} from "../redux/commands/DeletePostRecursiveCommand";
 import Favorite from "./favorite/Favorite";
 import Collapse from "./post/Collapse";
+import PostRepository from "./repository/PostRepository";
 
 export interface Node {
     key: string,
@@ -64,6 +65,8 @@ class SiderMenu extends React.Component<Props, State> {
                         selectedKey={this.props.state.posts.currentPostId as string}
                     />
                 </Collapse>
+
+                <PostRepository/>
             </div>);
     }
 
