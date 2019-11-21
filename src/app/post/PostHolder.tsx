@@ -1,10 +1,12 @@
 import React from "react";
-import {mapState} from "../../utils";
-import {connect} from "react-redux";
+import {useDrop} from "react-dnd";
+import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
+import {useDispatch} from "react-redux";
+import {MoveBeforeAfterPostCommand} from "../../redux/commands/post/MoveBeforeAfterPostCommand";
 
 interface Props {
     postId: string,
-    Mode: "before" | "after",
+    mode: "before" | "after",
 }
 
 /**
@@ -12,10 +14,20 @@ interface Props {
  *
  * 包括Before，After
  */
-class PostHolder extends React.Component<Props> {
-    render() {
-        return <div className='app-post-holder'/>;
-    }
-}
+export const PostHolder: React.FC<Props> = props => {
 
-export default connect(mapState)(PostHolder);
+    const dispatch = useDispatch();
+
+    const [{isOver}, drop] = useDrop({
+        accept: DragSourceTypes.PostTitle,
+        drop: (item: DragObjectPost) => {
+            dispatch(new MoveBeforeAfterPostCommand(item.srcId, props.postId, props.mode));
+        },
+
+        collect: monitor => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
+
+    return <div ref={drop} className={'app-post-holder ' + 'drag-over-' + isOver}/>;
+};

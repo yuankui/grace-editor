@@ -7,6 +7,7 @@ import {PostTitle} from "./PostTitle";
 import {useDrag, useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
 import {RealMovePostCommand} from "../../redux/commands/post/RealMovePostCommand";
+import {PostHolder} from "./PostHolder";
 
 interface Props {
     postId: string,
@@ -18,9 +19,13 @@ export const PostTree: React.FC<Props> = props => {
     const dispatch = useDispatch();
 
     let children = posts.childrenMap.get(props.postId)
-        .map(childId => {
+        .map((childId, index) => {
             return <li key={childId}>
+                <If test={index === 0}>
+                    <PostHolder postId={childId} mode='before' />
+                </If>
                 <PostTree postId={childId}/>
+                <PostHolder postId={childId} mode='after' />
             </li>;
         });
 
