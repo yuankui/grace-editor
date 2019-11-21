@@ -44,6 +44,9 @@ class PostTree extends React.Component<Props> {
         </Collapse>;
     }
 
+    openPost() {
+        this.props.dispatch(new PostSelectCommand(this.props.postId));
+    }
     renderTitle(item: Post, expanded: boolean) {
         const menu = (
             <ul className='actions'>
@@ -56,7 +59,7 @@ class PostTree extends React.Component<Props> {
         const childrenIds = this.props.state.posts.childrenMap.get(item.id);
         const hasChildren = childrenIds != null && childrenIds.length != 0;
 
-        return (<div onDoubleClick={(e) => this.doubleClick(item, e)}>
+        return (<div onClick={() => this.openPost()} onDoubleClick={(e) => this.doubleClick(item, e)}>
             <span className='title-prefix'>
                 <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
