@@ -1,8 +1,8 @@
 import React from "react";
 import {mapState} from "../../utils";
 import {connect} from "react-redux";
-import {Collapse} from "antd";
 import {AppStore} from "../../redux/store";
+import Collapse from "../post/Collapse";
 
 interface Props {
     state: AppStore,
@@ -10,12 +10,10 @@ interface Props {
 
 class Favorite extends React.Component<Props> {
     render() {
-        return <Collapse>
-            <Collapse.Panel showArrow={false} header={<span className='title'>Favorite</span>} key="1">
+        return <Collapse title={<span className='title'>Favorite</span>}>
                <div style={{paddingLeft: 20}}>
                    To Be Coming...
                </div>
-            </Collapse.Panel>
         </Collapse>
     }
 }

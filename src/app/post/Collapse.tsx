@@ -10,7 +10,7 @@ interface State {
 
 export default class Collapse extends React.Component<Props, State> {
     render() {
-        return <ACollapse defaultActiveKey={1}>
+        return <ACollapse bordered={false} defaultActiveKey={1}>
             <ACollapse.Panel showArrow={false} header={this.props.title} key="1">
                 {this.props.children}
             </ACollapse.Panel>
