@@ -22,13 +22,15 @@ export const PostTree: React.FC<Props> = props => {
 
     const expanded = siderState.expandedKeys.some(v => v === props.postId);
 
-    return <Collapse className='app-post-tree-container'
-                     title={<PostTitle post={post} expanded={expanded}/>}
-                     visible={true}>
-        <If test={children.length != 0 && expanded}>
-            <ul>
-                {children}
-            </ul>
-        </If>
-    </Collapse>;
+    return <div draggable={true}>
+        <Collapse className='app-post-tree-container'
+                  title={<PostTitle post={post} expanded={expanded}/>}
+                  visible={true}>
+            <If test={children.length != 0 && expanded}>
+                <ul>
+                    {children}
+                </ul>
+            </If>
+        </Collapse>
+    </div>;
 };
