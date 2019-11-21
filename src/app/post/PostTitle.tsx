@@ -39,7 +39,11 @@ export const PostTitle: React.FC<Props> = props => {
     const hasChildren = childrenIds != null && childrenIds.length != 0;
 
     return <div ref={props.innerRef}
-                onClick={() => dispatch(new PostSelectCommand(item.id))}
+                onClick={(e) => {
+                    dispatch(new PostSelectCommand(item.id));
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}
                 className={'app-post-title ' + props.className}
                 onDoubleClick={(e) => {
                     dispatch(new ToggleExpandCommand(postId));
@@ -49,7 +53,11 @@ export const PostTitle: React.FC<Props> = props => {
             <span className='title-prefix'>
                 <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
-                          onClick={e => dispatch(new ToggleExpandCommand(item.id))}>
+                          onClick={e => {
+                              dispatch(new ToggleExpandCommand(item.id));
+                              e.preventDefault();
+                              e.stopPropagation();
+                          }}>
                         <MaterialIcon value="play_arrow"/>
                     </span>
                 </If>

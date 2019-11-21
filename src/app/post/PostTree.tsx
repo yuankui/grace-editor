@@ -61,7 +61,7 @@ export const PostTree: React.FC<Props> = props => {
                                     innerRef={drop}
                                     post={post}
                                     expanded={expanded}/>}
-                  visible={true}>
+                  >
             <If test={children.length != 0 && expanded}>
                 <ul>
                     {children}
