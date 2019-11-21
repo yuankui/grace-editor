@@ -12,7 +12,9 @@ class Favorite extends React.Component<Props> {
     render() {
         return <Collapse>
             <Collapse.Panel showArrow={false} header={<span className='title'>Favorite</span>} key="1">
-               To Be Coming...
+               <div style={{paddingLeft: 20}}>
+                   To Be Coming...
+               </div>
             </Collapse.Panel>
         </Collapse>
     }
