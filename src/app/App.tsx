@@ -1,5 +1,5 @@
-import React, {createRef, KeyboardEvent} from 'react';
-import SiderMenu from './SiderMenu';
+import React, {createRef} from 'react';
+import {SiderMenu} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, Post} from "../redux/store";
@@ -37,13 +37,13 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     componentDidMount(): void {
-        const hotkeys: Array<HotKeyAction> = [
+        const hotKeys: Array<HotKeyAction> = [
             Setting(this.props.dispatch, this.props.state),
             CreatePost(this.props.dispatch, this.props.state),
         ];
 
         window.addEventListener('keydown', e => {
-            for (let hotkey of hotkeys) {
+            for (let hotkey of hotKeys) {
                 if (isHotkey(hotkey.hotkey, e)) {
                     hotkey.action();
                     e.stopPropagation();

@@ -2,7 +2,7 @@ import React from "react";
 import {If} from "../../utils";
 import {useStore} from "react-redux";
 import {AppStore} from "../../redux/store";
-import Collapse from "./Collapse";
+import {Collapse} from "./Collapse";
 import {PostTitle} from "./PostTitle";
 
 interface Props {

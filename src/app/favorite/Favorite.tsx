@@ -1,21 +1,10 @@
-import React from "react";
-import {mapState} from "../../utils";
-import {connect} from "react-redux";
-import {AppStore} from "../../redux/store";
-import Collapse from "../post/Collapse";
+import React, {FC} from "react";
+import {Collapse} from "../post/Collapse";
 
-interface Props {
-    state: AppStore,
-}
-
-class Favorite extends React.Component<Props> {
-    render() {
-        return <Collapse visible={true} title={<span className='title'>Favorite</span>}>
-               <div style={{paddingLeft: 20}}>
-                   To Be Coming...
-               </div>
-        </Collapse>
-    }
-}
-
-export default connect(mapState)(Favorite);
+export const Favorite: FC = () => {
+    return <Collapse visible={true} title={<span className='title'>Favorite</span>}>
+        <div style={{paddingLeft: 20}}>
+            To Be Coming...
+        </div>
+    </Collapse>
+};
