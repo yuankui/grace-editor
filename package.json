@@ -8,7 +8,7 @@
     "build-main": "webpack --config webpack.main.js --mode production",
     "electron": "webpack --config webpack.main.js --mode development && cross-env NODE_ENV=development PLUGIN=false electron . --allow-file-access-from-files",
     "build-renderer": "webpack --mode production",
-    "build": "yarn build-renderer && yarn build-main",
+    "build": "npm version patch && yarn build-renderer && yarn build-main",
     "build-electron": "electron-builder --config electron-builder.yml",
     "dist": "yarn build && yarn build-electron"
   },
