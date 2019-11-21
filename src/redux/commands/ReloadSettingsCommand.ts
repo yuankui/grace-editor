@@ -4,6 +4,9 @@ import {AppStore, Settings} from "../store";
 const emptySetting: Settings = {
     workSpace: '',
     isDarkMode: false,
+    favor: {
+        posts: [],
+    }
 };
 
 export default class ReloadSettingsCommand extends AppCommand {

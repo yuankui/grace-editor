@@ -12,6 +12,7 @@ export interface SiderState {
 export interface Settings {
     workSpace: string,
     isDarkMode: boolean,
+    favor: Favor,
 }
 
 export interface Post {
@@ -21,6 +22,10 @@ export interface Post {
     tags: Array<string>,
     format: PostFormat,
     content: any,
+}
+
+export interface Favor {
+    posts: Array<string>,
 }
 
 export interface PostsStore {

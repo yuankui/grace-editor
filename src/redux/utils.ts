@@ -55,6 +55,9 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         settings: {
             workSpace: '',
             isDarkMode: false,
+            favor: {
+                posts: [],
+            }
         },
         slatejs: {
             hint: {

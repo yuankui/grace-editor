@@ -48,4 +48,11 @@ export type CommandType = "TestCommand"
     | "ToolsHint/Update"
 
     | "Slate/Link/Update"
+
+    | "Favor/Save"
+    | "Favor/Add"
+    | "Favor/Remove"
+    | "Favor/Toggle"
+
+
 ;

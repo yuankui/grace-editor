@@ -12,6 +12,8 @@ import More from "./actions/More";
 import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
 import {createPostId} from "../../redux/utils";
 import PostSelectAction from "../../redux/actions/PostSelectAction";
+import {FavorButton} from "./FavorButton";
+import AddFavoriteCommand from "../../redux/commands/favor/AddFavoriteCommand";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -42,6 +44,7 @@ class TopBar extends React.Component<Props, State> {
         return <div className='top-bar-container'>
             <div className='top-bar'>
                 <div className='tools'>
+                    <FavorButton/>
                     <a onClick={() => {
                         this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
                         this.props.dispatch(PostSelectAction());
