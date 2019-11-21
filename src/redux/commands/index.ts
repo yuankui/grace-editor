@@ -31,6 +31,7 @@ export type CommandType = "TestCommand"
     | "Post/RemovePost"
     | "Post/CreateEmpty"
     | "Post/Move"
+    | "Post/RealMove"
     | "Post/MoveToRoot"
 
     | "Git/Setup"
