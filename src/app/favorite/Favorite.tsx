@@ -10,7 +10,7 @@ interface Props {
 
 class Favorite extends React.Component<Props> {
     render() {
-        return <Collapse title={<span className='title'>Favorite</span>}>
+        return <Collapse visible={true} title={<span className='title'>Favorite</span>}>
                <div style={{paddingLeft: 20}}>
                    To Be Coming...
                </div>
