@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {AppStore} from "../redux/store";
 import Favorite from "./favorite/Favorite";
-import PostRepository from "./repository/PostRepository";
+import {PostRepository} from "./repository/PostRepository";
 
 
 class SiderMenu extends React.Component {
