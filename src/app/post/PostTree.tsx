@@ -1,45 +1,34 @@
 import React from "react";
-import {If, mapState} from "../../utils";
-import {connect} from "react-redux";
-import {AppStore, Post} from "../../redux/store";
+import {If} from "../../utils";
+import {useStore} from "react-redux";
+import {AppStore} from "../../redux/store";
 import Collapse from "./Collapse";
-import {Dispatch} from "redux";
 import {PostTitle} from "./PostTitle";
 
 interface Props {
     postId: string,
-    state: AppStore,
-    dispatch: Dispatch<any>,
 }
 
-class PostTree extends React.Component<Props> {
-    render() {
-        const posts = this.props.state.posts;
-        const post = posts.posts.get(this.props.postId);
+export const PostTree: React.FC<Props> = props => {
+    const {posts, siderState} = useStore<AppStore>().getState();
+    const post = posts.posts.get(props.postId);
 
-        let children = posts.childrenMap.get(this.props.postId)
-            .map(childId => {
-                return <li key={childId}>
-                    <PostTree dispatch={this.props.dispatch} postId={childId} state={this.props.state}/>
-                </li>;
-            });
+    let children = posts.childrenMap.get(props.postId)
+        .map(childId => {
+            return <li key={childId}>
+                <PostTree postId={childId}/>
+            </li>;
+        });
 
-        const expanded = this.props.state.siderState.expandedKeys.some(v => v === this.props.postId);
+    const expanded = siderState.expandedKeys.some(v => v === props.postId);
 
-        return <Collapse className='app-post-tree-container'
-                         title={this.renderTitle(post, expanded)}
-                         visible={true}>
-            <If test={children.length != 0 && expanded}>
-                <ul>
-                    {children}
-                </ul>
-            </If>
-        </Collapse>;
-    }
-
-    renderTitle(item: Post, expanded: boolean) {
-        return <PostTitle post={item} expanded={expanded}/>
-    }
-}
-
-export default connect(mapState)(PostTree);
+    return <Collapse className='app-post-tree-container'
+                     title={<PostTitle post={post} expanded={expanded}/>}
+                     visible={true}>
+        <If test={children.length != 0 && expanded}>
+            <ul>
+                {children}
+            </ul>
+        </If>
+    </Collapse>;
+};

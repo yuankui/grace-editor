@@ -4,7 +4,7 @@ import React from "react";
 import {AppStore} from "../../redux/store";
 import {Dispatch} from "redux";
 import Collapse from "../post/Collapse";
-import PostTree from "../post/PostTree";
+import {PostTree} from "../post/PostTree";
 
 interface Props {
     state: AppStore,
