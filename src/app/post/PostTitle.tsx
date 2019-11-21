@@ -14,10 +14,12 @@ import {DeletePostRecursiveCommand} from "../../redux/commands/DeletePostRecursi
 interface Props {
     post: Post,
     expanded: boolean,
+    innerRef?: any,
+    className?: string,
 }
 
 export const PostTitle: React.FC<Props> = props => {
-    const {post: item, expanded, } = props;
+    const {post: item, expanded,} = props;
     const {id: postId} = item;
     const state: AppStore = useStore<AppStore>().getState();
     const dispatch = useDispatch<any>();
@@ -36,13 +38,14 @@ export const PostTitle: React.FC<Props> = props => {
     const childrenIds = state.posts.childrenMap.get(item.id);
     const hasChildren = childrenIds != null && childrenIds.length != 0;
 
-    return <div
-        onClick={() => dispatch(new PostSelectCommand(item.id))}
-        onDoubleClick={(e) => {
-            dispatch(new ToggleExpandCommand(postId));
-            e.preventDefault();
-            e.stopPropagation();
-        }}>
+    return <div ref={props.innerRef}
+                onClick={() => dispatch(new PostSelectCommand(item.id))}
+                className={'app-post-title ' + props.className}
+                onDoubleClick={(e) => {
+                    dispatch(new ToggleExpandCommand(postId));
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}>
             <span className='title-prefix'>
                 <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
