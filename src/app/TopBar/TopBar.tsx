@@ -41,30 +41,28 @@ class TopBar extends React.Component<Props, State> {
         const list = this.state.logs
             .map((log, i) => <li key={i}>{log}</li>);
 
-        return <div className='top-bar-container'>
-            <div className='top-bar'>
-                <div className='tools'>
-                    <FavorButton/>
-                    <a onClick={() => {
-                        this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
-                        this.props.dispatch(PostSelectAction());
-                    }}>Create New</a>
-                    <InputButton onConfirm={message => this.save(message)}>
-                        Commit
-                    </InputButton>
-                    <a onClick={() => this.props.dispatch(new GitPushCommand())}>
-                        Push
-                    </a>
-                    <a onClick={() => this.props.dispatch(new GitPullCommand())}>
-                        Pull
-                    </a>
-                    <More />
-                </div>
-                <ul>
-                    {list}
-                </ul>
+        return <div className='top-bar'>
+            <div className='tools'>
+                <FavorButton/>
+                <a onClick={() => {
+                    this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
+                    this.props.dispatch(PostSelectAction());
+                }}>Create New</a>
+                <InputButton onConfirm={message => this.save(message)}>
+                    Commit
+                </InputButton>
+                <a onClick={() => this.props.dispatch(new GitPushCommand())}>
+                    Push
+                </a>
+                <a onClick={() => this.props.dispatch(new GitPullCommand())}>
+                    Pull
+                </a>
+                <More/>
             </div>
-        </div>
+            <ul>
+                {list}
+            </ul>
+        </div>;
     }
 
     save(message: string) {

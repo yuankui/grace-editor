@@ -14,6 +14,8 @@ import CreatePost from "./hotkeys/CreatePost";
 import TopBar from "./TopBar/TopBar";
 import SettingView from "./main/SettingView";
 import Test from "./hotkeys/Test";
+import {LeftSide} from "./layout/LeftSide";
+import {RightSide} from "./layout/RightSide";
 
 interface AppProps {
     state: AppStore,
@@ -42,27 +44,11 @@ class App extends React.Component<AppProps> {
 
     render() {
         return (
-            <div style={{height: '100%'}}>
-                <TopBar/>
+            <div className='app-container'>
                 <SearchDialog/>
                 <SettingView/>
-                <div className='layout'>
-                    <Resizable enable={{right: true}}
-                               minWidth={200}
-                               maxWidth={400}
-                               handleClasses={{right: 'resize-handle'}}
-                               handleStyles={{right: {width: 5}}}
-                               defaultSize={{
-                                   width: 300,
-                                   height: '100%'
-                               }}>
-                        <SiderMenu/>
-                        {/*<ButtonActions/>*/}
-                    </Resizable>
-                    <div className='main-content'>
-                        <Main/>
-                    </div>
-                </div>
+                <LeftSide />
+                <RightSide/>
             </div>
         );
     }
