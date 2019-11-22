@@ -6,12 +6,10 @@ import HTML5Backend from 'react-dnd-html5-backend'
 
 
 export const SiderMenu: FC = () => {
-    return (
-        <DndProvider backend={HTML5Backend}>
+    return <DndProvider backend={HTML5Backend}>
             <div className='sider-menu'>
                 <Favorite/>
                 <PostRepository/>
             </div>
-            )
-        </DndProvider>);
+        </DndProvider>;
 };

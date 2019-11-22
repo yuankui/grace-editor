@@ -7,7 +7,8 @@ import {ExpandPostTree} from "../post/ExpandPostTree";
 import {SiderGroup} from "../sider/SiderGroup";
 
 export const PostRepository: React.FC = () => {
-    const {posts} = useStore<AppStore>().getState();
+    const store = useStore<AppStore>();
+    const {posts} = store.getState();
     let topPostIds = posts.childrenMap.get(null);
     if (topPostIds == null)
         topPostIds = [];
