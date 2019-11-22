@@ -1,15 +1,15 @@
-import {mapState} from "../../utils";
+import {mapState} from "../../../utils";
 import {connect} from "react-redux";
 import React from "react";
-import {AppStore, Settings} from "../../redux/store";
+import {AppStore, Settings} from "../../../redux/store";
 import {Dispatch} from "redux";
-import UpdateSettingsCommand from "../../redux/commands/UpdateSettingsCommand";
-import {InitBackendCommand} from "../../redux/commands/InitBackendCommand";
-import {ReloadPostsCommand} from "../../redux/commands/ReloadPostsCommand";
-import ElectronSelect from "../PathSelect/ElectronSelect";
+import UpdateSettingsCommand from "../../../redux/commands/UpdateSettingsCommand";
+import {InitBackendCommand} from "../../../redux/commands/InitBackendCommand";
+import {ReloadPostsCommand} from "../../../redux/commands/ReloadPostsCommand";
+import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal} from "antd";
-import GitInitCommand from "../../redux/commands/git/GitInitCommand";
-import {ToggleSettingCommand} from "../../redux/commands/ToggleSettingCommand";
+import GitInitCommand from "../../../redux/commands/git/GitInitCommand";
+import {ToggleSettingCommand} from "../../../redux/commands/ToggleSettingCommand";
 
 interface Props {
     state: AppStore,

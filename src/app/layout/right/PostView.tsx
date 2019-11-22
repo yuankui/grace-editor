@@ -1,10 +1,10 @@
 import React, {ReactNode} from "react";
-import {mapState} from "../../utils";
+import {mapState} from "../../../utils";
 import {connect} from "react-redux";
-import {AppStore, Post} from "../../redux/store";
+import {AppStore, Post} from "../../../redux/store";
 import {Dispatch} from "redux";
-import EditorContent from "../layout/right/EditorContent";
-import {UpdatePostCommand} from "../../redux/commands/post/UpdatePostCommand";
+import EditorContent from "./EditorContent";
+import {UpdatePostCommand} from "../../../redux/commands/post/UpdatePostCommand";
 
 
 interface Props {

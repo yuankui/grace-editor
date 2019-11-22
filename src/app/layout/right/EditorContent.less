@@ -1,11 +1,22 @@
 @app-title-height: 60px;
 @app-bottom-height: 70px;
 
+.app-right-content {
+  display: flex;
+  flex: auto;
+  flex-direction: row;
+
+  .app-content-padding {
+    flex: 1 1;
+  }
+
+  .post-editor {
+    flex: 3 1 500px;
+  }
+}
+
 .post-editor {
-  padding: 0 20px;
-  height: 100%;
-  min-width: 500px;
-  width: 80%;
+  border: 1px solid blue;
 
   .title {
     height: @app-title-height;
