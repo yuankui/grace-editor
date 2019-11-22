@@ -41,6 +41,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         };
     }
     return {
+        showSetting: false,
         posts: {
             childrenMap: Immutable.OrderedMap(),
             currentPostId: null,

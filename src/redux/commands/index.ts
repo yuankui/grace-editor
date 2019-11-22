@@ -8,6 +8,7 @@ export type CommandType = "TestCommand"
     | "Setting/Reload"
     | "Setting/Update"
     | "Setting/SetDarkMode"
+    | "Setting/ToggleShow"
 
     | "KittyCommand"
     | "UpdateState"

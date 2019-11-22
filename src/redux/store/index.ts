@@ -54,6 +54,7 @@ export interface Slatejs {
 }
 
 export interface AppStore {
+    showSetting: boolean,
     posts: PostsStore,
     backend: Backend,
     siderState: SiderState,

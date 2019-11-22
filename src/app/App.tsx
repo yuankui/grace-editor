@@ -14,6 +14,8 @@ import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
 import CreatePost from "./hotkeys/CreatePost";
 import TopBar from "./TopBar/TopBar";
+import SettingView from "./main/SettingView";
+import Test from "./hotkeys/Test";
 
 interface AppState {
     editable: boolean,
@@ -40,6 +42,7 @@ class App extends React.Component<AppProps, AppState> {
         const hotKeys: Array<HotKeyAction> = [
             Setting(this.props.dispatch, this.props.state),
             CreatePost(this.props.dispatch, this.props.state),
+            Test(this.props.dispatch, this.props.state),
         ];
 
         window.addEventListener('keydown', e => {
@@ -63,6 +66,7 @@ class App extends React.Component<AppProps, AppState> {
             <div style={{height: '100%'}}>
                 <TopBar/>
                 <SearchDialog/>
+                <SettingView/>
                 <div className='layout'>
                     <Resizable enable={{right: true}}
                                minWidth={200}
