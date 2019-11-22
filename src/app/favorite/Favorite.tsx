@@ -1,9 +1,9 @@
 import React, {FC} from "react";
-import {Collapse} from "../post/Collapse";
 import {AppStore} from "../../redux/store";
 import {useStore} from "react-redux";
 import {If} from "../../utils";
 import {ExpandPostTree} from "../post/ExpandPostTree";
+import {SiderGroup} from "../sider/SiderGroup";
 
 export const Favorite: FC = () => {
     const state: AppStore = useStore().getState();
@@ -15,11 +15,10 @@ export const Favorite: FC = () => {
         .filter(p => state.posts.posts.get(p) != null)
         .map(postId => <ExpandPostTree key={postId} postId={postId}/>);
 
-    return <Collapse title={<span className='title'>Favorite</span>}>
+    return <SiderGroup title='Favorite'>
             <If test={posts.length == 0}>
                 Empty collection
             </If>
-
             {children}
-        </Collapse>
+        </SiderGroup>
 };

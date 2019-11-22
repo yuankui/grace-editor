@@ -1,10 +1,10 @@
 import {useStore} from "react-redux";
 import React from "react";
 import {AppStore} from "../../redux/store";
-import {Collapse} from "../post/Collapse";
 import {If} from "../../utils";
 import {PostHolder} from "../post/PostHolder";
 import {ExpandPostTree} from "../post/ExpandPostTree";
+import {SiderGroup} from "../sider/SiderGroup";
 
 export const PostRepository: React.FC = () => {
     const {posts} = useStore<AppStore>().getState();
@@ -28,7 +28,7 @@ export const PostRepository: React.FC = () => {
             </React.Fragment>;
         });
 
-    return <Collapse title={"Repository"}>
+    return <SiderGroup title='Repository'>
             {children}
-        </Collapse>
+        </SiderGroup>
 };
