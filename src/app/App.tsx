@@ -1,11 +1,9 @@
-import React, {createRef} from 'react';
+import React from 'react';
 import {SiderMenu} from './SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppStore, Post} from "../redux/store";
-import EditorContent from "./EditorContent";
+import {AppStore} from "../redux/store";
 import {Resizable} from "re-resizable";
-import {UpdatePostCommand} from "../redux/commands/post/UpdatePostCommand";
 import SearchDialog from "./SearchDialog";
 import Main from "./Main";
 import Setting from "./hotkeys/Setting";
@@ -17,26 +15,12 @@ import TopBar from "./TopBar/TopBar";
 import SettingView from "./main/SettingView";
 import Test from "./hotkeys/Test";
 
-interface AppState {
-    editable: boolean,
-}
-
 interface AppProps {
     state: AppStore,
     dispatch: Dispatch<any>,
 }
 
-class App extends React.Component<AppProps, AppState> {
-    private readonly editor: React.RefObject<EditorContent>;
-
-    constructor(props: Readonly<any>) {
-        super(props);
-        this.editor = createRef();
-        this.state = {
-            editable: true,
-        };
-
-    }
+class App extends React.Component<AppProps> {
 
     componentDidMount(): void {
         const hotKeys: Array<HotKeyAction> = [
@@ -55,11 +39,6 @@ class App extends React.Component<AppProps, AppState> {
             }
         });
     }
-
-
-    onChange = (post: Post) => {
-        this.props.dispatch(new UpdatePostCommand(post));
-    };
 
     render() {
         return (
