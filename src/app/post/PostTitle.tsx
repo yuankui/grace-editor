@@ -1,5 +1,5 @@
 import {AppStore, Post} from "../../redux/store";
-import React from "react";
+import React, {useContext} from "react";
 import {If, MaterialIcon} from "../../utils";
 import Point from "../../icons";
 import {OperationButton} from "../../common/OperationButton";
@@ -8,8 +8,10 @@ import {useDispatch, useStore} from "react-redux";
 import {PostSelectCommand} from "../../redux/commands/menu/PostSelectCommand";
 import {ToggleExpandCommand} from "../../redux/commands/menu/ToggleExpandCommand";
 import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
-import {createPostId} from "../../redux/utils";
+import {createPostId, remove} from "../../redux/utils";
 import {DeletePostRecursiveCommand} from "../../redux/commands/DeletePostRecursiveCommand";
+import {ExpandContext} from "./ExpandContext";
+import _ from 'lodash';
 
 interface Props {
     post: Post,
@@ -38,6 +40,17 @@ export const PostTitle: React.FC<Props> = props => {
     const childrenIds = state.posts.childrenMap.get(item.id);
     const hasChildren = childrenIds != null && childrenIds.length != 0;
 
+    // toggle expand
+    const {value: expandKeys,set: setExpandKeys} = useContext(ExpandContext);
+    const toggleExpand = () => {
+        if (_.includes(expandKeys, postId)) {
+            setExpandKeys(remove(expandKeys, postId));
+        } else {
+            setExpandKeys([...expandKeys, postId]);
+        }
+    };
+
+
     return <div ref={props.innerRef}
                 onClick={(e) => {
                     dispatch(new PostSelectCommand(item.id));
@@ -46,7 +59,7 @@ export const PostTitle: React.FC<Props> = props => {
                 }}
                 className={'app-post-title ' + props.className}
                 onDoubleClick={(e) => {
-                    dispatch(new ToggleExpandCommand(postId));
+                    toggleExpand();
                     e.preventDefault();
                     e.stopPropagation();
                 }}>
@@ -54,7 +67,7 @@ export const PostTitle: React.FC<Props> = props => {
                 <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
                           onClick={e => {
-                              dispatch(new ToggleExpandCommand(item.id));
+                              toggleExpand();
                               e.preventDefault();
                               e.stopPropagation();
                           }}>

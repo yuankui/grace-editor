@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {If} from "../../utils";
 import {useDispatch, useStore} from "react-redux";
 import {AppStore} from "../../redux/store";
@@ -8,13 +8,14 @@ import {useDrag, useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
 import {RealMovePostCommand} from "../../redux/commands/post/RealMovePostCommand";
 import {PostHolder} from "./PostHolder";
+import {ExpandContext} from "./ExpandContext";
 
 interface Props {
     postId: string,
 }
 
 export const PostTree: React.FC<Props> = props => {
-    const {posts, siderState} = useStore<AppStore>().getState();
+    const {posts} = useStore<AppStore>().getState();
     const post = posts.posts.get(props.postId);
     const dispatch = useDispatch();
 
@@ -29,7 +30,8 @@ export const PostTree: React.FC<Props> = props => {
             </li>;
         });
 
-    const expanded = siderState.expandedKeys.some(v => v === props.postId);
+    const {value: expandKeys} = useContext(ExpandContext);
+    const expanded = expandKeys.some(v => v === props.postId);
 
     // post is draggable
     const [{isDragging}, drag] = useDrag({

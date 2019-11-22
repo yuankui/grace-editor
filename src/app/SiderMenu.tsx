@@ -9,7 +9,7 @@ export const SiderMenu: FC = () => {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className='sider-menu'>
-                {/*<Favorite/>*/}
+                <Favorite/>
                 <PostRepository/>
             </div>
             )
