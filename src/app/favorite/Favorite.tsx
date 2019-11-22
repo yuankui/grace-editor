@@ -3,7 +3,7 @@ import {AppStore} from "../../redux/store";
 import {useStore} from "react-redux";
 import {If} from "../../utils";
 import {ExpandPostTree} from "../post/ExpandPostTree";
-import {SiderGroup} from "../sider/SiderGroup";
+import {SiderGroup} from "../layout/left/sider/SiderGroup";
 
 export const Favorite: FC = () => {
     const state: AppStore = useStore().getState();

@@ -1,4 +1,4 @@
-import {SiderMenu} from "../SiderMenu";
+import {SiderMenu} from "./left/SiderMenu";
 import React from "react";
 import {Resizable} from "re-resizable";
 

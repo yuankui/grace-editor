@@ -1,9 +1,9 @@
 import {useStore} from "react-redux";
 import React from "react";
-import {AppStore} from "../../redux/store";
-import {If} from "../../utils";
-import {PostHolder} from "../post/PostHolder";
-import {ExpandPostTree} from "../post/ExpandPostTree";
+import {AppStore} from "../../../../redux/store";
+import {If} from "../../../../utils";
+import {PostHolder} from "../../../post/PostHolder";
+import {ExpandPostTree} from "../../../post/ExpandPostTree";
 import {SiderGroup} from "../sider/SiderGroup";
 
 export const PostRepository: React.FC = () => {

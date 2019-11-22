@@ -1,5 +1,5 @@
 import React from 'react';
-import {SiderMenu} from './SiderMenu';
+import {SiderMenu} from './layout/left/SiderMenu';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../redux/store";
@@ -11,7 +11,7 @@ import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
 import {mapState} from "../utils";
 import CreatePost from "./hotkeys/CreatePost";
-import TopBar from "./TopBar/TopBar";
+import TopBar from "./layout/right/TopBar/TopBar";
 import SettingView from "./main/SettingView";
 import Test from "./hotkeys/Test";
 import {LeftSide} from "./layout/LeftSide";

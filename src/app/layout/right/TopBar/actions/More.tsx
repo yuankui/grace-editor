@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import {mapState, Rotate} from "../../../utils";
+import {mapState, Rotate} from "../../../../../utils";
 import {Icon, Popover, Switch} from "antd";
 import {connect} from "react-redux";
-import {AppStore} from "../../../redux/store";
+import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {SetDarkModeCommand} from "../../../redux/commands/settings/ToggleDarkModeCommand";
+import {SetDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
 import {push} from "connected-react-router";
 import {Link} from "react-router-dom";
 

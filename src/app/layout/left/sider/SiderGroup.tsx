@@ -1,4 +1,4 @@
-import {Collapse} from "../post/Collapse";
+import {Collapse} from "../../../post/Collapse";
 import React from "react";
 
 interface Props {

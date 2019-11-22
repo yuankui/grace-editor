@@ -3,7 +3,7 @@ import {mapState} from "../../utils";
 import {connect} from "react-redux";
 import {AppStore, Post} from "../../redux/store";
 import {Dispatch} from "redux";
-import EditorContent from "../EditorContent";
+import EditorContent from "../layout/right/EditorContent";
 import {UpdatePostCommand} from "../../redux/commands/post/UpdatePostCommand";
 
 

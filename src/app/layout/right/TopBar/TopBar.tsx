@@ -1,19 +1,19 @@
 import React from "react";
-import {mapState, Rotate} from "../../utils";
+import {mapState, Rotate} from "../../../../utils";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppStore} from "../../redux/store";
-import GitCommitCommand from "../../redux/commands/git/GitCommitCommand";
+import {AppStore} from "../../../../redux/store";
+import GitCommitCommand from "../../../../redux/commands/git/GitCommitCommand";
 import InputButton from "./InputButton";
-import GitPushCommand from "../../redux/commands/git/GitPushCommand";
-import GitPullCommand from "../../redux/commands/git/GitPullCommand";
+import GitPushCommand from "../../../../redux/commands/git/GitPushCommand";
+import GitPullCommand from "../../../../redux/commands/git/GitPullCommand";
 import {Button, Icon} from "antd";
 import More from "./actions/More";
-import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
-import {createPostId} from "../../redux/utils";
-import PostSelectAction from "../../redux/actions/PostSelectAction";
+import {CreateNewPostCommand} from "../../../../redux/commands/CreateNewPostCommand";
+import {createPostId} from "../../../../redux/utils";
+import PostSelectAction from "../../../../redux/actions/PostSelectAction";
 import {FavorButton} from "./FavorButton";
-import AddFavoriteCommand from "../../redux/commands/favor/AddFavoriteCommand";
+import AddFavoriteCommand from "../../../../redux/commands/favor/AddFavoriteCommand";
 
 interface Props {
     dispatch: Dispatch<any>,

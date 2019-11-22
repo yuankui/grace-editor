@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import InputButton from "../../../TopBar/InputButton";
+import InputButton from "../../../layout/right/TopBar/InputButton";
 import {Button} from "antd";
 import {QueryListType} from "./list/ListPlugin";
 

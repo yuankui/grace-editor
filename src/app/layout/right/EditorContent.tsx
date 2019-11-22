@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
-import {Backend} from "../backend";
-import {Post} from "../redux/store";
-import {getRender} from "./renders/factory";
+import {Backend} from "../../../backend";
+import {Post} from "../../../redux/store";
+import {getRender} from "../../renders/factory";
 
 export interface Props {
     post: Post | null,
@@ -41,9 +41,6 @@ export default class EditorContent extends React.Component<Props, any> {
             {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
             <div className='content'>
                 <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
-            </div>
-            <div className='bottom'>
-                this is the bottom line.
             </div>
         </div>
     }
