@@ -3,6 +3,7 @@ import {useDispatch, useStore} from "react-redux";
 import {AppStore} from "../../redux/store";
 import {Icon} from "antd";
 import ToggleFavoriteCommand from "../../redux/commands/favor/ToggleFavoriteCommand";
+import {HintLink} from "./HinkLink";
 
 export const FavorButton: React.FC = () => {
     const state: AppStore = useStore().getState();
@@ -17,14 +18,14 @@ export const FavorButton: React.FC = () => {
     const favor = settings.favor || {};
     const favorPosts = favor.posts || [];
 
-    let child: any =  null;
+    let child: any =  <Icon type="heart" />;
+    let hint = "Add to Favorite";
     if (favorPosts.some(p => p == currentPostId)) {
         child = <Icon type="heart" theme="filled" />
-    } else {
-        child = <Icon type="heart" />
+        hint = "Remove from Favorite";
     }
 
-    return <a onClick={() => dispatch(new ToggleFavoriteCommand(state.posts.currentPostId as string))}>
+    return <HintLink hint={hint} onClick={() => dispatch(new ToggleFavoriteCommand(state.posts.currentPostId as string))}>
         {child}
-    </a>
+    </HintLink>
 };

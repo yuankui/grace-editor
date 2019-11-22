@@ -1,8 +1,11 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore, Settings} from "../store";
 
+const HomeDir = window.require('process').env['HOME'];
+const defaultWorkSpace = window.require('path').join(HomeDir, '.grace-docs');
+
 const emptySetting: Settings = {
-    workSpace: '',
+    workSpace: defaultWorkSpace,
     isDarkMode: false,
     favor: {
         posts: [],
