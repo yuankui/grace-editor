@@ -50,14 +50,15 @@ export const PostTitle: React.FC<Props> = props => {
         }
     };
 
-
+    // is current post
+    const isCurrent = postId === state.posts.currentPostId;
     return <div ref={props.innerRef}
                 onClick={(e) => {
                     dispatch(new PostSelectCommand(item.id));
                     e.preventDefault();
                     e.stopPropagation();
                 }}
-                className={'app-post-title ' + props.className}
+                className={'app-post-title ' + props.className + " select-" + isCurrent}
                 onDoubleClick={(e) => {
                     toggleExpand();
                     e.preventDefault();
@@ -81,14 +82,16 @@ export const PostTitle: React.FC<Props> = props => {
         <span className='title'>
                 {item.title == "" ? "未命名" : item.title}
             </span>
-        <OperationButton onClick={() => dispatch(new CreateNewPostCommand(createPostId(), item.id))}>
-            <MaterialIcon value='add'/>
-        </OperationButton>
+        <div className='title-operations'>
+            <Popover content={menu} trigger="click" placement='bottom'>
+                <OperationButton>
+                    <MaterialIcon value='more_horiz'/>
+                </OperationButton>
+            </Popover>
 
-        <Popover content={menu} trigger="click" placement='bottom'>
-            <OperationButton>
-                <MaterialIcon value='more_horiz'/>
+            <OperationButton onClick={() => dispatch(new CreateNewPostCommand(createPostId(), item.id))}>
+                <MaterialIcon value='add'/>
             </OperationButton>
-        </Popover>
+        </div>
     </div>;
 };

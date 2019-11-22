@@ -1,6 +1,8 @@
 .app-post-tree-container {
   ul {
     list-style: none;
+    padding: 0 0 0 20px;
+    margin: 0;
   }
   .ant-collapse-header {
     line-height: 30px;
@@ -10,6 +12,7 @@
     &:active {
       background-color: @base-active-background-color;
     }
+
   }
 
   .ant-collapse-header {
@@ -23,6 +26,10 @@
 
   .app-post-title {
     &.app-drag-over-true {
+      background-color: @base-active-background-color;
+    }
+
+    &.select-true {
       background-color: @base-active-background-color;
     }
   }

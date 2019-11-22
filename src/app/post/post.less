@@ -12,27 +12,8 @@
   }
 }
 
-div.menu-item {
-  padding: 2px 5px;
-  cursor: pointer;
-
-  &.dragover-true {
-    outline: #4ca8de 2px dashed;
-  }
-
-}
-
-.select-item {
-  &:hover {
-    background-color: #e8e7e4;
-  }
-
-  &.selected-true {
-    background-color: #e8e7e4;
-  }
-}
-
 @item-title-border-width: 5px;
+@item-title-height: 30px;
 
 .drag-item-border {
   height: @item-title-border-width;
@@ -46,15 +27,19 @@ div.menu-item {
 // expand
 .title-prefix {
   float: left;
-  display: inline-block;
+  display: inline-flex;
   outline: none;
   border: none;
   background-color: inherit;
   border-radius: 3px;
-  width: 25px;
+  width: 24px;
+  height: 24px;
+  margin: 3px; //3 + 24 + 3 = 30 = height of title
   cursor: default;
   user-select: none;
   color: @base-sider-menu-color;
+
+  .center();
 
   svg circle {
     fill: @base-sider-menu-color;
@@ -79,3 +64,24 @@ div.menu-item {
 }
 
 /*expand*/
+
+
+
+//title
+
+.app-post-title {
+  .title-operations {
+    transition: all 0.1s;
+    opacity: 0;
+    float: right;
+    height: @item-title-height;
+    display: flex;
+    .center();
+  }
+
+  &:hover {
+    .title-operations {
+      opacity: 1;
+    }
+  }
+}
