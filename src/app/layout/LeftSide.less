@@ -8,4 +8,18 @@
         user-select: none;
         .drag-handle();
     }
+
+
+    .resize-handle {
+        transition: all .3s;
+        width: 2px;
+        background-color: inherit;
+
+        &:hover {
+            background-color: @base-hover-background-color;
+        }
+        &:active {
+            background-color: @base-active-background-color;
+        }
+    }
 }
