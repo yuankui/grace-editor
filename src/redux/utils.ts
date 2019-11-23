@@ -6,7 +6,9 @@ import {createMemoryHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
 
-export const history = createHistory();
+export const history = createHistory({
+    keyLength: 20,
+});
 
 export const routerReducer = connectRouter(history);
 
