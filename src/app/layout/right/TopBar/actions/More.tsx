@@ -1,12 +1,11 @@
 import React, {Component} from "react";
 import {mapState, Rotate} from "../../../../../utils";
-import {Icon, Popover, Switch} from "antd";
+import {Icon, message, Popover, Switch} from "antd";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {SetDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
-import {push} from "connected-react-router";
-import {Link} from "react-router-dom";
+import {ToggleSettingCommand} from "../../../../../redux/commands/ToggleSettingCommand";
 
 interface TitleActionProps {
     title: string,
@@ -63,11 +62,12 @@ class More extends React.Component<MoreProps, MoreState> {
         }}>
             <TitleAction title='黑暗模式' onClick={() => {
                 this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
+                message.info("To be Coming...");
             }}>
                 <Switch checked={isDarkMode}/>
             </TitleAction>
             <TitleAction title='设置' onClick={() => {
-                this.props.dispatch(push('/settings'));
+                this.props.dispatch(new ToggleSettingCommand(true));
                 this.toggle(false);
             }}/>
         </div>;
