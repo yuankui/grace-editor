@@ -22,8 +22,8 @@ export const BreadCrumb: React.FC = () => {
     const res: Array<ReactNode> = [];
     tracePath(state.posts)
         .forEach(p => {
-            res.push("/");
-            res.push(<PostLink postId={p.id} title='EmptyTitle'/>)
+            res.push(<span key={'pre' + p.id}>/</span>);
+            res.push(<PostLink key={p.id} postId={p.id} title='EmptyTitle'/>)
         });
 
     return <React.Fragment>

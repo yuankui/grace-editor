@@ -125,7 +125,9 @@ class SearchDialog extends React.Component<Props, State> {
     getPath(postId: string, posts: PostsStore): string {
         let path: Array<string> = [];
 
-        while (postId != null) {
+        let maxLoop = 100;
+
+        while (postId != null && (maxLoop--)>0) {
             let post: Post = posts.posts.get(postId);
             path.push(post.title);
 
