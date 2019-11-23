@@ -44,7 +44,6 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         showSetting: false,
         posts: {
             childrenMap: Immutable.OrderedMap(),
-            currentPostId: null,
             posts: Immutable.OrderedMap<string, Post>(),
             parentMap: Immutable.Map(),
         },
@@ -109,7 +108,6 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     }
     return {
         posts: map,
-        currentPostId: null,
         childrenMap,
         parentMap
     };

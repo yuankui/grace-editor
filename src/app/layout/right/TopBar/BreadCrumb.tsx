@@ -2,15 +2,16 @@ import React, {ReactNode} from "react";
 import {AppStore, Post, PostsStore} from "../../../../redux/store";
 import {useStore} from "react-redux";
 import {PostLink} from "../../../renders/Slatejs/plugins/children/PostLink";
+import {useCurrentPostId} from "../../../../utils";
 
-function tracePath(posts: PostsStore): Array<Post> {
-    let {posts: map, parentMap, currentPostId} = posts;
+function tracePath(currentPostId: string, posts: PostsStore): Array<Post> {
+    let {posts: map, parentMap} = posts;
     const res: Array<Post> = [];
 
     while (currentPostId != null) {
         const post = map.get(currentPostId);
         res.push(post);
-        currentPostId = parentMap.get(currentPostId);
+        currentPostId = parentMap.get(currentPostId) as string;
     }
 
     return res.reverse();
@@ -18,9 +19,12 @@ function tracePath(posts: PostsStore): Array<Post> {
 
 export const BreadCrumb: React.FC = () => {
     const state = useStore<AppStore>().getState();
-
+    const currentPostId = useCurrentPostId();
+    if (currentPostId == null) {
+        return null;
+    }
     const res: Array<ReactNode> = [];
-    tracePath(state.posts)
+    tracePath(currentPostId, state.posts)
         .forEach(p => {
             res.push(<span key={'pre' + p.id}>/</span>);
             res.push(<PostLink key={p.id} postId={p.id} title='EmptyTitle'/>)

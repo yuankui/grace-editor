@@ -1,10 +1,10 @@
 import {Plugin} from 'slate-react';
 import React from "react";
 import {BlockTypeCodeBlock} from "../code/CodePlugin";
-import {AppStore} from "../../../../../redux/store";
-import ImageBlock from "./ImageBlock";
+import {ImageBlock} from "./ImageBlock";
 import isHotkey from "is-hotkey";
 import {GetState} from "../../SlatejsRender";
+import {useLocation} from "react-router";
 
 export const ImageBlockType = 'image-block';
 
@@ -59,7 +59,9 @@ export function createImagePlugin(getState: GetState): Plugin {
                 const file = files.item(i);
                 if (file == null) continue;
 
-                let imageId = await getState().backend.saveImage(file, getState().posts.currentPostId as string);
+                let params = new URLSearchParams(getState().router.location.search);
+                const currentPostId = params.get('postId');
+                let imageId = await getState().backend.saveImage(file, currentPostId as string);
 
                 editor.command(insertImage, {
                     imageId: imageId,

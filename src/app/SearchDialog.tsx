@@ -58,7 +58,7 @@ class SearchDialog extends React.Component<Props, State> {
         >
             <DropdownSelect ref={this.searchRef}
                             onSelect={(i, data: SearchOption) => {
-                                this.props.dispatch(new PostSelectCommand(data.postId));
+                                this.props.dispatch(PostSelectCommand(data.postId));
                                 this.hideSearch();
                             }}
                             maxHeight={300}

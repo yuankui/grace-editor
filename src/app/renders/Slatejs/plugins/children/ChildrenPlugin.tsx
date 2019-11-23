@@ -3,6 +3,7 @@ import React from "react";
 import {GetState} from "../../SlatejsRender";
 import {PostLink} from "./PostLink";
 import {BlockParagraph} from "../common";
+import {parseCurrentPostId} from "../../../../../utils";
 
 export const BlockTypeChildren = 'block-type-children';
 export const CommandToggleChildren = 'command-toggle-children';
@@ -19,7 +20,7 @@ export default function createChildrenPlugin(getState: GetState): Plugin {
 
         commands: {
             [CommandToggleChildren]: (editor, args) => {
-                const postId = getState().posts.currentPostId;
+                const postId = parseCurrentPostId(getState());
 
                 editor.setBlocks({
                     type: BlockTypeChildren,

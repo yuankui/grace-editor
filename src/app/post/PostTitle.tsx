@@ -1,12 +1,11 @@
 import {AppStore, Post} from "../../redux/store";
 import React, {useContext} from "react";
-import {If, MaterialIcon} from "../../utils";
+import {If, MaterialIcon, useCurrentPostId} from "../../utils";
 import Point from "../../icons";
 import {OperationButton} from "../../common/OperationButton";
 import {Popover} from "antd";
 import {useDispatch, useStore} from "react-redux";
 import {PostSelectCommand} from "../../redux/commands/menu/PostSelectCommand";
-import {ToggleExpandCommand} from "../../redux/commands/menu/ToggleExpandCommand";
 import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
 import {createPostId, remove} from "../../redux/utils";
 import {DeletePostRecursiveCommand} from "../../redux/commands/DeletePostRecursiveCommand";
@@ -50,11 +49,12 @@ export const PostTitle: React.FC<Props> = props => {
         }
     };
 
+    const currentPostId = useCurrentPostId();
     // is current post
-    const isCurrent = postId === state.posts.currentPostId;
+    const isCurrent = postId === currentPostId;
     return <div ref={props.innerRef}
                 onClick={(e) => {
-                    dispatch(new PostSelectCommand(item.id));
+                    dispatch(PostSelectCommand(item.id));
                     e.preventDefault();
                     e.stopPropagation();
                 }}

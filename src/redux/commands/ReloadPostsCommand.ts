@@ -13,17 +13,10 @@ export class ReloadPostsCommand extends AppCommand {
         return (s: AppStore): AppStore => {
             let postsStore: PostsStore = buildPostTree(posts);
 
-            let currentPost: string | null = null;
-            const children = postsStore.childrenMap.get(null);
-            if (children != null && children.length != 0) {
-                currentPost = children[0];
-            }
-
             return {
                 ...s,
                 posts: {
                     ...postsStore,
-                    currentPostId: currentPost,
                 }
             }
         }

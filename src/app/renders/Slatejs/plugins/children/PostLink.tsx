@@ -19,7 +19,7 @@ export const PostLink: React.FC<Props> = (props) => {
     }
 
     return <a className='app-post-link' onClick={() => {
-        dispatch(new PostSelectCommand(props.postId));
+        dispatch(PostSelectCommand(props.postId));
     }}>
         {post.title}
     </a>;

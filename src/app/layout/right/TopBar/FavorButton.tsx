@@ -4,12 +4,14 @@ import {AppStore} from "../../../../redux/store";
 import {Icon} from "antd";
 import ToggleFavoriteCommand from "../../../../redux/commands/favor/ToggleFavoriteCommand";
 import {HintLink} from "./HinkLink";
+import {useCurrentPostId} from "../../../../utils";
 
 export const FavorButton: React.FC = () => {
     const state: AppStore = useStore().getState();
     const dispatch = useDispatch();
+    const currentPostId = useCurrentPostId();
 
-    const {posts: {currentPostId}, settings} = state;
+    const {settings} = state;
 
     if (currentPostId == null) {
         return null;
@@ -25,7 +27,7 @@ export const FavorButton: React.FC = () => {
         hint = "Remove from Favorite";
     }
 
-    return <HintLink hint={hint} onClick={() => dispatch(new ToggleFavoriteCommand(state.posts.currentPostId as string))}>
+    return <HintLink hint={hint} onClick={() => dispatch(new ToggleFavoriteCommand(currentPostId))}>
         {child}
     </HintLink>
 };

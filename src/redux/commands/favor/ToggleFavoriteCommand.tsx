@@ -6,9 +6,9 @@ import RemoveFavoriteCommand from "./RemoveFavoriteCommand";
 import AddFavoriteCommand from "./AddFavoriteCommand";
 
 export default class ToggleFavoriteCommand extends AppCommand{
-    private readonly postId?: string;
+    private readonly postId: string;
 
-    constructor(postId?: string) {
+    constructor(postId: string) {
         super();
         this.postId = postId;
     }
@@ -18,7 +18,7 @@ export default class ToggleFavoriteCommand extends AppCommand{
     }
 
     process(state: AppStore): AppStore {
-        const postId = this.postId == null ? state.posts.currentPostId : this.postId;
+        const postId = this.postId;
         if (postId == null) {
             return state;
         }

@@ -11,7 +11,7 @@ export default function CreatePost(dispatch: Dispatch<any>, state: AppStore): Ho
         action() {
             const postId = createPostId();
             dispatch(new CreateNewPostCommand(postId, null));
-            dispatch(new PostSelectCommand(postId));
+            dispatch(PostSelectCommand(postId));
         }
     }
 }

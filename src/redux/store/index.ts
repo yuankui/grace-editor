@@ -29,7 +29,6 @@ export interface Favor {
 }
 
 export interface PostsStore {
-    currentPostId: string | null,
     posts: Immutable.Map<string, Post>,
     childrenMap: Immutable.Map<string | null, Array<string>>,
     parentMap: Immutable.Map<string, string | null>,
