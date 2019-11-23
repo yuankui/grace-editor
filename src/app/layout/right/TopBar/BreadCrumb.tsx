@@ -8,7 +8,8 @@ function tracePath(currentPostId: string, posts: PostsStore): Array<Post> {
     let {posts: map, parentMap} = posts;
     const res: Array<Post> = [];
 
-    while (currentPostId != null) {
+    let maxCount = 100;
+    while (currentPostId != null &&(maxCount--) > 0) {
         const post = map.get(currentPostId);
         res.push(post);
         currentPostId = parentMap.get(currentPostId) as string;
