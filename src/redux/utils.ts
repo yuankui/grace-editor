@@ -2,7 +2,7 @@ import uuid from "uuid";
 import {AppStore, Post, PostsStore} from "./store";
 import {PostDTO} from "../backend";
 import Immutable from "immutable";
-import {createHashHistory as createHistory} from "history";
+import {createMemoryHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {mapState, Rotate} from "../../../../utils";
+import {mapState} from "../../../../utils";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../../../../redux/store";
@@ -7,13 +7,12 @@ import GitCommitCommand from "../../../../redux/commands/git/GitCommitCommand";
 import InputButton from "./InputButton";
 import GitPushCommand from "../../../../redux/commands/git/GitPushCommand";
 import GitPullCommand from "../../../../redux/commands/git/GitPullCommand";
-import {Button, Icon} from "antd";
 import More from "./actions/More";
 import {CreateNewPostCommand} from "../../../../redux/commands/CreateNewPostCommand";
 import {createPostId} from "../../../../redux/utils";
 import PostSelectAction from "../../../../redux/actions/PostSelectAction";
 import {FavorButton} from "./FavorButton";
-import AddFavoriteCommand from "../../../../redux/commands/favor/AddFavoriteCommand";
+import {Nav} from "./Nav";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -34,14 +33,8 @@ class TopBar extends React.Component<Props, State> {
     }
 
     render() {
-        const buttons = [
-            this.button('refresh', () => this.refresh()),
-        ];
-
-        const list = this.state.logs
-            .map((log, i) => <li key={i}>{log}</li>);
-
         return <div className='top-bar'>
+            <Nav/>
             <div className='tools'>
                 <FavorButton/>
                 <a onClick={() => {
@@ -59,25 +52,13 @@ class TopBar extends React.Component<Props, State> {
                 </a>
                 <More/>
             </div>
-            <ul>
-                {list}
-            </ul>
         </div>;
     }
 
     save(message: string) {
         this.props.dispatch(new GitCommitCommand(message));
     }
-    async refresh() {
-        let git = this.props.state.repo;
-        if (git) {
-            let logs = await git.log();
-            this.setState({
-                logs: logs.all.slice(0, 5)
-                    .map(l => `${l.message} @${l.date}`)
-            })
-        }
-    }
+
 
     button(label: string, onClick: () => void) {
         return <button type='button' onClick={() => onClick()}>

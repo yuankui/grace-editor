@@ -1,27 +1,40 @@
 @import 'actions/More.less';
+@import 'Nav.less';
 
 @top-bar-height: 40px;
+
+.top-button {
+  display: inline-block;
+  color: black;
+  padding: 4px;
+  margin-right: 4px;
+
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #EFEFEF;
+  }
+}
+
+.hover-show {
+  opacity: 0;
+  transition: opacity .5s;
+  &:hover {
+    opacity: 1;
+  }
+}
 
 .top-bar {
   height: @top-bar-height;
   background-color: white;
+  display: flex;
+  justify-content: space-between;
 
   .drag-handle();
 
   .tools {
-    float: right;
-
     a {
-      display: inline-block;
-      color: black;
-      padding: 4px;
-      margin-right: 4px;
-
-      border-radius: 5px;
-
-      &:hover {
-        background-color: #EFEFEF;
-      }
+      .top-button();
     }
   }
 
