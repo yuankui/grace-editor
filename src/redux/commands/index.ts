@@ -50,6 +50,8 @@ export type CommandType = "TestCommand"
 
     | "Slate/Link/Update"
 
+    | "Slate/Color/Toggle"
+
     | "Favor/Save"
     | "Favor/Add"
     | "Favor/Remove"

@@ -10,10 +10,12 @@ import createHeadingTool from "./HeadingTool";
 import createLinkTool from "./LinkTool";
 import {GetState} from "../../../SlatejsRender";
 import {Dispatch} from "redux";
+import {createColorTool} from "./ColorTool";
 
 export interface Tool {
     hint: string,
-    title: ReactNode,
+    title?: ReactNode,
+    dynamicTitle?: (editor: Editor) => ReactNode,
     hotkey?: string,
     isActive(editor: Editor): boolean,
     action(editor: Editor): void,
@@ -38,5 +40,6 @@ export function createTools(getState: GetState, dispatch: Dispatch<any>): Array<
         createHeadingTool(3),
         "Separator",
         createLinkTool(getState, dispatch),
+        createColorTool(getState, dispatch),
     ]
 }

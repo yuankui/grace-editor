@@ -1,7 +1,7 @@
 import {Tool} from "./index";
 import React from "react";
 import {Editor} from "slate";
-import {InlineMarkTypes, MarkTypeBold} from "../../inline/InlinePlugin";
+import {InlineMarkTypes} from "../../inline/InlinePlugin";
 
 export default function createResetTool(): Tool {
     return {

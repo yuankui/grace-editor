@@ -62,6 +62,12 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             }
         },
         slatejs: {
+            highlight: {
+                color: {
+                    color: 'black',
+                    background: '#F4DFEB',
+                },
+            },
             hint: {
                 x: 0,
                 y: 0,

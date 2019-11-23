@@ -56,6 +56,11 @@ class SelectionToolbar extends React.Component<Props, State> {
                 return <div key={index} className='separator'/>
             } else {
                 const active = t.isActive(this.props.editor);
+
+                let title = t.title;
+                if (t.dynamicTitle) {
+                    title = t.dynamicTitle(this.props.editor);
+                }
                 return (
                     <Tooltip key={index} title={t.hint}>
                         <div
@@ -65,7 +70,7 @@ class SelectionToolbar extends React.Component<Props, State> {
                                 e.stopPropagation();
                                 e.preventDefault();
                             }}
-                            className={'app-editor-tool' + " active-" + active}>{t.title}</div>
+                            className={'app-editor-tool' + " active-" + active}>{title}</div>
                     </Tooltip>
                 );
             }

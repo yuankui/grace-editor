@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import {RouterState} from "connected-react-router";
 import {SimpleGit} from "../../copies/simple-git/promise";
 import {PostFormat} from "../../PostFormat";
+import {Color} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
 
 
 export interface SiderState {
@@ -46,10 +47,17 @@ export interface SlateLink {
     url: string,
     linkKey: string,
 }
+
+// 高亮相关
+export interface SlateHighlight {
+    color: Color,
+}
+
 export interface Slatejs {
     hint: SlateHint,
     toolsHint: SlateHint,
     link: SlateLink,
+    highlight: SlateHighlight,
 }
 
 export interface AppStore {
