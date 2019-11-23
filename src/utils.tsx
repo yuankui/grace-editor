@@ -1,5 +1,6 @@
 import React, {ReactNode} from "react";
 import {AppStore} from "./redux/store";
+import { useLocation } from "react-router";
 
 interface Props {
     test: boolean,
@@ -52,8 +53,9 @@ export class MaterialIcon extends React.Component<IconProps> {
 export function classNames(names: Array<string>) {
     return names.join(' ');
 }
+
 export function findAll(text: string, keyword: string): Array<string> {
-    if(!keyword) {
+    if (!keyword) {
         return [text];
     }
     return text.split(keyword)
@@ -66,8 +68,14 @@ export function findAll(text: string, keyword: string): Array<string> {
 interface StoreProps {
     state: AppStore,
 }
+
 export function mapState(state: AppStore): StoreProps {
     return {
         state,
     }
+}
+
+export function useCurrentPostId() {
+    let params = new URLSearchParams(useLocation().search);
+    return params.get('postId');
 }

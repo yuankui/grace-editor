@@ -6,7 +6,6 @@ import {getRender} from "../../renders/factory";
 
 export interface Props {
     post: Post | null,
-    backend: Backend,
     onChange: (v: Post) => void,
 }
 
