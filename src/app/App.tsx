@@ -12,6 +12,7 @@ import SettingView from "./layout/global/SettingView";
 import Test from "./hotkeys/Test";
 import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
+import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 
 interface AppProps {
     state: AppStore,
@@ -21,10 +22,12 @@ interface AppProps {
 class App extends React.Component<AppProps> {
 
     componentDidMount(): void {
+        const {state, dispatch} = this.props;
         const hotKeys: Array<HotKeyAction> = [
-            Setting(this.props.dispatch, this.props.state),
-            CreatePost(this.props.dispatch, this.props.state),
-            Test(this.props.dispatch, this.props.state),
+            Setting(dispatch, state),
+            CreatePost(dispatch, state),
+            Test(dispatch, state),
+            ToggleFavorite(dispatch, state),
         ];
 
         window.addEventListener('keydown', e => {
