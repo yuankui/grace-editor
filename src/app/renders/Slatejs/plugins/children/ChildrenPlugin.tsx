@@ -1,7 +1,7 @@
 import {Plugin} from 'slate-react';
 import React from "react";
 import {GetState} from "../../SlatejsRender";
-import PostLink from "./PostLink";
+import {PostLink} from "./PostLink";
 import {BlockParagraph} from "../common";
 
 export const BlockTypeChildren = 'block-type-children';

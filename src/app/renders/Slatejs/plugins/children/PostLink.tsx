@@ -1,34 +1,26 @@
 import React from "react";
-import {Dispatch} from "redux";
+import {useDispatch, useStore} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
-import {mapState} from "../../../../../utils";
-import {connect} from "react-redux";
 import {PostSelectCommand} from "../../../../../redux/commands/menu/PostSelectCommand";
 
 interface Props {
-    dispatch: Dispatch<any>,
     postId: string,
     title: string,
-    state: AppStore,
 }
 
-class PostLink extends React.Component<Props> {
-    render() {
-        const post = this.props.state.posts.posts.get(this.props.postId);
-        if (post == null) {
-            return <a className='app-post-missing'>
-                <del>{this.props.title}</del>
-            </a>;
-        }
-
-        return <a className='app-post-link' onClick={() => this.goto()}>
-            {post.title}
+export const PostLink: React.FC<Props> = (props) => {
+    const state = useStore().getState() as AppStore;
+    const dispatch = useDispatch();
+    const post = state.posts.posts.get(props.postId);
+    if (post == null) {
+        return <a className='app-post-missing'>
+            <del>{props.title}</del>
         </a>;
     }
 
-    goto() {
-        this.props.dispatch(new PostSelectCommand(this.props.postId));
-    }
-}
-
-export default connect(mapState)(PostLink);
+    return <a className='app-post-link' onClick={() => {
+        dispatch(new PostSelectCommand(props.postId));
+    }}>
+        {post.title}
+    </a>;
+};
