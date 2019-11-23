@@ -1,8 +1,10 @@
 import React from "react";
 import {useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
-import {useDispatch} from "react-redux";
+import {useDispatch, useStore} from "react-redux";
 import {MoveBeforeAfterPostCommand} from "../../redux/commands/post/MoveBeforeAfterPostCommand";
+import {AppStore, getParents} from "../../redux/store";
+import _ from "lodash";
 
 interface Props {
     postId: string,
@@ -17,13 +19,17 @@ interface Props {
 export const PostHolder: React.FC<Props> = props => {
 
     const dispatch = useDispatch();
+    const state = useStore().getState() as AppStore;
 
     const [{isOver}, drop] = useDrop({
         accept: DragSourceTypes.PostTitle,
         drop: (item: DragObjectPost) => {
             dispatch(new MoveBeforeAfterPostCommand(item.srcId, props.postId, props.mode));
         },
-
+        canDrop: item => {
+            const parents = getParents(props.postId, state.posts);
+            return !_.includes(parents, item.srcId);
+        },
         collect: monitor => ({
             isOver: !!monitor.isOver(),
         }),

@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {If} from "../../utils";
 import {useDispatch, useStore} from "react-redux";
-import {AppStore} from "../../redux/store";
+import {AppStore, getParents} from "../../redux/store";
 import {Collapse} from "./Collapse";
 import {PostTitle} from "./PostTitle";
 import {useDrag, useDrop} from "react-dnd";
@@ -9,6 +9,7 @@ import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
 import {RealMovePostCommand} from "../../redux/commands/post/RealMovePostCommand";
 import {PostHolder} from "./PostHolder";
 import {ExpandContext} from "./ExpandContext";
+import _ from 'lodash';
 
 interface Props {
     postId: string,
@@ -49,6 +50,10 @@ export const PostTree: React.FC<Props> = props => {
         accept: DragSourceTypes.PostTitle,
         drop: (item: DragObjectPost) => {
             dispatch(new RealMovePostCommand(item.srcId, post.id));
+        },
+        canDrop: item => {
+            const parents = getParents(post.id, posts);
+            return !_.includes(parents, item.srcId);
         },
         collect: monitor => ({
             isOver: !!monitor.isOver(),
