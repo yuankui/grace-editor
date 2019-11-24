@@ -17,6 +17,7 @@ import ChildrenAction from "./actions/ChildrenAction";
 import ListAction from "./actions/ListAction";
 import {BlockTypeBulletedList, BlockTypeNumberedList} from "../list/ListPlugin";
 import QuoteAction from "./actions/QuoteAction";
+import TableAction from "./actions/TableAction";
 
 interface Props {
     state: AppStore,
@@ -33,6 +34,7 @@ interface ActionGroup {
 
 interface State {
     groups: Array<ActionGroup>,
+    showModal?: (editor: Editor, hide: () => void)=> void,
 }
 
 class BlockList extends React.Component<Props, State> {
@@ -53,6 +55,7 @@ class BlockList extends React.Component<Props, State> {
                         new ListAction(BlockTypeNumberedList),
                         new ListAction(BlockTypeBulletedList),
                         new QuoteAction(),
+                        new TableAction(),
                     ],
                 }
             ]
@@ -77,7 +80,7 @@ class BlockList extends React.Component<Props, State> {
     render() {
         const hint = this.props.state.slatejs.hint;
 
-        if (!hint.show) {
+        if (!hint.show && !this.state.showModal) {
             return null;
         }
 
@@ -89,12 +92,18 @@ class BlockList extends React.Component<Props, State> {
             width: width,
         };
 
-        console.log(hint);
-        console.log(style);
-        console.log(window.innerHeight);
-        console.log(window.innerWidth);
+        // child modal
+        let child: any = null;
+        if (this.state.showModal) {
+            child = this.state.showModal(this.props.editor, () => {
+                this.setState({
+                    showModal: undefined,
+                })
+            });
+        }
 
-        return (
+        return <>
+            {child}
             <Modal
                 title={null}
                 visible={hint.show}
@@ -106,10 +115,15 @@ class BlockList extends React.Component<Props, State> {
                 <DropdownSelect
                     onSelect={(index, action: HintAction) => {
                         this.props.dispatch(new HintToggleCommand(false));
-
                         setTimeout(() => {
-                            action.action(this.props.editor);
-                            this.props.editor.focus();
+                            if (action.action != null) {
+                                action.action(this.props.editor);
+                                this.props.editor.focus();
+                            } else if (action.modal != null) {
+                                this.setState({
+                                    showModal: action.modal,
+                                })
+                            }
                         }, 100);
                     }}
                     maxHeight={200}
@@ -136,7 +150,7 @@ class BlockList extends React.Component<Props, State> {
                     renderItem={this.renderAction}
                 />
             </Modal>
-        );
+        </>;
 
     }
 
@@ -178,4 +192,4 @@ class BlockList extends React.Component<Props, State> {
     }
 }
 
-export default connect(mapState)(BlockList)
+export default connect(mapState)(BlockList);

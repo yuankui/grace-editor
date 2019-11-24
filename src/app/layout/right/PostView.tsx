@@ -9,7 +9,7 @@ import {useCurrentPostId} from "../../../utils";
 export const PostView: React.FC = () => {
     let location = useLocation();
 
-    console.log('location', location);
+    // console.log('location', location);
 
     const state = useStore().getState() as AppStore;
     const dispatch = useDispatch();

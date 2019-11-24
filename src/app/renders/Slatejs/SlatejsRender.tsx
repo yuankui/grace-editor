@@ -41,7 +41,7 @@ class SlatejsRender extends Render<State> {
     // On change, update the app's React state with the new editor value.
     onChange = (value: Value) => {
         this.setState({value});
-        console.log('value', JSON.stringify(value.toJSON()));
+        // console.log('value', JSON.stringify(value.toJSON()));
         const blocks = parseToc(value);
         const titles = blocks.map(b => `${b.type}: ${b.text}`);
         // console.log('title', titles);

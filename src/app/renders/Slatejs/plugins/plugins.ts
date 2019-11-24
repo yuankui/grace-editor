@@ -16,9 +16,11 @@ import {createTocPlugin} from "./toc/TocPlugin";
 import createLinkPlugin from "./link/LinkPlugin";
 import {GetState} from "../SlatejsRender";
 import createChildrenPlugin from "./children/ChildrenPlugin";
+import {createTablePlugin} from "./table/TablePlugin";
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
     return [
+        createTablePlugin(), // table 因为 table+enter 要优先于普通，所以要提高优先级放在第一位
         createHeaderPlugin(),
         createListPlugin(),
         createTodoPlugin(),
@@ -33,7 +35,6 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createTocPlugin(),
         createLinkPlugin(getState, dispatch),
         createChildrenPlugin(getState),
-
         // createTestPlugin(),
     ];
 }

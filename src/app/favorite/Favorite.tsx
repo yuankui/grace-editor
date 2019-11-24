@@ -14,11 +14,11 @@ export const Favorite: FC = () => {
 
     const children = posts
         .filter(p => state.posts.posts.get(p) != null)
-        .map((postId, index) => <React.Fragment>
+        .map((postId, index) => <React.Fragment key={postId}>
             <If test={index === 0}>
                 <FavoritePostHolder postId={postId} mode={"before"}/>
             </If>
-            <ExpandPostTree key={postId} postId={postId}/>
+            <ExpandPostTree postId={postId}/>
             <FavoritePostHolder postId={postId} mode={"after"}/>
         </React.Fragment>);
 
