@@ -54,7 +54,7 @@ export function createHeaderPlugin(): Plugin {
 
         renderBlock: (props, editor, next) => {
             if (props.node.type.startsWith(HeaderTypePrefix)) {
-                return <div className={props.node.type}>{props.children}</div>
+                return <div id={HeaderTypePrefix + props.node.key} className={props.node.type}>{props.children}</div>
             } else {
                 return next();
             }

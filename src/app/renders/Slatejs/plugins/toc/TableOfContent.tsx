@@ -117,7 +117,9 @@ export default class TableOfContent extends React.Component<Props, State> {
                 }
             }
 
-            const titleLi = <li key={first}>{blocks[first].text}</li>;
+            const titleLi = <li key={first}>
+                <a href={'#' + HeaderTypePrefix + blocks[first].key}>{blocks[first].text}</a>
+            </li>;
             result.push(titleLi);
 
             if (first + 1 < next) {
