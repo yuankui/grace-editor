@@ -56,6 +56,7 @@ export type CommandType = "TestCommand"
     | "Favor/Add"
     | "Favor/Remove"
     | "Favor/Toggle"
+    | "Favor/MoveBeforeAfter"
 
 
 ;

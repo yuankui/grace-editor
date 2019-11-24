@@ -4,6 +4,7 @@ import {useStore} from "react-redux";
 import {If} from "../../utils";
 import {ExpandPostTree} from "../post/ExpandPostTree";
 import {SiderGroup} from "../layout/left/sider/SiderGroup";
+import {FavoritePostHolder} from "./PostHolder";
 
 export const Favorite: FC = () => {
     const state: AppStore = useStore().getState();
@@ -13,12 +14,20 @@ export const Favorite: FC = () => {
 
     const children = posts
         .filter(p => state.posts.posts.get(p) != null)
-        .map(postId => <ExpandPostTree key={postId} postId={postId}/>);
+        .map((postId, index) => <React.Fragment>
+            <If test={index === 0}>
+                <FavoritePostHolder postId={postId} mode={"before"}/>
+            </If>
+            <ExpandPostTree key={postId} postId={postId}/>
+            <FavoritePostHolder postId={postId} mode={"after"}/>
+        </React.Fragment>);
 
     return <SiderGroup title='Favorite'>
-            <If test={posts.length == 0}>
+        <If test={posts.length == 0}>
+            <div>
                 Empty collection
-            </If>
-            {children}
-        </SiderGroup>
+            </div>
+        </If>
+        {children}
+    </SiderGroup>
 };
