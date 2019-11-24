@@ -8,10 +8,10 @@ export default function createHeadingTool(level: number): Tool {
     return {
         hint: 'Heading ' + level,
         isActive(editor: Editor): boolean {
-            if (editor.value.focusBlock.type === (HeaderTypePrefix + level)) {
-                return true;
+            if (editor.value.focusBlock == null) {
+                return false;
             }
-            return false;
+            return editor.value.focusBlock.type === (HeaderTypePrefix + level);
         },
         title: <b>H{level}</b>,
         hotkey: 'meta+' + level,
