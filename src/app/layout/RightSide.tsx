@@ -8,7 +8,5 @@ export const RightSide: React.FC = () => {
         <TopBar/>
 
         <PostView/>
-
-        <div style={{height: 20}}>This is Bottom-line</div>
     </div>;
 };

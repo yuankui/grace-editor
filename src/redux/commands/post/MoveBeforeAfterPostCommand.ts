@@ -19,7 +19,7 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
         return "Post/MoveBeforeAfterPost";
     }
 
-    async process(state: AppStore): Promise<Mapper<AppStore>> {
+    process(state: AppStore): AppStore {
         const parentId = state.posts.parentMap.get(this.brother);
 
         // move to parent
@@ -37,26 +37,24 @@ export class MoveBeforeAfterPostCommand extends AppCommand {
             weight: brotherPost.weight + (this.mode === "before" ? "1" : "3"),
         };
 
-        await state.backend.savePost({
+        state.backend.savePost({
             ...newBrother,
             parentId,
         });
 
-        await state.backend.savePost({
+        state.backend.savePost({
             ...newSrc,
             parentId
         });
 
-        return s => {
-            return {
-                ...state,
-                posts: {
-                    ...state.posts,
-                    posts: state.posts.posts
-                        .set(newSrc.id, newSrc)
-                        .set(newBrother.id, newBrother),
-                },
-            }
+        return {
+            ...state,
+            posts: {
+                ...state.posts,
+                posts: state.posts.posts
+                    .set(newSrc.id, newSrc)
+                    .set(newBrother.id, newBrother),
+            },
         }
     }
 

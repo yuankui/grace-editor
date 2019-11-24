@@ -21,6 +21,11 @@ export const PostTree: React.FC<Props> = props => {
     const dispatch = useDispatch();
 
     let children = posts.childrenMap.get(props.postId)
+        .sort((a, b) => {
+            const weightA = posts.posts.get(a).weight;
+            const weightB = posts.posts.get(b).weight;
+            return weightA.localeCompare(weightB);
+        })
         .map((childId, index) => {
             return <li key={childId}>
                 <If test={index === 0}>
