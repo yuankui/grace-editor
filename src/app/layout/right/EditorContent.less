@@ -4,29 +4,26 @@
 .app-right-content {
   display: flex;
   flex: auto;
-  flex-direction: row;
   justify-content: center;
+  overflow: hidden;
   .app-content-padding {
     flex: 1 1;
   }
 
   .post-editor {
     flex: 0 0 600px;
-  }
-}
 
-.post-editor {
+    display: flex;
+    flex-direction: column;
 
-  .title {
-    height: @app-title-height;
-  }
+    .title {
+      flex: 0 0 @app-title-height;
+    }
 
-  .content {
-    max-height: 100%;
-    height: calc(100% - @app-title-height - @app-bottom-height);
-  }
-
-  .bottom {
-    height: @app-bottom-height;
+    .content {
+      flex: auto;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
   }
 }
