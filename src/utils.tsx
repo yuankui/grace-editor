@@ -83,4 +83,5 @@ export function useCurrentPostId() {
 export function parseCurrentPostId(store: AppStore) {
     let params = new URLSearchParams(store.router.location.search);
     const currentPostId = params.get('postId');
+    return currentPostId;
 }
