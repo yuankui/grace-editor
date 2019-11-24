@@ -29,7 +29,6 @@ export default class EditorContent extends React.Component<Props, any> {
 
         let Editor = getRender(post);
         return <div className='app-right-content'>
-            <div className='app-content-padding'/>
             <div className='post-editor'>
                 <div className='title'>
                     <input placeholder={"Untitled"}
@@ -44,7 +43,6 @@ export default class EditorContent extends React.Component<Props, any> {
                     <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
                 </div>
             </div>
-            <div className='app-content-padding'/>
         </div>
     }
 
