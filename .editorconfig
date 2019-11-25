@@ -1,0 +1,11 @@
+root = true
+
+[*.{ts,tsx}]
+indent_size = 4
+indent_style = space
+
+
+
+[*.less]
+indent_size = 4
+indent_style = space
