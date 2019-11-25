@@ -1,9 +1,8 @@
 import {HintAction} from "./index";
 import React, {ReactNode, useState} from "react";
 import {Editor} from "slate";
-import {TodoBlockType} from "../../todo/TodoPlugin";
 import {Input, Modal} from "antd";
-import {CommandToggleTable} from "../../table/TablePlugin";
+import {CommandInsertTable} from "../../table/OsTablePlugin";
 
 interface Props {
     hide: () => void,
@@ -16,7 +15,7 @@ const TableConfirm = (props: Props) => {
     const [column, setColumn] = useState('');
 
     const onOk = () => {
-        editor.command(CommandToggleTable, {row: row, column});
+        editor.command(CommandInsertTable, column, row);
         hide();
     };
 

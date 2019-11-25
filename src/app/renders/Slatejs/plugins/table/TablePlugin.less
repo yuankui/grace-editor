@@ -1,16 +1,38 @@
-.editor-table {
-    display: flex;
-    flex-direction: row;
-    .editor-table-prefix {
-        flex: 0 0 4px;
-        background-color: #4ca8de;
+@import '~slate-deep-table/example/main.css';
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid black;
+
+  thead tr {
+    background: #f5f5f5;
+    font-weight: bold;
+  }
+
+  tr {
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+  }
+
+  td {
+    border: 1px none black;
+    border-left-style: solid;
+    padding: .5em;
+    position: relative;
+
+    & > p:first-child {
+      margin-top: 0;
     }
-    table {
-        flex: 1 1 auto;
-        td {
-            border: 1px solid black;
-            min-width: 50px;
-            padding: 8px;
-        }
+
+    & > p:last-child {
+      margin-bottom: 0;
     }
+  }
+
+  td > table {
+    width: 100%;
+  }
 }

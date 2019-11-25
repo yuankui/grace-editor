@@ -16,7 +16,8 @@ import {createTocPlugin} from "./toc/TocPlugin";
 import createLinkPlugin from "./link/LinkPlugin";
 import {GetState} from "../SlatejsRender";
 import createChildrenPlugin from "./children/ChildrenPlugin";
-import {createTablePlugin} from "./table/TablePlugin";
+import {createTablePlugin} from "./table/OsTablePlugin";
+
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
     return [

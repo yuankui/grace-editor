@@ -11190,6 +11190,13 @@ slate-base64-serializer@^0.2.112:
   dependencies:
     isomorphic-base64 "^1.0.2"
 
+slate-deep-table@^0.9.7:
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/slate-deep-table/-/slate-deep-table-0.9.7.tgz#1bcb0682969bd5e79de085437e93de1ec4391bc0"
+  integrity sha512-Z7JyGSGsJ4/1bAq+Bci3QzAq7hNO7+CoIgsQdlVlokX1BFC1TQ1/vj+c9jmtnwCT1pAhUbcwLlhw3m3F7FhjWw==
+  dependencies:
+    slate-html-serializer "^0.8.0"
+
 slate-dev-environment@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/slate-dev-environment/-/slate-dev-environment-0.2.2.tgz#bd8946e1fe4cf5447060c84a362a1d026ed8b77f"
@@ -11204,6 +11211,13 @@ slate-hotkeys@^0.2.9:
   dependencies:
     is-hotkey "0.1.4"
     slate-dev-environment "^0.2.2"
+
+slate-html-serializer@^0.8.0:
+  version "0.8.11"
+  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.8.11.tgz#f65d71306f70ace534bc32ee8c5e5b8202a7b700"
+  integrity sha512-WHwmjccjpAwxvvNv31kMlIKrmTGOIEs+hs1y/08oDXTpnb5EGcmqHV1WOjBx70C9B33i+MLA/sp4ZXVC/r22+w==
+  dependencies:
+    type-of "^2.0.1"
 
 slate-plain-serializer@^0.7.11:
   version "0.7.11"
