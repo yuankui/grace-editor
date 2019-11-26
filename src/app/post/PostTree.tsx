@@ -6,10 +6,10 @@ import {Collapse} from "./Collapse";
 import {PostTitle} from "./PostTitle";
 import {useDrag, useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "./dnd/DragTypes";
-import {RealMovePostCommand} from "../../redux/commands/post/RealMovePostCommand";
 import {PostHolder} from "./PostHolder";
 import {ExpandContext} from "./ExpandContext";
 import _ from 'lodash';
+import {MovePostCommand} from "../../redux/commands/MovePostCommand";
 
 interface Props {
     postId: string,
@@ -54,7 +54,7 @@ export const PostTree: React.FC<Props> = props => {
     const [{isOver}, drop] = useDrop({
         accept: DragSourceTypes.PostTitle,
         drop: (item: DragObjectPost) => {
-            dispatch(new RealMovePostCommand(item.srcId, post.id));
+            dispatch(new MovePostCommand(item.srcId, post.id));
         },
         canDrop: item => {
             const parents = getParents(post.id, posts);

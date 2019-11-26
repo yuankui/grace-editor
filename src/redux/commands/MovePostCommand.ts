@@ -2,6 +2,7 @@ import {AppCommand, CommandType} from "./index";
 import {AppStore, getParents} from "../store";
 import _ from 'lodash';
 import {addChildren, removeChild} from "../utils";
+import {SetOrderBeforeAfterCommand} from "./post/SetOrderBeforeAfterCommand";
 
 export class MovePostCommand extends AppCommand {
     childId: string;
@@ -47,14 +48,35 @@ export class MovePostCommand extends AppCommand {
         // 3.  节点的 parent
         parentMap = parentMap.set(this.childId, this.parentId);
 
-        return {
+        state.backend.savePost({
+            ...oldPosts.posts.get(this.childId),
+            parentId: this.parentId,
+        });
+
+        state = {
             ...state,
             posts: {
                 ...oldPosts,
                 childrenMap,
                 parentMap,
             },
-        }
+        };
+
+        const children = state.posts.childrenMap.get(this.parentId);
+        const lastChildren = children.reduce((a, b) => {
+            const weightA = state.posts.posts.get(a).weight;
+            const weightB = state.posts.posts.get(b).weight;
+            if (weightA.localeCompare(weightB)>0) {
+                return a;
+            } else {
+                return b;
+            }
+        });
+
+        state = new SetOrderBeforeAfterCommand(this.childId, lastChildren, 'after')
+            .process(state);
+
+        return state;
     }
 
 }
