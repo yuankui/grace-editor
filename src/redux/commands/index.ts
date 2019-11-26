@@ -59,5 +59,7 @@ export type CommandType = "TestCommand"
     | "Favor/Toggle"
     | "Favor/MoveBeforeAfter"
 
+    | "Status/UpdateRemote"
+
 
 ;

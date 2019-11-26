@@ -33,6 +33,10 @@ promise.then(() => {
     });
 
 
+// TODO interval check git remote
+setInterval(() => {
+
+});
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>

@@ -60,6 +60,10 @@ export interface Slatejs {
     highlight: SlateHighlight,
 }
 
+export interface AppStatus {
+    configGitRemote: boolean,
+}
+
 export interface AppStore {
     showSetting: boolean,
     posts: PostsStore,
@@ -69,6 +73,7 @@ export interface AppStore {
     settings: Settings,
     repo?: SimpleGit,
     slatejs: Slatejs,
+    status: AppStatus,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {

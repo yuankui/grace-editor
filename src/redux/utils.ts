@@ -43,6 +43,9 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         };
     }
     return {
+        status: {
+            configGitRemote: false,
+        },
         showSetting: false,
         posts: {
             childrenMap: Immutable.OrderedMap(),
