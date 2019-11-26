@@ -14,6 +14,7 @@ import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
 import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
+import {history} from '../redux/utils';
 
 interface AppProps {
     state: AppStore,
@@ -33,13 +34,24 @@ class App extends React.Component<AppProps> {
             ToggleFavorite(dispatch, getState),
         ];
 
+        // const history = useHistory() as MemoryHistory;
+
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
                 if (isHotkey(hotkey.hotkey, e)) {
                     hotkey.action();
                     e.stopPropagation();
                     e.preventDefault();
+                    return;
                 }
+            }
+
+            if (isHotkey('meta+[', e)) {
+                history.goBack();
+            }
+
+            if (isHotkey('meta+]', e)) {
+                history.goForward();
             }
         });
     }

@@ -88,7 +88,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.4",
-    "redux-commands": "/Users/yuankui/git/redux-commands",
+    "redux-commands": "1.0.12",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "simple-git": "^1.126.0",
