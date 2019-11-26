@@ -9,10 +9,13 @@ export class ReloadPostsCommand extends AppCommand {
     }
 
     async process(state: AppStore): Promise<Mapper<AppStore>> {
+        const startTime = new Date().getUTCMilliseconds();
         let posts = await state.backend.getPosts();
         return (s: AppStore): AppStore => {
             let postsStore: PostsStore = buildPostTree(posts);
+            const cost = new Date().getUTCMilliseconds() - startTime;
 
+            console.log('reload cost:', cost);
             return {
                 ...s,
                 posts: {
