@@ -20,9 +20,11 @@ export interface GetState {
 }
 
 class SlatejsRender extends Render<State> {
+    private lastUptime: number;
 
     constructor(props: Readonly<RenderProps>) {
         super(props);
+        this.lastUptime = new Date().getUTCMilliseconds();
         this.state = {
             value: Value.fromJSON(this.props.value),
             plugins: createSlateEditorPlugins(() => this.props.state, this.props.dispatch),
@@ -45,7 +47,14 @@ class SlatejsRender extends Render<State> {
         const blocks = parseToc(value);
         const titles = blocks.map(b => `${b.type}: ${b.text}`);
         // console.log('title', titles);
+
+        // 延迟保存，提高连续输入的性能
+        const current = new Date().getUTCMilliseconds();
+        if (current - this.lastUptime <100) {
+            return;
+        }
         this.props.onChange(value.toJSON());
+        this.lastUptime = current;
     };
 }
 
