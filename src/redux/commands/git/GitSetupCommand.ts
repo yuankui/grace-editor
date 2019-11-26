@@ -24,6 +24,7 @@ export default class GitSetupCommand extends AppCommand {
             await this.init(fs, s);
         }
 
+        await new GitInitCommand().process(s);
         return (state) => {
             return {
                 ...state,
@@ -35,7 +36,6 @@ export default class GitSetupCommand extends AppCommand {
     async init(fs, state) {
         const workSpace = state.settings.workSpace;
         await fs.mkdir(workSpace);
-        await new GitInitCommand().process(state);
     }
 
 }
