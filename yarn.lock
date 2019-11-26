@@ -10463,8 +10463,8 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-commands@/Users/yuankui/git/redux-commands:
-  version "1.0.12"
+"redux-commands@file:../redux-commands":
+  version "1.0.11"
   dependencies:
     redux "^4.0.4"
 
