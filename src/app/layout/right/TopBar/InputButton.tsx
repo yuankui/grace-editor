@@ -4,6 +4,7 @@ import {Input} from "antd";
 
 interface Props {
     onConfirm: (message: string) => void,
+    placeHolder?: string,
 }
 
 interface State {
@@ -32,6 +33,7 @@ export default class InputButton extends React.Component<Props, State> {
                     }}
                     style={{width: '150px'}}
                     onBlur={e => this.hideInput()}
+                    placeholder={this.props.placeHolder}
                     value={this.state.text}
                     onPressEnter={() => this.confirm()}
                     onChange={e => this.updateText(e.target.value)}/>

@@ -41,7 +41,7 @@ class TopBar extends React.Component<Props, State> {
                     this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
                     this.props.dispatch(PostSelectAction());
                 }}>Create New</a>
-                <InputButton onConfirm={message => this.save(message)}>
+                <InputButton placeHolder='commit message' onConfirm={message => this.save(message)}>
                     Commit
                 </InputButton>
                 <a onClick={() => this.props.dispatch(new GitPushCommand())}>
