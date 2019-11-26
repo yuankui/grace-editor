@@ -24,8 +24,9 @@ const store = createStore(enhanceCommandReducer(initReducer),
 
 
 store.dispatch(new ReloadSettingsCommand());
-store.dispatch(new GitSetupCommand())
-    .then(() => {
+const promise = store.dispatch(new GitSetupCommand());
+
+promise.then(() => {
         // 因为setup是异步的，所以这里要加个延迟执行
         store.dispatch(new InitBackendCommand());
         store.dispatch(new ReloadPostsCommand());
