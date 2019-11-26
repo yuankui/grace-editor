@@ -22,7 +22,7 @@ export function createColorTool(getState: GetState, dispatch: Dispatch<any>): To
             return active;
         },
         dynamicTitle: editor => {
-            return <Dropdown trigger={["click", "hover"]} overlay={<ColorBoxes editor={editor}/>}>
+            return <Dropdown trigger={["click"]} overlay={<ColorBoxes editor={editor}/>}>
               <span style={{
                   backgroundColor: '#EAE4F2',
                   display: 'inline-block',

@@ -34,8 +34,6 @@ class App extends React.Component<AppProps> {
             ToggleFavorite(dispatch, getState),
         ];
 
-        // const history = useHistory() as MemoryHistory;
-
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
                 if (isHotkey(hotkey.hotkey, e)) {
