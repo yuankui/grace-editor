@@ -14,17 +14,28 @@ export default class GitSetupCommand extends AppCommand {
         const fs = new FileSystem();
         const workSpace = s.settings.workSpace;
 
-        const stats = await fs.stats(workSpace);
-        if (!stats.isDirectory()) {
-            await fs.mkdir(workSpace);
-            await new GitInitCommand().process(s);
+        try {
+            // init workspace if not created
+            const stats = await fs.stats(workSpace);
+            if (!stats.isDirectory()) {
+                await this.init(fs, s);
+            }
+        } catch (e) {
+            await this.init(fs, s);
         }
+
         return (state) => {
             return {
                 ...state,
                 repo: simplegit(state.settings.workSpace),
             }
         }
+    }
+
+    async init(fs, state) {
+        const workSpace = state.settings.workSpace;
+        await fs.mkdir(workSpace);
+        await new GitInitCommand().process(state);
     }
 
 }
