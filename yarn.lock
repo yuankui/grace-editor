@@ -10463,10 +10463,8 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-commands@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/redux-commands/-/redux-commands-1.0.5.tgz#91006581cd9f5b955931bd8418bb1770fb84d9cd"
-  integrity sha512-uguOhTy54pIpKuaByjI+llTzLvalQWH7sm4E4zwNF1L1NMKkN8fQADY+5LXT9rC3u9GpXCxikHiEGUx80+lZPA==
+redux-commands@/Users/yuankui/git/redux-commands:
+  version "1.0.12"
   dependencies:
     redux "^4.0.4"
 

@@ -14,6 +14,7 @@ export default class GitSetupCommand extends AppCommand {
         const fs = new FileSystem();
         const workSpace = s.settings.workSpace;
 
+        // 创建目录
         try {
             // init workspace if not created
             const stats = await fs.stats(workSpace);
@@ -24,12 +25,14 @@ export default class GitSetupCommand extends AppCommand {
             await this.init(fs, s);
         }
 
+        // 初始化git仓库
+        s = {
+            ...s,
+            repo: simplegit(s.settings.workSpace),
+        };
         await new GitInitCommand().process(s);
         return (state) => {
-            return {
-                ...state,
-                repo: simplegit(state.settings.workSpace),
-            }
+            return s;
         }
     }
 

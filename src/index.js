@@ -22,10 +22,15 @@ const store = createStore(enhanceCommandReducer(initReducer),
         routerMiddleware(history),
     )));
 
+
 store.dispatch(new ReloadSettingsCommand());
-store.dispatch(new InitBackendCommand());
-store.dispatch(new GitSetupCommand());
-store.dispatch(new ReloadPostsCommand());
+store.dispatch(new GitSetupCommand())
+    .then(() => {
+        // 因为setup是异步的，所以这里要加个延迟执行
+        store.dispatch(new InitBackendCommand());
+        store.dispatch(new ReloadPostsCommand());
+    });
+
 
 ReactDOM.render(
     <Provider store={store}>

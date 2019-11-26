@@ -21,6 +21,7 @@ export default class GitInitCommand extends GitCommand {
                 } catch (e) {
                     await state.repo.init();
                     message.info("Init workspace success");
+                    console.log("Init workspace success");
                 }
             } catch (e) {
                 message.info("init fail:" + e.toString());
