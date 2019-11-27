@@ -10,10 +10,10 @@ export class IntervalCheckRemoteCommand extends AppCommand {
 
     async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
 
-        // 每秒 check 一次
+        // 每5秒 check 一次
         setInterval(() => {
             dispatch(new CheckRemoteCommand());
-        }, 1000);
+        }, 5000);
     }
 
 }
