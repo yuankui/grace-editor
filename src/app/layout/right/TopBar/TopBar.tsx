@@ -1,5 +1,5 @@
 import React from "react";
-import {mapState} from "../../../../utils";
+import {If, mapState} from "../../../../utils";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../../../../redux/store";
@@ -44,12 +44,16 @@ class TopBar extends React.Component<Props, State> {
                 <InputButton placeHolder='commit message' onConfirm={message => this.save(message)}>
                     Commit
                 </InputButton>
-                <a onClick={() => this.props.dispatch(new GitPushCommand())}>
-                    Push
-                </a>
-                <a onClick={() => this.props.dispatch(new GitPullCommand())}>
-                    Pull
-                </a>
+                <If test={this.props.state.status.canGitPush}>
+                    <a onClick={() => this.props.dispatch(new GitPushCommand())}>
+                        Push
+                    </a>
+                </If>
+                <If test={this.props.state.status.canGitPull}>
+                    <a onClick={() => this.props.dispatch(new GitPullCommand())}>
+                        Pull
+                    </a>
+                </If>
                 <More/>
             </div>
         </div>;

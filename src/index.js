@@ -7,11 +7,9 @@ import {applyMiddleware, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import {commandMiddleware, enhanceCommandReducer} from "redux-commands";
 import {history, initReducer} from "./redux/utils";
-import {ReloadPostsCommand} from "./redux/commands/ReloadPostsCommand";
 import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
-import ReloadSettingsCommand from "./redux/commands/ReloadSettingsCommand";
-import {InitBackendCommand} from "./redux/commands/InitBackendCommand";
-import GitSetupCommand from "./redux/commands/git/GitSetupCommand";
+import {AppInitCommand} from "./redux/commands/app/AppInitCommand";
+import {IntervalCheckRemoteCommand} from "./redux/commands/app/IntervalCheckRemoteCommand";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,20 +21,12 @@ const store = createStore(enhanceCommandReducer(initReducer),
     )));
 
 
-store.dispatch(new ReloadSettingsCommand());
-const promise = store.dispatch(new GitSetupCommand());
+// init app
+store.dispatch(new AppInitCommand());
 
-promise.then(() => {
-        // 因为setup是异步的，所以这里要加个延迟执行
-        store.dispatch(new InitBackendCommand());
-        store.dispatch(new ReloadPostsCommand());
-    });
+// interval check git remote
+store.dispatch(new IntervalCheckRemoteCommand());
 
-
-// TODO interval check git remote
-setInterval(() => {
-
-});
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>

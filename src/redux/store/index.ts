@@ -61,7 +61,8 @@ export interface Slatejs {
 }
 
 export interface AppStatus {
-    configGitRemote: boolean,
+    canGitPull: boolean,
+    canGitPush: boolean,
 }
 
 export interface AppStore {

@@ -10,6 +10,7 @@ import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal} from "antd";
 import GitInitCommand from "../../../redux/commands/git/GitInitCommand";
 import {ToggleSettingCommand} from "../../../redux/commands/ToggleSettingCommand";
+import {AppInitCommand} from "../../../redux/commands/app/AppInitCommand";
 
 interface Props {
     state: AppStore,
@@ -60,11 +61,10 @@ class SettingView extends React.Component<Props, Settings> {
         })
     }
 
-    private save() {
-        this.props.dispatch(new UpdateSettingsCommand(this.state));
-        this.props.dispatch(new InitBackendCommand());
-        this.props.dispatch(new ReloadPostsCommand());
-        this.props.dispatch(new ToggleSettingCommand(false))
+    async save() {
+        await this.props.dispatch(new UpdateSettingsCommand(this.state));
+        await this.props.dispatch(new AppInitCommand());
+        await this.props.dispatch(new ToggleSettingCommand(false));
     }
 }
 

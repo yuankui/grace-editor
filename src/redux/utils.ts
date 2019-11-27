@@ -44,7 +44,8 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
     }
     return {
         status: {
-            configGitRemote: false,
+            canGitPull: false,
+            canGitPush: false,
         },
         showSetting: false,
         posts: {

@@ -61,5 +61,9 @@ export type CommandType = "TestCommand"
 
     | "Status/UpdateRemote"
 
+    | "App/Init"
+    | "App/CheckRemote"
+    | "App/IntervalCheckRemote"
+
 
 ;

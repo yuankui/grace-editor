@@ -27,12 +27,11 @@ export default class GitSetupCommand extends AppCommand {
         }
 
         // 初始化git仓库
-        dispatch(new UpdateStateCommand({
+        await dispatch(new UpdateStateCommand({
             repo: simplegit(s.settings.workSpace),
-
         }));
 
-        dispatch(new GitInitCommand());
+        await dispatch(new GitInitCommand());
     }
 
     async init(fs, state) {
