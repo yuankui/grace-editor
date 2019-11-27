@@ -1,32 +1,30 @@
-import {CommandType} from "../index";
+import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import GitCommand from "./GitCommand";
 import {message} from "antd";
 import NProgress from 'nprogress';
+import {Dispatch} from "redux";
 
 NProgress.configure({
 });
 
-export default class GitPushCommand extends GitCommand {
+export default class GitPushCommand extends AppCommand {
     name(): CommandType {
         return "Git/Push";
     }
 
-    async processGit(state: AppStore): Promise<AppStore> {
-        if (state.repo) {
-            NProgress.start();
-            try {
-                const log = await state.repo.push('origin', 'master');
-                message.info("push success");
-            } catch (e) {
-                message.error("push error" + e.toString());
-            } finally {
-                NProgress.done();
-            }
-        }
+  async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
+      if (!state.repo) {
+          return;
+      }
 
-
-        return state;
-    }
-
+      NProgress.start();
+      try {
+          const log = await state.repo.push('origin', 'master');
+          message.info("push success");
+      } catch (e) {
+          message.error("push error" + e.toString());
+      } finally {
+          NProgress.done();
+      }
+  }
 }
