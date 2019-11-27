@@ -1,8 +1,9 @@
-import {CommandType} from "../index";
-import {AppStore, Post, PostsStore} from "../../store";
-import {PostCommand} from "./index";
+import {AppCommand, CommandType} from "../index";
+import {AppStore, Post} from "../../store";
+import {Dispatch} from "redux";
+import {UpdateStateCommand} from "../UpdateStateCommand";
 
-export class UpdatePostCommand extends PostCommand {
+export class UpdatePostCommand extends AppCommand {
     post: Post;
 
     constructor(post: Post) {
@@ -14,14 +15,11 @@ export class UpdatePostCommand extends PostCommand {
         return "Post/Update";
     }
 
-    async save(state: AppStore): Promise<any> {
-        await state.backend.savePost({
-            ...this.post,
-            parentId: state.posts.parentMap.get(this.post.id),
-        });
-    }
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<void>  {
 
-    processPosts(posts: PostsStore): PostsStore {
+        const posts = state.posts;
+
+
         let oldPost = posts.posts.get(this.post.id);
 
         const newPost: Post = {
@@ -31,9 +29,16 @@ export class UpdatePostCommand extends PostCommand {
             tags: this.post.tags,
         };
 
-        return {
-            ...posts,
-            posts: posts.posts.set(this.post.id, newPost),
-        };
+        await state.backend.savePost({
+            ...newPost,
+            parentId: posts.parentMap.get(this.post.id),
+        });
+
+        dispatch(new UpdateStateCommand({
+            posts: {
+                ...posts,
+                posts: posts.posts.set(this.post.id, newPost),
+            }
+        }))
     }
 }
