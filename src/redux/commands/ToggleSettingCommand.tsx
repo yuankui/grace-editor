@@ -1,6 +1,5 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
-import {Mapper} from "redux-commands";
 
 export class ToggleSettingCommand extends AppCommand{
     private readonly show: boolean;
@@ -14,7 +13,7 @@ export class ToggleSettingCommand extends AppCommand{
         return "Setting/ToggleShow";
     }
 
-    process(state: AppStore): Promise<Mapper<AppStore>> | AppStore {
+    process(state: AppStore): AppStore {
         return {
             ...state,
             showSetting: this.show,

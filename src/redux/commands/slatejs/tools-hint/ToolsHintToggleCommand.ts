@@ -14,9 +14,9 @@ export class ToolsHintToggleCommand extends AppCommand {
         return "ToolsHint/Toggle";
     }
 
-    process(store: AppStore): AppStore {
+    process(store: AppStore): AppStore | null {
         if (store.slatejs.toolsHint.show == this.show) {
-            return store;
+            return null;
         }
         return new ToolsHintUpdateCommand({
             ...store.slatejs.toolsHint,
