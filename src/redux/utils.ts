@@ -124,10 +124,6 @@ export function buildPostTree(posts: Array<PostDTO>): PostsStore {
     };
 }
 
-export function convertToEditingPost(post: Post): string {
-    return post.id;
-}
-
 export function remove<T>(list: Array<T>, item: T): Array<T> {
     return list.filter(value => value != item);
 }

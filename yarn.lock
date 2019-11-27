@@ -10463,10 +10463,10 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-commands@^1.0.13:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/redux-commands/-/redux-commands-1.0.14.tgz#719767ed3ed4dcccfbc324a7c7023d25444eb406"
-  integrity sha512-f9TWuETBUmy/5HTBucJqES+LbbNKNQsVaCahDk7fyuZh7DVG2xlrIUzxSLuMCrZ/koIHL5VAdNMMfHTLEe76vA==
+redux-commands@^2.0.0:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/redux-commands/-/redux-commands-2.0.4.tgz#d3e57a03fbb527306407093ad5cf43a1e58d5670"
+  integrity sha512-MMAMHTCxQm7IPU1mw0h8J8cjmFQ+zqoZpTRDyW/OjM3IApwo1Itx4htiSY1x197AzF1VZcppzrxkp3nVGy9brA==
   dependencies:
     redux "^4.0.4"
 
