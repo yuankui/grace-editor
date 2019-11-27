@@ -1,7 +1,5 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore, Post} from "../../store";
-import {Mapper} from "redux-commands";
-import {MovePostCommand} from "../MovePostCommand";
 
 export class SetOrderBeforeAfterCommand extends AppCommand {
     src: string;
