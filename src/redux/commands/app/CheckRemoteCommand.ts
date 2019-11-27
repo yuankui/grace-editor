@@ -21,10 +21,13 @@ export class CheckRemoteCommand extends AppCommand {
                     canGitPull: remote.refs.fetch != null,
                 };
 
-                await dispatch(new UpdateStateCommand({
-                    status: status,
-                }));
-                return
+                if (state.status.canGitPull != status.canGitPull
+                    && state.status.canGitPush != status.canGitPush) {
+                    await dispatch(new UpdateStateCommand({
+                        status: status,
+                    }));
+                }
+                return;
             }
         }
 
