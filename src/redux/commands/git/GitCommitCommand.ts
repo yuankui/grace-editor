@@ -1,9 +1,9 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import GitCommand from "./GitCommand";
 import {message} from "antd";
+import {Dispatch} from "redux";
 
-export default class GitCommitCommand extends GitCommand {
+export default class GitCommitCommand extends AppCommand {
     private readonly message: string;
 
     constructor(message: string) {
@@ -14,15 +14,14 @@ export default class GitCommitCommand extends GitCommand {
     name(): CommandType {
         return "Git/Commit";
     }
-
-    async processGit(state: AppStore): Promise<AppStore> {
-        if (state.repo) {
-            await state.repo.add('.');
-            const log = await state.repo.commit(this.message);
-            message.info("commit success");
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
+        if (!state.repo) {
+            return;
         }
 
-        return state;
+        await state.repo.add('.');
+        await state.repo.commit(this.message);
+        message.info("commit success");
     }
 
 }
