@@ -1,19 +1,18 @@
-import {CommandType} from "../index";
+import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import GitCommand from "./GitCommand";
+import {Dispatch} from "redux";
 
-export default class GitStatusCommand extends GitCommand {
+export default class GitStatusCommand extends AppCommand {
     name(): CommandType {
         return "Git/Status";
     }
 
-  async processGit(state: AppStore): Promise<AppStore> {
-      if (state.repo) {
-          const status = await state.repo.status();
-          console.log(status);
+  async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
+      if (!state.repo) {
+          return;
       }
 
-      return state;
+      const status = await state.repo.status();
+      console.log(status);
   }
-
 }
