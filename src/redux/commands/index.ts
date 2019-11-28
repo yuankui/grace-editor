@@ -55,6 +55,8 @@ export type CommandType = "TestCommand"
 
     | "Slate/Color/Toggle"
 
+    | "Slate/hiSearch/Update"
+
     | "Favor/Save"
     | "Favor/Add"
     | "Favor/Remove"

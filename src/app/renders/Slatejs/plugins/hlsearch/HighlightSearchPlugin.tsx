@@ -9,29 +9,38 @@ const MarkHighlightSearch = 'mark-highlight-search';
 
 export function createHighlightSearchPlugin(getState: GetState): Plugin {
     return {
-        decorateNode: (node, editor, next) => {
+        decorateNode: (doc, editor, next) => {
             const ranges: Array<DecorationJSON> = [];
-            const {text: search, show} = getState().slatejs.highlightSearch;
-            if (search && show && Text.isText(node)) {
-                const path = editor.value.document.getPath(node) as List<number>;
-                const {text} = node;
-                const parts = text.split(search);
-                let offset = 0;
-
-                parts.forEach((part, i) => {
-                    if (i !== 0) {
-                        const decoration: DecorationJSON = {
-                            type: MarkHighlightSearch,
-                            anchor: {path: path.toArray(), offset: offset - search.length},
-                            focus: {path: path.toArray(), offset},
-                        };
-
-                        ranges.push(decoration);
-                    }
-
-                    offset = offset + part.length + search.length
-                })
+            if (doc.object !== 'document') {
+                return ranges;
             }
+            const {text: search, show} = getState().slatejs.highlightSearch;
+
+            const nodes = doc.getTextsAsArray();
+
+            for (let node of nodes) {
+                if (search && show && Text.isText(node)) {
+                    const path = editor.value.document.getPath(node) as List<number>;
+                    const {text} = node;
+                    const parts = text.split(search);
+                    let offset = 0;
+
+                    parts.forEach((part, i) => {
+                        if (i !== 0) {
+                            const decoration: DecorationJSON = {
+                                type: MarkHighlightSearch,
+                                anchor: {path: path.toArray(), offset: offset - search.length},
+                                focus: {path: path.toArray(), offset},
+                            };
+
+                            ranges.push(decoration);
+                        }
+
+                        offset = offset + part.length + search.length
+                    })
+                }
+            }
+
             return ranges
         },
 
