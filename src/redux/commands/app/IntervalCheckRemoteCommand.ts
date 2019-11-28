@@ -15,5 +15,4 @@ export class IntervalCheckRemoteCommand extends AppCommand {
             dispatch(new CheckRemoteCommand());
         }, 5000);
     }
-
 }
