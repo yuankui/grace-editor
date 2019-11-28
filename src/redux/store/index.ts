@@ -55,11 +55,17 @@ export interface SlateHighlight {
     color: Color,
 }
 
+export interface SlateHighlightSearch {
+    show: boolean,
+    text: string,
+}
+
 export interface Slatejs {
     hint: SlateHint,
     toolsHint: SlateHint,
     link: SlateLink,
     highlight: SlateHighlight,
+    highlightSearch: SlateHighlightSearch,
 }
 
 export interface AppStatus {

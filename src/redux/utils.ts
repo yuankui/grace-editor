@@ -68,6 +68,10 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             workSpace: '',
         },
         slatejs: {
+            highlightSearch: {
+                show: false,
+                text: '',
+            },
             highlight: {
                 color: {
                     color: 'black',
