@@ -1,5 +1,5 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore, Favor} from "../../store";
+import {AppStore, Favor, Post} from "../../store";
 import UpdateSettingsCommand from "../UpdateSettingsCommand";
 import _ from 'lodash';
 
@@ -17,7 +17,7 @@ export default class SaveFavoriteCommand extends AppCommand{
 
     process(state: AppStore): AppStore {
         const {posts} = this.favor;
-        const uniq = _.uniq(posts);
+        const uniq: Array<string> = _.uniq(posts);
         return new UpdateSettingsCommand({
             ...state.settings,
             favor: {

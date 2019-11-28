@@ -1,11 +1,10 @@
 import React from "react";
 import {useDrop} from "react-dnd";
 import {useDispatch, useStore} from "react-redux";
-import {MoveBeforeAfterPostCommand} from "../../redux/commands/post/MoveBeforeAfterPostCommand";
 import {AppStore, getParents} from "../../redux/store";
 import _ from "lodash";
 import {DragObjectPost, DragSourceTypes} from "../post/dnd/DragTypes";
-import {MoveBeforeAfterFavoritePostCommand} from "../../redux/commands/favor/MoveBeforeAfterFavoritePostCommand";
+import {MoveBeforeAfterFavoritePostCommand} from "../../redux/commands/profile/MoveBeforeAfterFavoritePostCommand";
 
 interface Props {
     postId: string,

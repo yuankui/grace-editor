@@ -1,6 +1,5 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import SaveFavoriteCommand from "./SaveFavoriteCommand";
 import _ from 'lodash';
 import RemoveFavoriteCommand from "./RemoveFavoriteCommand";
 import AddFavoriteCommand from "./AddFavoriteCommand";

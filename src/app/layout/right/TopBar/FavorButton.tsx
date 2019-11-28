@@ -2,7 +2,7 @@ import React from "react";
 import {useDispatch, useStore} from "react-redux";
 import {AppStore} from "../../../../redux/store";
 import {Icon} from "antd";
-import ToggleFavoriteCommand from "../../../../redux/commands/favor/ToggleFavoriteCommand";
+import ToggleFavoriteCommand from "../../../../redux/commands/profile/ToggleFavoriteCommand";
 import {HintLink} from "./HinkLink";
 import {useCurrentPostId} from "../../../../utils";
 
