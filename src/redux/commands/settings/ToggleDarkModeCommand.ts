@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore, Settings} from "../../store";
-import UpdateSettingsCommand from "../UpdateSettingsCommand";
+import {AppStore} from "../../store";
+import {Dispatch} from "redux";
+import {UpdateProfileSettingCommand} from "../profile/UpdateProfileSettingCommand";
 
 export class SetDarkModeCommand extends AppCommand {
     private readonly isDarkMode: boolean;
@@ -14,11 +15,9 @@ export class SetDarkModeCommand extends AppCommand {
         return "Setting/SetDarkMode";
     }
 
-    process(store: AppStore): AppStore {
-        const newSetting: Settings = {
-            ...store.settings,
+    async process(store: AppStore, dispatch: Dispatch<any>): Promise<any> {
+        await dispatch(new UpdateProfileSettingCommand({
             isDarkMode: this.isDarkMode,
-        };
-        return new UpdateSettingsCommand(newSetting).process(store);
+        }));
     }
 }

@@ -1,7 +1,8 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore, Favor, Post} from "../../store";
-import UpdateSettingsCommand from "../UpdateSettingsCommand";
+import {AppStore, Favor} from "../../store";
 import _ from 'lodash';
+import {Dispatch} from "redux";
+import {UpdateProfileSettingCommand} from "./UpdateProfileSettingCommand";
 
 export default class SaveFavoriteCommand extends AppCommand{
     private readonly favor: Favor;
@@ -15,15 +16,15 @@ export default class SaveFavoriteCommand extends AppCommand{
         return "Favor/Save";
     }
 
-    process(state: AppStore): AppStore {
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
         const {posts} = this.favor;
         const uniq: Array<string> = _.uniq(posts);
-        return new UpdateSettingsCommand({
-            ...state.settings,
+
+        await dispatch(new UpdateProfileSettingCommand({
             favor: {
                 posts: uniq,
-            },
-        }).process(state);
+            }
+        }));
     }
 
 }
