@@ -56,7 +56,8 @@ class More extends React.Component<MoreProps, MoreState> {
         })
     }
     render() {
-        const isDarkMode = !!this.props.state.settings.isDarkMode;
+        const profile = this.props.state.profile || {};
+        const isDarkMode = !!profile.isDarkMode;
         const actions = <div style={{
             width: 200,
         }}>

@@ -9,7 +9,7 @@ import {FavoritePostHolder} from "./PostHolder";
 export const Favorite: FC = () => {
     const state: AppStore = useStore().getState();
 
-    const favor = state.settings.favor || {};
+    const favor = state.profile.favor || {};
     const posts = favor.posts || [];
 
     const children = posts

@@ -3,14 +3,12 @@ import {connect} from "react-redux";
 import React from "react";
 import {AppStore, Settings} from "../../../redux/store";
 import {Dispatch} from "redux";
-import UpdateSettingsCommand from "../../../redux/commands/UpdateSettingsCommand";
-import {InitBackendCommand} from "../../../redux/commands/InitBackendCommand";
-import {ReloadPostsCommand} from "../../../redux/commands/ReloadPostsCommand";
 import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal} from "antd";
 import GitInitCommand from "../../../redux/commands/git/GitInitCommand";
 import {ToggleSettingCommand} from "../../../redux/commands/ToggleSettingCommand";
 import {AppInitCommand} from "../../../redux/commands/app/AppInitCommand";
+import {SaveWorkspaceSettingCommand} from "../../../redux/commands/SaveWorkspaceSettingCommand";
 
 interface Props {
     state: AppStore,
@@ -62,7 +60,7 @@ class SettingView extends React.Component<Props, Settings> {
     }
 
     async save() {
-        await this.props.dispatch(new UpdateSettingsCommand(this.state));
+        await this.props.dispatch(new SaveWorkspaceSettingCommand(this.state.workSpace));
         await this.props.dispatch(new AppInitCommand());
         await this.props.dispatch(new ToggleSettingCommand(false));
     }

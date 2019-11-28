@@ -3,6 +3,7 @@ import {AppStore} from "../../store";
 import _ from 'lodash';
 import RemoveFavoriteCommand from "./RemoveFavoriteCommand";
 import AddFavoriteCommand from "./AddFavoriteCommand";
+import {Dispatch} from "redux";
 
 export default class ToggleFavoriteCommand extends AppCommand{
     private readonly postId: string;
@@ -16,19 +17,20 @@ export default class ToggleFavoriteCommand extends AppCommand{
         return "Favor/Toggle";
     }
 
-    process(state: AppStore): AppStore {
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<any> {
         const postId = this.postId;
         if (postId == null) {
             return state;
         }
 
-        const favor = state.settings.favor || {};
+        const profile = state.profile;
+        const favor = profile.favor || {};
         const oldPosts = favor.posts || [];
 
         if (_.includes(oldPosts, postId)) {
-            return new RemoveFavoriteCommand(postId).process(state);
+            await dispatch(new RemoveFavoriteCommand(postId));
         } else {
-            return new AddFavoriteCommand(postId).process(state);
+            await dispatch(new AddFavoriteCommand(postId));
         }
     }
 

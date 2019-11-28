@@ -1,11 +1,12 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import {Dispatch} from "redux";
-import ReloadSettingsCommand from "../ReloadSettingsCommand";
+import LoadWorkspaceSettingCommand from "../LoadWorkspaceSettingCommand";
 import GitSetupCommand from "../git/GitSetupCommand";
 import {InitBackendCommand} from "../InitBackendCommand";
 import {ReloadPostsCommand} from "../ReloadPostsCommand";
 import {CheckRemoteCommand} from "./CheckRemoteCommand";
+import {LoadProfileSettingCommand} from "../profile/LoadProfileSettingCommand";
 
 export class AppInitCommand extends AppCommand {
     name(): CommandType {
@@ -13,10 +14,22 @@ export class AppInitCommand extends AppCommand {
     }
 
     async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
-        await dispatch(new ReloadSettingsCommand());
+        // load workspace
+        await dispatch(new LoadWorkspaceSettingCommand());
+
+        // setup git repo
         await dispatch(new GitSetupCommand());
+
+        // load profile settings
+        await dispatch(new LoadProfileSettingCommand());
+
+        // init backend
         await dispatch(new InitBackendCommand());
+
+        // reload posts
         await dispatch(new ReloadPostsCommand());
+
+        // check remote
         await dispatch(new CheckRemoteCommand());
     }
 

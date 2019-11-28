@@ -2,6 +2,7 @@ import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import SaveFavoriteCommand from "./SaveFavoriteCommand";
 import _ from 'lodash';
+import {Dispatch} from "redux";
 
 export default class AddFavoriteCommand extends AppCommand{
     private readonly postId: string;
@@ -15,17 +16,18 @@ export default class AddFavoriteCommand extends AppCommand{
         return "Favor/Add";
     }
 
-    process(state: AppStore): AppStore {
-        const favor = state.settings.favor || {};
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
+        const profile = state.profile || {};
+        const favor = profile.favor || {};
         const oldPosts = favor.posts || [];
 
         if (_.includes(oldPosts, this.postId)) {
-            return state;
+            return;
         }
 
-        return new SaveFavoriteCommand({
+        await dispatch(new SaveFavoriteCommand({
             posts: [...oldPosts, this.postId]
-        }).process(state);
+        }));
     }
 
 }

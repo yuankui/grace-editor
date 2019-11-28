@@ -1,8 +1,9 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import _ from "lodash";
-import SaveFavoriteCommand from "./SaveFavoriteCommand";
 import RemoveFavoriteCommand from "./RemoveFavoriteCommand";
+import {Dispatch} from "redux";
+import {AddBeforeAfterFavoritePostCommand} from "./AddBeforeAfterFavoritePostCommand";
 
 export class MoveBeforeAfterFavoritePostCommand extends AppCommand {
     src: string;
@@ -20,32 +21,16 @@ export class MoveBeforeAfterFavoritePostCommand extends AppCommand {
         return "Favor/MoveBeforeAfter";
     }
 
-    process(state: AppStore): AppStore {
-
-        const favor = state.settings.favor || {};
+    async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
+        const profile = state.profile || {};
+        const favor = profile.favor || {};
         const oldPosts = favor.posts || [];
         // 先删掉老的
         if (_.includes(oldPosts, this.src)) {
-            state = new RemoveFavoriteCommand(this.src)
-                .process(state);
+            await dispatch(new RemoveFavoriteCommand(this.src));
         }
 
-        // 再插入新的
-        const newPosts = state.settings.favor.posts.flatMap(id => {
-            if (id == this.brother) {
-                if (this.mode === "before") {
-                    return [this.src, id];
-                } else {
-                    return [id, this.src];
-                }
-            } else {
-                return [id]
-            }
-        });
-
-        return new SaveFavoriteCommand({
-            posts: newPosts,
-        }).process(state);
+        await dispatch(new AddBeforeAfterFavoritePostCommand(this.src, this.brother, this.mode));
     }
 
 }

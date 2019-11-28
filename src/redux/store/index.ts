@@ -12,10 +12,12 @@ export interface SiderState {
 
 export interface Settings {
     workSpace: string,
-    isDarkMode: boolean,
-    favor: Favor,
 }
 
+export interface UserProfile {
+    favor: Favor,
+    isDarkMode: boolean,
+}
 export interface Post {
     id: string,
     weight: string,
@@ -75,6 +77,7 @@ export interface AppStore {
     repo?: SimpleGit,
     slatejs: Slatejs,
     status: AppStatus,
+    profile: UserProfile,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {

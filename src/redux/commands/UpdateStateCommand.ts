@@ -18,7 +18,7 @@ export class UpdateStateCommand extends AppCommand {
        return {
            ...state,
            ...this.store,
-       }
+       } as AppStore;
    }
 
 }

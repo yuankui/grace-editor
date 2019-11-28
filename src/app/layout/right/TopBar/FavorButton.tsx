@@ -11,13 +11,13 @@ export const FavorButton: React.FC = () => {
     const dispatch = useDispatch();
     const currentPostId = useCurrentPostId();
 
-    const {settings} = state;
+    const {profile} = state;
 
     if (currentPostId == null) {
         return null;
     }
 
-    const favor = settings.favor || {};
+    const favor = profile.favor || {};
     const favorPosts = favor.posts || [];
 
     let child: any =  <Icon type="heart" />;

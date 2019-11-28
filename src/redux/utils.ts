@@ -43,6 +43,12 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         };
     }
     return {
+        profile:{
+            favor: {
+                posts: [],
+            },
+            isDarkMode: false,
+        },
         status: {
             canGitPull: false,
             canGitPush: false,
@@ -60,10 +66,6 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         router: routerReducer(undefined, action),
         settings: {
             workSpace: '',
-            isDarkMode: false,
-            favor: {
-                posts: [],
-            }
         },
         slatejs: {
             highlight: {

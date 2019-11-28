@@ -5,7 +5,9 @@ export abstract class AppCommand extends Command<AppStore, CommandType> {
 }
 
 export type CommandType = "TestCommand"
-    | "Setting/Reload"
+    | "Workspace/Load"
+    | "Workspace/Save"
+
     | "Setting/Update"
     | "Setting/SetDarkMode"
     | "Setting/ToggleShow"
@@ -64,6 +66,9 @@ export type CommandType = "TestCommand"
     | "App/Init"
     | "App/CheckRemote"
     | "App/IntervalCheckRemote"
+
+    | "Profile/Update"
+    | "Profile/Load"
 
 
 ;
