@@ -31,7 +31,7 @@ export class UpdateProfileSettingCommand extends AppCommand {
             profile: newProfile,
         }));
 
-        const str = JSON.stringify(newProfile);
+        const str = JSON.stringify(newProfile, null, 4);
         const s = path.join(state.settings.workSpace, settingFile);
         await fs.writeFile(s, new Buffer(str, 'utf-8'));
     }
