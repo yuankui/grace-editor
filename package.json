@@ -96,7 +96,8 @@
     "slate-deep-table": "^0.9.7",
     "slate-react": "^0.22.10",
     "uuid": "^3.3.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "yuankui-sleep": "^1.0.1"
   },
   "build": {
     "appId": "com.yuankui.grace"

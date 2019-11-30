@@ -13115,3 +13115,8 @@ yauzl@2.4.1:
   integrity sha1-lSj0QtqxsihOWLQ3m7GU4i4MQAU=
   dependencies:
     fd-slicer "~1.0.1"
+
+yuankui-sleep@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/yuankui-sleep/-/yuankui-sleep-1.0.1.tgz#c31feae777e4d5f9e5d17f772c85aed2f7cca9d9"
+  integrity sha512-zp4jQ+aY/i97Z0GfSM1XUfbLq8CWjKrZDr9MKs05yUvcPv3Mm2iJvxkUFQA5Zu4CkFPlCCe/yfAh28V/Zvw32g==
