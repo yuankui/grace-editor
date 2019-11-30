@@ -16,12 +16,16 @@ export class LoadProfileSettingCommand extends AppCommand {
 
     async process(state: AppStore, dispatch: Dispatch<any>): Promise<void> {
         const s = path.join(state.settings.workSpace, settingFile);
-        const buffer = await fs.readFile(s);
-        const json = buffer.toString('utf-8');
+        try {
+            const buffer = await fs.readFile(s);
+            const json = buffer.toString('utf-8');
 
-        const profile = JSON.parse(json);
-        await dispatch(new UpdateStateCommand({
-            profile: profile,
-        }));
+            const profile = JSON.parse(json);
+            await dispatch(new UpdateStateCommand({
+                profile: profile,
+            }));
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
