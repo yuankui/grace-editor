@@ -3,6 +3,8 @@ import {ChangeEvent, createRef} from 'react';
 import {Backend} from "../../../backend";
 import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
+import isHotkey from "is-hotkey";
+import {Editor} from "slate";
 
 export interface Props {
     post: Post | null,
@@ -11,10 +13,12 @@ export interface Props {
 
 export default class EditorContent extends React.Component<Props, any> {
     private readonly titleRef: React.RefObject<HTMLInputElement>;
+    private readonly contentRef: React.RefObject<any>;
 
     constructor(props) {
         super(props);
         this.titleRef = createRef();
+        this.contentRef = createRef();
     }
 
     render() {
@@ -32,6 +36,16 @@ export default class EditorContent extends React.Component<Props, any> {
             <div className='post-editor'>
                 <div className='title'>
                     <input placeholder={"Untitled"}
+                           onKeyDown={e => {
+                               if (isHotkey('enter', e.nativeEvent)) {
+                                   const editor = this.contentRef.current as Editor;
+                                   if (editor != null) {
+                                       editor.moveAnchorToStartOfDocument();
+                                       editor.moveFocusToStartOfDocument();
+                                       editor.focus();
+                                   }
+                               }
+                           }}
                            key={post.id}
                            ref={this.titleRef}
                            defaultValue={post.title}
@@ -40,7 +54,7 @@ export default class EditorContent extends React.Component<Props, any> {
 
                 {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
                 <div className='content'>
-                    <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
+                    <Editor editorRef={this.contentRef} value={post.content} onChange={v => this.onContentChange(v)}/>
                 </div>
             </div>
         </div>

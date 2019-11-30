@@ -6,7 +6,6 @@ import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
 import {createCommonPlugin} from "./plugins/common";
-import {parseToc} from "./plugins/toc/TableOfContent";
 import {AppStore} from "../../../redux/store";
 import {debug} from "../../../utils/debug";
 
@@ -34,6 +33,7 @@ class SlatejsRender extends Render<State> {
 
     render(): ReactNode {
         return <Editor value={this.state.value}
+                       ref={this.props.editorRef}
                        className='slate-editor'
                        placeholder="Start from here..."
                        plugins={this.state.plugins}

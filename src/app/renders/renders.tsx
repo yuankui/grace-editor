@@ -7,6 +7,7 @@ export interface RenderProps {
     dispatch: Dispatch<any>
     value: any,
     onChange: OnChange<any>,
+    editorRef: any,
 }
 
 export class Render<S = any> extends React.Component<RenderProps, S> {
