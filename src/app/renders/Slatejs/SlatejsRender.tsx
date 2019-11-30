@@ -8,6 +8,7 @@ import {mapState} from "../../../utils";
 import {createCommonPlugin} from "./plugins/common";
 import {parseToc} from "./plugins/toc/TableOfContent";
 import {AppStore} from "../../../redux/store";
+import {debug} from "../../../utils/debug";
 
 
 interface State {
@@ -43,10 +44,12 @@ class SlatejsRender extends Render<State> {
     // On change, update the app's React state with the new editor value.
     onChange = (value: Value) => {
         this.setState({value});
-        console.log('value, ', JSON.stringify(value.toJSON()));
-        const blocks = parseToc(value);
-        const titles = blocks.map(b => `${b.type}: ${b.text}`);
-        // console.log('title', titles);
+        debug(() => {
+            console.log('value, ', JSON.stringify(value.toJSON()));
+            // const blocks = parseToc(value);
+            // const titles = blocks.map(b => `${b.type}: ${b.text}`);
+            // console.log('title', titles);
+        });
 
         // 延迟保存，提高连续输入的性能
         // clear if any

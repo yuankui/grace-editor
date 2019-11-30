@@ -59,11 +59,4 @@ export default class EditorContent extends React.Component<Props, any> {
             title: value.target.value,
         })
     };
-
-    onTagsChange = (value: Array<string>) => {
-        this.props.onChange({
-            ...this.props.post as Post,
-            tags: value,
-        })
-    };
 }
