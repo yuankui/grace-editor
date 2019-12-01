@@ -80,7 +80,6 @@ export function createCommonPlugin(): Plugin & Serde {
                         editor.insertText(str);
                     })
                 } else if (item.type.toLowerCase() === "text/html") {
-                    getEventTransfer();
                 }
             });
             return remain;
