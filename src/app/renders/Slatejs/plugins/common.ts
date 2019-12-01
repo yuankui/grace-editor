@@ -2,6 +2,8 @@ import {Block, Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
+import {createEmptyParagraph} from "../utils/createEmptyParagraph";
+import {List} from "immutable";
 
 export const BlockParagraph = 'paragraph';
 
@@ -66,20 +68,19 @@ export function createCommonPlugin(): Plugin {
         },
         schema: {
             document: {
-                nodes: [
-                    {
-                        // match: {
-                        //     type: 'paragraph'
-                        // },
-                        min: 1,
-                    },
-                ],
+                last: {
+                    // 最后一个必须是 paragraph，如果不是，就插一个 paragraph
+                    type: BlockParagraph,
+                },
                 normalize: (editor, { code, node }) => {
                     if (code === 'child_min_invalid') {
                             // const block = Block.create(index === 0 ? 'title' : 'paragraph');
                         const block = Block.create('paragraph');
                         const size = editor.value.document.nodes.size;
                         return editor.insertNodeByKey(node.key, size, block);
+                    } else if (code === 'last_child_type_invalid') {
+                        const paragraph = createEmptyParagraph();
+                        editor.insertNodeByPath(List(), editor.value.document.nodes.size, paragraph);
                     }
                 },
             },
