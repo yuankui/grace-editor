@@ -1,9 +1,10 @@
 import {Block, Editor as CoreEditor} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
-import {Plugin} from 'slate-react';
+import {getEventTransfer, Plugin} from 'slate-react';
 import {createEmptyParagraph} from "../utils/createEmptyParagraph";
 import {List} from "immutable";
+import {ClipboardData, Serde} from "../serde";
 
 export const BlockParagraph = 'paragraph';
 
@@ -31,7 +32,7 @@ export function ToggleBlockOnPrefix(prefix: string,
 
 export const CommandToggleParagraph = 'toggleParagraph';
 
-export function createCommonPlugin(): Plugin {
+export function createCommonPlugin(): Plugin & Serde {
     return {
         commands: {
             [CommandToggleParagraph]: (editor, args) => {
@@ -70,6 +71,19 @@ export function createCommonPlugin(): Plugin {
                     }
                 },
             },
+        },
+        paste: (data, editor) => {
+            const remain = [] as Array<ClipboardData>;
+            data.forEach(item => {
+                if (item.type.toLowerCase() === 'plain/text') {
+                    item.item.getAsString(str => {
+                        editor.insertText(str);
+                    })
+                } else if (item.type.toLowerCase() === "text/html") {
+                    getEventTransfer();
+                }
+            });
+            return remain;
         }
     }
 }
