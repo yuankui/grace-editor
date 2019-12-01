@@ -12,6 +12,8 @@ export const LeftSide: React.FC = () => {
                       className='app-left-side'
                       handleClasses={{right: 'resize-handle'}}
                       handleStyles={{right: {width: 5}}}
+                      minWidth={200}
+                      maxWidth={500}
                       onResizeStop={() => {
                           setWidth(width + delta);
                           setDelta(0);
