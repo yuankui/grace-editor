@@ -7,6 +7,7 @@ import {List} from "immutable";
 
 export const BlockParagraph = 'paragraph';
 
+
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
                                     editor: CoreEditor,
@@ -41,22 +42,7 @@ export function createCommonPlugin(): Plugin {
                 return editor;
             },
         },
-        onCopy: (event, editor, next) => {
-            const data = event.clipboardData;
-            next();
-        },
-        // paste 只能上全局性的，不能是插件式的
-        onPaste: (event, editor, next) => {
-            if (event.clipboardData.items[0].kind == 'file') {
-                next();
-                return;
-            }
-            event.clipboardData.items[0].getAsString(data => {
-                editor.insertText(data);
-            });
 
-            event.preventDefault();
-        },
         onKeyDown: (event, editor, next) => {
             if (isHotkey('shift+enter', event.nativeEvent)) {
                 editor.insertBlock('paragraph');

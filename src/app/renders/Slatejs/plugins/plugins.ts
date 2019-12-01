@@ -17,7 +17,6 @@ import createLinkPlugin from "./link/LinkPlugin";
 import {GetState} from "../SlatejsRender";
 import createChildrenPlugin from "./children/ChildrenPlugin";
 import {createTablePlugin} from "./table/OsTablePlugin";
-import {createHighlightSearchPlugin} from "./hlsearch/HighlightSearchPlugin";
 
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
@@ -37,7 +36,5 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createTocPlugin(),
         createLinkPlugin(getState, dispatch),
         createChildrenPlugin(getState),
-        // createHighlightSearchPlugin(getState),
-        // createTestPlugin(),
     ];
 }

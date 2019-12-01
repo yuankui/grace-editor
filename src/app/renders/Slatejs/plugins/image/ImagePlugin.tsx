@@ -4,7 +4,7 @@ import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {ImageBlock} from "./ImageBlock";
 import isHotkey from "is-hotkey";
 import {GetState} from "../../SlatejsRender";
-import {useLocation} from "react-router";
+import {ClipboardData, Serde} from "../../serde";
 
 export const ImageBlockType = 'image-block';
 
@@ -21,7 +21,7 @@ function insertImage(editor, param, target) {
     })
 }
 
-export function createImagePlugin(getState: GetState): Plugin {
+export function createImagePlugin(getState: GetState): Plugin & Serde {
     return {
         schema: {
             blocks: {
@@ -45,29 +45,42 @@ export function createImagePlugin(getState: GetState): Plugin {
 
             next();
         },
-        onPaste: async (event, editor, next) => {
+        paste: (data, editor) => {
             // 如果在code里面，就不处理
             if (editor.value.focusBlock.type == BlockTypeCodeBlock) {
-                next();
-                return;
+                return data;
             }
 
-            event.preventDefault();
-            const files = event.clipboardData.files;
+            const files = [] as Array<ClipboardData>;
+            const remain = [] as Array<ClipboardData>;
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files.item(i);
-                if (file == null) continue;
-
-                let params = new URLSearchParams(getState().router.location.search);
-                const currentPostId = params.get('postId');
-                let imageId = await getState().backend.saveImage(file, currentPostId as string);
-
-                editor.command(insertImage, {
-                    imageId: imageId,
-                });
+            for (let item of data) {
+                if (item.type.toLowerCase() === 'files') {
+                    files.push(item);
+                } else {
+                    remain.push(item);
+                }
             }
 
+            async function processFiles(files: Array<ClipboardData>) {
+                for (let f of files) {
+                    const file = f.item.getAsFile();
+
+                    if (file == null) continue;
+
+                    let params = new URLSearchParams(getState().router.location.search);
+                    const currentPostId = params.get('postId');
+                    let imageId = await getState().backend.saveImage(file, currentPostId as string);
+
+                    editor.command(insertImage, {
+                        imageId: imageId,
+                    });
+                }
+            }
+
+            processFiles(files);
+
+            return remain;
         },
 
         renderBlock: (props, editor, next) => {

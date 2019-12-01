@@ -8,11 +8,13 @@ import {mapState} from "../../../utils";
 import {createCommonPlugin} from "./plugins/common";
 import {AppStore} from "../../../redux/store";
 import {debug} from "../../../utils/debug";
+import {createCopyPaste} from "./copyPaste";
 
 
 interface State {
     value: any,
     plugins: Array<Plugin>,
+    copyPaste: Plugin,
 }
 
 export interface GetState {
@@ -25,9 +27,12 @@ class SlatejsRender extends Render<State> {
     constructor(props: Readonly<RenderProps>) {
         super(props);
 
+        const plugins = createSlateEditorPlugins(() => this.props.state, this.props.dispatch);
+
         this.state = {
             value: Value.fromJSON(this.props.value),
-            plugins: createSlateEditorPlugins(() => this.props.state, this.props.dispatch),
+            plugins: plugins,
+            copyPaste: createCopyPaste(plugins),
         };
     }
 
@@ -37,7 +42,8 @@ class SlatejsRender extends Render<State> {
                        className='slate-editor'
                        placeholder="Start from here..."
                        plugins={this.state.plugins}
-                       onPaste={createCommonPlugin().onPaste}
+                       onPaste={this.state.copyPaste.onPaste}
+                       onCopy={this.state.copyPaste.onCopy}
                        onChange={e => this.onChange(e.value)}/>
     }
 
