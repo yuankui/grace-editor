@@ -79,7 +79,6 @@ export function createCommonPlugin(): Plugin & Serde {
                     item.item.getAsString(str => {
                         editor.insertText(str);
                     })
-                } else if (item.type.toLowerCase() === "text/html") {
                 }
             });
             return remain;

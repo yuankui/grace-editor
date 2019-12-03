@@ -46,6 +46,21 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                 })
             }
 
+            // 先进行 html 解析，然后再把剩余的交给下游处理
+            for (let one of data) {
+                if (one.type.toLowerCase() === "text/html") {
+                    one.item.getAsString(s => {
+                        const transfer: any = {
+                            html: s,
+                            type: 'html',
+                        };
+                        const {document} = serializer.deserialize(transfer.html);
+                        editor.insertFragment(document);
+                    })
+                }
+            }
+
+
             for (let processor of pasteProcessor) {
                 if (data == null || data.length == 0) {
                     break;
