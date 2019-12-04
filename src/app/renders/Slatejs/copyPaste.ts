@@ -1,7 +1,7 @@
 import {getEventTransfer, Plugin} from "slate-react";
 import Html, {Rule} from "slate-html-serializer";
 import {ClipboardData, ProcessClipboard} from "./serde";
-
+import _ from 'lodash';
 
 function createRules(plugins: Array<any>): Array<Rule> {
     return plugins.filter(p => p.rule != null)
@@ -47,8 +47,10 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
             }
 
             // 先进行 html 解析，然后再把剩余的交给下游处理
+            const remain = [];
             for (let one of data) {
                 if (one.type.toLowerCase() === "text/html") {
+                    processed.push(one);
                     one.item.getAsString(s => {
                         const transfer: any = {
                             html: s,
@@ -57,9 +59,12 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         const {document} = serializer.deserialize(transfer.html);
                         editor.insertFragment(document);
                     })
+                } else {
+                    remain.push(one);
                 }
             }
 
+            data = remain;
 
             for (let processor of pasteProcessor) {
                 if (data == null || data.length == 0) {

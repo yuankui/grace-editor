@@ -75,7 +75,7 @@ export function createCommonPlugin(): Plugin & Serde {
         paste: (data, editor) => {
             const remain = [] as Array<ClipboardData>;
             data.forEach(item => {
-                if (item.type.toLowerCase() === 'plain/text') {
+                if (item.type.toLowerCase() === 'text/plain') {
                     item.item.getAsString(str => {
                         editor.insertText(str);
                     })
