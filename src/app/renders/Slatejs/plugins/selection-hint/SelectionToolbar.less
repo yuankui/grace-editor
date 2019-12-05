@@ -7,7 +7,7 @@
     z-index: 88;
     box-shadow: 0 0 8px 1px grey;
     border-radius: 3px;
-    background-color: @base-background-color;
+    background-color: var(--base-background-color);
     display: flex;
     flex-direction: row;
     .slow-transition();
@@ -15,17 +15,17 @@
     .separator {
         width: 1px;
         margin: 5px 0;
-        background-color: @base-hover-background-color;
+        background-color: var(--base-hover-background-color);
     }
     .app-editor-tool {
         padding: 4px 13px;
         line-height: 2em;
         margin: 0 -1px;
-        //border-left: 1px solid @base-hover-background-color;
-        //border-right: 1px solid @base-hover-background-color;
+        //border-left: 1px solid var(--base-hover-background-color);
+        //border-right: 1px solid var(--base-hover-background-color);
         cursor: pointer;
         &:hover {
-            background: @base-hover-background-color;
+            background: var(--base-hover-background-color);
         }
 
         img {
@@ -33,7 +33,7 @@
         }
 
         &.active-true {
-            background-color: @base-active-background-color;
+            background-color: var(--base-active-background-color);
         }
     }
 }

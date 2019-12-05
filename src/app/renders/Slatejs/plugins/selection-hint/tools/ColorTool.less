@@ -4,7 +4,7 @@
 .app-color-box {
     display: flex;
     flex-direction: row;
-    background-color: @base-background-color;
+    background-color: var(--base-background-color);
     box-shadow: 0 0 6px grey;
     border-radius: 5px;
     padding: 4px;
@@ -18,11 +18,11 @@
         height: @outer-size;
 
         &:hover {
-            background-color: @base-hover-background-color;
+            background-color: var(--base-hover-background-color);
         }
 
         &:active {
-            background-color: @base-active-background-color;
+            background-color: var(--base-active-background-color);
         }
 
         .app-color-box-inner {

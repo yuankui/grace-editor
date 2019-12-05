@@ -2,6 +2,7 @@ import {getEventTransfer, Plugin} from "slate-react";
 import Html, {Rule} from "slate-html-serializer";
 import {ClipboardData, ProcessClipboard} from "./serde";
 
+
 function createRules(plugins: Array<any>): Array<Rule> {
     return plugins.filter(p => p.rule != null)
         .map(p => p.rule);

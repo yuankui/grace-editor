@@ -1,36 +1,39 @@
 .app-post-tree-container {
-  ul {
-    list-style: none;
-    padding: 0 0 0 20px;
-    margin: 0;
-  }
-  .ant-collapse-header {
-    line-height: 30px;
-    &:hover {
-      background-color: @base-hover-background-color;
-    }
-    &:active {
-      background-color: @base-active-background-color;
+    ul {
+        list-style: none;
+        padding: 0 0 0 20px;
+        margin: 0;
     }
 
-  }
+    .ant-collapse-header {
+        line-height: 30px !important;
 
-  .ant-collapse-header {
-    padding: 0 !important;
+        &:hover {
+            background-color: var(--base-hover-background-color);
+        }
 
-  }
+        &:active {
+            background-color: var(--base-active-background-color);
+        }
 
-  .ant-collapse-content .ant-collapse-content-box {
-    padding: 0;
-  }
-
-  .app-post-title {
-    &.app-drag-over-true {
-      background-color: @base-active-background-color;
     }
 
-    &.select-true {
-      background-color: @base-active-background-color;
+    .ant-collapse-header {
+        padding: 0 !important;
+
     }
-  }
+
+    .ant-collapse-content .ant-collapse-content-box {
+        padding: 0;
+    }
+
+    .app-post-title {
+        &.app-drag-over-true {
+            background-color: var(--base-active-background-color);
+        }
+
+        &.select-true {
+            background-color: var(--base-active-background-color);
+        }
+    }
 }
