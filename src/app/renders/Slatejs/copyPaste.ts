@@ -1,7 +1,6 @@
 import {getEventTransfer, Plugin} from "slate-react";
 import Html, {Rule} from "slate-html-serializer";
 import {ClipboardData, ProcessClipboard} from "./serde";
-import _ from 'lodash';
 
 function createRules(plugins: Array<any>): Array<Rule> {
     return plugins.filter(p => p.rule != null)
@@ -11,6 +10,19 @@ function createRules(plugins: Array<any>): Array<Rule> {
 function getPasteProcessors(plugins: Array<any>): Array<ProcessClipboard> {
     return plugins.filter(p => p.paste != null)
         .map(p => p.paste);
+}
+
+/**
+ * 猴子补丁，如果又 text/html，就去掉 text/plain,否则就会出现重复插入
+ * @param data
+ */
+function filter(data: Array<ClipboardData>) {
+
+    const hasHtml = data.some(d => d.type === 'text/html');
+    if (hasHtml) {
+        return data.filter(d => d.type !== 'text/plain');
+    }
+    return data;
 }
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
@@ -40,17 +52,22 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 const type = types[i];
+
+                item.getAsString(s => {
+                    console.log('item', s);
+                });
                 data.push({
                     item,
                     type,
                 })
             }
 
+            data = filter(data);
+
             // 先进行 html 解析，然后再把剩余的交给下游处理
-            const remain = [];
+            const remain: Array<ClipboardData> = [];
             for (let one of data) {
                 if (one.type.toLowerCase() === "text/html") {
-                    processed.push(one);
                     one.item.getAsString(s => {
                         const transfer: any = {
                             html: s,
