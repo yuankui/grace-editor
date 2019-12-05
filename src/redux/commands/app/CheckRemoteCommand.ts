@@ -42,7 +42,7 @@ export class CheckRemoteCommand extends AppCommand {
                 return;
             }
         } catch (e) {
-
+            console.log(e);
         }
     }
 
