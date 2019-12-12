@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import simplegit from "../../../copies/simple-git/promise";
+import simplegit from "simple-git/promise";
 import FileSystem from "../../../backend/electron/FileSystem";
 import GitInitCommand from "./GitInitCommand";
 import {Dispatch} from "redux";

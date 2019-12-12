@@ -1,7 +1,7 @@
 import {Backend} from "../../backend";
 import Immutable from 'immutable';
 import {RouterState} from "connected-react-router";
-import {SimpleGit} from "../../copies/simple-git/promise";
+import {SimpleGit} from "simple-git/promise";
 import {PostFormat} from "../../PostFormat";
 import {Color} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
 
