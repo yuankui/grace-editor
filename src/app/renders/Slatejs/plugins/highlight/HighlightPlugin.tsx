@@ -7,7 +7,7 @@ export const HighlightMarkType = 'highlight-mark';
 export const ToggleColorCommand = 'toggle-highlight-color';
 export const RemoveColorCommand = 'remove-highlight-color';
 
-export interface Color {
+export interface HLColor {
     color: string,
     background: string,
 }
@@ -41,7 +41,7 @@ export default function createHighlightPlugin(getState: GetState): Plugin {
         },
         commands: {
             [ToggleColorCommand]: (editor, args) => {
-                const color = args as Color;
+                const color = args as HLColor;
 
                 editor.command(RemoveColorCommand)
                     .toggleMark({

@@ -3,7 +3,8 @@ import Immutable from 'immutable';
 import {RouterState} from "connected-react-router";
 import {SimpleGit} from "simple-git/promise";
 import {PostFormat} from "../../PostFormat";
-import {Color} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
+import {HLColor} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
+import Color from "color";
 
 
 export interface SiderState {
@@ -53,7 +54,7 @@ export interface SlateLink {
 
 // 高亮相关
 export interface SlateHighlight {
-    color: Color,
+    color: HLColor,
 }
 
 export interface SlateHighlightSearch {
@@ -76,12 +77,14 @@ export interface AppStatus {
 
 
 export interface Theme {
-    '--base-sider-menu-color': string,
-    '--base-font-color': string,
-    '--base-background-color': string,
-    '--base-hover-background-color': string,
-    '--base-active-background-color': string,
-    '--base-disable-color': string,
+    '--base-sider-menu-color': Color,
+    '--base-font-color': Color,
+    '--base-background-color': Color,
+    '--base-hover-background-color': Color,
+    '--base-active-background-color': Color,
+    '--base-disable-color': Color,
+    '--base-font-hover-color': Color,
+    '--base-font-active-color': Color,
 }
 
 export interface AppStore {

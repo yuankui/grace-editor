@@ -1,11 +1,11 @@
 import {AppCommand, CommandType} from "../../index";
 import {AppStore} from "../../../store";
-import {Color} from "../../../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
+import {HLColor} from "../../../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
 
 export class ToggleHighlightColorCommand extends AppCommand {
-    private readonly color: Color;
+    private readonly color: HLColor;
 
-    constructor(color: Color) {
+    constructor(color: HLColor) {
         super();
         this.color = color;
     }

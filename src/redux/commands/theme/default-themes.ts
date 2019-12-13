@@ -1,20 +1,30 @@
 import {Theme} from "../../store";
+import Color from 'color';
+
+const black = Color('black').alpha(1);
+const white = Color("white").alpha(1);
 
 export const LightTheme: Theme = {
-    '--base-sider-menu-color': '#F9F9F9',
-    '--base-font-color': 'rgba(0, 0, 0, .65)',
-    '--base-background-color': 'white',
-    '--base-hover-background-color': '#e6e6e6',
-    '--base-active-background-color': '#d6d6d6',
-    '--base-disable-color': '#CFCFCD',
+    '--base-sider-menu-color': Color('#F9F9F9'),
+    '--base-font-color': black.alpha(.65),
+    "--base-font-active-color": black.alpha(.85),
+    "--base-font-hover-color": black,
+
+    '--base-background-color': white,
+    '--base-hover-background-color': Color('#e6e6e6'),
+    '--base-active-background-color': Color('#d6d6d6'),
+    '--base-disable-color': Color('#CFCFCD'),
 };
 
 
+const darkBaseBg = Color('#363C3F');
 export const DarkTheme: Theme = {
-    '--base-sider-menu-color': 'black',
-    '--base-font-color': 'white',
-    '--base-background-color': 'black',
-    '--base-hover-background-color': 'black',
-    '--base-active-background-color': 'black',
-    '--base-disable-color': 'black',
+    '--base-sider-menu-color': Color('#363C3F',),
+    '--base-font-color': white.alpha(.65),
+    '--base-font-hover-color': white.alpha(.85),
+    '--base-font-active-color': white,
+    '--base-background-color': darkBaseBg,
+    '--base-hover-background-color': darkBaseBg.lighten(0.3),
+    '--base-active-background-color': Color('#363C3F').lighten(0.6),
+    '--base-disable-color': Color('#363C3F')
 };

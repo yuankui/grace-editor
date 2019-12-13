@@ -1,7 +1,7 @@
 import {Tool} from "./index";
 import React from "react";
 import {Editor} from "slate";
-import {Color, HighlightMarkType, RemoveColorCommand, ToggleColorCommand} from "../../highlight/HighlightPlugin";
+import {HLColor, HighlightMarkType, RemoveColorCommand, ToggleColorCommand} from "../../highlight/HighlightPlugin";
 import {Dropdown, Icon, Popover} from "antd";
 import {Dispatch} from "redux";
 import {ToggleHighlightColorCommand} from "../../../../../../redux/commands/slatejs/color/ToggleHighlightColorCommand";
@@ -38,7 +38,7 @@ export function createColorTool(getState: GetState, dispatch: Dispatch<any>): To
     }
 }
 
-const colors: Array<Color> = [
+const colors: Array<HLColor> = [
     {
         background: '#F4DFEB', color: 'black',
     },
