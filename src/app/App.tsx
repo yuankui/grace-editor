@@ -55,8 +55,10 @@ class App extends React.Component<AppProps> {
     }
 
     render() {
+        const styles: any = this.props.state.theme;
+
         return (
-            <div className='app-container'>
+            <div className='app-container' style={styles}>
                 <SearchDialog/>
                 <SettingView/>
                 <LeftSide />

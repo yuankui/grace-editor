@@ -63,7 +63,6 @@ class More extends React.Component<MoreProps, MoreState> {
         }}>
             <TitleAction title='黑暗模式' onClick={() => {
                 this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
-                message.info("To be Coming...");
             }}>
                 <Switch checked={isDarkMode}/>
             </TitleAction>

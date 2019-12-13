@@ -2,6 +2,8 @@ import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
 import {Dispatch} from "redux";
 import {UpdateProfileSettingCommand} from "../profile/UpdateProfileSettingCommand";
+import {LoadThemeCommand} from "../theme/LoadThemeCommand";
+import {DarkTheme, LightTheme} from "../theme/default-themes";
 
 export class SetDarkModeCommand extends AppCommand {
     private readonly isDarkMode: boolean;
@@ -19,5 +21,11 @@ export class SetDarkModeCommand extends AppCommand {
         await dispatch(new UpdateProfileSettingCommand({
             isDarkMode: this.isDarkMode,
         }));
+
+        if (this.isDarkMode) {
+            await dispatch(new LoadThemeCommand(DarkTheme));
+        } else {
+            await dispatch(new LoadThemeCommand(LightTheme));
+        }
     }
 }

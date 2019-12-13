@@ -72,5 +72,7 @@ export type CommandType = "TestCommand"
     | "Profile/Update"
     | "Profile/Load"
 
+    | "Theme/Load"
+
 
 ;

@@ -49,6 +49,14 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             },
             isDarkMode: false,
         },
+        theme: {
+            "--base-active-background-color": "white",
+            "--base-background-color": "white",
+            "--base-disable-color": "white",
+            "--base-font-color": "black",
+            "--base-hover-background-color": "white",
+            "--base-sider-menu-color": "white",
+        },
         status: {
             canGitPull: false,
             canGitPush: false,

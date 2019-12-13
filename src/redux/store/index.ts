@@ -18,6 +18,7 @@ export interface UserProfile {
     favor: Favor,
     isDarkMode: boolean,
 }
+
 export interface Post {
     id: string,
     weight: string,
@@ -73,6 +74,16 @@ export interface AppStatus {
     canGitPush: boolean,
 }
 
+
+export interface Theme {
+    '--base-sider-menu-color': string,
+    '--base-font-color': string,
+    '--base-background-color': string,
+    '--base-hover-background-color': string,
+    '--base-active-background-color': string,
+    '--base-disable-color': string,
+}
+
 export interface AppStore {
     showSetting: boolean,
     posts: PostsStore,
@@ -84,6 +95,7 @@ export interface AppStore {
     slatejs: Slatejs,
     status: AppStatus,
     profile: UserProfile,
+    theme: Theme,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {
