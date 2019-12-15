@@ -11,6 +11,7 @@ export const LightTheme: Theme = {
     "--base-font-hover-color": black,
     "--base-font-disable-color": black.alpha(.40),
 
+    '--base-text-color': black.alpha(.65),
     '--base-background-color': white,
     '--base-hover-background-color': Color('#e6e6e6'),
     '--base-active-background-color': Color('#d6d6d6'),
@@ -26,6 +27,7 @@ export const DarkTheme: Theme = {
     '--base-font-hover-color': white.alpha(.85),
     '--base-font-active-color': white,
     "--base-font-disable-color": white.alpha(.40),
+    '--base-text-color': white.alpha(.8),
     '--base-background-color': darkBaseBg,
     '--base-hover-background-color': darkBaseBg.lighten(0.3),
     '--base-active-background-color': Color('#363C3F').lighten(0.6),
