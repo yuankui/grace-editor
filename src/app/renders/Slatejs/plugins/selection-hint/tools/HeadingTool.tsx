@@ -1,7 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
 import {Editor} from "slate";
-import {MarkTypeBold} from "../../inline/InlinePlugin";
 import {HeaderTypePrefix} from "../../header/HeaderPlugin";
 
 export default function createHeadingTool(level: number): Tool {
