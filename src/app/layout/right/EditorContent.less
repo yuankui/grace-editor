@@ -2,28 +2,33 @@
 @app-bottom-height: 70px;
 
 .app-right-content {
-  display: flex;
-  flex: auto;
-  justify-content: center;
-  overflow: hidden;
-  .app-content-padding {
-    flex: 1 1;
-  }
-
-  .post-editor {
-    flex: 0 0 600px;
-
     display: flex;
-    flex-direction: column;
+    flex: auto;
+    justify-content: center;
+    overflow: hidden;
 
-    .title {
-      flex: 0 0 @app-title-height;
+    .app-content-padding {
+        flex: 1 1;
     }
 
-    .content {
-      flex: auto;
-      overflow: hidden;
-      margin-bottom: 20px;
+    .post-editor {
+        flex: 0 0 600px;
+
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            flex: 0 0 @app-title-height;
+            input {
+                background-color: var(--base-content-backend-color);
+                color: var(--base-font-color);
+            }
+        }
+
+        .content {
+            flex: auto;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
     }
-  }
 }

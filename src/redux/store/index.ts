@@ -85,6 +85,8 @@ export interface Theme {
     '--base-disable-color': Color,
     '--base-font-hover-color': Color,
     '--base-font-active-color': Color,
+    '--base-content-backend-color': Color,
+    '--base-font-disable-color': Color,
 }
 
 export interface AppStore {
