@@ -55,7 +55,7 @@
   border-radius: 5px;
 
   &:hover {
-    background-color: #dad9d7;
+    background-color: var(--base-active-background-color);
   }
 }
 
@@ -84,4 +84,15 @@
       opacity: 1;
     }
   }
+}
+
+.title-prefix {
+    // 标题前缀
+    svg.post-prefix-point {
+        circle {
+            fill: var(--base-font-color);
+        }
+    }
+
+    color: var(--base-font-color);
 }
