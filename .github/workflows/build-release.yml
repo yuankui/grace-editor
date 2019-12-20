@@ -7,8 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: [macos]
-
+    runs-on: [linux]
     strategy:
       matrix:
         node-version: [12.x]
