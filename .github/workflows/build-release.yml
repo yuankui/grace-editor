@@ -2,8 +2,7 @@ name: Node CI
 
 on:
   push:
-    branches:
-      - master
+    tags: v*
 
 jobs:
   build:
@@ -26,3 +25,11 @@ jobs:
           npm run dist
       - name: Git Release
         uses: anton-yurchenko/git-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRAFT_RELEASE: "false"
+          PRE_RELEASE: "false"
+          CHANGELOG_FILE: "CHANGELOG.md"
+        with:
+          args: |
+            dist/Grace-*.dmg
