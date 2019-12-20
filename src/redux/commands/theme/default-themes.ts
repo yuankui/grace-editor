@@ -17,6 +17,7 @@ export const LightTheme: Theme = {
     '--base-active-background-color': Color('#d6d6d6'),
     '--base-disable-color': Color('#CFCFCD'),
     '--base-content-backend-color': white,
+    '--base-background-highlight-color': Color('#f7f6f3'),
 };
 
 
@@ -33,4 +34,5 @@ export const DarkTheme: Theme = {
     '--base-active-background-color': Color('#363C3F').lighten(0.6),
     '--base-disable-color': Color('#363C3F'),
     '--base-content-backend-color': Color('#2E3437'),
+    "--base-background-highlight-color": Color('#3f4447'),
 };
