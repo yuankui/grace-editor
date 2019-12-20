@@ -21,8 +21,13 @@ jobs:
       run: |
         npm install
         npm run dist
-    - name: Action Release
-      uses: yakuhzi/action-release@v1.2.0
+    - name: Upload to Release Action
+      uses: Shopify/upload-to-release@1.0.0
       with:
-        # File to upload to the release
-        file: dist/Grace-*.dmg
+        # Artifact name
+        name: Grace
+        # Path to the file to upload
+        path: dist/Grace-*.dmg
+        # Content type for the file
+        # secrets.GITHUB_TOKEN
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
