@@ -15,8 +15,6 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Automated Version Bump
-        uses: phips28/gh-action-bump-version@v5.0.16
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -26,13 +24,5 @@ jobs:
         run: |
           npm install
           npm run dist
-      - name: GH Release
-        uses: softprops/action-gh-release@v0.1.0
-        with:
-          # Gives the release a custom name
-          name: Grace
-          # Creates a draft release
-          # draft: # optional, default is false
-          # Comma-delimited list of path globs for asset files to upload
-          files: dist/Grace-*.dmg
-
+      - name: Git Release
+        uses: anton-yurchenko/git-release@v1.0.0
