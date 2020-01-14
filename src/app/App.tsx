@@ -15,6 +15,7 @@ import {RightSide} from "./layout/RightSide";
 import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
 import {history} from '../redux/utils';
+import FindInPage from "./findInPage/FindInPage";
 
 interface AppProps {
     state: AppStore,
@@ -59,6 +60,7 @@ class App extends React.Component<AppProps> {
 
         return (
             <div className='app-container' style={styles}>
+                <FindInPage/>
                 <SearchDialog/>
                 <SettingView/>
                 <LeftSide />
