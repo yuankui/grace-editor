@@ -1,13 +1,16 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore, Post, PostsStore} from "../../store";
 import {createEmptyContent} from "../../utils";
+import {PostFormat} from "../../../PostFormat";
 
 export class CreateEmptyPostCommand extends AppCommand {
     private readonly postId: string;
+    private readonly postFormat: PostFormat;
 
-    constructor(postId: string) {
+    constructor(postId: string, postFormat: PostFormat = 'richText') {
         super();
         this.postId = postId;
+        this.postFormat = postFormat;
     }
 
     name(): CommandType {
@@ -23,7 +26,7 @@ export class CreateEmptyPostCommand extends AppCommand {
             content: createEmptyContent(),
             tags: [],
             title: "未命名",
-            format: 'richText',
+            format: this.postFormat,
             weight: '',
         };
 

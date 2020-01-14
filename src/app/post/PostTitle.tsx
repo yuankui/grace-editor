@@ -89,9 +89,28 @@ export const PostTitle: React.FC<Props> = props => {
                 </OperationButton>
             </Popover>
 
+            <Popover content={<AddActions parent={item.id}/>} title="Title" trigger="click" placement='bottom'>
+                <OperationButton>
+                    <MaterialIcon value='add'/>
+                </OperationButton>
+            </Popover>
             <OperationButton onClick={() => dispatch(new CreateNewPostCommand(createPostId(), item.id))}>
                 <MaterialIcon value='add'/>
             </OperationButton>
         </div>
     </div>;
+};
+
+const AddActions: React.FC<{parent: string}> = (props) => {
+    const dispatch = useDispatch();
+    const createJson = e => {
+        e.stopPropagation();
+        e.preventDefault();
+        dispatch(new CreateNewPostCommand(createPostId(), props.parent, "object"));
+    };
+
+    return <ul>
+        <li><a onClick={createJson}>Json</a></li>
+        <li><a>RichText</a></li>
+    </ul>
 };

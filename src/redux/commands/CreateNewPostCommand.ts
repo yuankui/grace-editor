@@ -3,15 +3,18 @@ import {AppStore} from "../store";
 import {ExpandCommand} from "./menu/ExpandCommand";
 import {CreateEmptyPostCommand} from "./post/CreateEmptyPostCommand";
 import {MovePostCommand} from "./MovePostCommand";
+import {PostFormat} from "../../PostFormat";
 
 export class CreateNewPostCommand extends AppCommand {
     parentId: string | null;
     private readonly postId: string;
+    private postFormat: PostFormat;
 
-    constructor(postId: string, parentId: string | null) {
+    constructor(postId: string, parentId: string | null, postFormat: PostFormat = 'richText') {
         super();
         this.parentId = parentId;
         this.postId = postId;
+        this.postFormat = postFormat;
     }
 
     name(): CommandType {
@@ -21,7 +24,7 @@ export class CreateNewPostCommand extends AppCommand {
     process(store: AppStore): AppStore {
 
         // create new under null(root)
-        store = new CreateEmptyPostCommand(this.postId).process(store);
+        store = new CreateEmptyPostCommand(this.postId, this.postFormat).process(store);
 
         // expand parent
         if (this.parentId != null) {
