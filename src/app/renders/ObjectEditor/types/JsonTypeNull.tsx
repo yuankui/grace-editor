@@ -1,13 +1,15 @@
 import _ from "lodash";
-import JsonType, {OnChange} from "./JsonType";
-import React, {ReactNode} from "react";
+import JsonType from "./JsonType";
+import React from "react";
 
-export default class JsonTypeNull implements JsonType {
+export default class JsonTypeNull extends JsonType {
     checkType(value: object): boolean {
         return _.isNull(value);
     }
 
-    render(value: object, suffix: ReactNode, prefix: ReactNode ,onChange: OnChange) {
+    render() {
+        const {value, suffix, prefix, onChange} = this.props;
+
         return <span>
             {prefix}
             <span className='json-type-null'>null</span>

@@ -5,12 +5,14 @@ import {message, Popover} from "antd";
 
 const {clipboard} = require('electron');
 
-export default class JsonTypeString implements JsonType {
+export default class JsonTypeString extends JsonType {
     checkType(value: object): boolean {
         return _.isString(value);
     }
 
-    render(value: object, suffix: ReactNode, prefix: ReactNode, onChange: OnChange) {
+    render() {
+        const {value, suffix, prefix, onChange} = this.props;
+
         const actions = <div>
             <a onClick={e => {
                 e.stopPropagation();

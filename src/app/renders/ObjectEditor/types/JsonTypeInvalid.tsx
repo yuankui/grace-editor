@@ -1,12 +1,14 @@
-import JsonType, {OnChange} from "./JsonType";
-import React, {ReactNode} from "react";
+import JsonType from "./JsonType";
+import React from "react";
 
-export default class JsonTypeInvalid implements JsonType {
+export default class JsonTypeInvalid extends JsonType {
     checkType(value: object): boolean {
         return true;
     }
 
-    render(value: object, suffix: ReactNode, prefix: ReactNode ,onChange: OnChange) {
+    render() {
+        const {value, suffix, prefix, onChange} = this.props;
+
         return <span>
             {prefix}
             <span className='json-type-string'>"Invalid: {value}"</span>

@@ -1,15 +1,19 @@
-const _ = require('lodash');
+class A {
+    print() {
+        console.log('A');
+    }
+}
 
-const a = {
-    "name": "yuankui",
-    "age": 11,
-    "gender": true,
-    "fav": [
-        "basketball",
-        "movie",
-        "games"
-    ]
-};
+class B {
+    print() {
+        console.log('B');
+    }
+}
 
 
-console.log(_.isArray(a));
+const c = [A, B];
+
+for (let X of c) {
+    const ss = new X();
+    ss.print();
+}

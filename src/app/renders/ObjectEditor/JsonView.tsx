@@ -5,9 +5,9 @@ interface Props {
     value: object,
 }
 const JsonView: React.FC<Props> = props => {
+    const JsonType = TypeFactory(props.value);
     return <div className='json-view'>
-        {TypeFactory(props.value).render(props.value, null, null, () => {
-        })}
+        <JsonType value={props.value} prefix={null} suffix={null} onChange={() => {}}/>
     </div>
 };
 

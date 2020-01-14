@@ -1,24 +1,25 @@
 import _ from "lodash";
-import JsonType, {OnChange} from "./JsonType";
-import React, {ReactNode} from "react";
+import JsonType from "./JsonType";
+import React from "react";
 import Suffix from "./JsonSuffix";
 import TypeFactory from "./TypeFactory";
 
-export default class JsonTypeArray implements JsonType {
+export default class JsonTypeArray extends JsonType {
     checkType(value: object): boolean {
         return _.isArray(value);
     }
 
-    render(value: object, suffix: ReactNode, prefix: ReactNode ,onChange: OnChange) {
+    render() {
+        const {value, suffix, prefix, onChange} = this.props;
         const array: Array<any> = value as Array<any>;
         const entries = array
             .map((value, index) => {
                 const last = index == array.length - 1;
                 const suffix = last ? null: <Suffix/>;
-                const jsonType = TypeFactory(value);
+                const JsonType = TypeFactory(value);
 
                 return <div className='json-type-array-v'>
-                    {jsonType.render(value, suffix, null, () => {})}
+                    <JsonType value={value} prefix={null} suffix={suffix} onChange={() => {}}/>
                 </div>;
             });
 

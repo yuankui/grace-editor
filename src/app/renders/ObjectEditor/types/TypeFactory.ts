@@ -1,4 +1,3 @@
-import JsonType from "./JsonType";
 import JsonTypeBoolean from "./JsonTypeBoolean";
 import JsonTypeNull from "./JsonTypeNull";
 import JsonTypeNumber from "./JsonTypeNumber";
@@ -7,24 +6,24 @@ import JsonTypeObject from "./JsonTypeObject";
 import JsonTypeArray from "./JsonTypeArray";
 import JsonTypeInvalid from "./JsonTypeInvalid";
 
-const types: Array<()=>JsonType> = [
-    () => new JsonTypeBoolean(),
-    () => new JsonTypeNull(),
-    () => new JsonTypeNumber(),
-    () => new JsonTypeString(),
-    () => new JsonTypeArray(),
-    () => new JsonTypeObject(),
+const types: any = [
+    JsonTypeBoolean,
+    JsonTypeNull,
+    JsonTypeNumber,
+    JsonTypeString,
+    JsonTypeArray,
+    JsonTypeObject,
 ];
 
-const TypeFactory = (value: object): JsonType => {
-    for (let factory of types) {
-        const jsonType = factory();
-        if (jsonType.checkType(value)) {
-            return jsonType;
+const TypeFactory = (value: object): any => {
+    for (let JsonType of types) {
+
+        if (new JsonType().checkType(value)) {
+            return JsonType;
         }
     }
 
-    return new JsonTypeInvalid();
+    return JsonTypeInvalid as any;
 };
 
 export default TypeFactory;
