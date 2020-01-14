@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 
 export interface OnChange {
-    (value: object): void;
+    (value: any): void;
 }
 
 export interface JsonTypeProps {
@@ -11,6 +11,6 @@ export interface JsonTypeProps {
     onChange: OnChange,
 }
 
-export default abstract class JsonType extends React.Component<JsonTypeProps, any>{
+export default abstract class JsonType<S = any> extends React.Component<JsonTypeProps, S>{
     abstract checkType(value: object): boolean;
 }

@@ -1,12 +1,11 @@
 import {Render, RenderProps} from "../renders";
-import {If, mapState} from "../../../utils";
+import {mapState} from "../../../utils";
 import {connect} from "react-redux";
 import React, {ReactNode} from "react";
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import 'codemirror/mode/python/python';
 import 'codemirror/theme/monokai.css';
 import {Tabs} from "antd";
-import TypeFactory from "./types/TypeFactory";
 import JsonView from "./JsonView";
 
 interface State {
@@ -49,7 +48,9 @@ class ObjectRender extends Render<State> {
         if (this.state.valueObj != null) {
             tabs.push(<Tabs.TabPane tab='json' key='json'>
                 <div className='object-render'>
-                    <JsonView value={this.state.valueObj as object}/>
+                    <JsonView value={this.state.valueObj as object} onChange={(v) => {
+                        this.onChange(undefined, v);
+                    }}/>
                 </div>
             </Tabs.TabPane>);
         }

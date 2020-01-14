@@ -14,15 +14,18 @@ export default class JsonTypeObject extends JsonType {
         const {value, suffix, prefix, onChange} = this.props;
         const entries = Object.entries(value)
             .map((entry, index, array) => {
-                const [key, value] = entry;
+                const [key, v] = entry;
                 const last = index == array.length - 1;
 
                 const suffix = last ? <Suffix/>: null;
-                const JsonType = TypeFactory(value);
+                const JsonType = TypeFactory(v);
                 const keyNode = <JsonKey value={key}/>;
 
-                return <div className='json-type-kv'>
-                    <JsonType value={value} suffix={suffix} prefix={keyNode} onChange={() => {}}/>
+                return <div key={key} className='json-type-kv'>
+                    <JsonType value={v} suffix={suffix} prefix={keyNode} onChange={(newValue) => {
+                        const newV = {...value, [key]: newValue};
+                        onChange(newV);
+                    }}/>
                 </div>;
             });
 
