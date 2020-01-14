@@ -18,7 +18,6 @@ export class If extends React.Component<Props> {
     }
 }
 
-
 interface RotateProps {
     deg: number,
 }
