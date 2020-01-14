@@ -84,6 +84,8 @@ class SearchDialog extends React.Component<Props, State> {
     };
 
     renderOption = (e: SearchOption, keyword: string, active: boolean) => {
+        keyword = keyword.toLowerCase();
+
         const words = findAll(e.title, keyword);
         const highlightedText = words
             .map(word => {
@@ -112,7 +114,7 @@ class SearchDialog extends React.Component<Props, State> {
 
     async onSearch(keyword: string): Promise<Array<SearchOption>> {
         return this.props.state.posts.posts.valueSeq().toArray()
-            .filter(post => post.title.indexOf(keyword) >= 0)
+            .filter(post => post.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0)
             .map(post => ({
                 title: post.title,
                 subtitle: this.getPath(post.id, this.props.state.posts),

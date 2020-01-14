@@ -57,6 +57,9 @@ export function findAll(text: string, keyword: string): Array<string> {
     if (!keyword) {
         return [text];
     }
+
+    text = text.toLowerCase();
+    keyword = keyword.toLowerCase();
     return text.split(keyword)
         .reduce((acc: Array<string>, v, index) => {
             if (index == 0) return [v];
