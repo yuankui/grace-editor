@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import isHotkey, {isKeyHotkey} from "is-hotkey";
+import {Controlled as CodeMirror} from "react-codemirror2";
+import 'codemirror/mode/javascript/javascript';
 
 interface Props {
     text: string,
@@ -14,25 +16,28 @@ const Text: React.FC<Props> = props => {
             e.preventDefault();
             e.stopPropagation();
             setEditable(true);
-        }}>"{props.text}"</a>
+        }}>{JSON.stringify(props.text)}</a>
     }
 
     return <div className='json-text'>
-        <textarea
-            onChange={e => {
-                e.stopPropagation();
-                e.preventDefault();
-                props.onChange(e.target.value);
+        <CodeMirror
+            value={props.text}
+            options={{
+                mode: 'javascript',
+                theme: 'monokai',
+                lineNumbers: true
             }}
-            onKeyDown={e => {
-                if (isKeyHotkey('shift+enter', e.nativeEvent)) {
+            onKeyDown={(editor, e:Event) => {
+                if (isKeyHotkey('shift+enter', e as any)) {
                     setEditable(false);
-                } else if (isHotkey('esc', e.nativeEvent)) {
+                } else if (isHotkey('esc', e as any)) {
                     setEditable(false);
                 }
-            }}>
-            {props.text}
-        </textarea>
+            }}
+            onBlur={() => setEditable(false)}
+            onBeforeChange={(editor, data, value) => {
+                props.onChange(value);
+            }}/>
     </div>;
 };
 
