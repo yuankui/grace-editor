@@ -65,6 +65,7 @@
     "@types/slate-html-serializer": "^0.6.3",
     "@types/slate-react": "^0.22.6",
     "@types/uuid": "^3.4.5",
+    "@types/yaml": "^1.2.0",
     "antd": "^3.21.4",
     "babel-polyfill": "^6.26.0",
     "clipboard": "^2.0.4",
@@ -103,6 +104,7 @@
     "slate-react": "^0.22.10",
     "uuid": "^3.3.3",
     "webpack-merge": "^4.2.2",
+    "yaml": "^1.7.2",
     "yuankui-sleep": "^1.0.1"
   },
   "build": {

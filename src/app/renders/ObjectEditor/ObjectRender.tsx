@@ -4,9 +4,11 @@ import {connect} from "react-redux";
 import React, {ReactNode} from "react";
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import 'codemirror/mode/python/python';
+import 'codemirror/mode/yaml/yaml';
 import 'codemirror/theme/monokai.css';
 import {Tabs} from "antd";
 import JsonView from "./JsonView";
+import yaml from 'yaml';
 
 interface State {
     value: string,
@@ -46,11 +48,26 @@ class ObjectRender extends Render<State> {
 
         const tabs: Array<ReactNode> = [];
         if (this.state.valueObj != null) {
+            // json
             tabs.push(<Tabs.TabPane tab='json' key='json'>
                 <div className='object-render'>
                     <JsonView value={this.state.valueObj as object} onChange={(v) => {
                         this.onChange(undefined, v);
                     }}/>
+                </div>
+            </Tabs.TabPane>);
+
+            tabs.push(<Tabs.TabPane tab='yaml' key='yaml'>
+                <div className='object-render'>
+                    <CodeMirror
+                        value={yaml.stringify(this.state.valueObj)}
+                        options={{
+                            mode: 'yaml',
+                            theme: 'monokai',
+                            lineNumbers: true
+                        }}
+                        onBeforeChange={() => {
+                        }}/>
                 </div>
             </Tabs.TabPane>);
         }
