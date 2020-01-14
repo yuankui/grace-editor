@@ -7,6 +7,7 @@ import 'codemirror/mode/python/python';
 import 'codemirror/theme/monokai.css';
 import {Tabs} from "antd";
 import TypeFactory from "./types/TypeFactory";
+import JsonView from "./JsonView";
 
 interface State {
     value: string,
@@ -48,8 +49,7 @@ class ObjectRender extends Render<State> {
         if (this.state.valueObj != null) {
             tabs.push(<Tabs.TabPane tab='json' key='json'>
                 <div className='object-render'>
-                    {TypeFactory(this.state.valueObj as object).render(this.state.valueObj as object, null, null, () => {
-                    })}
+                    <JsonView value={this.state.valueObj as object}/>
                 </div>
             </Tabs.TabPane>);
         }
