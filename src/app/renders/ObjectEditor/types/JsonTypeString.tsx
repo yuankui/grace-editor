@@ -1,7 +1,7 @@
 import _ from "lodash";
 import JsonType, {OnChange} from "./JsonType";
 import React, {ReactNode} from "react";
-import {Popover, message, Modal} from "antd";
+import {message, Popover} from "antd";
 
 const {clipboard} = require('electron');
 
