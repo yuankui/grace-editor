@@ -1,6 +1,5 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
-import {Button, Icon} from "antd";
-import isHotkey from "is-hotkey";
+import {Icon} from "antd";
 
 interface OwnProps {
 }
