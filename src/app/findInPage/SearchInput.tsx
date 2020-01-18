@@ -1,7 +1,9 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {Icon} from "antd";
+import isHotkey from "is-hotkey";
 
 interface OwnProps {
+    onHide(): void;
 }
 
 type Props = OwnProps;
@@ -17,11 +19,13 @@ const SearchInput: FunctionComponent<Props> = (props) => {
         ref.current && ref.current.focus();
     }, []);
 
+    const clear = () => {
+        webContents.stopFindInPage('clearSelection');
+    };
     useEffect(() => {
-        return () => {
-            webContents.stopFindInPage('clearSelection');
-        }
+        return clear;
     }, []);
+
 
     const [text, setText] = useState('');
 
@@ -31,13 +35,22 @@ const SearchInput: FunctionComponent<Props> = (props) => {
     };
 
     // 处理输入 enter，开始搜索
-    const onKeyDown = e => {
+    const onNextClick = e => {
         webContents.findInPage(text);
     };
-    return <div className='find-in-page'>
+
+    const onEsc = (e) => {
+        if (isHotkey('esc', e)) {
+            props.onHide();
+        }
+    };
+
+    return <div className='find-in-page' onKeyDown={onEsc}>
         <Icon type="search"/>
         <input ref={ref} value={text} onChange={onChange} placeholder='search'/>
-        <a onClick={onKeyDown}><Icon type="caret-down"/></a>
+        <a className='next' onClick={onNextClick}>
+            <Icon type="arrow-down" />
+        </a>
     </div>;
 };
 

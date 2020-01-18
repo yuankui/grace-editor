@@ -27,7 +27,7 @@ const FindInPage: FunctionComponent<Props> = (props) => {
         }
     });
     return <If test={visible}>
-        <SearchInput/>
+        <SearchInput onHide={() => setVisible(false)}/>
     </If>
 };
 
