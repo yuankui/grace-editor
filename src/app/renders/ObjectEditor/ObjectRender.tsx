@@ -1,21 +1,28 @@
 import {Render, RenderProps} from "../renders";
-import {mapState} from "../../../utils";
+import {If, mapState} from "../../../utils";
 import {connect} from "react-redux";
-import React, {ReactNode} from "react";
-import {Controlled as CodeMirror} from 'react-codemirror2';
+import React, {useState} from "react";
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/theme/monokai.css';
 import {Tabs} from "antd";
-import JsonView from "./JsonView";
-import yaml from 'yaml';
+import {RawJsonView} from "./ObjectView/raw/RawJsonView";
+import {JsonView} from "./ObjectView/json/JsonView";
+import {YamlView} from "./ObjectView/yaml/YamlView";
 
 interface State {
     value: string,
     valueObj?: object,
     panelKey: string,
     syntaxError?: string,
+    currentTab: string,
 }
+
+const views: Array<[string, any]> = [
+    ['raw', RawJsonView],
+    ['json', JsonView],
+    ['yaml', YamlView],
+];
 
 class ObjectRender extends Render<State> {
 
@@ -37,7 +44,8 @@ class ObjectRender extends Render<State> {
             valueObj,
             panelKey: "raw",
             syntaxError: undefined,
-        }
+            currentTab: 'raw',
+        };
     }
 
     json2String(obj: object): string {
@@ -46,80 +54,35 @@ class ObjectRender extends Render<State> {
 
     render() {
 
-        const tabs: Array<ReactNode> = [];
-        if (this.state.valueObj != null) {
-            // json
-            tabs.push(<Tabs.TabPane tab='json' key='json'>
-                <div className='object-render'>
-                    <JsonView value={this.state.valueObj as object} onChange={(v) => {
-                        this.onChange(undefined, v);
-                    }}/>
-                </div>
-            </Tabs.TabPane>);
-
-            tabs.push(<Tabs.TabPane tab='yaml' key='yaml'>
-                <div className='object-render'>
-                    <CodeMirror
-                        value={yaml.stringify(this.state.valueObj)}
-                        options={{
-                            mode: 'yaml',
-                            theme: 'monokai',
-                            lineNumbers: true
-                        }}
-                        onBeforeChange={() => {
-                        }}/>
-                </div>
-            </Tabs.TabPane>);
-        }
-
-        if (this.state.syntaxError != null) {
-            tabs.push(<Tabs.TabPane tab={this.state.syntaxError} key='json' disabled={true}>
-            </Tabs.TabPane>)
-        }
+        const tabs = views.map(([name, View]) => {
+            const disabled = name != this.state.currentTab && this.state.syntaxError != null;
+            return <Tabs.TabPane tab={name} key={name} disabled={disabled}>
+                <If test={name == this.state.currentTab}>
+                    <View value={this.state.valueObj}
+                          onChange={(v) => this.setState({
+                              valueObj: v,
+                              syntaxError: undefined,
+                          })}
+                          onError={(err) => this.setState({
+                              syntaxError: err,
+                          })}
+                    />
+                </If>
+            </Tabs.TabPane>
+        });
 
         return <div className='object-render'>
-            <Tabs defaultActiveKey={"raw"}>
-                <Tabs.TabPane tab='Raw' key='raw'>
-                    <CodeMirror
-                        value={this.state.value}
-                        options={{
-                            mode: 'python',
-                            theme: 'monokai',
-                            lineNumbers: true
-                        }}
-                     onBeforeChange={(editor, data, value) => {
-                         this.onChange(value, undefined);
-                     }}/>
-                </Tabs.TabPane>
+            <Tabs activeKey={this.state.currentTab}
+                  onTabClick={(key) => {
+                      this.setState({
+                          currentTab: key,
+                      })
+                  }}
+            >
                 {tabs}
             </Tabs>
 
         </div>;
-    }
-
-    onChange(value?: string, valueObj?: object) {
-        if (valueObj != null) {
-            this.setState({
-                valueObj: valueObj,
-                value: JSON.stringify(valueObj, null, 4),
-                syntaxError: undefined
-            });
-        } else if (value != null) {
-            try {
-                const obj = JSON.parse(value);
-                this.setState({
-                    valueObj: obj,
-                    value: this.json2String(obj),
-                    syntaxError: undefined
-                });
-            } catch (e) {
-                this.setState({
-                    value: value,
-                    valueObj: undefined,
-                    syntaxError: e.toString(),
-                })
-            }
-        }
     }
 }
 
