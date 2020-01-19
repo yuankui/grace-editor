@@ -29,6 +29,7 @@ export class YamlView extends ObjectView<State>{
                 this.sync();
             }}
             onBeforeChange={(editor, data, value) => {
+                value = value.replace('\t', '    ');
                 this.setState({
                     value,
                 });
