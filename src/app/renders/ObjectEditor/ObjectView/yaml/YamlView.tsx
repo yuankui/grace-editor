@@ -8,6 +8,7 @@ interface State {
 }
 
 export class YamlView extends ObjectView<State>{
+    private timeout: any;
 
     constructor(props: Readonly<ViewProps>) {
         super(props);
@@ -25,18 +26,25 @@ export class YamlView extends ObjectView<State>{
                 lineNumbers: true
             }}
             onBlur={() => {
-                try {
-                    const obj = yaml.parse(this.state.value);
-                    this.props.onChange(obj);
-                } catch (e) {
-                    this.props.onError(e.toString());
-                }
-
+                this.sync();
             }}
             onBeforeChange={(editor, data, value) => {
                 this.setState({
                     value,
-                })
+                });
+                this.sync();
             }}/>
+    }
+
+    sync() {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            try {
+                const obj = yaml.parse(this.state.value);
+                this.props.onChange(obj);
+            } catch (e) {
+                this.props.onError(e.toString());
+            }
+        }, 100);
     }
 }

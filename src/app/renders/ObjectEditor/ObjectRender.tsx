@@ -9,6 +9,7 @@ import {Tabs} from "antd";
 import {RawJsonView} from "./ObjectView/raw/RawJsonView";
 import {JsonView} from "./ObjectView/json/JsonView";
 import {YamlView} from "./ObjectView/yaml/YamlView";
+import Warn from "./Warn";
 
 interface State {
     value: string,
@@ -58,15 +59,17 @@ class ObjectRender extends Render<State> {
             const disabled = name != this.state.currentTab && this.state.syntaxError != null;
             return <Tabs.TabPane tab={name} key={name} disabled={disabled}>
                 <If test={name == this.state.currentTab}>
-                    <View value={this.state.valueObj}
-                          onChange={(v) => this.setState({
-                              valueObj: v,
-                              syntaxError: undefined,
-                          })}
-                          onError={(err) => this.setState({
-                              syntaxError: err,
-                          })}
-                    />
+                    <Warn error={this.state.syntaxError}>
+                        <View value={this.state.valueObj}
+                              onChange={(v) => this.setState({
+                                  valueObj: v,
+                                  syntaxError: undefined,
+                              })}
+                              onError={(err) => this.setState({
+                                  syntaxError: err,
+                              })}
+                        />
+                    </Warn>
                 </If>
             </Tabs.TabPane>
         });

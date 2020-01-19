@@ -6,7 +6,7 @@ interface State {
     value: string,
 }
 export class RawJsonView extends ObjectView<State> {
-
+    private timeout: any = null;
     constructor(props: Readonly<ViewProps>) {
         super(props);
         this.state = {
@@ -23,17 +23,25 @@ export class RawJsonView extends ObjectView<State> {
                 lineNumbers: true
             }}
             onBlur={() => {
-                try {
-                    const js = JSON.parse(this.state.value);
-                    this.props.onChange(js);
-                } catch (e) {
-                    this.props.onError(e.toString());
-                }
+                this.sync();
             }}
             onBeforeChange={(editor, data, value) => {
                 this.setState({
                     value: value
-                })
+                });
+                this.sync();
             }}/>
+    }
+
+    sync() {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            try {
+                const js = JSON.parse(this.state.value);
+                this.props.onChange(js);
+            } catch (e) {
+                this.props.onError(e.toString());
+            }
+        }, 100);
     }
 }
