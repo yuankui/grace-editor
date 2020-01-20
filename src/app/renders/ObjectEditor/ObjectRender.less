@@ -9,14 +9,16 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    .json-view {
+        overflow-y: auto;
+        height: 600px;
+        user-select: text;
+    }
+
+    .CodeMirror {
+        height: 100%;
+        background-color: var(--base-background-color);
+    }
 }
 
-.json-view {
-    overflow-y: auto;
-    height: 600px;
-    user-select: text;
-}
-
-.CodeMirror {
-    height: 100%;
-}
