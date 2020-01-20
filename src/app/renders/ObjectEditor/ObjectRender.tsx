@@ -1,7 +1,7 @@
 import {Render, RenderProps} from "../renders";
 import {If, mapState} from "../../../utils";
 import {connect} from "react-redux";
-import React, {useState} from "react";
+import React from "react";
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/theme/monokai.css';
@@ -12,8 +12,6 @@ import {YamlView} from "./ObjectView/yaml/YamlView";
 import Warn from "./Warn";
 
 interface State {
-    value: string,
-    valueObj?: object,
     panelKey: string,
     syntaxError?: string,
     currentTab: string,
@@ -29,28 +27,11 @@ class ObjectRender extends Render<State> {
 
     constructor(props: RenderProps, context: any) {
         super(props, context);
-        const valueObj = {
-            name: "yuankui",
-            age: 11,
-            gender: true,
-            fav: [
-                "basketball",
-                "movie",
-                "games"
-            ],
-            company: null,
-        };
         this.state = {
-            value: this.json2String(valueObj),
-            valueObj,
             panelKey: "raw",
             syntaxError: undefined,
             currentTab: 'raw',
         };
-    }
-
-    json2String(obj: object): string {
-        return JSON.stringify(obj, null, 4);
     }
 
     render() {
@@ -60,11 +41,14 @@ class ObjectRender extends Render<State> {
             return <Tabs.TabPane tab={name} key={name} disabled={disabled}>
                 <If test={name == this.state.currentTab}>
                     <Warn error={this.state.syntaxError}>
-                        <View value={this.state.valueObj}
-                              onChange={(v) => this.setState({
-                                  valueObj: v,
-                                  syntaxError: undefined,
-                              })}
+                        <View value={this.props.value}
+                              onChange={(v) => {
+                                  this.props.onChange(v);
+                                  this.setState({
+                                      syntaxError: undefined,
+                                  })
+
+                              }}
                               onError={(err) => this.setState({
                                   syntaxError: err,
                               })}

@@ -5,7 +5,6 @@ import {Value} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
-import {createCommonPlugin} from "./plugins/common";
 import {AppStore} from "../../../redux/store";
 import {debug} from "../../../utils/debug";
 import {createCopyPaste} from "./copyPaste";

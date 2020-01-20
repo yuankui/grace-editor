@@ -10,7 +10,7 @@ export class RawJsonView extends ObjectView<State> {
     constructor(props: Readonly<ViewProps>) {
         super(props);
         this.state = {
-            value: JSON.stringify(props.value, null, 4),
+            value: JSON.stringify(props.value, null, 2),
         }
     }
 
