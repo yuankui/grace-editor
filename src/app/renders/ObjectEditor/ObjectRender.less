@@ -1,12 +1,22 @@
 @import 'Warn.less';
+@import 'tabs/Tabs.less';
+
 .object-render {
     color: var(--base-font-color);
     font-family: "Fira Code", Consolas, Monospaced, serif;
     width: 800px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .json-view {
     overflow-y: auto;
     height: 600px;
     user-select: text;
+}
+
+.CodeMirror {
+    height: 100%;
 }

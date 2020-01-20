@@ -1,0 +1,25 @@
+.grace-tabs {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .grace-titles {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+
+        .title {
+            padding: 5px 20px;
+
+            &.active-true {
+                border-bottom: 3px solid #1890FF;
+            }
+        }
+    }
+
+    .tab-body {
+        flex: 1;
+        .codemirror {
+            height: 100%;
+        }
+    }
+}
