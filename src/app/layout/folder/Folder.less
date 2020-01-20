@@ -1,0 +1,82 @@
+.grace-folder {
+    display: flex;
+    flex-direction: row;
+
+    .container {
+        width: 100%;
+    }
+    .handle {
+        width: 0;
+
+        .collapse-handle {
+            position: relative;
+            left: 0;
+            top: calc(50% - 25px);
+            z-index: 2;
+            display: flex;
+            .center();
+
+            width: 24px;
+            height: 50px;
+            border-radius: 20px;
+
+            color: var(--base-text-color);
+
+            &:hover {
+                background-color: var(--base-sider-menu-color);
+            }
+
+            &:active {
+                background-color: var(--base-active-background-color);
+            }
+        }
+    }
+
+    .app-left-handle {
+        height: 44px;
+        user-select: none;
+        .drag-handle();
+    }
+
+    .resize-handle {
+        display: flex;
+        .center();
+
+        transition: all .3s;
+        width: 2px;
+        background-color: inherit;
+
+        &:hover {
+            background-color: var(--base-hover-background-color);
+            a {
+                visibility: visible;
+                background-color: var(--base-hover-background-color);
+            }
+        }
+
+        &:active {
+            background-color: var(--base-active-background-color);
+            a {
+                visibility: visible;
+                background-color: var(--base-active-background-color);
+            }
+        }
+
+        a {
+            visibility: hidden;
+            .center();
+            //margin-left: -12px;
+            border-radius: 40px;
+            display: inline-block;
+            width: 16px;
+            padding: 8px 0;
+            color: var(--base-text-color);
+
+            svg {
+                margin-left: -4px;
+            }
+        }
+    }
+
+}
+
