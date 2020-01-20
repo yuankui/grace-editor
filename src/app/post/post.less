@@ -1,89 +1,90 @@
 .no-list-style {
-  list-style: none;
+    list-style: none;
 }
 
 .tree-select {
-  padding-left: 5px;
-  .no-list-style();
-
-  ul {
-    padding-left: 20px;
+    padding-left: 5px;
     .no-list-style();
-  }
+
+    ul {
+        padding-left: 20px;
+        .no-list-style();
+    }
 }
 
 @item-title-border-width: 5px;
 @item-title-height: 30px;
 
 .drag-item-border {
-  height: @item-title-border-width;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  &.dragover-true {
-    background: #4ca8de;
-  }
+    height: @item-title-border-width;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    &.dragover-true {
+        background: #4ca8de;
+    }
 }
+
 // expand
 .title-prefix {
-  float: left;
-  display: inline-flex;
-  outline: none;
-  border: none;
-  background-color: inherit;
-  border-radius: 3px;
-  width: 24px;
-  height: 24px;
-  margin: 3px; //3 + 24 + 3 = 30 = height of title
-  cursor: default;
-  user-select: none;
-  color: var(--base-sider-menu-color);
+    float: left;
+    display: inline-flex;
+    outline: none;
+    border: none;
+    background-color: inherit;
+    border-radius: 3px;
+    width: 24px;
+    height: 24px;
+    margin: 3px; //3 + 24 + 3 = 30 = height of title
+    cursor: default;
+    user-select: none;
+    color: var(--base-sider-menu-color);
 
-  .center();
+    .center();
 
-  svg circle {
-    fill: var(--base-sider-menu-color);
-  }
+    svg circle {
+        fill: var(--base-sider-menu-color);
+    }
 }
 
 .expand-button {
-  display: flex;
-  justify-content: center; // 水平居中
-  align-items: center; // 垂直居中
-  height: 100%;
-  width: 100%;
-  border-radius: 5px;
+    display: flex;
+    justify-content: center; // 水平居中
+    align-items: center; // 垂直居中
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
 
-  &:hover {
-    background-color: var(--base-active-background-color);
-  }
+    &:hover {
+        background-color: var(--base-active-background-color);
+    }
 }
 
 .expanded-true {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 /*expand*/
 
 
-
 //title
 
 .app-post-title {
-  .title-operations {
-    transition: all 0.1s;
-    opacity: 0;
-    float: right;
-    height: @item-title-height;
-    display: flex;
-    .center();
-  }
-
-  &:hover {
     .title-operations {
-      opacity: 1;
+        transition: all 0.1s;
+        opacity: 0;
+        float: right;
+        height: @item-title-height;
+        display: flex;
+        .center();
     }
-  }
+
+    &:hover {
+        .title-operations {
+            opacity: 1;
+        }
+    }
 }
 
 .title-prefix {
