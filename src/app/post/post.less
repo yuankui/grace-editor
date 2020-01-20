@@ -39,8 +39,14 @@
     margin: 3px; //3 + 24 + 3 = 30 = height of title
     cursor: default;
     user-select: none;
-    color: var(--base-sider-menu-color);
+    // 标题前缀
+    svg.post-prefix-point {
+        circle {
+            fill: var(--base-font-color);
+        }
+    }
 
+    color: var(--base-font-color);
     .center();
 
     svg circle {
@@ -71,6 +77,18 @@
 //title
 
 .app-post-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .title {
+        flex-shrink: 1;
+        flex-grow: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
     .title-operations {
         transition: all 0.1s;
         opacity: 0;
@@ -85,15 +103,4 @@
             opacity: 1;
         }
     }
-}
-
-.title-prefix {
-    // 标题前缀
-    svg.post-prefix-point {
-        circle {
-            fill: var(--base-font-color);
-        }
-    }
-
-    color: var(--base-font-color);
 }

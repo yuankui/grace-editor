@@ -64,7 +64,7 @@ export const PostTitle: React.FC<Props> = props => {
                     e.preventDefault();
                     e.stopPropagation();
                 }}>
-            <span className='title-prefix'>
+            <div className='title-prefix'>
                 <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
                           onClick={e => {
@@ -78,10 +78,10 @@ export const PostTitle: React.FC<Props> = props => {
                 <If test={!hasChildren}>
                     <Point/>
                 </If>
-            </span>
-        <span className='title'>
-                {item.title == "" ? "未命名" : item.title}
-            </span>
+            </div>
+        <div className='title'>
+            {item.title == "" ? "未命名" : item.title}
+        </div>
         <div className='title-operations'>
             <Popover content={menu} trigger="click" placement='bottom'>
                 <OperationButton>
