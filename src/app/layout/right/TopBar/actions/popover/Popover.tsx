@@ -4,8 +4,9 @@ import {Popover as Pop} from "antd";
 interface OwnProps {
     placement: TooltipPlacement,
     content: ReactNode,
-    visible: boolean,
-    onVisibleChange(visible: boolean): void,
+    visible?: boolean,
+    title?: ReactNode,
+    onVisibleChange?(visible: boolean): void,
 }
 
 type Props = OwnProps;
@@ -24,12 +25,13 @@ export type TooltipPlacement =
     | 'rightBottom';
 
 const Popover: FunctionComponent<Props> = (props) => {
-
+    const [visible, setVisible] = useState(false);
     return (<Pop placement={props.placement}
                  className='grace-popover'
                  overlayClassName='grace-popover'
                  content={props.content}
-                 visible={props.visible}
+                 visible={props.visible || visible}
+                 title={props.title}
                  getPopupContainer={() => {
                      const el = document.getElementById('app-container');
                      if (el == null) {
@@ -38,7 +40,7 @@ const Popover: FunctionComponent<Props> = (props) => {
                          return el;
                      }
                  }}
-                 onVisibleChange={props.onVisibleChange}
+                 onVisibleChange={props.onVisibleChange || (v => setVisible(v))}
                  trigger="click">
         {props.children}
     </Pop>);

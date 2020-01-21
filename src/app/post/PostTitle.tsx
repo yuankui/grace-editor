@@ -3,7 +3,6 @@ import React, {useContext} from "react";
 import {If, MaterialIcon, useCurrentPostId} from "../../utils";
 import Point from "../../icons";
 import {OperationButton} from "../../common/OperationButton";
-import {Popover} from "antd";
 import {useDispatch, useStore} from "react-redux";
 import {PostSelectCommand} from "../../redux/commands/menu/PostSelectCommand";
 import {CreateNewPostCommand} from "../../redux/commands/CreateNewPostCommand";
@@ -11,6 +10,9 @@ import {createPostId, remove} from "../../redux/utils";
 import {DeletePostRecursiveCommand} from "../../redux/commands/DeletePostRecursiveCommand";
 import {ExpandContext} from "./ExpandContext";
 import _ from 'lodash';
+import Popover from "../layout/right/TopBar/actions/popover/Popover";
+import Actions from "../layout/right/TopBar/actions/popover/Actions";
+import {Action} from "../layout/right/TopBar/actions/popover/Action";
 
 interface Props {
     post: Post,
@@ -25,15 +27,13 @@ export const PostTitle: React.FC<Props> = props => {
     const state: AppStore = useStore<AppStore>().getState();
     const dispatch = useDispatch<any>();
     const menu = (
-        <ul className='actions'>
-            <li>
-                <a onClick={event => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    dispatch(new DeletePostRecursiveCommand(item.id));
-                }}>删除</a>
-            </li>
-        </ul>
+        <Actions width={200}>
+            <Action title='Delete' onClick={event => {
+                event.stopPropagation();
+                event.preventDefault();
+                dispatch(new DeletePostRecursiveCommand(item.id));
+            }}/>
+        </Actions>
     );
 
     const childrenIds = state.posts.childrenMap.get(item.id);
@@ -83,13 +83,13 @@ export const PostTitle: React.FC<Props> = props => {
             {item.title == "" ? "未命名" : item.title}
         </div>
         <div className='title-operations'>
-            <Popover content={menu} trigger="click" placement='bottom'>
+            <Popover content={menu} placement='bottom'>
                 <OperationButton>
                     <MaterialIcon value='more_horiz'/>
                 </OperationButton>
             </Popover>
 
-            <Popover content={<AddActions parent={item.id}/>} title="Title" trigger="click" placement='bottom'>
+            <Popover content={<AddActions parent={item.id}/>} title="Create Document" placement='bottom'>
                 <OperationButton>
                     <MaterialIcon value='add'/>
                 </OperationButton>
@@ -109,8 +109,8 @@ const AddActions: React.FC<{parent: string}> = (props) => {
         dispatch(new CreateNewPostCommand(createPostId(), props.parent, "object"));
     };
 
-    return <ul>
-        <li><a onClick={createJson}>Json</a></li>
-        <li><a>RichText</a></li>
-    </ul>
+    return <Actions width={200}>
+        <Action title='JSON' onClick={createJson}/>
+        <Action title='RichText' onClick={createJson}/>
+    </Actions>
 };

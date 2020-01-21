@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import {mapState, Rotate} from "../../../../../utils";
 import {Icon, Switch} from "antd";
 import {connect} from "react-redux";
@@ -7,31 +7,8 @@ import {Dispatch} from "redux";
 import {SetDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
 import {ToggleSettingCommand} from "../../../../../redux/commands/ToggleSettingCommand";
 import Popover from "./popover/Popover";
-
-interface TitleActionProps {
-    title: string,
-    children?: any,
-    onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
-}
-
-class TitleAction extends Component<TitleActionProps> {
-    private onClick(event: React.MouseEvent<HTMLDivElement>) {
-        if (this.props.onClick) {
-            this.props.onClick(event);
-        }
-    }
-
-    render() {
-        return <div className='menu-container' onClick={e => this.onClick(e)}>
-            <div className='title'>
-                {this.props.title}
-            </div>
-            <div className='content'>
-                {this.props.children}
-            </div>
-        </div>
-    }
-}
+import {Action} from "./popover/Action";
+import Actions from "./popover/Actions";
 
 interface MoreProps {
     state: AppStore,
@@ -59,19 +36,17 @@ class More extends React.Component<MoreProps, MoreState> {
     render() {
         const profile = this.props.state.profile || {};
         const isDarkMode = !!profile.isDarkMode;
-        const actions = <div style={{
-            width: 200,
-        }}>
-            <TitleAction title='黑暗模式' onClick={() => {
+        const actions = <Actions width={200}>
+            <Action title='黑暗模式' onClick={() => {
                 this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
             }}>
                 <Switch checked={isDarkMode}/>
-            </TitleAction>
-            <TitleAction title='设置' onClick={() => {
+            </Action>
+            <Action title='设置' onClick={() => {
                 this.props.dispatch(new ToggleSettingCommand(true));
                 this.toggle(false);
             }}/>
-        </div>;
+        </Actions>;
 
         return <Popover placement="bottomLeft"
                         content={actions}
