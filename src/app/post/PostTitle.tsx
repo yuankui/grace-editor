@@ -19,6 +19,7 @@ interface Props {
     expanded: boolean,
     innerRef?: any,
     className?: string,
+    onExpand(expand: boolean): void,
 }
 
 export const PostTitle: React.FC<Props> = props => {
@@ -40,7 +41,7 @@ export const PostTitle: React.FC<Props> = props => {
     const hasChildren = childrenIds != null && childrenIds.length != 0;
 
     // toggle expand
-    const {value: expandKeys,set: setExpandKeys} = useContext(ExpandContext);
+    const {value: expandKeys, set: setExpandKeys} = useContext(ExpandContext);
     const toggleExpand = () => {
         if (_.includes(expandKeys, postId)) {
             setExpandKeys(remove(expandKeys, postId));
@@ -64,8 +65,8 @@ export const PostTitle: React.FC<Props> = props => {
                     e.preventDefault();
                     e.stopPropagation();
                 }}>
-            <div className='title-prefix'>
-                <If test={hasChildren}>
+        <div className='title-prefix'>
+            <If test={hasChildren}>
                     <span className={'expand-button' + ' expanded-' + expanded}
                           onClick={e => {
                               toggleExpand();
@@ -74,11 +75,11 @@ export const PostTitle: React.FC<Props> = props => {
                           }}>
                         <MaterialIcon value="play_arrow"/>
                     </span>
-                </If>
-                <If test={!hasChildren}>
-                    <Point/>
-                </If>
-            </div>
+            </If>
+            <If test={!hasChildren}>
+                <Point/>
+            </If>
+        </div>
         <div className='title'>
             {item.title == "" ? "未命名" : item.title}
         </div>
@@ -89,7 +90,10 @@ export const PostTitle: React.FC<Props> = props => {
                 </OperationButton>
             </Popover>
 
-            <Popover content={<AddActions parent={item.id}/>} title="Create Document" placement='bottom'>
+            <Popover content={<AddActions parent={item.id} afterAdd={async id => {
+                props.onExpand(true);
+                await dispatch(PostSelectCommand(id));
+            }}/>} title="Create Document" placement='bottom'>
                 <OperationButton>
                     <MaterialIcon value='add'/>
                 </OperationButton>
@@ -98,16 +102,28 @@ export const PostTitle: React.FC<Props> = props => {
     </div>;
 };
 
-const AddActions: React.FC<{parent: string}> = (props) => {
+interface AddProps {
+    parent: string,
+
+    afterAdd(id: string): void,
+}
+
+const AddActions: React.FC<AddProps> = (props) => {
     const dispatch = useDispatch();
-    const createJson = e => {
+    const createJson = async e => {
         e.stopPropagation();
         e.preventDefault();
-        dispatch(new CreateNewPostCommand(createPostId(), props.parent, "object"));
+        const id = createPostId();
+        await dispatch(new CreateNewPostCommand(id, props.parent, "object"));
+        props.afterAdd(id);
     };
 
     return <Actions width={200}>
         <Action title='JSON' onClick={createJson}/>
-        <Action title='RichText' onClick={() => dispatch(new CreateNewPostCommand(createPostId(), props.parent))}/>
+        <Action title='RichText' onClick={async () => {
+            const id = createPostId();
+            await dispatch(new CreateNewPostCommand(id, props.parent));
+            props.afterAdd(id);
+        }}/>
     </Actions>
 };

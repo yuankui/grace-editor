@@ -10,6 +10,7 @@ import {PostHolder} from "./PostHolder";
 import {ExpandContext} from "./ExpandContext";
 import _ from 'lodash';
 import {MovePostCommand} from "../../redux/commands/MovePostCommand";
+import {createPostId, remove} from "../../redux/utils";
 
 interface Props {
     postId: string,
@@ -36,7 +37,7 @@ export const PostTree: React.FC<Props> = props => {
             </li>;
         });
 
-    const {value: expandKeys} = useContext(ExpandContext);
+    const {value: expandKeys, set: setExpandKeys} = useContext(ExpandContext);
     const expanded = expandKeys.some(v => v === props.postId);
 
     // post is draggable
@@ -72,6 +73,13 @@ export const PostTree: React.FC<Props> = props => {
                   title={<PostTitle className={'app-drag-over-' + isOver}
                                     innerRef={drop}
                                     post={post}
+                                    onExpand={expand => {
+                                        if (!expand) {
+                                            setExpandKeys(remove(expandKeys, post.id));
+                                        } else if (!_.includes(expandKeys, post.id)) {
+                                            setExpandKeys([...expandKeys, post.id]);
+                                        }
+                                    }}
                                     expanded={expanded}/>}
                   >
             <If test={children.length != 0 && expanded}>
