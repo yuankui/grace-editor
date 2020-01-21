@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "../index";
-import {AppStore, Theme} from "../../store";
+import {AppStore} from "../../store";
 import {Dispatch} from "redux";
+import {Theme} from "./Theme";
 
 export class LoadThemeCommand extends AppCommand {
     private readonly theme: Theme;

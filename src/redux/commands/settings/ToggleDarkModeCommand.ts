@@ -3,7 +3,8 @@ import {AppStore} from "../../store";
 import {Dispatch} from "redux";
 import {UpdateProfileSettingCommand} from "../profile/UpdateProfileSettingCommand";
 import {LoadThemeCommand} from "../theme/LoadThemeCommand";
-import {DarkTheme, LightTheme} from "../theme/default-themes";
+import {DarkTheme} from "../theme/DarkTheme";
+import {LightTheme} from "../theme/LightTheme";
 
 export class SetDarkModeCommand extends AppCommand {
     private readonly isDarkMode: boolean;
