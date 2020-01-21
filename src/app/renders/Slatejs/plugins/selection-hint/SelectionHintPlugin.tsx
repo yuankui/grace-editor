@@ -46,7 +46,7 @@ export default function createSelectionHintPlugin(getState: GetState, dispatch: 
 
             setTimeout(() => {
                 dispatch(new ToolsHintUpdateCommand({
-                    show: true,
+                    show: !editor.value.selection.isCollapsed,
                     x, y
                 }));
             }, 100)
@@ -68,7 +68,7 @@ export default function createSelectionHintPlugin(getState: GetState, dispatch: 
 
             setTimeout(() => {
                 dispatch(new ToolsHintUpdateCommand({
-                    show: true,
+                    show: !editor.value.selection.isCollapsed,
                     x, y
                 }));
             }, 100)

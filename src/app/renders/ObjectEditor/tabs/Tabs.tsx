@@ -11,6 +11,7 @@ const Tabs: FunctionComponent<Props> = (props) => {
 
     const titles = children.map((c, i) => {
         return <div className={'title active-' + (index == i)}
+                    key={c.key}
                     onClick={() => {
                         setIndex(i);
                     }}
