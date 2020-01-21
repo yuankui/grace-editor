@@ -59,7 +59,7 @@ class App extends React.Component<AppProps> {
         const styles: any = this.props.state.theme;
 
         return (
-            <div className='app-container' style={styles}>
+            <div id='app-container' className='app-container' style={styles}>
                 <FindInPage/>
                 <SearchDialog/>
                 <SettingView/>

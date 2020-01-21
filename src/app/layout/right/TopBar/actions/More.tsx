@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import {mapState, Rotate} from "../../../../../utils";
-import {Icon, message, Popover, Switch} from "antd";
+import {Icon, Switch} from "antd";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {SetDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
 import {ToggleSettingCommand} from "../../../../../redux/commands/ToggleSettingCommand";
+import Popover from "./popover/Popover";
 
 interface TitleActionProps {
     title: string,
@@ -72,11 +73,11 @@ class More extends React.Component<MoreProps, MoreState> {
             }}/>
         </div>;
 
-        return <Popover placement="bottom"
+        return <Popover placement="bottomLeft"
                         content={actions}
                         visible={this.state.showPopup}
                         onVisibleChange={visible => this.toggle(visible)}
-                        trigger="click">
+                        >
             <a>
                 <Rotate deg={90}>
                     <Icon type='more'/>
