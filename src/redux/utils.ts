@@ -5,7 +5,7 @@ import Immutable from "immutable";
 import {createMemoryHistory as createHistory} from "history";
 import {connectRouter} from "connected-react-router";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
-import {LightTheme} from "./commands/theme/default-themes";
+import {LightTheme} from "./commands/theme/LightTheme";
 
 export const history = createHistory({
     keyLength: 20,

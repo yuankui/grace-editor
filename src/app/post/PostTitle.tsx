@@ -94,9 +94,6 @@ export const PostTitle: React.FC<Props> = props => {
                     <MaterialIcon value='add'/>
                 </OperationButton>
             </Popover>
-            <OperationButton onClick={() => dispatch(new CreateNewPostCommand(createPostId(), item.id))}>
-                <MaterialIcon value='add'/>
-            </OperationButton>
         </div>
     </div>;
 };
@@ -111,6 +108,6 @@ const AddActions: React.FC<{parent: string}> = (props) => {
 
     return <Actions width={200}>
         <Action title='JSON' onClick={createJson}/>
-        <Action title='RichText' onClick={createJson}/>
+        <Action title='RichText' onClick={() => dispatch(new CreateNewPostCommand(createPostId(), props.parent))}/>
     </Actions>
 };
