@@ -1,34 +1,20 @@
 import {getEventTransfer, Plugin} from "slate-react";
-import Html, {Rule} from "slate-html-serializer";
-import {ClipboardData, ProcessClipboard} from "./serde";
-
-
-function createRules(plugins: Array<any>): Array<Rule> {
-    return plugins.filter(p => p.rule != null)
-        .map(p => p.rule);
-}
-
-function getPasteProcessors(plugins: Array<any>): Array<ProcessClipboard> {
-    return plugins.filter(p => p.paste != null)
-        .map(p => p.paste);
-}
+import Html from "slate-html-serializer";
+import {from, zip} from "rxjs";
+import {filter, first, map, toArray} from "rxjs/operators";
 
 /**
- * 猴子补丁，如果又 text/html，就去掉 text/plain,否则就会出现重复插入
- * @param data
+ * args: document: Document(slatejs)
  */
-function filter(data: Array<ClipboardData>) {
+export const COMMAND_PASTE = "paste-command";
 
-    const hasHtml = data.some(d => d.type === 'text/html');
-    if (hasHtml) {
-        return data.filter(d => d.type !== 'text/plain');
-    }
-    return data;
-}
+/**
+ * args: files: Array<DataTransferItem>
+ */
+export const COMMAND_PASTE_FILE = "paste-file-command";
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
-    const serializer = new Html({rules: createRules(plugins)});
-    const pasteProcessor = getPasteProcessors(plugins);
+    const serializer = new Html({rules: []});
 
     return {
         onCopy: (event, editor, next) => {
@@ -46,51 +32,34 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
         },
         // paste 只能上全局性的，不能是插件式的
         onPaste: (event, editor, next) => {
-            let data = [] as Array<ClipboardData>;
+            const items = from(event.clipboardData.items);
+            const types = from(event.clipboardData.types);
 
-            const items = event.clipboardData.items;
-            const types = event.clipboardData.types;
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                const type = types[i];
+            const data = zip(items, types).pipe(
+                map(([item, type]) => ({item, type}))
+            );
 
-                item.getAsString(s => {
-                    console.log('item', s);
-                });
-                data.push({
-                    item,
-                    type,
+            // file
+            data.pipe(
+                filter(d => d.type == 'file'),
+                map(d => d.item),
+                toArray(),
+            ).subscribe(files => {
+                editor.command(COMMAND_PASTE_FILE, files);
+            });
+
+            // text
+            data.pipe(
+                filter(d => d.type != 'file'),
+                map(d => d.item),
+                first(),
+            ).subscribe(item => {
+                item.getAsString(str => {
+                    const value = serializer.deserialize(str);
+                    editor.command(COMMAND_PASTE, value);
                 })
-            }
+            });
 
-            data = filter(data);
-
-            // 先进行 html 解析，然后再把剩余的交给下游处理
-            const remain: Array<ClipboardData> = [];
-            for (let one of data) {
-                if (one.type.toLowerCase() === "text/html") {
-                    one.item.getAsString(s => {
-                        const transfer: any = {
-                            html: s,
-                            type: 'html',
-                        };
-                        const {document} = serializer.deserialize(transfer.html);
-                        editor.insertFragment(document);
-                    })
-                } else {
-                    remain.push(one);
-                }
-            }
-
-            data = remain;
-
-            for (let processor of pasteProcessor) {
-                if (data == null || data.length == 0) {
-                    break;
-                }
-
-                data = processor(data, editor);
-            }
             event.preventDefault();
         },
     }

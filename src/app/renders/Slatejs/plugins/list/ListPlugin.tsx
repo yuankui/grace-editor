@@ -3,7 +3,6 @@ import React from "react";
 import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
-import {Serde} from "../../serde";
 
 export const CommandToggleList = 'toggleList';
 export const CommandIndentList = 'indentList';
@@ -16,32 +15,32 @@ export const QueryListType = 'get-list-type';
 /**
  * TODO add list indent & unIndent
  */
-export function createListPlugin(): Plugin & Serde {
+export function createListPlugin(): Plugin {
     return {
-        rule: {
-            deserialize: (el, next) => {
-                const tagName = el.tagName.toLowerCase();
-                if (tagName === 'ul') {
-                    return {
-                        object: 'block',
-                        type: BlockTypeBulletedList,
-                        nodes: next(el.childNodes),
-                    }
-                } else if (tagName === 'ol') {
-                    return {
-                        object: 'block',
-                        type: BlockTypeNumberedList,
-                        nodes: next(el.childNodes),
-                    }
-                } else if (tagName === 'li') {
-                    return {
-                        object: 'block',
-                        type: BlockTypeListItem,
-                        nodes: next(el.childNodes),
-                    }
-                }
-            }
-        },
+        // rule: {
+        //     deserialize: (el, next) => {
+        //         const tagName = el.tagName.toLowerCase();
+        //         if (tagName === 'ul') {
+        //             return {
+        //                 object: 'block',
+        //                 type: BlockTypeBulletedList,
+        //                 nodes: next(el.childNodes),
+        //             }
+        //         } else if (tagName === 'ol') {
+        //             return {
+        //                 object: 'block',
+        //                 type: BlockTypeNumberedList,
+        //                 nodes: next(el.childNodes),
+        //             }
+        //         } else if (tagName === 'li') {
+        //             return {
+        //                 object: 'block',
+        //                 type: BlockTypeListItem,
+        //                 nodes: next(el.childNodes),
+        //             }
+        //         }
+        //     }
+        // },
         onKeyDown: (event, editor, next) => {
             let block = editor.value.focusBlock;
 

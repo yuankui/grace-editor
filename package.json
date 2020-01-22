@@ -97,6 +97,7 @@
     "redux-commands": "^2.0.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
+    "rxjs": "^6.5.4",
     "simple-git": "npm:electron-simple-git@^1.128.3",
     "slate": "^0.47.9",
     "slate-deep-table": "^0.9.7",

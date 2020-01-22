@@ -4,7 +4,7 @@ import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {ImageBlock} from "./ImageBlock";
 import isHotkey from "is-hotkey";
 import {GetState} from "../../SlatejsRender";
-import {ClipboardData, Serde} from "../../serde";
+import {COMMAND_PASTE} from "../../copyPaste";
 
 export const ImageBlockType = 'image-block';
 
@@ -21,7 +21,7 @@ function insertImage(editor, param, target) {
     })
 }
 
-export function createImagePlugin(getState: GetState): Plugin & Serde {
+export function createImagePlugin(getState: GetState): Plugin {
     return {
         schema: {
             blocks: {
@@ -45,22 +45,18 @@ export function createImagePlugin(getState: GetState): Plugin & Serde {
 
             next();
         },
-        paste: (data, editor) => {
+        onCommand: (command, editor, next) => {
+            if (command.type != COMMAND_PASTE) {
+                return next();
+            }
+
             // 如果在code里面，就不处理
             if (editor.value.focusBlock.type == BlockTypeCodeBlock) {
-                return data;
+                return next();
             }
 
-            const files = [] as Array<ClipboardData>;
-            const remain = [] as Array<ClipboardData>;
 
-            for (let item of data) {
-                if (item.type.toLowerCase() === 'files') {
-                    files.push(item);
-                } else {
-                    remain.push(item);
-                }
-            }
+            const files = command.args as Array<ClipboardData>;
 
             async function processFiles(files: Array<ClipboardData>) {
                 for (let f of files) {
@@ -79,8 +75,6 @@ export function createImagePlugin(getState: GetState): Plugin & Serde {
             }
 
             processFiles(files);
-
-            return remain;
         },
 
         renderBlock: (props, editor, next) => {
