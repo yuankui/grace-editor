@@ -4,6 +4,7 @@ import {from} from "rxjs";
 import {filter, reduce, toArray} from "rxjs/operators";
 import {Document} from "slate";
 import {Base64} from 'js-base64';
+import {ListRule} from "./plugins/list/ListRule";
 
 /**
  * args: document: Document(slatejs)
@@ -16,7 +17,7 @@ export const COMMAND_PASTE = "paste-command";
 export const COMMAND_PASTE_FILE = "paste-file-command";
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
-    const serializer = new Html({rules: []});
+    const serializer = new Html({rules: [ListRule]});
 
     return {
         commands: {
