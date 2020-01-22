@@ -73,13 +73,19 @@ export function createCommonPlugin(): Plugin {
             },
         },
         onCommand: (command, editor, next) => {
-            if (command.type === COMMAND_PASTE) {
-                const doc: any = command.args;
-                editor.insertText(doc.text);
+            if (command.type !== COMMAND_PASTE) {
+                next();
                 return;
             }
+            const doc: any = command.args;
 
-            next();
+            const f = editor.value.focusBlock;
+            const parent = editor.value.document.getParent(f.key);
+            if (parent && parent.object == 'document') {
+                editor.insertFragment(doc);
+            } else {
+                editor.insertText(doc.text);
+            }
         }
     }
 }
