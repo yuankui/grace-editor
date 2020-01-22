@@ -43,6 +43,7 @@ class SlatejsRender extends Render<State> {
                        plugins={this.state.plugins}
                        onPaste={this.state.copyPaste.onPaste}
                        onCopy={this.state.copyPaste.onCopy}
+                       commands={this.state.copyPaste.commands}
                        onChange={e => this.onChange(e.value)}/>
     }
 

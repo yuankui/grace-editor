@@ -74,7 +74,7 @@ export function createCommonPlugin(): Plugin {
         },
         onCommand: (command, editor, next) => {
             if (command.type === COMMAND_PASTE) {
-                const doc: Document = command.args[0];
+                const doc: any = command.args;
                 editor.insertText(doc.text);
                 return;
             }

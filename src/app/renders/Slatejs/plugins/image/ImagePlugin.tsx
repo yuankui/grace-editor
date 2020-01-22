@@ -4,7 +4,7 @@ import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {ImageBlock} from "./ImageBlock";
 import isHotkey from "is-hotkey";
 import {GetState} from "../../SlatejsRender";
-import {COMMAND_PASTE} from "../../copyPaste";
+import {COMMAND_PASTE, COMMAND_PASTE_FILE} from "../../copyPaste";
 
 export const ImageBlockType = 'image-block';
 
@@ -46,7 +46,7 @@ export function createImagePlugin(getState: GetState): Plugin {
             next();
         },
         onCommand: (command, editor, next) => {
-            if (command.type != COMMAND_PASTE) {
+            if (command.type != COMMAND_PASTE_FILE) {
                 return next();
             }
 
@@ -56,11 +56,11 @@ export function createImagePlugin(getState: GetState): Plugin {
             }
 
 
-            const files = command.args as Array<ClipboardData>;
+            const files = command.args as Array<DataTransferItem>;
 
-            async function processFiles(files: Array<ClipboardData>) {
+            async function processFiles(files: Array<DataTransferItem>) {
                 for (let f of files) {
-                    const file = f.item.getAsFile();
+                    const file = f.getAsFile();
 
                     if (file == null) continue;
 
