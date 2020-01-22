@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {Block, Editor} from "slate";
+import {Block, Editor, Rules} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
 
@@ -16,7 +16,51 @@ export const QueryListType = 'get-list-type';
  * TODO add list indent & unIndent
  */
 export function createListPlugin(): Plugin {
+    const rule: Rules = {
+        nodes: [
+            {
+                min: 1,
+                match: [
+                    {type: BlockTypeListItem},
+                    {type: BlockTypeBulletedList},
+                    {type: BlockTypeNumberedList},
+                ]
+            }
+        ],
+        normalize: (editor, error) => {
+            if (error.code === "child_type_invalid") {
+                const index = error.index;
+                const node: Block = error.node;
+                const child: Block = error.child;
+
+                // 创建一个新的list-item，将这个block包住
+                const wrapItem = Block.create({
+                    type: BlockTypeListItem,
+                    nodes: [
+                        child
+                    ]
+                });
+
+                const newChildren = node.nodes.set(index, wrapItem);
+                const newNode = node.merge({
+                    nodes: newChildren
+                });
+
+                // editor.setNodeByKey(node.key, newNode as Block);
+
+                // editor.insertBlock(newNode as Block);
+            }
+            console.log(error);
+        }
+    };
+
     return {
+        schema: {
+            blocks: {
+                [BlockTypeBulletedList]: rule,
+                [BlockTypeNumberedList]: rule,
+            }
+        },
         onKeyDown: (event, editor, next) => {
             let block = editor.value.focusBlock;
 
@@ -134,7 +178,7 @@ export function createListPlugin(): Plugin {
             [QueryListType]: (editor, args) => {
                 let block = editor.value.focusBlock;
                 let ancestors = editor.value.document.getAncestors(block.key);
-                if (ancestors==null) {
+                if (ancestors == null) {
                     return null;
                 }
 
@@ -147,7 +191,7 @@ export function createListPlugin(): Plugin {
                         return BlockTypeBulletedList;
                     }
 
-                    if(node.type === BlockTypeNumberedList) {
+                    if (node.type === BlockTypeNumberedList) {
                         return BlockTypeNumberedList;
                     }
                 }
