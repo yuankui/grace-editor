@@ -23,7 +23,12 @@ export class YamlView extends ObjectView<State>{
             options={{
                 mode: 'yaml',
                 theme: 'monokai',
-                lineNumbers: true
+                lineNumbers: true,
+                extraKeys: {
+                    "Tab": function(cm){
+                        cm.replaceSelection("  " , "end");
+                    }
+                },
             }}
             onBlur={() => {
                 this.sync();

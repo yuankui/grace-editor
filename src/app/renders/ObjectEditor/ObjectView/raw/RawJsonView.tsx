@@ -20,7 +20,12 @@ export class RawJsonView extends ObjectView<State> {
             options={{
                 mode: 'python',
                 theme: 'monokai',
-                lineNumbers: true
+                lineNumbers: true,
+                extraKeys: {
+                    "Tab": function(cm){
+                        cm.replaceSelection("  " , "end");
+                    }
+                },
             }}
             onBlur={() => {
                 this.sync();

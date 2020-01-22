@@ -13,8 +13,8 @@ export class JsonView extends ObjectView<State> {
 
     render() {
         const JsonType = TypeFactory(this.props.value);
-        return <div className='json-text'>
+        return <pre className='json-text'>
             <JsonType value={this.props.value} prefix={null} suffix={null} onChange={(v) => this.props.onChange(v)}/>
-        </div>
+        </pre>
     }
 }
