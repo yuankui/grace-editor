@@ -8,7 +8,6 @@ import {COMMAND_PASTE} from "../copyPaste";
 
 export const BlockParagraph = 'paragraph';
 
-
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
                                     editor: CoreEditor,
