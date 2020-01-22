@@ -15,26 +15,6 @@ export const COMMAND_PASTE = "paste-command";
  */
 export const COMMAND_PASTE_FILE = "paste-file-command";
 
-function createCommandChain(command: string, plugins: Array<Plugin>) {
-    return (editor, args) => {
-        for (let plugin of plugins) {
-            if (plugin.onCommand) {
-                let next = false;
-                plugin.onCommand({
-                    type: command,
-                    args: args,
-                }, editor, () => {
-                    next = true;
-                });
-                if (!next) {
-                    break;
-                }
-            }
-        }
-        return editor;
-    };
-}
-
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
     const serializer = new Html({rules: []});
 
@@ -105,4 +85,24 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
             event.preventDefault();
         },
     }
+}
+
+function createCommandChain(command: string, plugins: Array<Plugin>) {
+    return (editor, args) => {
+        for (let plugin of plugins) {
+            if (plugin.onCommand) {
+                let next = false;
+                plugin.onCommand({
+                    type: command,
+                    args: args,
+                }, editor, () => {
+                    next = true;
+                });
+                if (!next) {
+                    break;
+                }
+            }
+        }
+        return editor;
+    };
 }
