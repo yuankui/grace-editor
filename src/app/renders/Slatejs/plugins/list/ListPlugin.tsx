@@ -29,8 +29,6 @@ export function createListPlugin(): Plugin {
         ],
         normalize: (editor, error) => {
             if (error.code === "child_type_invalid") {
-                const index = error.index;
-                const node: Block = error.node;
                 const child: Block = error.child;
 
                 // 创建一个新的list-item，将这个block包住
@@ -38,15 +36,15 @@ export function createListPlugin(): Plugin {
                     type: BlockTypeListItem,
                     nodes: [
                         child
-                    ]
+                    ],
+                    object: "block",
                 });
 
-                const newChildren = node.nodes.set(index, wrapItem);
-                const newNode = node.merge({
-                    nodes: newChildren
-                });
+                const childPath = editor.value.document.assertPath(child.key);
 
-                // editor.setNodeByKey(node.key, newNode as Block);
+                console.log('before', editor.value.toJS());
+                editor.setNodeByPath(childPath, wrapItem);
+                console.log('after', editor.value.setNode(childPath, wrapItem).toJS());
 
                 // editor.insertBlock(newNode as Block);
             }
