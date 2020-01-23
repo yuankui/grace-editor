@@ -52,3 +52,16 @@
         height: 400px;
     }
 }
+
+.json-type-object {
+    .expand-true {
+        visibility: hidden;
+    }
+
+    &:hover > div > .expand-true {
+        visibility: visible;
+    }
+    .expand-false {
+        visibility: visible;
+    }
+}
