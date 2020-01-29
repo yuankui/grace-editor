@@ -3,6 +3,7 @@ import React from "react";
 import {Block, Editor, Rules} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
+import {ListRules} from "./ListRules";
 
 export const CommandToggleList = 'toggleList';
 export const CommandIndentList = 'indentList';
@@ -16,47 +17,11 @@ export const QueryListType = 'get-list-type';
  * TODO add list indent & unIndent
  */
 export function createListPlugin(): Plugin {
-    const rule: Rules = {
-        nodes: [
-            {
-                min: 1,
-                match: [
-                    {type: BlockTypeListItem},
-                    {type: BlockTypeBulletedList},
-                    {type: BlockTypeNumberedList},
-                ]
-            }
-        ],
-        normalize: (editor, error) => {
-            if (error.code === "child_type_invalid") {
-                const child: Block = error.child;
-
-                // 创建一个新的list-item，将这个block包住
-                const wrapItem = Block.create({
-                    type: BlockTypeListItem,
-                    nodes: [
-                        child
-                    ],
-                    object: "block",
-                });
-
-                const childPath = editor.value.document.assertPath(child.key);
-
-                console.log('before', editor.value.toJS());
-                editor.setNodeByPath(childPath, wrapItem);
-                console.log('after', editor.value.setNode(childPath, wrapItem).toJS());
-
-                // editor.insertBlock(newNode as Block);
-            }
-            console.log(error);
-        }
-    };
-
     return {
         schema: {
             blocks: {
-                [BlockTypeBulletedList]: rule,
-                [BlockTypeNumberedList]: rule,
+                [BlockTypeBulletedList]: ListRules,
+                [BlockTypeNumberedList]: ListRules,
             }
         },
         onKeyDown: (event, editor, next) => {
