@@ -47,7 +47,9 @@ export default class JsonTypeObject extends JsonType<State> {
             <div>
                 {prefix}
                 {"{ "}
-                <a className={'expand-' + this.state.visible} onClick={() => {
+                <a className={'expand-' + this.state.visible} onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
                     this.setState({
                         visible: !this.state.visible,
                     })
