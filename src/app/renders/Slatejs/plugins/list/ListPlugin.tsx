@@ -24,8 +24,9 @@ const rules = {
         }
     ],
     normalize: (editor: Editor, error) => {
+
         if (error.code === "child_type_invalid") {
-            editor.wrapBlock(BlockTypeListItem);
+            editor.setBlocks(BlockTypeListItem);
         }
         console.log(error);
     }
