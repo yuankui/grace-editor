@@ -5,6 +5,7 @@ import {filter, reduce, toArray} from "rxjs/operators";
 import {Document} from "slate";
 import {Base64} from 'js-base64';
 import {ListRule} from "./plugins/list/ListRule";
+import {LinkRule} from "./plugins/link/LinkRule";
 
 /**
  * args: document: Document(slatejs)
@@ -17,7 +18,12 @@ export const COMMAND_PASTE = "paste-command";
 export const COMMAND_PASTE_FILE = "paste-file-command";
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
-    const serializer = new Html({rules: [ListRule]});
+    const serializer = new Html({
+        rules: [
+            ListRule,
+            LinkRule
+        ]
+    });
 
     return {
         commands: {
@@ -75,7 +81,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         const json = decodeURIComponent(urlCode);
                         const obj = JSON.parse(json);
                         const document = Document.fromJSON(obj);
-                        editor.command(COMMAND_PASTE, document);
+                        editor.insertFragment(document);
                     } else {
                         const value = serializer.deserialize(str);
                         editor.command(COMMAND_PASTE, value.document);
