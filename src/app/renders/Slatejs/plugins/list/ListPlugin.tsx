@@ -1,9 +1,8 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {Block, Editor, Rules} from "slate";
+import {Block, Editor} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
-import {ListRules} from "./ListRules";
 
 export const CommandToggleList = 'toggleList';
 export const CommandIndentList = 'indentList';
@@ -13,6 +12,24 @@ export const BlockTypeNumberedList = 'numbered-list';
 export const BlockTypeListItem = 'list-item';
 export const QueryListType = 'get-list-type';
 
+const rules = {
+    nodes: [
+        {
+            min: 1,
+            match: [
+                {type: BlockTypeListItem},
+                {type: BlockTypeBulletedList},
+                {type: BlockTypeNumberedList},
+            ]
+        }
+    ],
+    normalize: (editor: Editor, error) => {
+        if (error.code === "child_type_invalid") {
+            editor.wrapBlock(BlockTypeListItem);
+        }
+        console.log(error);
+    }
+};
 /**
  * TODO add list indent & unIndent
  */
@@ -20,8 +37,8 @@ export function createListPlugin(): Plugin {
     return {
         schema: {
             blocks: {
-                [BlockTypeBulletedList]: ListRules,
-                [BlockTypeNumberedList]: ListRules,
+                [BlockTypeBulletedList]: rules,
+                [BlockTypeNumberedList]: rules,
             }
         },
         onKeyDown: (event, editor, next) => {
