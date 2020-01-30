@@ -73,9 +73,10 @@ export function createListPlugin(): Plugin {
             if (isHotkey('enter', event.nativeEvent)) {
                 if (block.type == BlockTypeListItem) {
                     if (block.text == '') {
-                        editor.setBlocks('paragraph')
+                        editor
                             .unwrapBlock(BlockTypeBulletedList)
-                            .unwrapBlock(BlockTypeNumberedList);
+                            .unwrapBlock(BlockTypeNumberedList)
+                            .setBlocks('paragraph');
 
                         event.preventDefault();
                         return;
