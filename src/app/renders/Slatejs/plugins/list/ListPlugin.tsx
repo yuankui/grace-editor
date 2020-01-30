@@ -1,6 +1,6 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {Block, Editor} from "slate";
+import {Block, Editor, Rules} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
 
@@ -12,7 +12,7 @@ export const BlockTypeNumberedList = 'numbered-list';
 export const BlockTypeListItem = 'list-item';
 export const QueryListType = 'get-list-type';
 
-const rules = {
+const rules: Rules = {
     nodes: [
         {
             min: 1,

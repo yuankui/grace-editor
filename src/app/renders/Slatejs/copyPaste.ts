@@ -78,7 +78,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         editor.command(COMMAND_PASTE, document);
                     } else {
                         const value = serializer.deserialize(str);
-                        editor.command(COMMAND_PASTE, value);
+                        editor.command(COMMAND_PASTE, value.document);
                     }
                 })
             });

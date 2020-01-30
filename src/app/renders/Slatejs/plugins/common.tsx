@@ -1,4 +1,4 @@
-import {Block,Document, Editor as CoreEditor} from "slate";
+import {Block, Document, Editor as CoreEditor, Value} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
