@@ -11280,10 +11280,10 @@ slate-react-placeholder@^0.2.9:
   resolved "https://registry.yarnpkg.com/slate-react-placeholder/-/slate-react-placeholder-0.2.9.tgz#30f450a05d4871c7d1a27668ebe7907861e7ca74"
   integrity sha512-YSJ9Gb4tGpbzPje3eNKtu26hWM8ApxTk9RzjK+6zfD5V/RMTkuWONk24y6c9lZk0OAYNZNUmrnb/QZfU3j9nag==
 
-slate-react@^0.22.10:
-  version "0.22.10"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.22.10.tgz#01296dadb707869ace6cb21d336c90bedfb567bf"
-  integrity sha512-B2Ms1u/REbdd8yKkOItKgrw/tX8klgz5l5x6PP86+oh/yqmB6EHe0QyrYlQ9fc3WBlJUVTOL+nyAP1KmlKj2/w==
+"slate-react@npm:yuankui-slate-react@^0.22.10-1":
+  version "0.22.10-1"
+  resolved "https://registry.yarnpkg.com/yuankui-slate-react/-/yuankui-slate-react-0.22.10-1.tgz#754b1c99287148baf3ed7acc7b92275fb1090e02"
+  integrity sha512-D2wWz0GXwyzsbaZICPu8T5XCBBa9Hyr1bwPuVJ/HWtaaO6JcGne4H3atMYwnSIRf5h8JHz7nbNwgDscDB14EUA==
   dependencies:
     debug "^3.1.0"
     get-window "^1.1.1"
