@@ -1,1 +1,1 @@
-export type PostFormat = "richText" | "slatejs" | "object";
+export type PostFormat = "richText" | "slatejs" | "object" | "diff";

@@ -118,8 +118,19 @@ const AddActions: React.FC<AddProps> = (props) => {
         props.afterAdd(id);
     };
 
+    const createDiff = async e => {
+        e.stopPropagation();
+        e.preventDefault();
+        const id = createPostId();
+        await dispatch(new CreateNewPostCommand(id, props.parent, "diff"));
+        props.afterAdd(id);
+    };
+
+
+
     return <Actions width={200}>
         <Action title='JSON' onClick={createJson}/>
+        <Action title='Diff' onClick={createDiff}/>
         <Action title='RichText' onClick={async () => {
             const id = createPostId();
             await dispatch(new CreateNewPostCommand(id, props.parent));

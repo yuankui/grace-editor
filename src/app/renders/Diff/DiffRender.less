@@ -1,0 +1,36 @@
+.diff-render {
+    flex: 0px;
+    overflow-y: auto;
+    display: flex;
+
+    flex-direction: row;
+    align-content: stretch;
+
+    .code-font();
+
+    .code-editor {
+        margin: 5px;
+        padding: 10px 10px 10px 30px;
+        flex: 1;
+        background-color: var(--base-hover-background-color);
+        overflow-y: scroll;
+
+        .code-line {
+
+            .line-number {
+                width: 0;
+                height: 0;
+                position: relative;
+                left: -30px;
+
+                .number {
+                    width: 30px;
+                    text-align: right;
+                    overflow: visible;
+                    text-overflow: initial;
+                }
+            }
+        }
+    }
+
+}
