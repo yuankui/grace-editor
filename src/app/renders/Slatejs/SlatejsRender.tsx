@@ -8,6 +8,7 @@ import {mapState} from "../../../utils";
 import {AppStore} from "../../../redux/store";
 import {debug} from "../../../utils/debug";
 import {createCopyPaste} from "./copyPaste";
+import {BlockParagraph} from "./plugins/common";
 
 
 interface State {
@@ -41,6 +42,14 @@ class SlatejsRender extends Render<State> {
                        className='slate-editor'
                        placeholder="Start from here..."
                        plugins={this.state.plugins}
+                       renderBlock={(props, editor, next) => {
+                           if (props.node.type === BlockParagraph) {
+                               return <div className={BlockParagraph} {...props.attributes}>
+                                   {props.children}
+                               </div>
+                           }
+                           return next();
+                       }}
                        onPaste={this.state.copyPaste.onPaste}
                        onCopy={this.state.copyPaste.onCopy}
                        commands={this.state.copyPaste.commands}
