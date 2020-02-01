@@ -1,3 +1,9 @@
+@import 'plugins/HighlightPlugin.less';
+
+@line-number-width: 40px;
+@container-padding: @line-number-width + 10px;
+@line-number-offset: -@line-number-width - 10px;
+
 .diff-render {
     flex: 0px;
     overflow-y: auto;
@@ -10,7 +16,7 @@
 
     .code-editor {
         margin: 5px;
-        padding: 10px 10px 10px 30px;
+        padding: 10px 10px 10px @container-padding;
         flex: 1;
         background-color: var(--base-hover-background-color);
         overflow-y: scroll;
@@ -21,10 +27,10 @@
                 width: 0;
                 height: 0;
                 position: relative;
-                left: -30px;
+                left: @line-number-offset;
 
                 .number {
-                    width: 30px;
+                    width: @line-number-width;
                     text-align: right;
                     overflow: visible;
                     text-overflow: initial;

@@ -18,13 +18,13 @@ export function createLinePlugin(): Plugin {
                 ]
             }
         },
-        // shouldNodeComponentUpdate: (previousProps, props, editor, next) => {
-        //     const node = props['node'] as Node;
-        //     if (node.object == "block" && node.type == BlockCodeLine) {
-        //         return true;
-        //     }
-        //     return next();
-        // },
+        shouldNodeComponentUpdate: (previousProps, props, editor, next) => {
+            const node = props['node'] as Node;
+            if (node.object == "block" && node.type == BlockCodeLine) {
+                return true;
+            }
+            return next();
+        },
         renderBlock: (props, editor, next) => {
             if (props.node.type !== BlockCodeLine) {
                 return next();
@@ -39,7 +39,6 @@ export function createLinePlugin(): Plugin {
                 </div>
                 {props.children}
             </div>
-
-        }
+        },
     }
 }
