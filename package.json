@@ -48,6 +48,7 @@
   "dependencies": {
     "@types/codemirror": "^0.0.80",
     "@types/color": "^3.0.0",
+    "@types/diff": "^4.0.2",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/is-hotkey": "^0.1.1",
     "@types/jest": "^24.0.15",
@@ -74,6 +75,7 @@
     "codemirror": "^5.49.2",
     "color": "^3.1.2",
     "connected-react-router": "^6.5.2",
+    "diff": "^4.0.2",
     "electron-devtools-installer": "^2.2.4",
     "immutable": "^3.8.2",
     "is-hotkey": "^0.1.6",
