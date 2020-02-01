@@ -3,6 +3,7 @@ import {Editor} from "slate-react";
 import {Value} from "slate";
 import {createHighlightPlugin} from "./plugins/HighlightPlugin";
 import {createLinePlugin} from "./plugins/LinePlugin";
+import {createCommonPlugin} from "./plugins/CommonPlugin";
 
 interface OwnProps {
     value: Value,
@@ -16,6 +17,7 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
         return [
             createHighlightPlugin(),
             createLinePlugin(),
+            createCommonPlugin(),
         ]
     }, []);
 
