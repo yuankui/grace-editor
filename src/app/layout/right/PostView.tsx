@@ -28,6 +28,7 @@ export const PostView: React.FC = () => {
 
     return <EditorContent onChange={onChange}
                           key={postId ? postId : ""}
+                          fullWidth={state.profile.content && state.profile.content.fullWidth}
                           post={post}
     />
 };

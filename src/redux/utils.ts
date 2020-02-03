@@ -49,6 +49,9 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 posts: [],
             },
             isDarkMode: false,
+            content: {
+                fullWidth: false,
+            }
         },
         theme: LightTheme,
         status: {

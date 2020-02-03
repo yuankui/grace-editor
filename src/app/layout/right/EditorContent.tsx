@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
-import {Backend} from "../../../backend";
 import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
 import isHotkey from "is-hotkey";
 import {Editor} from "slate";
 
 export interface Props {
+    fullWidth: boolean,
     post: Post | null,
     onChange: (v: Post) => void,
 }
@@ -32,8 +32,13 @@ export default class EditorContent extends React.Component<Props, any> {
         const post: Post = this.props.post;
 
         let Editor = getRender(post);
+
+        const flex = this.props.fullWidth ? 1 : 0;
+
         return <div className='app-right-content'>
-            <div className='post-editor'>
+            <div className='post-editor' style={{
+                flexGrow: flex,
+            }}>
                 <div className='title'>
                     <input placeholder={"Untitled"}
                            onKeyDown={e => {

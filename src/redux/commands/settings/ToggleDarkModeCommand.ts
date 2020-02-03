@@ -6,7 +6,7 @@ import {LoadThemeCommand} from "../theme/LoadThemeCommand";
 import {DarkTheme} from "../theme/DarkTheme";
 import {LightTheme} from "../theme/LightTheme";
 
-export class SetDarkModeCommand extends AppCommand {
+export class ToggleDarkModeCommand extends AppCommand {
     private readonly isDarkMode: boolean;
 
     constructor(isDarkMode: boolean) {

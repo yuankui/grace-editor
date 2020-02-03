@@ -4,8 +4,7 @@ import {Dispatch} from "redux";
 import path from 'path';
 import FileSystem from "../../../backend/electron/FileSystem";
 import {UpdateStateCommand} from "../UpdateStateCommand";
-import {LoadThemeCommand} from "../theme/LoadThemeCommand";
-import {SetDarkModeCommand} from "../settings/ToggleDarkModeCommand";
+import {ToggleDarkModeCommand} from "../settings/ToggleDarkModeCommand";
 
 const settingFile = 'profile.json';
 const fs = new FileSystem();
@@ -27,7 +26,7 @@ export class LoadProfileSettingCommand extends AppCommand {
                 profile: profile,
             }));
 
-            await dispatch(new SetDarkModeCommand(profile.isDarkMode));
+            await dispatch(new ToggleDarkModeCommand(profile.isDarkMode));
         } catch (e) {
             console.log(e);
         }

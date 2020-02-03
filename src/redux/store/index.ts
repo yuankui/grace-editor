@@ -19,6 +19,7 @@ export interface Settings {
 export interface UserProfile {
     favor: Favor,
     isDarkMode: boolean,
+    content: ContentConfig,
 }
 
 export interface Post {
@@ -76,6 +77,9 @@ export interface AppStatus {
     canGitPush: boolean,
 }
 
+export interface ContentConfig {
+    fullWidth: boolean,
+}
 
 export interface AppStore {
     showSetting: boolean,

@@ -10,6 +10,7 @@ export type CommandType = "TestCommand"
 
     | "Setting/Update"
     | "Setting/SetDarkMode"
+    | "Setting/ToggleFullWidth"
     | "Setting/ToggleShow"
 
     | "KittyCommand"

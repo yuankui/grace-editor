@@ -4,11 +4,12 @@ import {Icon, Switch} from "antd";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {SetDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
+import {ToggleDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
 import {ToggleSettingCommand} from "../../../../../redux/commands/ToggleSettingCommand";
 import Popover from "./popover/Popover";
 import {Action} from "./popover/Action";
 import Actions from "./popover/Actions";
+import {ToggleFullWidthCommand} from "../../../../../redux/commands/settings/ToggleFullWidthCommand";
 
 interface MoreProps {
     state: AppStore,
@@ -36,13 +37,20 @@ class More extends React.Component<MoreProps, MoreState> {
     render() {
         const profile = this.props.state.profile || {};
         const isDarkMode = !!profile.isDarkMode;
+        const fullWidth = profile.content && !!profile.content.fullWidth;
+
         const actions = <Actions width={200}>
-            <Action title='黑暗模式' onClick={() => {
-                this.props.dispatch(new SetDarkModeCommand(!isDarkMode));
+            <Action title='Dark Mode' onClick={() => {
+                this.props.dispatch(new ToggleDarkModeCommand(!isDarkMode));
             }}>
                 <Switch checked={isDarkMode}/>
             </Action>
-            <Action title='设置' onClick={() => {
+            <Action title='Full Width' onClick={() => {
+                this.props.dispatch(new ToggleFullWidthCommand(!fullWidth));
+            }}>
+                <Switch checked={fullWidth}/>
+            </Action>
+            <Action title='Setting' onClick={() => {
                 this.props.dispatch(new ToggleSettingCommand(true));
                 this.toggle(false);
             }}/>
