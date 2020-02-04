@@ -12,7 +12,7 @@ interface State {
     value2: Value,
 }
 
-const emptyValue = Value.fromJSON(
+const emptyValue = () => (
     {
         document: {
             nodes: [
@@ -35,9 +35,11 @@ export default class DiffRender extends Render<State> {
     private timer: any = null;
     constructor(props: RenderProps, context: any) {
         super(props, context);
+        const value1 = props.value.value1 || emptyValue();
+        const value2 = props.value.value2 || emptyValue();
         this.state = {
-            value1: emptyValue,
-            value2: emptyValue,
+            value1: Value.fromJSON(value1),
+            value2: Value.fromJSON(value2),
         }
     }
 
@@ -111,6 +113,11 @@ export default class DiffRender extends Render<State> {
         this.setState({
             value1,
             value2,
+        });
+
+        this.props.onChange({
+            value1: value1.toJS(),
+            value2: value2.toJS(),
         })
     }
 
