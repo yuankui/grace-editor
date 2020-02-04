@@ -121,7 +121,7 @@ export default class DiffRender extends Render<State> {
                     }
                 })
             }
-        })
+        });
 
         return res;
     }
