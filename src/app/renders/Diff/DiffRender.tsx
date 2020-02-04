@@ -32,7 +32,7 @@ const emptyValue = Value.fromJSON(
 );
 
 export default class DiffRender extends Render<State> {
-
+    private timer: any = null;
     constructor(props: RenderProps, context: any) {
         super(props, context);
         this.state = {
@@ -51,6 +51,18 @@ export default class DiffRender extends Render<State> {
     }
 
     change(value1: Value, value2: Value) {
+        this.setState({
+            value1,
+            value2,
+        });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.updateDiff(), 200);
+    }
+
+    updateDiff() {
+        let value1 = this.state.value1;
+        let value2 = this.state.value2;
+
         const text1 = this.toText(value1);
         const text2 = this.toText(value2);
 
