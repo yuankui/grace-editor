@@ -3,9 +3,7 @@ import React from "react";
 import {Value} from "slate";
 import CodeEditor from "./CodeEditor";
 import {BlockCodeLine} from "./plugins/LinePlugin";
-import {diffLines} from "diff";
-import {Diff} from "./plugins";
-import {List} from "immutable";
+import {findSame} from "./text-diff";
 
 interface State {
     value1: Value,
@@ -33,6 +31,7 @@ const emptyValue = () => (
 
 export default class DiffRender extends Render<State> {
     private timer: any = null;
+
     constructor(props: RenderProps, context: any) {
         super(props, context);
         const value1 = props.value.value1 || emptyValue();
@@ -68,44 +67,10 @@ export default class DiffRender extends Render<State> {
         const text1 = this.toText(value1);
         const text2 = this.toText(value2);
 
-        const changes = diffLines(text1, text2);
-        const change1: Array<Diff> = changes.filter(c => c.added !== true)
-            .flatMap(c => {
-                if (c.removed) {
-                    return c.value
-                        .split('\n')
-                        .filter(l => l != '')
-                        .map(() => true);
-                } else {
-                    return c.value
-                        .split('\n')
-                        .filter(l => l != '')
-                        .map(() => false);
-                }
-            })
-            .reduce((a, b, index) => {
-                if (b) return [...a, {line: index}];
-                return a;
-            }, [] as Array<Diff>);
+        const changes = findSame(text1.split('\n'), text2.split('\n'));
 
-        const change2: Array<Diff> = changes.filter(c => c.removed !== true)
-            .flatMap(c => {
-                if (c.added) {
-                    return c.value
-                        .split('\n')
-                        .filter(l => l != '')
-                        .map(() => true);
-                } else {
-                    return c.value
-                        .split('\n')
-                        .filter(l => l != '')
-                        .map(() => false);
-                }
-            })
-            .reduce((a, b, index) => {
-                if (b) return [...a, {line: index}];
-                return a;
-            }, [] as Array<Diff>);
+        const change1 = new Set(changes.map(([a,]) => a));
+        const change2 = new Set(changes.map(([, b]) => b));
 
         value1 = this.setLine(value1, change1);
         value2 = this.setLine(value2, change2);
@@ -121,13 +86,12 @@ export default class DiffRender extends Render<State> {
         })
     }
 
-    setLine(value: Value, change: Array<Diff>): Value {
-        const changeSet = List(change).map(c=>c?.line)
-            .toSet();
+    setLine(value: Value, sameSet: Set<number>): Value {
         let res = value;
         value.document.nodes.forEach((node, index) => {
-            const path = [index as number];
-            if (changeSet.has(index)) {
+            if (index == undefined) return;
+            const path = [index];
+            if (!sameSet.has(index)) {
                 res = res.setNode(path, {
                     data: {
                         diff: true,
@@ -144,6 +108,7 @@ export default class DiffRender extends Render<State> {
 
         return res;
     }
+
     toText(value: Value): string {
         return value.document.nodes
             .map(n => n?.text)
