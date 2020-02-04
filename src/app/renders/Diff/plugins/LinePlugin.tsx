@@ -33,12 +33,15 @@ export function createLinePlugin(): Plugin {
             const path = editor.value.document.assertPath(props.node.key);
             const index = path.last();
 
-            return <div className='code-line' {...props.attributes}>
+            const diffLine = !!props.node.data.get("diff");
+            return <div className={
+                'code-line ' + 'diff-' + diffLine
+            } {...props.attributes}>
                 <div className='line-number' contentEditable={false}>
                     <div className='number'>{index}</div>
                 </div>
                 {props.children}
-            </div>
+            </div>;
         },
     }
 }

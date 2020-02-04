@@ -1,18 +1,16 @@
 const Diff = require('diff');
 
-const a = `hello kitty
-this is yuankui,
-how are your sister
+const a = `hello
 hello
-`;
+kitty
+kitty2`;
 
-const b = `hello kitty
-this is wangfang
-show are you
-ww
-hello`;
+const b = `hello
+hello
+kitty1
+kitty3`;
 
-const changes = Diff.diffWordsWithSpace(a, b);
+const changes = Diff.diffLines(a, b);
 
 console.log(changes);
 

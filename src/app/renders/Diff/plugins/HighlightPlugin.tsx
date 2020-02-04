@@ -27,7 +27,6 @@ export function createHighlightPlugin(): Plugin {
                 .map(t => t as Prism.Token)
                 .map(t => [t.type, t.content]);
 
-            console.log(tokens);
             for (const token of tokens) {
                 startEntry = endEntry;
                 startOffset = endOffset;

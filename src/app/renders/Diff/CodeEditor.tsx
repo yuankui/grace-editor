@@ -4,13 +4,12 @@ import {Value} from "slate";
 import {createHighlightPlugin} from "./plugins/HighlightPlugin";
 import {createLinePlugin} from "./plugins/LinePlugin";
 import {createCommonPlugin} from "./plugins/CommonPlugin";
+import {createDiffPlugin} from "./plugins/DiffPlugin";
 
-interface OwnProps {
+interface Props {
     value: Value,
     onChange: (v: Value) => void,
 }
-
-type Props = OwnProps;
 
 const CodeEditor: FunctionComponent<Props> = (props) => {
     const plugins = useMemo(() => {
@@ -18,6 +17,7 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
             createHighlightPlugin(),
             createLinePlugin(),
             createCommonPlugin(),
+            createDiffPlugin()
         ]
     }, []);
 
