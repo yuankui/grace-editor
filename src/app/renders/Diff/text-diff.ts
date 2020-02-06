@@ -46,3 +46,22 @@ export function findSame<T>(list1: Array<T>, list2: Array<T>): Array<[number, nu
 
     return f[list1.length - 1][list2.length - 1];
 }
+
+export interface Change<T> {
+    type: "same" | "add" | "remove",
+    left?: number,
+    right?: number,
+    value: T,
+}
+
+export function findDiff<T>(a: Array<T>, b: Array<T>): Array<Change<T>> {
+    const same = findSame(a, b);
+    let [lastLeft, lastRight] = same[0];
+
+    for (let [leftIndex, rightIndex] of same) {
+        const accLeft = leftIndex - lastLeft;
+        const accRight = rightIndex - lastRight;
+
+    }
+    return [];
+}
