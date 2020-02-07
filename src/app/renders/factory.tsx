@@ -5,6 +5,7 @@ import {RenderProps} from "./renders";
 import {PostFormat} from "../../PostFormat";
 import ObjectRender from "./ObjectEditor/ObjectRender";
 import DiffRender from "./Diff/DiffRender";
+import {JobRender} from "./RealtimeJob/JobRender";
 
 type RenderMap = {
     [key in PostFormat]: any;
@@ -15,9 +16,8 @@ export function getRender(post: Post) : ComponentType<Partial<RenderProps>> {
         richText: SlatejsRender,
         object: ObjectRender,
         diff: DiffRender,
+        jobConfig: JobRender,
     };
-
-    const a = SlatejsRender;
 
     if (renders[post.format]) {
         return renders[post.format];
