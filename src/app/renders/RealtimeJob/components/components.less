@@ -1,13 +1,22 @@
 .form-item {
-    display: flex;
-    flex-direction: row;
-
-    .label {
-
+    background-color: var(--base-background-color);
+    padding: 10px;
+    .form-label {
+        font-size: 0.7rem;
+        font-weight: bold;
     }
 
-    .content {
-        flex: 1;
+    .form-content {
+        box-sizing: border-box;
+        //border: 1px solid #1A76D2;
+        border-radius: 5px;
+        padding-top: 8px;
+        display: flex;
+        flex-direction: column;
+
+        &:focus {
+            border-width: 3px;
+        }
     }
 }
 

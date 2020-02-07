@@ -6,8 +6,8 @@ interface Props {
 
 const FormItem: FunctionComponent<Props> = (props) => {
   return <div className='form-item'>
-      <div className='label'>{props.label}</div>
-      <div className='content'>{props.children}</div>
+      <div className='form-label'>{props.label}</div>
+      <div className='form-content'>{props.children}</div>
   </div>;
 };
 

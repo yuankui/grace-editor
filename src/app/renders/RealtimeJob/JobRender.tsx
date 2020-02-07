@@ -1,7 +1,8 @@
 import {RenderProps} from "../renders";
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import SourceConfigList from "./config/SourceConfigList";
 import {JobConfig} from "./Models";
+import {changeValue} from "./utils";
 
 export const JobRender: FC<RenderProps> = (props) => {
     const config: JobConfig = {
@@ -103,7 +104,11 @@ export const JobRender: FC<RenderProps> = (props) => {
         ]
     };
 
+    const [value, onChange] = useState(config);
+
+    const change =changeValue(value, onChange);
+
     return <div style={{overflow: 'auto'}}>
-        <SourceConfigList value={config.sources}/>
+        <SourceConfigList value={value.sources} onChange={change('sources')}/>
     </div>
 };

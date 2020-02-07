@@ -2,17 +2,17 @@ import React, {ReactNode} from 'react';
 
 interface Props<T> {
     value: Array<T>
-    renderItem: (item: T) => ReactNode,
-    renderKey: (item: T) => string,
+    renderItem: (item: T, index: number) => ReactNode,
+    renderKey: (item: T, index: number) => string,
     footer?: ReactNode,
 }
 
 function List<T>(props: Props<T>) {
     const items = props.value
-        .map(item => {
-            const key = props.renderKey(item);
+        .map((item, index) => {
+            const key = props.renderKey(item, index);
             return <div className='item' key={key}>
-                {props.renderItem(item)}
+                {props.renderItem(item, index)}
             </div>
         });
 
