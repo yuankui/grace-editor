@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, ReactNode} from 'react';
 import {Source} from "../Models";
 import {Input, InputNumber, Select} from "antd";
 import FormItem from "../components/FormItem";
@@ -10,6 +10,7 @@ import {changeValue} from "../utils";
 interface Props {
     value: Source,
     onChange: (v: Source)=> void,
+    deleteButton : ReactNode,
 }
 
 const SourceConfig: FunctionComponent<Props> = (props) => {
@@ -23,7 +24,9 @@ const SourceConfig: FunctionComponent<Props> = (props) => {
         name
     } = props.value;
     return <>
-        <Collapse title={`${sourceId} -> ${name} -> ${type}`}>
+        <Collapse title={`${sourceId} -> ${name} -> ${type}`}
+                  actions={props.deleteButton}
+        >
             <FormItem label={'sourceId'}>
                 <InputNumber value={sourceId} onChange={onChange('sourceId')}/>
             </FormItem>

@@ -10,7 +10,7 @@ import Input from "../../Input";
 const KafkaSource: FunctionComponent<Value<Source>> = (props) => {
     const change = changeValue(props.value, props.onChange);
 
-    const {format, name, namespace, uid} = props.value;
+    const {format, name, namespace, uid} = props.value || {};
     return <Collapse title={"KafkaSource"} visible={true}>
         <FormItem label={'uid'}>
             <Input value={uid} onChange={change('uid')}/>

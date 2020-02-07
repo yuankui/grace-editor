@@ -1,10 +1,12 @@
 import React, {CSSProperties, FunctionComponent, ReactNode, useState} from 'react';
 import {Icon} from "antd";
+import {If} from "../../../../utils";
 
 interface Props {
     title: ReactNode,
     visible?: boolean,
     visibleChange?: (visible: boolean) => void,
+    actions?: ReactNode,
 }
 
 const Collapse: FunctionComponent<Props> = (props) => {
@@ -22,7 +24,7 @@ const Collapse: FunctionComponent<Props> = (props) => {
     };
 
     return <div className='grace-collapse'>
-        <a className='header' onClick={() => {
+        <div className='header' onClick={() => {
             setVisible(!visible);
             if (props.visibleChange) {
                 props.visibleChange(!props.visible);
@@ -31,9 +33,13 @@ const Collapse: FunctionComponent<Props> = (props) => {
             <span className='icon'>
                 <Icon type="right-circle" style={rotateStyle}/>
             </span>
-            {props.title}
-        </a>
-        <div className='content' style={style}>
+            <span className='title-content'>{props.title}</span>
+            <If test={props.actions!=null}>
+                <span>{props.actions}</span>
+            </If>
+
+        </div>
+        <div className='collapse-content' style={style}>
             {props.children}
         </div>
     </div>;
