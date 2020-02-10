@@ -5,6 +5,8 @@ import {Label} from "../Models";
 import {changeValue} from "../utils";
 import Collapse from "../components/Collapse";
 import FormItem from "../components/FormItem";
+import {Controlled as CodeMirror} from "react-codemirror2";
+import JsonValue from "../components/JsonValue";
 
 interface Props extends Value<Label>{
     deleteButton: ReactNode,
@@ -60,6 +62,23 @@ function LabelConfig(props: Props) {
                         </Select.Option>
                     })}
                 </Select>
+            </FormItem>
+
+            <FormItem label={'Extractor'}>
+                <CodeMirror
+                    value={extractor}
+                    options={{
+                        mode: 'javascript',
+                        theme: 'monokai',
+                        lineNumbers: true
+                    }}
+                    onBeforeChange={(editor, data, value) => {
+                        onChange('extractor')(value);
+                    }}/>
+            </FormItem>
+
+            <FormItem label={'Collector'}>
+                <JsonValue value={collector} onChange={onChange('collector')}/>
             </FormItem>
         </Collapse>
     </>

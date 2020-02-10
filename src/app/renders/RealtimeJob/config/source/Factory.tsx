@@ -11,5 +11,5 @@ interface Props {
 export const SourceMap: { [key: string]: FC<Props> } = {
     'kafka-auth': KafkaSource,
     'squirrel': SquirrelSinkPlugin,
-    'tair': TairPlugin,
+    // 'tair': TairPlugin,
 };
