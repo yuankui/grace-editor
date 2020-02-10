@@ -7,6 +7,7 @@ interface Props {
     visible?: boolean,
     visibleChange?: (visible: boolean) => void,
     actions?: ReactNode,
+    className?: string,
 }
 
 const Collapse: FunctionComponent<Props> = (props) => {
@@ -23,7 +24,7 @@ const Collapse: FunctionComponent<Props> = (props) => {
         transition: '0.3s'
     };
 
-    return <div className='grace-collapse'>
+    return <div className={'grace-collapse ' + props.className}>
         <div className='header' onClick={() => {
             setVisible(!visible);
             if (props.visibleChange) {

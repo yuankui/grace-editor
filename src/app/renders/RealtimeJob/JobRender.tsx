@@ -1,8 +1,11 @@
 import {RenderProps} from "../renders";
 import React, {FC, useState} from "react";
-import SourceConfigList from "./config/SourceConfigList";
+import ConfigList from "./config/ConfigList";
 import {JobConfig} from "./Models";
 import {changeValue} from "./utils";
+import SourceConfig from "./config/SourceConfig";
+import LabelConfig from "./config/LabelConfig";
+import StorageConfig from "./config/StorageConfig";
 
 export const JobRender: FC<RenderProps> = (props) => {
     const config: JobConfig = {
@@ -75,7 +78,7 @@ export const JobRender: FC<RenderProps> = (props) => {
                     "timeout": 400
                 },
                 "dimId": 2,
-                "id": 0,
+                "id": 1,
                 "parallelism": 8,
                 "type": "squirrel"
             },
@@ -88,7 +91,7 @@ export const JobRender: FC<RenderProps> = (props) => {
                     "timeout": 500
                 },
                 "dimId": 2,
-                "id": 0,
+                "id": 2,
                 "parallelism": 8,
                 "type": "tair"
             },
@@ -97,7 +100,7 @@ export const JobRender: FC<RenderProps> = (props) => {
                     "name": "app.upsserver_dspas_user_cart"
                 },
                 "dimId": 2,
-                "id": 0,
+                "id": 3,
                 "parallelism": 4,
                 "type": "kafka"
             }
@@ -105,10 +108,46 @@ export const JobRender: FC<RenderProps> = (props) => {
     };
 
     const [value, onChange] = useState(config);
+    const changeWithLog = v => {
+        onChange(v);
+        console.log(v)
+    };
 
-    const change =changeValue(value, onChange);
+    const change = changeValue(value, changeWithLog);
 
-    return <div style={{overflow: 'auto'}}>
-        <SourceConfigList value={value.sources} onChange={change('sources')}/>
+    const sourceIds: Array<[number, string]> = value.sources.map(s => [s.sourceId, s.name]);
+    const storageIds: Array<[number, any]> = value.storages.map(s => [s.id, s.config]);
+    return <div className='job-render' style={{overflow: 'auto'}}>
+        <ConfigList title='Sources'
+                    value={value.sources}
+                    renderItem={(item, index, onChange1, deleteButton) => {
+                        return <SourceConfig
+                            deleteButton={deleteButton}
+                            value={item}
+                            onChange={onChange1}/>
+                    }}
+                    onChange={change('sources')}/>
+
+        <ConfigList title='Storages'
+                    value={value.storages}
+                    renderItem={(item, index, onChange1, deleteButton) => {
+                        return <StorageConfig
+                            deleteButton={deleteButton}
+                            value={item}
+                            onChange={onChange1}/>
+                    }}
+                    onChange={change('sources')}/>
+
+        <ConfigList title='Labels'
+                    value={value.labels}
+                    renderItem={(item, index, onChange1, deleteButton) => {
+                        return <LabelConfig value={item}
+                                            onChange={onChange1}
+                                            deleteButton={deleteButton}
+                                            sourceIds={sourceIds}
+                                            storageIds={storageIds}
+                        />
+                    }}
+                    onChange={change('labels')}/>
     </div>
 };
