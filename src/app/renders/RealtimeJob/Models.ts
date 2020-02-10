@@ -42,3 +42,11 @@ export interface SquirrelStorageConfig {
     category: string,
     timeout: number,
 }
+
+export interface TairStorageConfig {
+    remoteKey: string,
+    area: number;
+    timeout: number;
+    ttl: number;
+    prefix: string;
+}

@@ -5,7 +5,7 @@ import {JobConfig} from "./Models";
 import {changeValue} from "./utils";
 import SourceConfig from "./config/SourceConfig";
 import LabelConfig from "./config/LabelConfig";
-import StorageConfig from "./config/StorageConfig";
+import StoragePlugin from "./config/StoragePlugin";
 
 export const JobRender: FC<RenderProps> = (props) => {
     const config: JobConfig = {
@@ -131,12 +131,12 @@ export const JobRender: FC<RenderProps> = (props) => {
         <ConfigList title='Storages'
                     value={value.storages}
                     renderItem={(item, index, onChange1, deleteButton) => {
-                        return <StorageConfig
+                        return <StoragePlugin
                             deleteButton={deleteButton}
                             value={item}
                             onChange={onChange1}/>
                     }}
-                    onChange={change('sources')}/>
+                    onChange={change('storages')}/>
 
         <ConfigList title='Labels'
                     value={value.labels}
