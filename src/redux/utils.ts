@@ -18,22 +18,7 @@ export function createPostId(): string {
 }
 
 export function createEmptyContent(): any {
-    return {
-        document: {
-            nodes: [
-                {
-                    object: 'block',
-                    type: 'paragraph',
-                    nodes: [
-                        {
-                            object: 'text',
-                            text: '',
-                        },
-                    ],
-                },
-            ],
-        },
-    }
+    return null;
 }
 
 export function initReducer(state: AppStore | undefined, action: any): AppStore {

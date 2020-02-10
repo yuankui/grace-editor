@@ -29,6 +29,7 @@ function SquirrelSinkPlugin(props: Props) {
 }
 
 SquirrelSinkPlugin.toTitle = config => {
+    config = config || {};
     return `Squirrel: ${config.cluster}: ${config.category}`;
 };
 
