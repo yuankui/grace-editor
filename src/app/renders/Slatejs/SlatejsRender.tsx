@@ -1,7 +1,7 @@
 import {Render, RenderProps} from "../renders";
 import React, {ReactNode} from "react";
 import {Editor, Plugin} from "slate-react";
-import {Value} from "slate";
+import {Value, ValueProperties} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {connect} from "react-redux";
 import {mapState} from "../../../utils";
@@ -29,8 +29,24 @@ class SlatejsRender extends Render<State> {
 
         const plugins = createSlateEditorPlugins(() => this.props.state, this.props.dispatch);
 
+        const value: ValueProperties = this.props.value ? this.props.value : {
+            document: {
+                nodes: [
+                    {
+                        object: 'block',
+                        type: BlockParagraph,
+                        nodes: [
+                            {
+                                object:'text',
+                                text: '',
+                            }
+                        ]
+                    }
+                ],
+            }
+        };
         this.state = {
-            value: Value.fromJSON(this.props.value),
+            value: Value.fromJSON(value),
             plugins: plugins,
             copyPaste: createCopyPaste(plugins),
         };

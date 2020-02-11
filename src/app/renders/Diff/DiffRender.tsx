@@ -34,8 +34,8 @@ export default class DiffRender extends Render<State> {
 
     constructor(props: RenderProps, context: any) {
         super(props, context);
-        const value1 = props.value.value1 || emptyValue();
-        const value2 = props.value.value2 || emptyValue();
+        const value1 = props.value?.value1 || emptyValue();
+        const value2 = props.value?.value2 || emptyValue();
         this.state = {
             value1: Value.fromJSON(value1),
             value2: Value.fromJSON(value2),
