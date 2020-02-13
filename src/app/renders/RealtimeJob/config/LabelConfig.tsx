@@ -7,6 +7,8 @@ import Collapse from "../components/Collapse";
 import FormItem from "../components/FormItem";
 import {Controlled as CodeMirror} from "react-codemirror2";
 import JsonValue from "../components/JsonValue";
+import Nullable from "../components/Nullable";
+import NumberField from "../components/NumberField";
 
 interface Props extends Value<Label>{
     deleteButton: ReactNode,
@@ -22,6 +24,7 @@ function LabelConfig(props: Props) {
         labelName,
         collector,
         dimId,
+        sampleRate,
         extractor,
         parallelism,
         sourceId,
@@ -33,6 +36,9 @@ function LabelConfig(props: Props) {
         >
             <FormItem label={'labelId'}>
                 <InputNumber value={labelId} onChange={onChange('labelId')}/>
+            </FormItem>
+            <FormItem label={'采样率(测试用)'}>
+                <Nullable component={NumberField} value={sampleRate} onChange={onChange('sampleRate')}/>
             </FormItem>
             <FormItem label={'labelName'}>
                 <Input value={labelName} onChange={e => onChange('labelName')(e.target.value)}/>

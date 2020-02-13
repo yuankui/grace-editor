@@ -23,6 +23,7 @@ export interface Label {
     dimId: number,
     labelId: number,
     labelName: string,
+    sampleRate: number,
     parallelism: number,
     sourceId: number,
     storageId: number,
