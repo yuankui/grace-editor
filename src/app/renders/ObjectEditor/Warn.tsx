@@ -10,7 +10,7 @@ type Props = OwnProps;
 const Warn: FunctionComponent<Props> = (props) => {
     return (
         <div className='warn-container'>
-            <If test={props.error != null}>
+            <If test={props.error != null && props.error != ''}>
                 <div className='warn-message'>
                     {props.error}
                 </div>
