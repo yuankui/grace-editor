@@ -11,7 +11,7 @@ interface Props<T> {
 
 function ConfigList<T>(props: Props<T>) {
     return <Collapse title={props.title} className='config-list'>
-        <List value={props.value}
+        <List value={props.value || []}
               renderItem={props.renderItem}
               footer={<button onClick={e => {
                   const newList = [...props.value, {} as T];

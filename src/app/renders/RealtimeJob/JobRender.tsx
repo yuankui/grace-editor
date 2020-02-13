@@ -23,8 +23,8 @@ export const JobRender: FC<RenderProps> = (props) => {
     }
     const change = changeValue(value, onChange);
 
-    const sourceIds: Array<[number, string]> = value.sources.map(s => [s.sourceId, s.name]);
-    const storageIds: Array<[number, any]> = value.storages.map(s => [s.id, s.config]);
+    const sourceIds: Array<[number, string]> = value.sources?.map(s => [s.sourceId, s.name]) || [];
+    const storageIds: Array<[number, any]> = value.storages?.map(s => [s.id, s.config]) || [];
     return <Tabs>
         <Panel key={1} title={'编辑模型'} disabled={false}>
             <div className='job-render' style={{overflow: 'auto'}}>
