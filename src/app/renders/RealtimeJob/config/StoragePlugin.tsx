@@ -5,7 +5,6 @@ import {Storage} from "../Models";
 import {changeValue} from "../utils";
 import Collapse from "../components/Collapse";
 import FormItem from "../components/FormItem";
-import SquirrelSinkPlugin from "./source/SquirrelSinkPlugin";
 import {SourceMap} from "./source/Factory";
 import JsonPlugin from "./source/JsonPlugin";
 
@@ -46,6 +45,9 @@ function StoragePlugin(props: Props) {
                     </Select.Option>
                     <Select.Option key={2} value='tair'>
                         tair
+                    </Select.Option>
+                    <Select.Option key={2} value='kafka'>
+                        kafka
                     </Select.Option>
                 </Select>
                 <Plugin value={config} onChange={onChange('config')}/>
