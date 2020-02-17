@@ -14,7 +14,7 @@ const JsonValue: FunctionComponent<Props> = (props) => {
     const saveAsync = useMemo(() => {
         let timer: any = null;
         setTmpValue(JSON.stringify(props.value, null, 2));
-        return (value: string) => {
+        return (value: string, props) => {
             clearTimeout(timer);
             timer = setTimeout(() => {
                 try {
@@ -47,7 +47,7 @@ const JsonValue: FunctionComponent<Props> = (props) => {
                     lineNumbers: true
                 }}
                 onChange={(editor, data, value) => {
-                    saveAsync(value);
+                    saveAsync(value, props);
                 }}/>
         </Warn>
     </div>;

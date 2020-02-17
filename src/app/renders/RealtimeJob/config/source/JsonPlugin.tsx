@@ -8,7 +8,7 @@ interface Props extends Value<any>{
 }
 
 const JsonPlugin: FunctionComponent<Props> & ToTitle = (props) => {
-    return <JsonValue {...props}/>
+    return <JsonValue value={props.value} onChange={props.onChange}/>
 };
 
 JsonPlugin.toTitle = any => {

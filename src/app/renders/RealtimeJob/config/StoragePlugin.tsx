@@ -15,6 +15,8 @@ interface Props extends Value<Storage>{
 function StoragePlugin(props: Props) {
     const onChange = changeValue(props.value, props.onChange);
 
+    console.log('storage', props.value);
+
     const {
         config,
         id,
@@ -50,7 +52,7 @@ function StoragePlugin(props: Props) {
                         kafka
                     </Select.Option>
                 </Select>
-                <Plugin value={config} onChange={onChange('config')}/>
+                <JsonPlugin value={config} onChange={onChange('config')}/>
             </FormItem>
         </Collapse>
     </>
