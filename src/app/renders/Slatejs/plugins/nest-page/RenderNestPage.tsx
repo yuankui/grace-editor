@@ -34,7 +34,7 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
             <div className='post-missing'>post missing</div>
         </If>
         <If test={post != null}>
-            <h1>{post.title}</h1>
+            <a>{post.title}</a>
             <Render value={post.content} readOnly={true} onChange={() =>{}}/>
         </If>
     </div>;
