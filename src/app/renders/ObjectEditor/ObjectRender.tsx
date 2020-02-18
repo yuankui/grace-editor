@@ -38,6 +38,7 @@ class ObjectRender extends Render<State> {
             return <Panel title={name} key={name} disabled={disabled}>
                     <Warn error={this.state.syntaxError}>
                         <View value={this.props.value}
+                              readOnly={this.props.readOnly}
                               onChange={(v) => {
                                   this.props.onChange(v);
                                   this.setState({

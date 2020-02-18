@@ -17,6 +17,8 @@ export interface ViewProps {
      * @param error
      */
     onError(error: string): void,
+
+    readOnly?: boolean,
 }
 
 export abstract class ObjectView<T> extends React.Component<ViewProps, T> {

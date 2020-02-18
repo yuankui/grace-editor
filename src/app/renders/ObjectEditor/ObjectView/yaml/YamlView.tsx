@@ -29,6 +29,7 @@ export class YamlView extends ObjectView<State>{
                         cm.replaceSelection("  " , "end");
                     }
                 },
+                readOnly: !!this.props.readOnly ? 'nocursor' : false,
             }}
             onBlur={() => {
                 this.sync();

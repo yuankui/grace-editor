@@ -25,10 +25,10 @@ const rules: Rules = {
     ],
     normalize: (editor: Editor, error) => {
 
-        if (error.code === "child_type_invalid") {
-            editor.setBlocks(BlockTypeListItem);
-        }
-        console.log(error);
+        // if (error.code === "child_type_invalid") {
+        //     editor.setBlocks(BlockTypeListItem);
+        // }
+        // console.log(error);
     }
 };
 /**

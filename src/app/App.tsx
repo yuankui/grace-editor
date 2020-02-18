@@ -16,6 +16,8 @@ import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
 import {history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
+import HTML5Backend from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 interface AppProps {
     state: AppStore,
@@ -59,13 +61,15 @@ class App extends React.Component<AppProps> {
         const styles: any = this.props.state.theme;
 
         return (
-            <div id='app-container' className='app-container' style={styles}>
-                <FindInPage/>
-                <SearchDialog/>
-                <SettingView/>
-                <LeftSide />
-                <RightSide/>
-            </div>
+            <DndProvider backend={HTML5Backend}>
+                <div id='app-container' className='app-container' style={styles}>
+                    <FindInPage/>
+                    <SearchDialog/>
+                    <SettingView/>
+                    <LeftSide />
+                    <RightSide/>
+                </div>
+            </DndProvider>
         );
     }
 }

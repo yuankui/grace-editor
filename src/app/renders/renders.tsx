@@ -8,6 +8,7 @@ export interface RenderProps {
     value: any,
     onChange: OnChange<any>,
     editorRef: any,
+    readOnly?: boolean,
 }
 
 export class Render<S = any> extends React.Component<RenderProps, S> {

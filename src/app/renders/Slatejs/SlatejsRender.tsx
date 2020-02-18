@@ -66,6 +66,7 @@ class SlatejsRender extends Render<State> {
                            }
                            return next();
                        }}
+                       readOnly={!!this.props.readOnly}
                        onPaste={this.state.copyPaste.onPaste}
                        onCopy={this.state.copyPaste.onCopy}
                        commands={this.state.copyPaste.commands}
