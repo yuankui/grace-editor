@@ -13,6 +13,7 @@ import {createPostId} from "../../../../redux/utils";
 import PostSelectAction from "../../../../redux/actions/PostSelectAction";
 import {FavorButton} from "./FavorButton";
 import {Nav} from "./Nav";
+import {ToggleMaximize} from "../../left/LeftHandle";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -33,7 +34,7 @@ class TopBar extends React.Component<Props, State> {
     }
 
     render() {
-        return <div className='top-bar'>
+        return <div className='top-bar' onDoubleClick={ToggleMaximize}>
             <Nav/>
             <div className='tools'>
                 <FavorButton/>
