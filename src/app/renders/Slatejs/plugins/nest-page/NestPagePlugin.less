@@ -10,9 +10,24 @@
     //color: var(--base-text-color);
     padding: 10px;
     border-radius: 5px;
+    box-shadow: 0 0 5px gray;
+    box-sizing: content-box;
 
     &.focus-true {
-        box-shadow: 0 0 5px gray;
-        box-sizing: content-box;
+        box-shadow: 0 0 5px #dbdbdb;
+    }
+    .nest-page-title {
+        padding-left: 10px;
+        a {
+            font-family: @normal-font;
+            color: var(--base-text-color);
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            &:hover {
+                color: #67a3ff;
+            }
+        }
+
     }
 }

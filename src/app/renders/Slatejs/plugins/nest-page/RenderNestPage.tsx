@@ -23,18 +23,20 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
     ]);
 
     const Render = getRender(post);
-    return <div {...attributes} className={classes} onClick={e => {
-        e.stopPropagation();
-        e.preventDefault();
-        // if (post != null) {
-        //     dispatch(PostSelectCommand(post.id));
-        // }
-    }}>
+    return <div {...attributes} className={classes}>
         <If test={post == null}>
             <div className='post-missing'>post missing</div>
         </If>
         <If test={post != null}>
-            <a>{post.title}</a>
+            <div className='nest-page-title'>
+                <a onClick={e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (post != null) {
+                        dispatch(PostSelectCommand(post.id));
+                    }
+                }}>{post.title}</a>
+            </div>
             <Render value={post.content} readOnly={true} onChange={() =>{}}/>
         </If>
     </div>;
