@@ -1,6 +1,6 @@
 import {Plugin} from "slate-react";
 import React from "react";
-import {Block, BlockJSON, Document, InsertTextOperation, Node, Value} from "slate";
+import {Block, BlockJSON, Document, Node, Value} from "slate";
 import {List} from "immutable";
 
 export const BlockCodeLine = "block-code-line";
