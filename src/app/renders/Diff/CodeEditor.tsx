@@ -5,6 +5,7 @@ import {createHighlightPlugin} from "./plugins/HighlightPlugin";
 import {createLinePlugin} from "./plugins/LinePlugin";
 import {createCommonPlugin} from "./plugins/CommonPlugin";
 import {createDiffPlugin} from "./plugins/DiffPlugin";
+import {createFormatPlugin} from "./plugins/FormatPlugin";
 
 interface Props {
     value: Value,
@@ -17,7 +18,8 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
             createHighlightPlugin(),
             createLinePlugin(),
             createCommonPlugin(),
-            createDiffPlugin()
+            createDiffPlugin(),
+            createFormatPlugin(),
         ]
     }, []);
 

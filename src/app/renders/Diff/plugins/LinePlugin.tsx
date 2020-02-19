@@ -1,8 +1,12 @@
 import {Plugin} from "slate-react";
 import React from "react";
-import {Node} from "slate";
+import {Block, BlockJSON, Document, InsertTextOperation, Node, Value} from "slate";
+import {List} from "immutable";
 
 export const BlockCodeLine = "block-code-line";
+export const COMMAND_SET_CONTENT = 'command-set-content';
+export const QUERY_GET_CONTENT = 'command-get-content';
+
 
 export function createLinePlugin(): Plugin {
     return {
@@ -43,5 +47,48 @@ export function createLinePlugin(): Plugin {
                 {props.children}
             </div>;
         },
+        commands: {
+            [COMMAND_SET_CONTENT]: (editor, args) => {
+                const content = args as string;
+                const lines = content.split("\n");
+
+                const blockLines: Array<BlockJSON> = lines.map(line => {
+                    const block: BlockJSON = {
+                        object: 'block',
+                        type: BlockCodeLine,
+                        nodes: [
+                            {
+                                text: line,
+                                object: 'text'
+                            }
+                        ]
+                    };
+                    return block;
+                });
+
+                const document = Document.fromJSON({
+                    object: 'document',
+                    nodes: blockLines,
+                });
+
+
+                const value = editor.value.set('document', document) as Value;
+                editor.onChange({
+                    operations: List.of(),
+                    value,
+                });
+                return editor;
+            },
+        },
+        queries: {
+            [QUERY_GET_CONTENT]: editor => {
+                const lines = editor.value.document.nodes.map(value => {
+                    const blockLine: Block = value as Block;
+                    return blockLine.text;
+                }).join('\n');
+
+                return lines;
+            }
+        }
     }
 }
