@@ -10,6 +10,7 @@ import {createFormatPlugin} from "./plugins/FormatPlugin";
 interface Props {
     value: Value,
     onChange: (v: Value) => void,
+    readonly?: boolean,
 }
 
 const CodeEditor: FunctionComponent<Props> = (props) => {
@@ -31,6 +32,7 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
         className='code-editor'
         plugins={plugins}
         value={props.value}
+        readOnly={!!props.readonly}
         renderBlock={linePlugin.renderBlock}
         onChange={e => {
             props.onChange(e.value);

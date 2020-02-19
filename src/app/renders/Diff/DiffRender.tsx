@@ -45,8 +45,10 @@ export default class DiffRender extends Render<State> {
     render() {
         return <div className='diff-render'>
             <CodeEditor value={this.state.value1}
+                        readonly={this.props.readOnly}
                         onChange={v => this.change(v, this.state.value2)}/>
             <CodeEditor value={this.state.value2}
+                        readonly={this.props.readOnly}
                         onChange={v => this.change(this.state.value1, v)}/>
         </div>;
     }
