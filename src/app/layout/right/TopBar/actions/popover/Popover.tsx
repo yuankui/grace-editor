@@ -1,5 +1,6 @@
 import React, {FunctionComponent, ReactNode, useState} from 'react';
 import {Popover as Pop} from "antd";
+import {classNames} from "../../../../../../utils";
 
 interface OwnProps {
     placement: TooltipPlacement,
@@ -7,6 +8,7 @@ interface OwnProps {
     visible?: boolean,
     title?: ReactNode,
     onVisibleChange?(visible: boolean): void,
+    className?: string,
 }
 
 type Props = OwnProps;
@@ -26,8 +28,13 @@ export type TooltipPlacement =
 
 const Popover: FunctionComponent<Props> = (props) => {
     const [visible, setVisible] = useState(false);
+    const className = classNames([
+        props.className || '',
+        'grace-popover'
+    ]);
+
     return (<Pop placement={props.placement}
-                 className='grace-popover'
+                 className={className}
                  overlayClassName='grace-popover'
                  content={props.content}
                  visible={props.visible || visible}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {classNames} from "../../../../utils";
 import Popover from "../../../layout/right/TopBar/actions/popover/Popover";
 
@@ -9,32 +9,40 @@ export interface CornerAction {
 
 interface Props {
     actions: Array<CornerAction>,
-    className: string,
+    className?: string,
     title: string,
 }
 
 const Corner: FunctionComponent<Props> = (props) => {
     const className = classNames([
-        'corner-wrapper',
-        props.className,
+        'corner-container',
+        props.className || '',
     ]);
 
+    const [showPopover, setShowPopover] = useState(false);
     const actions = props.actions.map((action, index) => {
         return <a className={'corner-action'} key={index} onClick={e => {
             e.stopPropagation();
             e.preventDefault();
             action.callback();
+            setShowPopover(false);
         }}>
             {action.title}
         </a>
     });
 
-    const popupContent = <div className={'corner-action-container'}>
+    const popupContent = <div className='corner-action-buttons'>
         {actions}
     </div>;
 
     return <div className={className}>
-        <Popover placement={'leftBottom'} content={popupContent}>
+        <Popover placement={'bottom'}
+                 visible={showPopover}
+                 onVisibleChange={visible => {
+                     setShowPopover(visible);
+                 }}
+                 content={popupContent}
+                 className={'corner-action-container'}>
             {props.title}
         </Popover>
         {props.children}

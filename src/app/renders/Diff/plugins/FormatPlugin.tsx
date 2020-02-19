@@ -10,6 +10,9 @@ import {
 export function createFormatPlugin(): Plugin {
     return {
         renderEditor: (props, editor, next) => {
+            if (props.readOnly) {
+                return next();
+            }
             const actions: Array<CornerAction> = [
                 {
                     title: 'Json格式化',
@@ -19,12 +22,13 @@ export function createFormatPlugin(): Plugin {
                             const json = JSON.parse(content);
                             const formatted = JSON.stringify(json, null, 2);
                             editor.command(COMMAND_SET_CONTENT, formatted);
+                            message.info("formatting complete");
                         } catch (e) {
                             console.error(e);
                             message.error("error formatting:" + e.toString());
                         }
                     }
-                }
+                },
             ];
             return <Corner className={'format-wrapper'} title={'格式化'} actions={actions}>
                 {next()}
