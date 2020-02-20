@@ -9,9 +9,9 @@
 .nest-page {
     //color: var(--base-text-color);
     padding: 10px;
-    border-radius: 5px;
     box-sizing: content-box;
     user-select: text;
+    border-top: 2px solid;
 
     &.focus-true {
         box-shadow: 0 0 5px gray;
@@ -28,6 +28,14 @@
                 color: #67a3ff;
             }
         }
+    }
 
+    .corner-action-container {
+        visibility: hidden;
+    }
+    &:hover {
+        .corner-action-container {
+            visibility: visible;
+        }
     }
 }

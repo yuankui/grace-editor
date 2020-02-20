@@ -32,7 +32,7 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
     const Render = getRender(post);
     const actions: Array<CornerAction> = [
         { // toggle show title
-            title: <ListTile leading={"Show Title"} trailing={<Switch checked={showTitle}/>}/>,
+            title: <ListTile title={"Show Title"} trailing={<Switch checked={showTitle}/>}/>,
             callback(): void {
                 const oldData = node.data || Map();
                 const showTitle = oldData.get('showTitle');
@@ -41,15 +41,15 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
             }
         },
         {
-            title: <ListTile leading={'Goto Page'} />,
+            title: <ListTile title={'Goto Page'} />,
             callback(hide: () => void): void {
                 dispatch(PostSelectCommand(post.id));
                 hide();
             }
         }
     ];
-    return <Corner actions={actions} width={200} title={<Icon type="setting" />}>
-        <div {...attributes} className={classes}>
+    return <Corner className={classes} actions={actions} width={200} title={<Icon type="setting" />}>
+        <div {...attributes}>
             <If test={post == null}>
                 <div className='post-missing'>post missing</div>
             </If>

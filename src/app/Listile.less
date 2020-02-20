@@ -1,6 +1,7 @@
 .app-list-tile {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
 
     &.active-true {
         background-color: #5b1d78;
@@ -10,6 +11,7 @@
         flex: 1;
         margin: 2px 10px;
         display: flex;
+        .center();
     }
 
     .app-list-tile-titles {
@@ -31,5 +33,7 @@
 
     .app-list-tile-trailing {
         flex: 1;
+        display: flex;
+        justify-content: flex-end;
     }
 }
