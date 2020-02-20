@@ -10,6 +10,7 @@ interface OwnProps {
     onVisibleChange?(visible: boolean): void,
     className?: string,
     style?: CSSProperties,
+    popoverStyle?: CSSProperties,
 }
 
 type Props = OwnProps;
@@ -37,6 +38,7 @@ const Popover: FunctionComponent<Props> = (props) => {
     return (<Pop placement={props.placement}
                  className={className}
                  style={props.style}
+                 overlayStyle={props.popoverStyle}
                  overlayClassName='grace-popover'
                  content={props.content}
                  visible={props.visible || visible}

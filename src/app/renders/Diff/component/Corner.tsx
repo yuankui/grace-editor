@@ -16,6 +16,7 @@ interface Props {
     title: ReactNode,
     placement?: Placement,
     actionStyle?: ActionStyle,
+    width?: number,
 }
 
 const Corner: FunctionComponent<Props> = (props) => {
@@ -42,14 +43,16 @@ const Corner: FunctionComponent<Props> = (props) => {
     </div>;
 
     const top = props.placement === 'out'? -10 : 0;
+    const width = props.width || 'auto';
 
     return <div className={className}>
-        <Popover placement={'bottom'}
+        <Popover placement={'leftTop'}
                  visible={showPopover}
                  onVisibleChange={visible => {
                      setShowPopover(visible);
                  }}
-                 style={{top: top}}
+                 style={{top}}
+                 popoverStyle={{width}}
                  content={popupContent}
                  className={'corner-action-container'}>
             {props.title}

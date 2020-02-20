@@ -19,14 +19,18 @@ export class ListTile extends React.Component<Props> {
                         {this.props.leading}
                     </div>
                 </If>
-                <If test={this.props.title != null && this.props.subtitle != null}>
+                <If test={this.props.title != null || this.props.subtitle != null}>
                     <div className='app-list-tile-titles'>
-                        <div className='app-list-tile-title'>
-                            {this.props.title}
-                        </div>
-                        <div className='app-list-tile-subtitle'>
-                            {this.props.subtitle}
-                        </div>
+                        <If test={this.props.title != null}>
+                            <div className='app-list-tile-title'>
+                                {this.props.title}
+                            </div>
+                        </If>
+                        <If test={this.props.subtitle != null}>
+                            <div className='app-list-tile-subtitle'>
+                                {this.props.subtitle}
+                            </div>
+                        </If>
                     </div>
                 </If>
                 <If test={this.props.trailing != null}>

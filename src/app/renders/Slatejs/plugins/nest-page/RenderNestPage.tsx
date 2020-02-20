@@ -31,7 +31,7 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
 
     const Render = getRender(post);
     const actions: Array<CornerAction> = [
-        {
+        { // toggle show title
             title: <ListTile leading={"Show Title"} trailing={<Switch checked={showTitle}/>}/>,
             callback(): void {
                 const oldData = node.data || Map();
@@ -39,9 +39,16 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
                 const newData = oldData.set('showTitle', !showTitle);
                 props.editor.setNodeByKey(node.key, {data: newData, type: BlockTypeNestPage});
             }
+        },
+        {
+            title: <ListTile leading={'Goto Page'} />,
+            callback(hide: () => void): void {
+                dispatch(PostSelectCommand(post.id));
+                hide();
+            }
         }
     ];
-    return <Corner actions={actions} title={<Icon type="setting" />}>
+    return <Corner actions={actions} width={200} title={<Icon type="setting" />}>
         <div {...attributes} className={classes}>
             <If test={post == null}>
                 <div className='post-missing'>post missing</div>
