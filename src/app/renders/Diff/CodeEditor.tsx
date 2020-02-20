@@ -4,7 +4,6 @@ import {Value} from "slate";
 import {createHighlightPlugin} from "./plugins/HighlightPlugin";
 import {createLinePlugin} from "./plugins/LinePlugin";
 import {createCommonPlugin} from "./plugins/CommonPlugin";
-import {createDiffPlugin} from "./plugins/DiffPlugin";
 import {createFormatPlugin} from "./plugins/FormatPlugin";
 
 interface Props {
@@ -19,7 +18,6 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
             createHighlightPlugin(),
             createLinePlugin(),
             createCommonPlugin(),
-            createDiffPlugin(),
             createFormatPlugin(),
         ]
     }, []);
@@ -35,7 +33,9 @@ const CodeEditor: FunctionComponent<Props> = (props) => {
         readOnly={!!props.readonly}
         renderBlock={linePlugin.renderBlock}
         onChange={e => {
-            props.onChange(e.value);
+            if (e.value !== props.value) {
+                props.onChange(e.value);
+            }
         }}/>;
 };
 
