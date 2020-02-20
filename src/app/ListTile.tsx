@@ -8,7 +8,7 @@ interface Props {
     trailing?: ReactNode,
     className?: string,
 }
-export class Listile extends React.Component<Props> {
+export class ListTile extends React.Component<Props> {
     render(): ReactNode {
 
         const className = this.props.className ? this.props.className : '';

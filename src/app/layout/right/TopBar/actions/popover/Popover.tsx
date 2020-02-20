@@ -1,4 +1,4 @@
-import React, {FunctionComponent, ReactNode, useState} from 'react';
+import React, {CSSProperties, FunctionComponent, ReactNode, useState} from 'react';
 import {Popover as Pop} from "antd";
 import {classNames} from "../../../../../../utils";
 
@@ -9,6 +9,7 @@ interface OwnProps {
     title?: ReactNode,
     onVisibleChange?(visible: boolean): void,
     className?: string,
+    style?: CSSProperties,
 }
 
 type Props = OwnProps;
@@ -35,6 +36,7 @@ const Popover: FunctionComponent<Props> = (props) => {
 
     return (<Pop placement={props.placement}
                  className={className}
+                 style={props.style}
                  overlayClassName='grace-popover'
                  content={props.content}
                  visible={props.visible || visible}

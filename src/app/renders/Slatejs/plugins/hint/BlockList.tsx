@@ -10,7 +10,7 @@ import {DropdownSelect} from "../../../../DropdownSelect";
 import {HintAction} from "./actions";
 import HeaderAction from "./actions/HeaderAction";
 import TodoAction from "./actions/TodoAction";
-import {Listile} from "../../../../Listile";
+import {ListTile} from "../../../../ListTile";
 import {HintToggleCommand} from "../../../../../redux/commands/slatejs/hint/HintToggleCommand";
 import CodeBlockAction from "./actions/CodeBlockAction";
 import ChildrenAction from "./actions/ChildrenAction";
@@ -181,13 +181,13 @@ class BlockList extends React.Component<Props, State> {
         return false;
     }
     renderAction = (item: HintAction, keyword: string, isActive: boolean): ReactNode => {
-        return <Listile key={item.title()}
-                        leading={<div style={{width: 50}}>
+        return <ListTile key={item.title()}
+                         leading={<div style={{width: 50}}>
                             {item.icon(30)}
                         </div>}
-                        title={item.title()}
-                        subtitle={item.subtitle()}
-                        className={'active-' + isActive}
+                         title={item.title()}
+                         subtitle={item.subtitle()}
+                         className={'active-' + isActive}
         />;
     }
 }

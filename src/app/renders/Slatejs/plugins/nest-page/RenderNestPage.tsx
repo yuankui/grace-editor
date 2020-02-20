@@ -6,6 +6,11 @@ import useAppStore from "../../../../hooks/useAppStore";
 import {classNames, If} from "../../../../../utils";
 import {PostSelectCommand} from "../../../../../redux/commands/menu/PostSelectCommand";
 import {getRender} from "../../../factory";
+import Corner, {CornerAction} from "../../../Diff/component/Corner";
+import {Icon, Switch} from "antd";
+import {ListTile} from "../../../../ListTile";
+import {BlockTypeNestPage} from "./NestPagePlugin";
+import {Map} from "immutable";
 
 interface Props {
     props: RenderBlockProps,
@@ -22,24 +27,41 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
         'nest-page',
     ]);
 
+    const showTitle = !!node.data.get("showTitle");
+
     const Render = getRender(post);
-    return <div {...attributes} className={classes}>
-        <If test={post == null}>
-            <div className='post-missing'>post missing</div>
-        </If>
-        <If test={post != null}>
-            <div className='nest-page-title'>
-                <a onClick={e => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    if (post != null) {
-                        dispatch(PostSelectCommand(post.id));
-                    }
-                }}>{post.title}</a>
-            </div>
-            <Render value={post.content} readOnly={true} onChange={() =>{}}/>
-        </If>
-    </div>;
+    const actions: Array<CornerAction> = [
+        {
+            title: <ListTile leading={"Show Title"} trailing={<Switch checked={showTitle}/>}/>,
+            callback(): void {
+                const oldData = node.data || Map();
+                const showTitle = oldData.get('showTitle');
+                const newData = oldData.set('showTitle', !showTitle);
+                props.editor.setNodeByKey(node.key, {data: newData, type: BlockTypeNestPage});
+            }
+        }
+    ];
+    return <Corner actions={actions} title={<Icon type="setting" />}>
+        <div {...attributes} className={classes}>
+            <If test={post == null}>
+                <div className='post-missing'>post missing</div>
+            </If>
+            <If test={post != null}>
+                <If test={showTitle}>
+                    <div className='nest-page-title'>
+                        <a onClick={e => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            if (post != null) {
+                                dispatch(PostSelectCommand(post.id));
+                            }
+                        }}>{post.title}</a>
+                    </div>
+                </If>
+                <Render value={post.content} readOnly={true} onChange={() =>{}}/>
+            </If>
+        </div>
+    </Corner>
 };
 
 export default RenderNestPage;

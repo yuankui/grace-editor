@@ -16,7 +16,7 @@ export function createFormatPlugin(): Plugin {
             const actions: Array<CornerAction> = [
                 {
                     title: 'Json格式化',
-                    callback(): void {
+                    callback(hide): void {
                         const content = editor.query(QUERY_GET_CONTENT);
                         try {
                             const json = JSON.parse(content);
@@ -27,6 +27,7 @@ export function createFormatPlugin(): Plugin {
                             console.error(e);
                             message.error("error formatting:" + e.toString());
                         }
+                        hide();
                     }
                 },
             ];
