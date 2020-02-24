@@ -37,7 +37,6 @@ const TexBlock: FunctionComponent<Props> = (props) => {
 
     return <div {...props.props.attributes}
                 onKeyDown={e => e.stopPropagation()}
-                contentEditable={false}
                 className={className}
                 onDoubleClick={e => {
                     e.stopPropagation();
@@ -52,9 +51,16 @@ const TexBlock: FunctionComponent<Props> = (props) => {
             <BlockMath math={src}/>
         </If>
         <If key={3} test={editMode && isFocus}>
-            <CodeEditor mode={'stex'} value={src} onChange={changeSrc} onBlur={() => {
-                setEditMode(false);
-            }}/>
+            <div onClick={e=>{
+                // 阻断消息，防止传给上层的slate，他会调用updateSelection，触发Codemirror的onBlur
+                e.stopPropagation();
+                e.preventDefault();
+            }}>
+                <CodeEditor mode={'stex'} value={src} onChange={changeSrc} onBlur={() => {
+                    setEditMode(false);
+                }}/>
+            </div>
+
         </If>
     </div>;
 };
