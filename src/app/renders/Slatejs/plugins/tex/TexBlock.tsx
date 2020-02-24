@@ -29,9 +29,10 @@ const TexBlock: FunctionComponent<Props> = (props) => {
         } as any);
     };
 
+    const isFocus = props.props.isFocused || props.props.isSelected;
     const className = classNames([
         'block-tex',
-        'focused-' + (props.props.isFocused || props.props.isSelected),
+        'focused-' + isFocus,
     ]);
 
     return <div {...props.props.attributes}
@@ -43,15 +44,14 @@ const TexBlock: FunctionComponent<Props> = (props) => {
                     setEditMode(true);
                 }}>
 
-        <If key={1} test={!editMode}>
-            <If key={1} test={src == null || src == ''}>
-                Double Click to Edit
-            </If>
-            <If key={2} test={src != null && src != ''}>
-                <BlockMath math={src}/>
-            </If>
+
+        <If key={1} test={src == null || src == ''}>
+            Double Click to Edit
         </If>
-        <If key={2} test={editMode}>
+        <If key={2} test={src != null && src != ''}>
+            <BlockMath math={src}/>
+        </If>
+        <If key={3} test={editMode && isFocus}>
             <CodeEditor mode={'stex'} value={src} onChange={changeSrc} onBlur={() => {
                 setEditMode(false);
             }}/>
