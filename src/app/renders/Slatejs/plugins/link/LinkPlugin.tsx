@@ -82,7 +82,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                 }
 
                 // https://mathiasbynens.be/demo/url-regex
-                const regex = '@^(https?|ftp)://[^\\s/$.?#].[^\\s]*$@iS';
+                const regex = '^(https?|ftp):\\/\\/.+$';
                 if (str.match(regex)) {
                     editor.insertInline({
                         type: InlineTypeLink,

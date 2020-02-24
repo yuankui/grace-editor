@@ -30,7 +30,6 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createCodePlugin(),
         createImagePlugin(getState),
         createHighlightPlugin(getState),
-        createCommonPlugin(),
         createQuotePlugin(),
         createHintPlugin(dispatch),
         createSelectionHintPlugin(getState, dispatch),
@@ -38,5 +37,6 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createTocPlugin(),
         createLinkPlugin(getState, dispatch),
         createChildrenPlugin(getState),
+        createCommonPlugin(),
     ];
 }

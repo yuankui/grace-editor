@@ -87,14 +87,7 @@ export function createCommonPlugin(): Plugin {
             }
             const str: string = command.args as any;
             const value: Value = serializer().deserialize(str);
-
-            const f = editor.value.focusBlock;
-            const parent = editor.value.document.getParent(f.key);
-            if (parent && parent.object == 'document') {
-                editor.insertFragment(value.document);
-            } else {
-                editor.insertText(str);
-            }
+            editor.insertFragment(value.document);
         }
     }
 }
