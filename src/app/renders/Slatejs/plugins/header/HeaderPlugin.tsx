@@ -38,7 +38,7 @@ export function createHeaderPlugin(): Plugin {
             }
 
             // toggle
-            for (let i of [1, 2, 3, 4, 5]) {
+            for (let i of [1, 2, 3, 4, 5, 6]) {
                 if (isHotkey('meta+' + i, event.nativeEvent)) {
                     const newBlockType = HeaderTypePrefix + i;
                     if (editor.value.focusBlock.type == newBlockType) {

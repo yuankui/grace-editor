@@ -1,11 +1,9 @@
 import {getEventTransfer, Plugin} from "slate-react";
-import Html from "slate-html-serializer";
 import {from} from "rxjs";
 import {filter, reduce, toArray} from "rxjs/operators";
 import {Document} from "slate";
 import {Base64} from 'js-base64';
-import {ListRule} from "./plugins/list/ListRule";
-import {LinkRule} from "./plugins/link/LinkRule";
+import {serializer} from "./utils/Serializer";
 
 /**
  * args: document: Document(slatejs)
@@ -18,13 +16,6 @@ export const COMMAND_PASTE = "paste-command";
 export const COMMAND_PASTE_FILE = "paste-file-command";
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
-    const serializer = new Html({
-        rules: [
-            ListRule,
-            LinkRule
-        ]
-    });
-
     return {
         commands: {
             [COMMAND_PASTE]: createCommandChain(COMMAND_PASTE, plugins),
@@ -35,7 +26,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
             if (transfer.type !== 'html') return next();
 
             const html: any = (transfer as any).html;
-            const {document} = serializer.deserialize(html);
+            const {document} = serializer().deserialize(html);
             editor.insertFragment(document);
             const fragment = editor.value.fragment;
             console.log('fragment', fragment.text);
@@ -83,7 +74,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         const document = Document.fromJSON(obj);
                         editor.insertFragment(document);
                     } else {
-                        const value = serializer.deserialize(str);
+                        const value = serializer().deserialize(str);
                         editor.command(COMMAND_PASTE, value.document);
                     }
                 })
