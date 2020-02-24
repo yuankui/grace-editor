@@ -45,6 +45,7 @@ export function createImagePlugin(getState: GetState): Plugin {
 
             next();
         },
+        // 不用commands: {},因为这里面不能使用next()
         onCommand: (command, editor, next) => {
             if (command.type != COMMAND_PASTE_FILE) {
                 return next();
@@ -56,7 +57,7 @@ export function createImagePlugin(getState: GetState): Plugin {
             }
 
 
-            const files = command.args as Array<DataTransferItem>;
+            const files = command.args[0] as Array<DataTransferItem>;
 
             async function processFiles(files: Array<DataTransferItem>) {
                 for (let f of files) {

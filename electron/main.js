@@ -10,7 +10,6 @@ function createMainWindow() {
         titleBarStyle: "hidden",
         minWidth: 1000,
         width: 1000,
-        backgroundColor: '#2E3437', // 不起作用
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
