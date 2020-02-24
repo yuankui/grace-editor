@@ -7,8 +7,8 @@ import {connect} from "react-redux";
 import {mapState} from "../../../utils";
 import {AppStore} from "../../../redux/store";
 import {debug} from "../../../utils/debug";
-import {createCopyPaste} from "./copyPaste";
 import {BlockParagraph} from "./plugins/common";
+import {createCopyPaste} from "./paste/copyPaste";
 
 
 interface State {

@@ -4,7 +4,7 @@ import {BlockTypeCodeBlock} from "../code/CodePlugin";
 import {ImageBlock} from "./ImageBlock";
 import isHotkey from "is-hotkey";
 import {GetState} from "../../SlatejsRender";
-import {COMMAND_PASTE, COMMAND_PASTE_FILE} from "../../copyPaste";
+import {COMMAND_PASTE_FILE} from "../../paste/copyPaste";
 
 export const ImageBlockType = 'image-block';
 

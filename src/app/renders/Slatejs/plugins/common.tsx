@@ -4,10 +4,19 @@ import isHotkey from "is-hotkey";
 import {Plugin} from 'slate-react';
 import {createEmptyParagraph} from "../utils/createEmptyParagraph";
 import {List} from "immutable";
-import {COMMAND_PASTE} from "../copyPaste";
+import {COMMAND_PASTE_TEXT} from "../paste/copyPaste";
+import {serializer} from "../utils/Serializer";
 
 export const BlockParagraph = 'paragraph';
 
+/**
+ * 默认的行为
+ * @param prefix
+ * @param event
+ * @param editor
+ * @param callback
+ * @constructor
+ */
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
                                     editor: CoreEditor,
@@ -72,18 +81,19 @@ export function createCommonPlugin(): Plugin {
             },
         },
         onCommand: (command, editor, next) => {
-            if (command.type !== COMMAND_PASTE) {
+            if (command.type !== COMMAND_PASTE_TEXT) {
                 next();
                 return;
             }
-            const doc: any = command.args;
+            const str: string = command.args as any;
+            const value: Value = serializer().deserialize(str);
 
             const f = editor.value.focusBlock;
             const parent = editor.value.document.getParent(f.key);
             if (parent && parent.object == 'document') {
-                editor.insertFragment(doc);
+                editor.insertFragment(value.document);
             } else {
-                editor.insertText(doc.text);
+                editor.insertText(str);
             }
         }
     }

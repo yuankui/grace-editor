@@ -3,22 +3,22 @@ import {from} from "rxjs";
 import {filter, reduce, toArray} from "rxjs/operators";
 import {Document} from "slate";
 import {Base64} from 'js-base64';
-import {serializer} from "./utils/Serializer";
+import {serializer} from "../utils/Serializer";
 
 /**
  * args: document: Document(slatejs)
  */
-export const COMMAND_PASTE = "paste-command";
+export const COMMAND_PASTE_TEXT = "command-paste-text";
 
 /**
  * args: files: Array<DataTransferItem>
  */
-export const COMMAND_PASTE_FILE = "paste-file-command";
+export const COMMAND_PASTE_FILE = "command-paste-file";
 
 export function createCopyPaste(plugins: Array<Plugin>): Plugin {
     return {
         commands: {
-            [COMMAND_PASTE]: createCommandChain(COMMAND_PASTE, plugins),
+            [COMMAND_PASTE_TEXT]: createCommandChain(COMMAND_PASTE_TEXT, plugins),
         },
         onCopy: (event, editor, next) => {
             event.preventDefault();
@@ -74,8 +74,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         const document = Document.fromJSON(obj);
                         editor.insertFragment(document);
                     } else {
-                        const value = serializer().deserialize(str);
-                        editor.command(COMMAND_PASTE, value.document);
+                        editor.command(COMMAND_PASTE_TEXT, str);
                     }
                 })
             });
