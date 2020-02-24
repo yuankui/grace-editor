@@ -6,6 +6,8 @@ import {LinkUpdateCommand} from "../../../../../redux/commands/slatejs/link/Link
 import {GetState} from "../../SlatejsRender";
 import LinkModal from "./LinkModal";
 import {Button, Popover, Tooltip} from "antd";
+import {executeCommand} from "../../utils/executeCommand";
+import {COMMAND_PASTE_TEXT} from "../../paste/copyPaste";
 
 export const InlineTypeLink = 'inline-link';
 
@@ -29,7 +31,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
 
             const content = <div>
                 <Tooltip title='Edit Link'>
-                    <Button size='small' onClick={()=> dispatch(new LinkUpdateCommand({
+                    <Button size='small' onClick={() => dispatch(new LinkUpdateCommand({
                         show: true,
                         url: url,
                         linkKey: node.key,
@@ -47,7 +49,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                 </Tooltip>
             </div>;
             return <Popover trigger='click' overlayClassName='app-link-popover' content={content}>
-                <a href={url} onClick={() =>{
+                <a href={url} onClick={() => {
                     // select on click
                     editor.moveAnchorToStartOfInline()
                         .moveFocusToEndOfInline();
@@ -71,6 +73,31 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                            dispatch={dispatch}/>
                 {next()}
             </>;
+        },
+        onCommand: (command, editor, next) => {
+            return executeCommand(command, COMMAND_PASTE_TEXT, args => {
+                const str = args as string;
+                if (str.split("\n").length > 1) {
+                    return false;
+                }
+
+                // https://mathiasbynens.be/demo/url-regex
+                const regex = '@^(https?|ftp)://[^\\s/$.?#].[^\\s]*$@iS';
+                if (str.match(regex)) {
+                    editor.insertInline({
+                        type: InlineTypeLink,
+                        data: {
+                            url: str,
+                        },
+                        nodes: [
+                            {
+                                object: 'text',
+                                text: str
+                            }
+                        ]
+                    })
+                }
+            }) || next();
         }
     }
 };
