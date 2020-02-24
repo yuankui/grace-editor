@@ -18,6 +18,7 @@ import {GetState} from "../SlatejsRender";
 import createChildrenPlugin from "./children/ChildrenPlugin";
 import {createTablePlugin} from "./table/OsTablePlugin";
 import {createNestPagePlugin} from "./nest-page/NestPagePlugin";
+import {createTexPlugin} from "./tex/TexPlugin";
 
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
@@ -37,6 +38,7 @@ export default function createSlateEditorPlugins(getState: GetState, dispatch: D
         createTocPlugin(),
         createLinkPlugin(getState, dispatch),
         createChildrenPlugin(getState),
+        createTexPlugin(),
         createCommonPlugin(),
     ];
 }
