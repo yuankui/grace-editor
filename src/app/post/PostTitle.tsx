@@ -139,7 +139,9 @@ const AddActions: React.FC<AddProps> = (props) => {
     return <Actions width={200}>
         <Action title='JSON' onClick={createJson}/>
         <Action title='Diff' onClick={createDiff}/>
-        <Action title='JobConfig' onClick={createJob}/>
+        <If test={process.env.NODE_ENV === 'development'}>
+            <Action title='JobConfig' onClick={createJob}/>
+        </If>
         <Action title='RichText' onClick={async () => {
             const id = createPostId();
             await dispatch(new CreateNewPostCommand(id, props.parent));
