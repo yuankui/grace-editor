@@ -95,8 +95,10 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                                 text: str
                             }
                         ]
-                    })
+                    });
+                    return true;
                 }
+                return false;
             }) || next();
         }
     }
