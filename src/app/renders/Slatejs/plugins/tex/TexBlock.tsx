@@ -5,6 +5,7 @@ import {RenderBlockProps} from "slate-react";
 import {Editor} from "slate";
 import CodeEditor from "./CodeEditor";
 import * as MathJax from "@nteract/mathjax";
+import LatexBlock from "./LatexBlock";
 
 interface Props {
     props: RenderBlockProps,
@@ -48,7 +49,7 @@ const TexBlock: FunctionComponent<Props> = (props) => {
             Double Click to Edit
         </If>
         <If key={2} test={src != null && src != ''}>
-            <MathJax.Node>{src}</MathJax.Node>
+            <LatexBlock latex={src}/>
         </If>
         <If key={3} test={editMode && isFocus}>
             <div className='tex-editor-wrapper' onClick={e=>{
