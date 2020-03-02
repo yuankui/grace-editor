@@ -51,7 +51,7 @@ const TexBlock: FunctionComponent<Props> = (props) => {
             <MathJax.Node>{src}</MathJax.Node>
         </If>
         <If key={3} test={editMode && isFocus}>
-            <div onClick={e=>{
+            <div className='tex-editor-wrapper' onClick={e=>{
                 // 阻断消息，防止传给上层的slate，他会调用updateSelection，触发Codemirror的onBlur
                 e.stopPropagation();
                 e.preventDefault();
