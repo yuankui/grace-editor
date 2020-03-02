@@ -1279,6 +1279,13 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
+"@nteract/mathjax@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@nteract/mathjax/-/mathjax-4.0.5.tgz#28ec2c6816bf0f95ab26cd28baca82a206531bbb"
+  integrity sha512-4+nDnYMRjOHhXZCaThbJkRp3VCToXgjeTSRtYC+lKudvnfswzTd11NH0nKJmkWYuUfIG4b8r8bH6pzaJ0LGTYw==
+  dependencies:
+    load-script "^1.0.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -7349,6 +7356,11 @@ load-json-file@^4.0.0:
     parse-json "^4.0.0"
     pify "^3.0.0"
     strip-bom "^3.0.0"
+
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
 
 loader-fs-cache@^1.0.0:
   version "1.0.2"

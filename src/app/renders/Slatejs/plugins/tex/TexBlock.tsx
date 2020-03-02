@@ -1,10 +1,10 @@
 import React, {FunctionComponent, useState} from 'react';
-import {BlockMath} from 'react-katex';
 import 'katex/dist/katex.min.css';
 import {classNames, If} from "../../../../../utils";
 import {RenderBlockProps} from "slate-react";
 import {Editor} from "slate";
 import CodeEditor from "./CodeEditor";
+import * as MathJax from "@nteract/mathjax";
 
 interface Props {
     props: RenderBlockProps,
@@ -48,7 +48,7 @@ const TexBlock: FunctionComponent<Props> = (props) => {
             Double Click to Edit
         </If>
         <If key={2} test={src != null && src != ''}>
-            <BlockMath math={src}/>
+            <MathJax.Node>{src}</MathJax.Node>
         </If>
         <If key={3} test={editMode && isFocus}>
             <div onClick={e=>{

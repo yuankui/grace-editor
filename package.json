@@ -47,6 +47,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "@nteract/mathjax": "^4.0.5",
     "@types/codemirror": "^0.0.80",
     "@types/color": "^3.0.0",
     "@types/diff": "^4.0.2",
