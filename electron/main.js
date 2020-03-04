@@ -20,7 +20,6 @@ function createMainWindow() {
         window.loadURL(`http://localhost:8089`);
     } else {
         window.loadFile("build/index.html");
-        window.webContents.eva
     }
 
     window.on('closed', () => {
