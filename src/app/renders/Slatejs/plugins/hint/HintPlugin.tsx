@@ -34,7 +34,7 @@ export function getSelectionCoords() {
 export default function createHintPlugin(dispatch: Dispatch<any>): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-            if (!isHotkey('meta+/', event.nativeEvent)) {
+            if (!isHotkey('mod+/', event.nativeEvent)) {
                 return next();
             }
 

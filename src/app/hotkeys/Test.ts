@@ -5,7 +5,7 @@ import {AppStore} from "../../redux/store";
 
 export default function Test(dispatch: Dispatch<any>, state: AppStore): HotKeyAction {
     return {
-        hotkey: 'Meta+p',
+        hotkey: 'mod+p',
         action() {
             dispatch(push('/posts'));
         }

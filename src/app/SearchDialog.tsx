@@ -40,7 +40,7 @@ class SearchDialog extends React.Component<Props, State> {
     componentDidMount(): void {
         const that = this;
         window.addEventListener("keydown", e => {
-            if (isHotkey('meta+o', e)) {
+            if (isHotkey('mod+o', e)) {
                 e.preventDefault();
                 that.toggleSearch();
             }

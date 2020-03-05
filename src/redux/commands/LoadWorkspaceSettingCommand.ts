@@ -4,8 +4,9 @@ import FileSystem from "../../backend/electron/FileSystem";
 import {Dispatch} from "redux";
 import {UpdateStateCommand} from "./UpdateStateCommand";
 import path from 'path';
+import {getAppHomeDir} from "../utils";
 
-const HomeDir = window.require('process').env['HOME'];
+const HomeDir = getAppHomeDir();
 const graceConfig = window.require('path').join(HomeDir, '.grace-editor.json');
 
 const fs = new FileSystem();

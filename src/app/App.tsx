@@ -6,7 +6,7 @@ import SearchDialog from "./SearchDialog";
 import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
-import {mapState} from "../utils";
+import {classNames, mapState} from "../utils";
 import CreatePost from "./hotkeys/CreatePost";
 import SettingView from "./layout/global/SettingView";
 import Test from "./hotkeys/Test";
@@ -14,7 +14,7 @@ import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
 import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
-import {history} from '../redux/utils';
+import {getProcess, history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
 import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
@@ -47,11 +47,11 @@ class App extends React.Component<AppProps> {
                 }
             }
 
-            if (isHotkey('meta+[', e)) {
+            if (isHotkey('mod+[', e)) {
                 history.goBack();
             }
 
-            if (isHotkey('meta+]', e)) {
+            if (isHotkey('mod+]', e)) {
                 history.goForward();
             }
         });
@@ -59,7 +59,10 @@ class App extends React.Component<AppProps> {
 
     render() {
         const styles: any = this.props.state.theme;
-
+        const className = classNames([
+            'app-container',
+            'platform-' + getProcess().platform,
+        ]);
         return (
             <DndProvider backend={HTML5Backend}>
                 <div id='app-container' className='app-container' style={styles}>

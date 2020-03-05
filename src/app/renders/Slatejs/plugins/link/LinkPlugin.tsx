@@ -59,7 +59,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
             </Popover>;
         },
         onKeyDown: (event, editor, next) => {
-            if (isHotkey('meta+l', event.nativeEvent)) {
+            if (isHotkey('mod+l', event.nativeEvent)) {
                 dispatch(new LinkUpdateCommand({show: true, url: '', linkKey: ''}));
                 return;
             }

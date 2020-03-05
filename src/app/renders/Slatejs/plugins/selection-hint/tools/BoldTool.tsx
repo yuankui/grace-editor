@@ -17,7 +17,7 @@ export default function createBoldTool(): Tool {
             return active;
         },
         title: <b>B</b>,
-        hotkey: 'meta+b',
+        hotkey: 'mod+b',
         action(editor: Editor): void {
             editor.toggleMark(MarkTypeBold);
         }

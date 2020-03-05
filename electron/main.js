@@ -13,7 +13,8 @@ function createMainWindow() {
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
-        }
+        },
+        frame: false,
     });
 
     if (isDevelopment) {
@@ -54,7 +55,7 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-    if (isDevelopment) {
+    if (isDevelopment && require('os').platform() != 'win32') {
         installPlugins();
     }
     mainWindow = createMainWindow();

@@ -17,7 +17,7 @@ export default function createItalicTool(): Tool {
             return active;
         },
         title: <i>i</i>,
-        hotkey: 'meta+i',
+        hotkey: 'mod+i',
 
         action(editor: Editor): void {
             editor.toggleMark(MarkTypeItalic);
