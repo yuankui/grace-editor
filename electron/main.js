@@ -13,7 +13,8 @@ function createMainWindow() {
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
-        }
+        },
+        frame: false,
     });
 
     if (isDevelopment) {

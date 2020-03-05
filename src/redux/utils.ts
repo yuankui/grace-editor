@@ -17,10 +17,18 @@ export function createPostId(): string {
     return uuid.v4();
 }
 
+export function getProcess() {
+    return window.require('process');
+}
 export function createEmptyContent(): any {
     return null;
 }
 
+export function getAppHomeDir() {
+    const process = window.require('process');
+    const homeDir = process.platform != 'win32' ? process.env['HOME'] : process.env['LOCALAPPDATA'];
+    return homeDir;
+}
 export function initReducer(state: AppStore | undefined, action: any): AppStore {
     if (state !== undefined) {
         return {
