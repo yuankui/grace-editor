@@ -113,7 +113,7 @@ export function createTodoPlugin(): Plugin {
                 return <div {...props.attributes}
                             className={TodoBlockType + " check-" + props.node.data.get('checked')}>
                     <span contentEditable={false}>
-                        <Checkbox className='check-box' checked={props.node.data.get('checked')} onChange={e => {
+                        <Checkbox className='check-box' disabled={props.readOnly} checked={props.node.data.get('checked')} onChange={e => {
                             editor.setNodeByKey(props.node.key, {
                                 type: TodoBlockType,
                                 data: {
