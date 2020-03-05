@@ -47,11 +47,11 @@ class App extends React.Component<AppProps> {
                 }
             }
 
-            if (isHotkey('meta+[', e)) {
+            if (isHotkey('mod+[', e)) {
                 history.goBack();
             }
 
-            if (isHotkey('meta+]', e)) {
+            if (isHotkey('mod+]', e)) {
                 history.goForward();
             }
         });

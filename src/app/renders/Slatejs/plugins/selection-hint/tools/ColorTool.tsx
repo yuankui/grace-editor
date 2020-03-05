@@ -31,7 +31,7 @@ export function createColorTool(getState: GetState, dispatch: Dispatch<any>): To
               }}>A</span>
             </Dropdown>;
         },
-        hotkey: 'meta+shift+m',
+        hotkey: 'mod+shift+m',
         action(editor: Editor): void {
 
         }

@@ -5,7 +5,7 @@ import {ToggleSettingCommand} from "../../redux/commands/ToggleSettingCommand";
 
 export default function Setting(dispatch: Dispatch<any>, state: AppStore): HotKeyAction {
     return {
-        hotkey: 'Meta+,',
+        hotkey: 'mod+,',
         action() {
             dispatch(new ToggleSettingCommand(true));
         }

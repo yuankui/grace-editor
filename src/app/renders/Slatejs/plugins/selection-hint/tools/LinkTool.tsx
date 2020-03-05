@@ -20,7 +20,7 @@ export default function createLinkTool(getState: GetState, dispatch: Dispatch<an
             return active;
         },
         title: <u>Link</u>,
-        hotkey: 'meta+l',
+        hotkey: 'mod+l',
 
         action(editor: Editor): void {
 

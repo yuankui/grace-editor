@@ -13,7 +13,7 @@ export default function createHeadingTool(level: number): Tool {
             return editor.value.focusBlock.type === (HeaderTypePrefix + level);
         },
         title: <b>H{level}</b>,
-        hotkey: 'meta+' + level,
+        hotkey: 'mod+' + level,
         action(editor: Editor): void {
             if (editor.value.focusBlock.type === (HeaderTypePrefix + level)) {
                 editor.setBlocks('paragraph');
