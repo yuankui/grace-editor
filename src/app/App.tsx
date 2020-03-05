@@ -65,7 +65,7 @@ class App extends React.Component<AppProps> {
         ]);
         return (
             <DndProvider backend={HTML5Backend}>
-                <div id='app-container' className='app-container' style={styles}>
+                <div id='app-container' className={className} style={styles}>
                     <FindInPage/>
                     <SearchDialog/>
                     <SettingView/>
