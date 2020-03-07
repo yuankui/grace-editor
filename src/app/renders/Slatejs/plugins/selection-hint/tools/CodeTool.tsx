@@ -7,7 +7,7 @@ export default function createCodeTool(): Tool {
     return {
         hint: 'Inline Code',
         title: "<>",
-        hotkey: 'meta+e',
+        hotkey: 'mod+e',
         isActive(editor: Editor): boolean {
             const {focus, anchor} = editor.value.selection;
             const marks = editor.value.document.getMarksAtRange({

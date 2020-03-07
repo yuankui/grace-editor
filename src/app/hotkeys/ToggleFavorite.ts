@@ -6,7 +6,7 @@ import {GetState} from "../renders/Slatejs/SlatejsRender";
 
 export function ToggleFavorite(dispatch: Dispatch<any>, getState: GetState): HotKeyAction {
     return {
-        hotkey: 'Meta+d',
+        hotkey: 'mod+d',
         action() {
             const postId = parseCurrentPostId(getState());
             if (postId  == null)

@@ -15,7 +15,7 @@ export interface HLColor {
 export default function createHighlightPlugin(getState: GetState): Plugin {
     return {
         onKeyDown: (event, editor, next) => {
-            if (isHotkey('meta+m', event.nativeEvent)) {
+            if (isHotkey('mod+m', event.nativeEvent)) {
                 const state = getState();
                 editor.command(HighlightMarkType, state.slatejs.highlight.color);
                 event.preventDefault();

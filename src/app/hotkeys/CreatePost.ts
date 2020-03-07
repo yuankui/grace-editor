@@ -7,7 +7,7 @@ import {PostSelectCommand} from "../../redux/commands/menu/PostSelectCommand";
 
 export default function CreatePost(dispatch: Dispatch<any>, state: AppStore): HotKeyAction {
     return {
-        hotkey: 'Meta+n',
+        hotkey: 'mod+n',
         action() {
             const postId = createPostId();
             dispatch(new CreateNewPostCommand(postId, null));

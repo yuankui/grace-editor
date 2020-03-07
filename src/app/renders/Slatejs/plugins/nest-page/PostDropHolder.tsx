@@ -3,6 +3,7 @@ import {useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "../../../../post/dnd/DragTypes";
 import {Editor} from "slate";
 import {BlockTypeNestPage} from "./NestPagePlugin";
+import {classNames} from "../../../../../utils";
 
 interface Props {
     editor: Editor,
@@ -25,7 +26,12 @@ const PostDropHolder: FunctionComponent<Props> = (props) => {
             isOver: !!monitor.isOver(),
         }),
     });
-    return <div ref={drop} className={'drag-over-' + isOver}>
+
+    const className = classNames([
+        'drag-over-' + isOver,
+        'post-drag-layer',
+    ]);
+    return <div ref={drop} className={className}>
         {props.children}
     </div>;
 };

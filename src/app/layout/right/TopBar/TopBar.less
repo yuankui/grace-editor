@@ -31,7 +31,6 @@
     color: var(--base-font-color);
     display: flex;
     justify-content: space-between;
-    .drag-handle();
 
     .tools {
         flex: 00 00 auto;
@@ -42,5 +41,7 @@
     }
 
     padding: 4px;
-
+    .platform-darwin & {
+        .drag-handle();
+    }
 }

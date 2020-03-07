@@ -77,7 +77,7 @@ export function createTodoPlugin(): Plugin {
                     return;
                 }
                 // toggle todo
-                if (isHotkey('meta+t', event.nativeEvent)) {
+                if (isHotkey('mod+t', event.nativeEvent)) {
                     editor.command(CommandToggleTodo);
                     event.preventDefault();
                     return;

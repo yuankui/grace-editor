@@ -13,14 +13,14 @@ function createMainWindow() {
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
-        }
+        },
+        frame: false,
     });
 
     if (isDevelopment) {
         window.loadURL(`http://localhost:8089`);
     } else {
         window.loadFile("build/index.html");
-        window.webContents.eva
     }
 
     window.on('closed', () => {

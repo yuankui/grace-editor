@@ -12,7 +12,7 @@ const FindInPage: FunctionComponent<Props> = (props) => {
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         const listener = ev => {
-            if (isHotkey('meta+f', ev)) {
+            if (isHotkey('mod+f', ev)) {
                 setVisible(!visible);
                 ev.stopPropagation();
                 ev.preventDefault();
