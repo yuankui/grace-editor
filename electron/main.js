@@ -66,7 +66,7 @@ app.on('ready', () => {
  */
 function installPlugins() {
     const plugins = [
-        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0', // react
+        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0', // react
         '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0', // redux
     ];
 

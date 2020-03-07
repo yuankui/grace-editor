@@ -13,6 +13,7 @@ import _ from 'lodash';
 import Popover from "../layout/right/TopBar/actions/popover/Popover";
 import Actions from "../layout/right/TopBar/actions/popover/Actions";
 import {Action} from "../layout/right/TopBar/actions/popover/Action";
+import {PostFormat} from "../../PostFormat";
 
 interface Props {
     post: Post,
@@ -110,42 +111,22 @@ interface AddProps {
 
 const AddActions: React.FC<AddProps> = (props) => {
     const dispatch = useDispatch();
-    const createJson = async e => {
+
+    const createDoc = (type: PostFormat) => async e => {
         e.stopPropagation();
         e.preventDefault();
         const id = createPostId();
-        await dispatch(new CreateNewPostCommand(id, props.parent, "object"));
+        await dispatch(new CreateNewPostCommand(id, props.parent, type));
         props.afterAdd(id);
     };
-
-    const createDiff = async e => {
-        e.stopPropagation();
-        e.preventDefault();
-        const id = createPostId();
-        await dispatch(new CreateNewPostCommand(id, props.parent, "diff"));
-        props.afterAdd(id);
-    };
-
-    const createJob = async e => {
-        e.stopPropagation();
-        e.preventDefault();
-        const id = createPostId();
-        await dispatch(new CreateNewPostCommand(id, props.parent, "jobConfig"));
-        props.afterAdd(id);
-    };
-
-
 
     return <Actions width={200}>
-        <Action title='JSON' onClick={createJson}/>
-        <Action title='Diff' onClick={createDiff}/>
+        <Action title='JSON' onClick={createDoc("object")}/>
+        <Action title='Diff' onClick={createDoc("diff")}/>
+        <Action title='Markdown' onClick={createDoc("markdown")}/>
         <If test={process.env.NODE_ENV === 'development'}>
-            <Action title='JobConfig' onClick={createJob}/>
+            <Action title='JobConfig' onClick={createDoc("jobConfig")}/>
         </If>
-        <Action title='RichText' onClick={async () => {
-            const id = createPostId();
-            await dispatch(new CreateNewPostCommand(id, props.parent));
-            props.afterAdd(id);
-        }}/>
+        <Action title='RichText' onClick={createDoc("richText")}/>
     </Actions>
 };

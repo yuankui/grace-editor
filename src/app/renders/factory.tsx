@@ -6,7 +6,7 @@ import {PostFormat} from "../../PostFormat";
 import ObjectRender from "./ObjectEditor/ObjectRender";
 import DiffRender from "./Diff/DiffRender";
 import {JobRender} from "./RealtimeJob/JobRender";
-import MarkdownRender from "./markdown/MarkdownRender";
+import MarkdownRender from "./Markdown/MarkdownRender";
 
 type RenderMap = {
     [key in PostFormat]: any;
