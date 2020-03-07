@@ -3,4 +3,5 @@ export type PostFormat = "richText"
     | "object"
     | "diff"
     | "jobConfig"
+    | "markdown"
     ;
