@@ -9,6 +9,8 @@
         background-color: var(--base-background-color);
         resize: unset;
         outline: none;
+
+        padding: 10px;
     }
 
     .app-markdown-preview {
@@ -34,10 +36,15 @@
             border-radius: 5px;
         }
 
+        pre, code {
+            font-family: @code-font;
+        }
         // pre
         pre {
             background-color: #525253;
-            padding: 10px 20px;
+            padding: 10px 10px;
+            border-radius: 5px;
+
         }
 
         // anchor
