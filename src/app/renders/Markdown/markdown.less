@@ -1,0 +1,55 @@
+.app-markdown-render {
+    color: var(--base-text-color);
+    display: flex;
+    flex-direction: row;
+    .app-markdown-editor {
+        flex: 0 0 50%;
+        border: 2px solid gray;
+        margin-right: 5px;
+        background-color: var(--base-background-color);
+        resize: unset;
+        outline: none;
+    }
+
+    .app-markdown-preview {
+        user-select: text;
+        flex: 0 0 50%;
+        border: 2px solid gray;
+        margin-left: 5px;
+
+
+        color: var(--base-text-color);
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--base-text-color);
+        }
+
+        // markdown format
+        padding: 10px;
+
+        // code
+        :not(pre) > code {
+            background-color: #525253;
+            padding: 0px 5px;
+            border-radius: 5px;
+        }
+
+        // pre
+        pre {
+            background-color: #525253;
+            padding: 10px 20px;
+        }
+
+        // anchor
+        a {
+            color: #00baff;
+
+            &:hover {
+                color: #36f2ff;
+            }
+        }
+
+
+
+    }
+}
