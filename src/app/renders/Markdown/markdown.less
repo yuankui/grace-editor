@@ -16,6 +16,9 @@
         padding: 10px;
     }
 
+    .CodeMirror {
+        height: auto;
+    }
     .app-markdown-preview {
         user-select: text;
         flex: 0 0 50%;
@@ -33,21 +36,20 @@
         padding: 10px;
 
         // code
-        :not(pre) > code {
+        code.app {
             background-color: #525253;
             padding: 0px 5px;
             border-radius: 5px;
         }
 
-        pre, code {
+        pre code {
             font-family: @code-font;
         }
         // pre
-        pre {
+        pre.app {
             background-color: #525253;
             padding: 10px 10px;
             border-radius: 5px;
-
         }
 
         // anchor
@@ -56,6 +58,17 @@
 
             &:hover {
                 color: #36f2ff;
+            }
+        }
+
+        // blockquote
+        blockquote {
+            padding: 5px 10px;
+            border-left: 5px solid gray;
+            margin-left: 20px;
+
+            p {
+                margin: 0;
             }
         }
 
