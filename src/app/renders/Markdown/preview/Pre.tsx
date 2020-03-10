@@ -11,12 +11,15 @@ const Pre: FunctionComponent<Props> = (props) => {
         return <pre>empty</pre>
     }
     const {children: code, className: lang} = children.props;
-
+    let mode = "javascript";
+    if (lang && lang.split('-', 2).length == 2) {
+        mode = lang.split('-', 2)[1];
+    }
 
     return <CodeMirror
         value={code}
         options={{
-            mode: lang.split('-')[1],
+            mode: mode,
             theme: 'monokai',
             lineNumbers: true,
             readOnly: 'nocursor',
