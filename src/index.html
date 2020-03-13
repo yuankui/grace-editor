@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>Grace Editor</title>
+    <script>
+        // ignore import child_process in webpack https://github.com/webpack/webpack.js.org/issues/107#issuecomment-320439771
+        window.child_process = require('child_process');
+        window.fs = require('fs');
+    </script>
 </head>
 <body>
 <div id="root" style="height: 100%">
