@@ -52,7 +52,12 @@ export function renderDecoration(props, editor, next) {
                 >
             {children}
           </span>
+        }
 
+        case 'blockquote': {
+            return <blockquote {...attributes}>
+                {children}
+            </blockquote>
         }
 
         case 'hr': {

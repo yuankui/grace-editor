@@ -1,10 +1,13 @@
 import Prism from 'prismjs';
-import {DecorationJSON, Document, Editor, Node, Text} from "slate";
-import {List} from "immutable";
+import {Editor, Node} from "slate";
 
 Prism.languages.markdown = Prism.languages.extend("markup", {});
 Prism.languages.insertBefore("markdown", "prolog", {
-    blockquote: {pattern: /^>(?:[\t ]*>)*/m, alias: "punctuation"},
+    blockquote: {
+        pattern: /^>(?:[\t ]*>)*.+/m,
+        alias: "punctuation",
+        lookbehind: true,
+    },
     code: [{
         pattern: /^(?: {4}|\t).+/m,
         alias: "keyword"
@@ -14,11 +17,20 @@ Prism.languages.insertBefore("markdown", "prolog", {
             alias: "keyword"
         }
     ],
-    title: [{
-        pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/,
-        alias: "important",
-        inside: {punctuation: /==+$|--+$/}
-    }, {pattern: /(^\s*)#+.+/m, lookbehind: !0, alias: "important", inside: {punctuation: /^#+|#+$/}}],
+    title: [
+        {
+            pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/,
+            alias: "important",
+            inside: {punctuation: /==+$|--+$/}
+        },
+        {
+            pattern: /(^\s*)#+.+/m,
+            lookbehind: !0,
+            alias: "important",
+            inside: {
+                punctuation: /^#+|#+$/
+            }
+        }],
     hr: {pattern: /(^\s*)([*-])([\t ]*\2){2,}(?=\s*$)/m, lookbehind: !0, alias: "punctuation"},
     list: {
         pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
@@ -57,99 +69,7 @@ Prism.languages.markdown.italic.inside.url = Prism.util.clone(Prism.languages.ma
 Prism.languages.markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic);
 Prism.languages.markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
 
-function decorateDocument(document: Document, editor: Editor, next): Array<DecorationJSON> {
-    const texts: Array<[Text, List<number>]> = [];
-    document.nodes
-        .forEach(function (n, index) {
-            if (n == null) {
-                return;
-            }
-
-            if (n.object === 'text') {
-                texts.push([n, List([index as number])]);
-            } else {
-                Array.from(n.texts({})).forEach(t => texts.push(t));
-            }
-        });
-
-    const fullText = document.nodes
-        .map(n => {
-            return n?.text;
-        })
-        .filter(t => t != null)
-        .join('\n');
-
-    let prefixOffset: undefined | number = undefined;
-    let lang: undefined | string = undefined;
-    let offset = 0;
-    const codeBlocks: Array<[number, number, string?]> = [];
-    fullText.split("\n").forEach((line) => {
-        let lineLength = line.length;
-        try {
-            if (!line.startsWith('```')) {
-                return
-            }
-
-            if (prefixOffset == null) {
-                prefixOffset = offset + lineLength;
-                lang = line.substr(3);
-            } else {
-                codeBlocks.push([prefixOffset, offset + lineLength, lang]);
-                prefixOffset = undefined;
-                lang = undefined;
-            }
-        } finally {
-            offset += lineLength;
-        }
-    });
-
-    const decorations = codeBlocks.map(block => {
-        const [start, end, lang] = block;
-
-        let textStart = 0;
-
-        let anchor: any = null;
-        let focus: any = null;
-        texts.forEach(value => {
-            const [text, path] = value;
-            try {
-                const textEnd = textStart + text.text.length;
-                if (textStart <= start && start <= textEnd) {
-                    anchor = {
-                        key: text.key,
-                        path: path,
-                        offset: start - textStart,
-                    }
-                }
-                if (textStart <= end && end <= textEnd) {
-                    focus = {
-                        key: text.key,
-                        path: path,
-                        offset: end - textStart,
-                    }
-                }
-            } finally {
-                textStart = textStart + text.text.length + 1;
-            }
-        });
-
-        return {
-            type: 'code-block',
-            anchor: anchor,
-            focus: focus,
-            data: {
-                lang: lang,
-            }
-        }
-    });
-
-    return decorations;
-}
-
 export function decorateNode(node: Node, editor: Editor, next) {
-    if (node.object === 'document') {
-        return decorateDocument(node as Document, editor, next);
-    }
     const others = next() || [];
     if (node.object !== 'block') return others;
 

@@ -5,6 +5,7 @@
     flex-direction: row;
     align-items: stretch;
 
+
     .app-markdown-editor {
         font-family: @normal-font;
         flex: 0 0 50%;
@@ -15,6 +16,37 @@
         outline: none;
 
         padding: 10px;
+
+        blockquote {
+            font-style: italic;
+            padding-left: 10px;
+        }
+        // code block
+        .editor-code-block {
+            margin: 0;
+            padding: 0 10px;
+            background-color: gray;
+            color: white;
+
+            &.first-true {
+                padding-top: 10px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+            }
+
+            &.last-true {
+                padding-bottom: 10px;
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+
+        code {
+            padding: 0 5px;
+            background-color: gray;
+            color: white;
+            border-radius: 5px;
+        }
     }
 
     .CodeMirror {
@@ -76,8 +108,5 @@
                 margin: 0;
             }
         }
-
-
-
     }
 }
