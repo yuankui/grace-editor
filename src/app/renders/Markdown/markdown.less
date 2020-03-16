@@ -6,10 +6,36 @@
     align-items: stretch;
 
 
+    .markdown-divider {
+        flex: 1;
+        .collapse-handle {
+            position: relative;
+            left: 0;
+            top: calc(50% - 25px);
+            z-index: 2;
+            display: flex;
+            .center();
+
+            width: 24px;
+            height: 50px;
+            border-radius: 20px;
+
+            color: var(--base-text-color);
+
+            &:hover {
+                background-color: var(--base-sider-menu-color);
+            }
+
+            &:active {
+                background-color: var(--base-active-background-color);
+            }
+        }
+    }
     .app-markdown-editor {
         font-family: @normal-font;
-        flex: 0 0 50%;
+        flex: 0 0 48%;
         border: 2px solid gray;
+        border-radius: 5px;
         margin-right: 5px;
         background-color: var(--base-background-color);
         resize: unset;
@@ -54,8 +80,9 @@
     }
     .app-markdown-preview {
         user-select: text;
-        flex: 0 0 50%;
+        flex: 0 0 48%;
         border: 2px solid gray;
+        border-radius: 5px;
         margin-left: 5px;
 
 

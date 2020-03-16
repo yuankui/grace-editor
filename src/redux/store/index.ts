@@ -20,6 +20,7 @@ export interface UserProfile {
     favor: Favor,
     isDarkMode: boolean,
     content: ContentConfig,
+    markdownPreview: boolean,
 }
 
 export interface Post {

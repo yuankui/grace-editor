@@ -10,6 +10,7 @@ import Popover from "./popover/Popover";
 import {Action} from "./popover/Action";
 import Actions from "./popover/Actions";
 import {ToggleFullWidthCommand} from "../../../../../redux/commands/settings/ToggleFullWidthCommand";
+import {UpdateProfileSettingCommand} from "../../../../../redux/commands/profile/UpdateProfileSettingCommand";
 
 interface MoreProps {
     state: AppStore,
@@ -38,6 +39,7 @@ class More extends React.Component<MoreProps, MoreState> {
         const profile = this.props.state.profile || {};
         const isDarkMode = !!profile.isDarkMode;
         const fullWidth = profile.content && !!profile.content.fullWidth;
+        const isPreview = !!(profile?.markdownPreview);
 
         const actions = <Actions width={200}>
             <Action title='Dark Mode' onClick={() => {
@@ -49,6 +51,13 @@ class More extends React.Component<MoreProps, MoreState> {
                 this.props.dispatch(new ToggleFullWidthCommand(!fullWidth));
             }}>
                 <Switch checked={fullWidth}/>
+            </Action>
+            <Action title='Markdown Preview' onClick={() => {
+                this.props.dispatch(new UpdateProfileSettingCommand({
+                    markdownPreview: !isPreview
+                }));
+            }}>
+                <Switch checked={isPreview}/>
             </Action>
             <Action title='Setting' onClick={() => {
                 this.props.dispatch(new ToggleSettingCommand(true));
