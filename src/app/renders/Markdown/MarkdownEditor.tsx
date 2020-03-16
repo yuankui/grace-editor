@@ -14,18 +14,24 @@ interface Props {
     style: CSSProperties,
 }
 
+let timer = setTimeout(() => {}, 500);
+
 const MarkdownEditor: FunctionComponent<Props> = (props) => {
 
     const [value, setValue] = useState(checkCodeBlock(Plain.deserialize(props.value)));
     const onChange = (v: Value) => {
         setValue(v);
-        const text = v.document
-            .nodes
-            .map(n => n?.text || '')
-            .join('\n');
 
-        console.log(text);
-        props.onChange(text);
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            const text = v.document
+                .nodes
+                .map(n => n?.text || '')
+                .join('\n');
+
+            console.log(text);
+            props.onChange(text);
+        }, 500);
     };
 
     return (
