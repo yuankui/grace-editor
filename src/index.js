@@ -9,7 +9,7 @@ import {commandMiddleware, enhanceCommandReducer} from "redux-commands";
 import {history, initReducer} from "./redux/utils";
 import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
 import {AppInitCommand} from "./redux/commands/app/AppInitCommand";
-import {IntervalCheckRemoteCommand} from "./redux/commands/app/IntervalCheckRemoteCommand";
+import {CheckRemoteCommand} from "./redux/commands/app/CheckRemoteCommand";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -34,7 +34,7 @@ store.dispatch(new AppInitCommand())
     });
 
 // interval check git remote
-store.dispatch(new IntervalCheckRemoteCommand());
+store.dispatch(new CheckRemoteCommand());
 
 
 
