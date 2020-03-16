@@ -28,7 +28,7 @@ const PostDropHolder: FunctionComponent<Props> = (props) => {
     });
 
     const className = classNames([
-        'drag-over-' + isOver,
+        'nest-drag-over-' + isOver,
         'post-drag-layer',
     ]);
     return <div ref={drop} className={className}>
