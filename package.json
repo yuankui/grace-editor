@@ -12,8 +12,9 @@
     "build-renderer": "webpack --mode production",
     "build": "yarn build-renderer && yarn build-main",
     "patch": "npm version patch",
+    "before-package": "node before-package.js",
     "build-electron": "electron-builder --config electron-builder.yml",
-    "dist": "yarn build && yarn build-electron"
+    "dist": "yarn build && yarn before-package && yarn build-electron"
   },
   "keywords": [],
   "author": "yuankui <yuankui64@gmail.com>",
