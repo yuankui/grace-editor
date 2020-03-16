@@ -1,5 +1,6 @@
 import React, {FunctionComponent, useState} from 'react';
 import {Resizable} from "re-resizable";
+import {Tooltip} from "antd";
 
 interface OwnProps {
 }
@@ -36,17 +37,19 @@ const Folder: FunctionComponent<Props> = (props) => {
             {props.children}
         </div>
         <div className='handle'>
-            <a className='collapse-handle' onClick={() => {
-                setVisible(!visible);
-            }}>
-                <svg viewBox="64 64 896 896" focusable="false" className="" data-icon="more"
-                     width='24px'
-                     height='24px'
-                     fill="currentColor" aria-hidden="true">
-                    <path
-                        d="M456 231a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0 56 56 0 1 0-112 0z"/>
-                </svg>
-            </a>
+            <Tooltip title={'collapse menu'}>
+                <a className='collapse-handle' onClick={() => {
+                    setVisible(!visible);
+                }}>
+                    <svg viewBox="64 64 896 896" focusable="false" className="" data-icon="more"
+                         width='24px'
+                         height='24px'
+                         fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M456 231a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 280a56 56 0 1 0 112 0 56 56 0 1 0-112 0z"/>
+                    </svg>
+                </a>
+            </Tooltip>
         </div>
     </Resizable>
 };
