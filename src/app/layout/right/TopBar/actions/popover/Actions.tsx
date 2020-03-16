@@ -11,7 +11,11 @@ const Actions: FunctionComponent<Props> = (props) => {
         width: props.width,
     };
 
-    return (<div style={style}>
+    return (<div style={style} onDoubleClick={e => {
+        // 阻断点击消息传递，方式点击设置过快，导致窗口不预期的最大化
+        e.stopPropagation();
+        e.preventDefault();
+    }}>
         {props.children}
     </div>);
 };

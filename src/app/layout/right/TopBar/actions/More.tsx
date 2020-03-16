@@ -59,7 +59,7 @@ class More extends React.Component<MoreProps, MoreState> {
             }}>
                 <Switch checked={isPreview}/>
             </Action>
-            <Action title='Setting' onClick={() => {
+            <Action title='Settings' onClick={() => {
                 this.props.dispatch(new ToggleSettingCommand(true));
                 this.toggle(false);
             }}/>

@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {CSSProperties, FunctionComponent, useState} from 'react';
 import {Editor, RenderBlockProps} from "slate-react";
 import Plain from 'slate-plain-serializer';
 import {Editor as CoreEditor, Value} from "slate";
@@ -11,6 +11,7 @@ import {classNames} from "../../../utils";
 interface Props {
     value: string,
     onChange(value: string): void,
+    style: CSSProperties,
 }
 
 const MarkdownEditor: FunctionComponent<Props> = (props) => {
@@ -33,6 +34,7 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
             placeholder="Write some markdown..."
             value={value}
             onKeyDown={onKeyDown}
+            style={props.style}
             renderDecoration={renderDecoration}
             decorateNode={decorateNode}
             renderBlock={renderBlock}

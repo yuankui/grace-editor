@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {CSSProperties, FunctionComponent} from 'react';
 import {RenderProps} from "../renders";
 import MarkdownPreview from "./MarkdownPreview";
 import MarkdownEditor from "./MarkdownEditor";
@@ -9,8 +9,15 @@ import useAppStore from "../../hooks/useAppStore";
 const MarkdownRender: FunctionComponent<RenderProps> = (props) => {
     const text = props.value || '# Title1';
     const state = useAppStore();
+
+    const isPreview = state?.profile?.markdownPreview;
+
+    const singleStyle: CSSProperties = {
+        flex: '0 1 ' + (isPreview? '49%': '100%'),
+    };
+
     return <div className='app-markdown-render'>
-        <MarkdownEditor value={text} onChange={value => {
+        <MarkdownEditor style={singleStyle} value={text} onChange={value => {
             props.onChange(value);
         }}/>
 
