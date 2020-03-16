@@ -36,7 +36,10 @@ class TopBar extends React.Component<Props, State> {
     render() {
         return <div className='top-bar' onDoubleClick={ToggleMaximize}>
             <Nav/>
-            <div className='tools'>
+            <div className='tools' onDoubleClick={e=>{
+                e.stopPropagation();
+                e.preventDefault();
+            }}>
                 <FavorButton/>
                 <a onClick={() => {
                     this.props.dispatch(new CreateNewPostCommand(createPostId(), null));

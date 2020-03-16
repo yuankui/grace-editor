@@ -11,7 +11,10 @@ export const Nav: React.FC = () => {
     const cannotBack = history.index == 0;
     const cannotForward = history.index >= history.entries.length - 1;
 
-    return <div className='nav'>
+    return <div className='nav' onDoubleClick={e=>{
+        e.stopPropagation();
+        e.preventDefault();
+    }}>
         <a className={'disable-' + cannotBack} onClick={() => history.goBack()}><Icon type="arrow-left" /></a>
         <a className={"disable-" + cannotForward} onClick={() => history.goForward()}><Icon type="arrow-right" /></a>
         <BreadCrumb/>
