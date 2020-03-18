@@ -1,4 +1,4 @@
-// 清理一些调试问题，方式源代码泄露
+// 清理map文件
 const fs = require('fs');
 
 const tryRemove = file => {
