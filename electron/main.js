@@ -72,10 +72,11 @@ function installPlugins() {
 
     const paths = plugins.map(id => {
         const home = process.env['HOME'];
-        return childLatest(`${home}'/Library/Application Support/Google/Chrome/Default/Extensions/${id}`);
+        return childLatest(`${home}/Library/Application Support/Google/Chrome/Default/Extensions/${id}`);
     })
-        .fill(p => p != null);
+        .filter(p => p != null);
 
+    console.log(paths);
     for (let plugin of paths) {
         BrowserWindow.addDevToolsExtension(plugin);
     }
