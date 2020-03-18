@@ -74,7 +74,7 @@ function installPlugins() {
         const home = process.env['HOME'];
         return childLatest(`${home}/Library/Application Support/Google/Chrome/Default/Extensions/${id}`);
     })
-        .filter(p => p != null);
+        .fill(p => p != null);
 
     console.log(paths);
     for (let plugin of paths) {
