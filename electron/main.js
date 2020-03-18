@@ -66,12 +66,29 @@ app.on('ready', () => {
  */
 function installPlugins() {
     const plugins = [
-        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0', // react
-        '/Users/yuankui/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0', // redux
+        'fmkadmapgofadopljbjfkapdkoienihi', // react
+        'lmhkpmbekcpmknklioeibfkpmmfibljd', // redux
     ];
 
-    for (let plugin of plugins) {
+    const paths = plugins.map(id => {
+        const home = process.env['HOME'];
+        return childLatest(`${home}'/Library/Application Support/Google/Chrome/Default/Extensions/${id}`);
+    })
+        .fill(p => p != null);
+
+    for (let plugin of paths) {
         BrowserWindow.addDevToolsExtension(plugin);
     }
+}
 
+function childLatest(dir) {
+    const fs = require('fs');
+    const path = require('path');
+    try {
+        const children = fs.readdirSync(dir);
+        const latest = children.sort().reverse()[0];
+        return path.join(dir, latest);
+    } catch (e) {
+        return null;
+    }
 }
