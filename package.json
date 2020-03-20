@@ -4,7 +4,7 @@
   "description": "a graceful editor",
   "main": "./build/main.js",
   "scripts": {
-    "start": "webpack-dev-server --open --mode development",
+    "start": "webpack-dev-server --mode development",
     "build-main": "webpack --config webpack.main.js --mode production",
     "electron": "webpack --config webpack.main.js --mode development && cross-env NODE_ENV=development PLUGIN=false electron . --allow-file-access-from-files",
     "e": "yarn electron",
