@@ -124,6 +124,7 @@ const AddActions: React.FC<AddProps> = (props) => {
         <Action title='JSON' onClick={createDoc("object")}/>
         <Action title='Diff' onClick={createDoc("diff")}/>
         <Action title='Markdown' onClick={createDoc("markdown")}/>
+        <Action title='HttpClient' onClick={createDoc("httpClient")}/>
         <If test={process.env.NODE_ENV === 'development'}>
             <Action title='JobConfig' onClick={createDoc("jobConfig")}/>
         </If>
