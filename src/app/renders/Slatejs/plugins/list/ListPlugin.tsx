@@ -3,6 +3,8 @@ import React from "react";
 import {Block, Editor, Rules} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
+import {executeCommand} from "../../utils/executeCommand";
+import {COMMAND_PASTE_TEXT} from "../../paste/copyPaste";
 
 export const CommandToggleList = 'toggleList';
 export const CommandIndentList = 'indentList';
@@ -154,6 +156,13 @@ export function createListPlugin(): Plugin {
 
                 return editor;
             },
+        },
+
+        onCommand: (command, editor, next) => {
+            return executeCommand(command, COMMAND_PASTE_TEXT, args => {
+                const str = args as string;
+                editor.insertText(str);
+            }) || next();
         },
 
         queries: {
