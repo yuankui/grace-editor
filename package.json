@@ -15,7 +15,7 @@
     "build-dev": "yarn build-renderer-dev && yarn build-main",
     "patch": "npm version patch",
     "before-package": "node before-package.js",
-    "build-electron": "electron-builder --config electron-builder.yml",
+    "build-electron": "electron-builder --config electron-builder.yml -mw",
     "dist": "yarn build && yarn before-package && yarn build-electron",
     "dist-dev": "yarn build-dev && yarn before-package && yarn build-electron"
   },
