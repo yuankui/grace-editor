@@ -29,7 +29,6 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
                 .map(n => n?.text || '')
                 .join('\n');
 
-            console.log(text);
             props.onChange(text);
         }, 500);
     };
