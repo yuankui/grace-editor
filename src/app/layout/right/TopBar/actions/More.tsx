@@ -11,6 +11,7 @@ import {Action} from "./popover/Action";
 import Actions from "./popover/Actions";
 import {ToggleFullWidthCommand} from "../../../../../redux/commands/settings/ToggleFullWidthCommand";
 import {UpdateProfileSettingCommand} from "../../../../../redux/commands/profile/UpdateProfileSettingCommand";
+import {toggleAboutCommand} from "../../../../../redux/commands/ToggleAboutCommand";
 
 interface MoreProps {
     state: AppStore,
@@ -61,6 +62,10 @@ class More extends React.Component<MoreProps, MoreState> {
             </Action>
             <Action title='Settings' onClick={() => {
                 this.props.dispatch(new ToggleSettingCommand(true));
+                this.toggle(false);
+            }}/>
+            <Action title='About' onClick={() => {
+                this.props.dispatch(new toggleAboutCommand(true));
                 this.toggle(false);
             }}/>
         </Actions>;

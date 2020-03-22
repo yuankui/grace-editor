@@ -84,6 +84,7 @@ export interface ContentConfig {
 
 export interface AppStore {
     showSetting: boolean,
+    showAbout: boolean,
     posts: PostsStore,
     backend: Backend,
     siderState: SiderState,

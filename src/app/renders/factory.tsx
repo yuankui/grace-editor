@@ -23,6 +23,9 @@ export function getRender(post: Post) : ComponentType<Partial<RenderProps>> {
         httpClient: HttpClientRender,
     };
 
+    if (post == null) {
+        return null as any;
+    }
     if (renders[post.format]) {
         return renders[post.format];
     }

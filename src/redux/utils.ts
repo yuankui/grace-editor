@@ -53,6 +53,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
             canGitPush: false,
         },
         showSetting: false,
+        showAbout: false,
         posts: {
             childrenMap: Immutable.OrderedMap(),
             posts: Immutable.OrderedMap<string, Post>(),

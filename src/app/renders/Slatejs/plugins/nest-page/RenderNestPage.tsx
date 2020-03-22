@@ -62,10 +62,10 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
                             if (post != null) {
                                 dispatch(PostSelectCommand(post.id));
                             }
-                        }}>{post.title}</a>
+                        }}>{post?.title}</a>
                     </div>
                 </If>
-                <Render value={post.content} readOnly={true} onChange={() =>{}}/>
+                <Render value={post?.content} readOnly={true} onChange={() =>{}}/>
             </If>
         </div>
     </Corner>

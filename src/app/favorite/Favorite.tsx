@@ -12,6 +12,7 @@ export const Favorite: FC = () => {
     const favor = state.profile.favor || {};
     const posts = favor.posts || [];
 
+
     const children = posts
         .filter(p => state.posts.posts.get(p) != null)
         .map((postId, index) => <React.Fragment key={postId}>

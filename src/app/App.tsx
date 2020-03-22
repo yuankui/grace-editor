@@ -18,6 +18,7 @@ import {getProcess, history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
 import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
+import AboutPage from "./about/AboutPage";
 
 interface AppProps {
     state: AppStore,
@@ -69,6 +70,7 @@ class App extends React.Component<AppProps> {
                     <FindInPage/>
                     <SearchDialog/>
                     <SettingView/>
+                    <AboutPage/>
                     <LeftSide />
                     <RightSide/>
                 </div>

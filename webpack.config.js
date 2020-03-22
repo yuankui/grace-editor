@@ -2,9 +2,13 @@ const merge = require('webpack-merge');
 const common = require('./config/webpack.common');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 const _ = require('lodash');
 
 require("babel-polyfill");
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const gitRevisionPlugin = new GitRevisionPlugin();
+
 
 module.exports = {
     entry: {
@@ -19,6 +23,13 @@ module.exports = {
             template: "./src/index.html",
             filename: "./index.html"
         }),
+        new webpack.DefinePlugin(
+            {
+                'VERSION': JSON.stringify(gitRevisionPlugin.version()),
+                'COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash().substring(0, 8)),
+                'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+            }
+        ),
     ],
     devServer: {
         port: 8089,
