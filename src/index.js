@@ -10,6 +10,8 @@ import {history, initReducer} from "./redux/utils";
 import {ConnectedRouter, routerMiddleware} from 'connected-react-router';
 import {AppInitCommand} from "./redux/commands/app/AppInitCommand";
 import {CheckRemoteCommand} from "./redux/commands/app/CheckRemoteCommand";
+import {lazyExecute} from "./utils/lazyExecute";
+import {RecoveryStateCommand} from './redux/commands/recovery/RecoveryStateCommand';
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -31,11 +33,19 @@ store.dispatch(new AppInitCommand())
                 </ConnectedRouter>
             </Provider>,
             document.getElementById('root'));
+
+        store.dispatch(new RecoveryStateCommand());
     });
 
-// interval check git remote
+
+// check git remote
 store.dispatch(new CheckRemoteCommand());
 
+// save AppState async
+const lazySave = lazyExecute(() => {
+    localStorage.setItem('app-state', JSON.stringify(store.getState()));
+}, 500);
+store.subscribe(lazySave);
 
 
 // If you want your app to work offline and load faster, you can change

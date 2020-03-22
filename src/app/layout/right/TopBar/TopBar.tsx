@@ -10,10 +10,10 @@ import GitPullCommand from "../../../../redux/commands/git/GitPullCommand";
 import More from "./actions/More";
 import {CreateNewPostCommand} from "../../../../redux/commands/CreateNewPostCommand";
 import {createPostId} from "../../../../redux/utils";
-import PostSelectAction from "../../../../redux/actions/PostSelectAction";
 import {FavorButton} from "./FavorButton";
 import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
+import {PostSelectCommand} from "../../../../redux/commands/menu/PostSelectCommand";
 
 interface Props {
     dispatch: Dispatch<any>,
@@ -42,8 +42,9 @@ class TopBar extends React.Component<Props, State> {
             }}>
                 <FavorButton/>
                 <a onClick={() => {
-                    this.props.dispatch(new CreateNewPostCommand(createPostId(), null));
-                    this.props.dispatch(PostSelectAction());
+                    let postId = createPostId();
+                    this.props.dispatch(new CreateNewPostCommand(postId, null));
+                    this.props.dispatch(PostSelectCommand(postId));
                 }}>Create New</a>
                 <InputButton placeHolder='commit message' onConfirm={message => this.save(message)}>
                     Commit

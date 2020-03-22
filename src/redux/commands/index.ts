@@ -76,5 +76,7 @@ export type CommandType = "TestCommand"
 
     | "Theme/Load"
 
+    | "Recovery/All"
+    | "Recovery/Location"
 
 ;

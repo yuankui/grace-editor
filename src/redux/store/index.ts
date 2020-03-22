@@ -82,6 +82,7 @@ export interface ContentConfig {
     fullWidth: boolean,
 }
 
+
 export interface AppStore {
     showSetting: boolean,
     showAbout: boolean,
