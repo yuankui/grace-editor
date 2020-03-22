@@ -54,6 +54,10 @@ module.exports = {
                     'style-loader', 'css-loader'
                 ]
             },
+            {
+                test: /\.ya?ml$/,
+                use: 'js-yaml-loader',
+            }
         ]
     },
 
