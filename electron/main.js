@@ -8,8 +8,8 @@ function createMainWindow() {
     const window = new BrowserWindow({
         //https://electronjs.org/docs/api/frameless-window#%E5%8F%AF%E6%8B%96%E6%8B%BD%E5%8C%BA
         titleBarStyle: "hidden",
-        minWidth: 1000,
-        width: 1000,
+        minWidth: 1200,
+        width: 1200,
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,

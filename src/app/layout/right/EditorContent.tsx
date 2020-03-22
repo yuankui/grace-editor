@@ -33,7 +33,10 @@ export default class EditorContent extends React.Component<Props, any> {
 
         let Editor = getRender(post);
 
-        const flex = this.props.fullWidth ? 1 : 0;
+        // see src/app/renders/Markdown/MarkdownRender.tsx:32 MarkdownRender.fixWidth = true;
+        // @ts-ignore
+        const partialWidth = !this.props.fullWidth && !(Editor.fixWidth);
+        const flex = partialWidth ? 0 : 1;
 
         return <div className='app-right-content'>
             <div className='post-editor' style={{

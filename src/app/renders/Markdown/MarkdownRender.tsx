@@ -28,4 +28,7 @@ const MarkdownRender: FunctionComponent<RenderProps> = (props) => {
     </div>;
 };
 
+// @ts-ignore
+MarkdownRender.fixWidth = true;
+
 export default MarkdownRender;
