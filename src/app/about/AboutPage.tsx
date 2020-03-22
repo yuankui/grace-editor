@@ -7,6 +7,7 @@ import open from 'open';
 
 interface Props {}
 
+// https://stackoverflow.com/questions/38400314/including-git-commit-hash-and-date-in-webpack-build
 declare var VERSION: string;
 const appUrl = 'https://grace-note.app';
 
