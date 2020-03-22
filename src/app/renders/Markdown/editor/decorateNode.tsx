@@ -64,10 +64,12 @@ Prism.languages.insertBefore("markdown", "prolog", {
         }
     }
 }, null as any);
-Prism.languages.markdown.bold.inside.url = Prism.util.clone(Prism.languages.markdown.url);
-Prism.languages.markdown.italic.inside.url = Prism.util.clone(Prism.languages.markdown.url);
-Prism.languages.markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic);
-Prism.languages.markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
+
+const markdown: any = Prism.languages.markdown;
+markdown.bold.inside.url = Prism.util.clone(Prism.languages.markdown.url);
+markdown.italic.inside.url = Prism.util.clone(Prism.languages.markdown.url);
+markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic);
+markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
 
 export function decorateNode(node: Node, editor: Editor, next) {
     const others = next() || [];
@@ -98,7 +100,7 @@ export function decorateNode(node: Node, editor: Editor, next) {
         startEntry = endEntry;
         startOffset = endOffset;
 
-        const [startText, startPath] = startEntry;
+        const [startText, startPath] = startEntry as any;
         const length = getLength(token);
         const end = start + length;
 
@@ -109,13 +111,13 @@ export function decorateNode(node: Node, editor: Editor, next) {
 
         while (available < remaining) {
             endEntry = texts.shift();
-            const [endText] = endEntry;
+            const [endText] = endEntry as any;
             remaining = length - available;
             available = endText.text.length;
             endOffset = remaining
         }
 
-        const [endText, endPath] = endEntry;
+        const [endText, endPath] = endEntry as any;
 
         if (typeof token !== 'string') {
             const dec = {
