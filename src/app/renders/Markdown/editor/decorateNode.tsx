@@ -1,5 +1,5 @@
 import Prism from 'prismjs';
-import {Editor, Node} from "slate";
+import {DecorationJSON, Editor, Node} from "slate";
 
 Prism.languages.markdown = Prism.languages.extend("markup", {});
 Prism.languages.insertBefore("markdown", "prolog", {
@@ -79,7 +79,7 @@ export function decorateNode(node: Node, editor: Editor, next) {
     const texts = Array.from(node.texts({}));
     const grammar = Prism.languages.markdown;
     const tokens = Prism.tokenize(string, grammar);
-    const decorations = [];
+    const decorations: Array<DecorationJSON> = [];
     let startEntry = texts.shift();
     let endEntry = startEntry;
     let startOffset = 0;
