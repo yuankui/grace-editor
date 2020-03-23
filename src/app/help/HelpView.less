@@ -1,0 +1,22 @@
+.app-help {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    height: 50px;
+    width: 50px;
+    .center();
+    display: flex;
+
+    span {
+        cursor: pointer;
+        color: var(--base-text-inactive-color);
+
+        &:hover {
+            color: var(--base-text-hover-color);
+        }
+
+        &:active {
+            color: var(--base-text-active-color);
+        }
+    }
+}

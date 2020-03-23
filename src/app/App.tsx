@@ -20,6 +20,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
+import HelpView from "./help/HelpView";
 
 interface AppProps {
     state: AppStore,
@@ -75,6 +76,7 @@ class App extends React.Component<AppProps> {
                         <AboutPage/>
                         <LeftSide />
                         <RightSide/>
+                        <HelpView/>
                     </div>
                 </DndProvider>
             </International>

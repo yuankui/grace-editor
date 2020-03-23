@@ -13,4 +13,7 @@ export interface Theme {
     '--base-font-disable-color': Color,
     '--base-text-color': Color,
     '--base-background-highlight-color': Color,
+    '--base-text-inactive-color': Color,
+    '--base-text-hover-color': Color,
+    '--base-text-active-color': Color,
 }
