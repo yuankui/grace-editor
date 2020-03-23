@@ -1,7 +1,6 @@
-import {mapState} from "../../../utils";
-import {connect} from "react-redux";
-import React from "react";
-import {AppStore, Settings} from "../../../redux/store";
+import {useDispatch} from "react-redux";
+import React, {useState} from "react";
+import {AppStore} from "../../../redux/store";
 import {Dispatch} from "redux";
 import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal, Select, Tabs} from "antd";
@@ -11,84 +10,73 @@ import {AppInitCommand} from "../../../redux/commands/app/AppInitCommand";
 import {SaveWorkspaceSettingCommand} from "../../../redux/commands/SaveWorkspaceSettingCommand";
 import {languages} from "../../../i18n/International";
 import {ChangeLangCommand} from "../../../i18n/ChangeLangCommand";
+import {useLang} from "../../../i18n/i18n";
+import useAppStore from "../../hooks/useAppStore";
 
-interface Props {
-    state: AppStore,
-    dispatch: Dispatch<any>,
-}
 
-class SettingView extends React.Component<Props, Settings> {
+const SettingView: React.FC<any> = () => {
+    const dispatch = useDispatch();
+    const state = useAppStore();
+    const [workSpace, setWorkSpace] = useState(state.settings.workSpace);
 
-    constructor(props: any, context: any) {
-        super(props, context);
-        this.state = this.props.state.settings;
-    }
+    const selectOptions = Object.values(languages)
+        .map(lang => {
+            return <Select.Option key={lang.id} value={lang.id}>{lang.title}</Select.Option>;
+        });
 
-    render() {
-        const {dispatch, state} = this.props;
-        const selectOptions = Object.values(languages)
-            .map(lang => {
-                return <Select.Option key={lang.id} value={lang.id}>{lang.title}</Select.Option>;
-            });
+    const lang = useLang();
 
-        return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
-                      onOk={() => this.save()}
-                      visible={this.props.state.showSetting}>
-            <div className='app-setting-view'>
-                <Tabs defaultActiveKey="1" tabPosition='left' style={{ height: 220 }}>
-                    <Tabs.TabPane key='basic' tab={'basic'}>
-                        <h1>
-                            设置
-                        </h1>
+    const save = async () => {
+        await dispatch(new SaveWorkspaceSettingCommand(workSpace));
+        await dispatch(new AppInitCommand());
+        await dispatch(new ToggleSettingCommand(false));
+    };
 
-                        <div className='app-setting-content'>
-                            <p>
-                                工作区路径
-                            </p>
-                            <ElectronSelect
-                                value={this.state.workSpace? this.state.workSpace: ''}
-                                onChange={path => this.updateWorkSpace(path)}>
-                                选择路径
-                            </ElectronSelect>
+    return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
+                  onOk={() => save()}
+                  visible={state.showSetting}>
+        <div className='app-setting-view'>
+            <Tabs defaultActiveKey="1" tabPosition='left' style={{height: 220}}>
+                <Tabs.TabPane key='basic' tab={lang["setting.basic"]}>
+                    <h1>
+                        设置
+                    </h1>
 
-                            <p>
-                                初始化工作区
-                            </p>
-                            <Button type='danger' onClick={() => {
-                                this.props.dispatch(new GitInitCommand());
-                            }}>初始化</Button>
-                        </div>
-                    </Tabs.TabPane>
-                    <Tabs.TabPane key={'language'} tab={'language'}>
-                        <Select
-                            className={'language-select'}
-                            value={state.profile.lang}
-                            showSearch
-                            placeholder="Select a person"
-                            optionFilterProp="children"
-                            onChange={(value: string) => {
-                                dispatch(new ChangeLangCommand(value));
-                            }}
-                        >
-                            {selectOptions}
-                        </Select>
-                    </Tabs.TabPane>
-                </Tabs>
-            </div>
-        </Modal>
-    }
+                    <div className='app-setting-content'>
+                        <p>
+                            工作区路径
+                        </p>
+                        <ElectronSelect
+                            value={workSpace ? workSpace : ''}
+                            onChange={setWorkSpace}>
+                            选择路径
+                        </ElectronSelect>
 
-    updateWorkSpace(path: string) {
-        this.setState({
-            workSpace: path,
-        })
-    }
+                        <p>
+                            初始化工作区
+                        </p>
+                        <Button type='danger' onClick={() => {
+                            dispatch(new GitInitCommand());
+                        }}>初始化</Button>
+                    </div>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'language'} tab={lang["setting.lang"]}>
+                    <Select
+                        className={'language-select'}
+                        value={state.profile.lang}
+                        showSearch
+                        placeholder={lang["setting.lang.select-lang"]}
+                        optionFilterProp="children"
+                        onChange={(value: string) => {
+                            dispatch(new ChangeLangCommand(value));
+                        }}
+                    >
+                        {selectOptions}
+                    </Select>
+                </Tabs.TabPane>
+            </Tabs>
+        </div>
+    </Modal>;
+};
 
-    async save() {
-        await this.props.dispatch(new SaveWorkspaceSettingCommand(this.state.workSpace));
-        await this.props.dispatch(new AppInitCommand());
-        await this.props.dispatch(new ToggleSettingCommand(false));
-    }
-}
-
-export default connect(mapState)(SettingView);
+export default SettingView;

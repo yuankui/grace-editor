@@ -1,8 +1,6 @@
 import React from "react";
 import {If, mapState} from "../../../../utils";
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
-import {AppStore} from "../../../../redux/store";
+import {connect, useDispatch} from "react-redux";
 import GitCommitCommand from "../../../../redux/commands/git/GitCommitCommand";
 import InputButton from "./InputButton";
 import GitPushCommand from "../../../../redux/commands/git/GitPushCommand";
@@ -14,67 +12,47 @@ import {FavorButton} from "./FavorButton";
 import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
 import {PostSelectCommand} from "../../../../redux/commands/menu/PostSelectCommand";
+import useAppStore from "../../../hooks/useAppStore";
+import {useLang} from "../../../../i18n/i18n";
 
-interface Props {
-    dispatch: Dispatch<any>,
-    state: AppStore,
-}
+const TopBar: React.FC<any> = () => {
+    const dispatch = useDispatch();
+    const state = useAppStore();
 
-interface State {
-    logs: Array<string>,
-}
+    const save = (message: string) => {
+        dispatch(new GitCommitCommand(message));
+    };
 
-class TopBar extends React.Component<Props, State> {
+    const lang = useLang();
 
-    constructor(props: Readonly<Props>) {
-        super(props);
-        this.state = {
-            logs: [],
-        }
-    }
-
-    render() {
-        return <div className='top-bar' onDoubleClick={ToggleMaximize}>
-            <Nav/>
-            <div className='tools' onDoubleClick={e=>{
-                e.stopPropagation();
-                e.preventDefault();
-            }}>
-                <FavorButton/>
-                <a onClick={() => {
-                    let postId = createPostId();
-                    this.props.dispatch(new CreateNewPostCommand(postId, null));
-                    this.props.dispatch(PostSelectCommand(postId));
-                }}>Create New</a>
-                <InputButton placeHolder='commit message' onConfirm={message => this.save(message)}>
-                    Commit
-                </InputButton>
-                <If test={this.props.state.status.canGitPush}>
-                    <a onClick={() => this.props.dispatch(new GitPushCommand())}>
-                        Push
-                    </a>
-                </If>
-                <If test={this.props.state.status.canGitPull}>
-                    <a onClick={() => this.props.dispatch(new GitPullCommand())}>
-                        Pull
-                    </a>
-                </If>
-                <More/>
-            </div>
-        </div>;
-    }
-
-    save(message: string) {
-        this.props.dispatch(new GitCommitCommand(message));
-    }
-
-
-    button(label: string, onClick: () => void) {
-        return <button type='button' onClick={() => onClick()}>
-            {label}
-        </button>
-    }
-
-}
+    return <div className='top-bar' onDoubleClick={ToggleMaximize}>
+        <Nav/>
+        <div className='tools' onDoubleClick={e => {
+            e.stopPropagation();
+            e.preventDefault();
+        }}>
+            <FavorButton/>
+            <a onClick={() => {
+                let postId = createPostId();
+                dispatch(new CreateNewPostCommand(postId, null));
+                dispatch(PostSelectCommand(postId));
+            }}>{lang["top.create"]}</a>
+            <InputButton placeHolder='commit message' onConfirm={save}>
+                {lang["top.commit"]}
+            </InputButton>
+            <If test={state.status.canGitPush}>
+                <a onClick={() => dispatch(new GitPushCommand())}>
+                    {lang["top.push"]}
+                </a>
+            </If>
+            <If test={state.status.canGitPull}>
+                <a onClick={() => dispatch(new GitPullCommand())}>
+                    {lang["top.pull"]}
+                </a>
+            </If>
+            <More/>
+        </div>
+    </div>;
+};
 
 export default connect(mapState)(TopBar);

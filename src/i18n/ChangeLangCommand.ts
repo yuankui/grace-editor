@@ -1,6 +1,7 @@
 import {AppCommand, CommandType} from "../redux/commands";
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
+import {UpdateProfileSettingCommand} from "../redux/commands/profile/UpdateProfileSettingCommand";
 
 export class ChangeLangCommand extends AppCommand {
     private readonly lang: string;
@@ -14,13 +15,9 @@ export class ChangeLangCommand extends AppCommand {
         return "Lang/Change";
     }
 
-    process(state: AppStore, dispatch: Dispatch<any>): AppStore {
-        return {
-            ...state,
-            profile: {
-                ...state.profile,
-                lang: this.lang,
-            }
-        }
+    async process(state: AppStore, dispatch: Dispatch<any>) {
+        await dispatch(new UpdateProfileSettingCommand({
+            lang: this.lang,
+        }));
     }
 }

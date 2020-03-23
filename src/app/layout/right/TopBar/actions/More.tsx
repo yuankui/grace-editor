@@ -38,17 +38,17 @@ const More: React.FC<any> = props => {
     };
 
     const actions = <Actions width={200}>
-        <Action title='Dark Mode' onClick={() => {
+        <Action title={lang["more.dark-mode"]} onClick={() => {
             dispatch(new ToggleDarkModeCommand(!isDarkMode));
         }}>
             <Switch checked={isDarkMode}/>
         </Action>
-        <Action title='Full Width' onClick={() => {
+        <Action title={lang["more.full-width"]} onClick={() => {
             dispatch(new ToggleFullWidthCommand(!fullWidth));
         }}>
             <Switch checked={fullWidth}/>
         </Action>
-        <Action title='Markdown Preview' onClick={() => {
+        <Action title={lang["more.markdown.preview"]} onClick={() => {
             dispatch(new UpdateProfileSettingCommand({
                 markdownPreview: !isPreview
             }));
@@ -59,7 +59,7 @@ const More: React.FC<any> = props => {
             dispatch(new ToggleSettingCommand(true));
             toggle(false);
         }}/>
-        <Action title='About' onClick={() => {
+        <Action title={lang["more.about"]} onClick={() => {
             dispatch(new toggleAboutCommand(true));
             toggle(false);
         }}/>
