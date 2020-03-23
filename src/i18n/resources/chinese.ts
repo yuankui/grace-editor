@@ -21,6 +21,8 @@ const lang: Lang = {
     "more.dark-mode": "黑暗模式",
     "more.full-width": "Full Width",
     "more.markdown.preview": "Markdown预览",
+    "hotkey.rich-text.header.desc": "",
+    "hotkey.rich-text.header.title": "标题"
 
 };
 

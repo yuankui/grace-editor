@@ -1,11 +1,29 @@
-import React, { FunctionComponent } from 'react';
-import {Tooltip} from "antd";
+import React, {FunctionComponent, useState} from 'react';
+import {Modal} from "antd";
+import HotkeysView from "./hotkey/HotkeysView";
 
-interface Props {}
+interface Props {
+}
 
 const HelpView: FunctionComponent<Props> = (props) => {
+    const [show, setShow] = useState(false);
+
     return <div className='app-help'>
-        <span className="material-icons">help_outline</span>
+        <span onClick={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            setShow(true);
+        }} className="material-icons">help_outline</span>
+        <Modal width={600}
+               visible={show}
+               footer={null}
+               onCancel={e => {
+                   e.stopPropagation();
+                   e.preventDefault();
+                   setShow(false);
+               }}>
+            <HotkeysView/>
+        </Modal>
     </div>;
 };
 

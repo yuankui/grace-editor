@@ -32,5 +32,7 @@ export interface Lang {
     'more.full-width': string,
     'more.dark-mode': string,
 
-
+    // hotkeys
+    'hotkey.rich-text.header.title': string,
+    'hotkey.rich-text.header.desc': string,
 }

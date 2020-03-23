@@ -1,5 +1,7 @@
 import {Lang} from "../i18n";
 
+import heading from './help/cn/heading.md';
+
 const lang: Lang = {
     'top.create': 'Create New',
     'top.commit': 'Commit',
@@ -21,6 +23,10 @@ const lang: Lang = {
     'more.markdown.preview': 'Markdown Preview',
     'more.full-width': 'Full Width',
     'more.dark-mode': 'Dark Mode',
+
+    // hotkeys
+    'hotkey.rich-text.header.title': 'Heading',
+    'hotkey.rich-text.header.desc': heading,
 };
 
 

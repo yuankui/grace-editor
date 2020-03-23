@@ -20,3 +20,42 @@
         }
     }
 }
+
+.app-help-hotkeys {
+    code {
+        background-color: gray;
+        padding: 0 5px;
+        border-radius: 3px;
+        color: white;
+    }
+
+    display: flex;
+    flex-direction: column;
+
+    .app-help-hotkey {
+        display: flex;
+        flex-direction: column;
+
+        .hotkey-simple {
+            display: flex;
+            flex-direction: row;
+            .hotkey-title {
+                flex: 1;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .hotkey-key {
+                flex: 0 0 20px;
+            }
+            margin-bottom: 10px;
+        }
+
+        .hotkey-detail {
+            margin: 10px;
+            padding: 10px;
+            background-color: #dbdbdb;
+            border-radius: 10px;
+        }
+    }
+}
