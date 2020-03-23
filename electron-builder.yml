@@ -32,11 +32,13 @@ mac:
 win:
   target: nsis
   icon: electron/Grace.ico
-  nsisWeb:
-    # allow choose install dir
-    # https://www.electron.build/configuration/nsis
-    # https://github.com/alibaba/ice/issues/214
-    allowToChangeInstallationDirectory: true
+
+nsis:
+  # allow choose install dir
+  # https://www.electron.build/configuration/nsis
+  # https://github.com/alibaba/ice/issues/214
+  allowToChangeInstallationDirectory: true
+  oneClick: false
 
 linux:
   target:
