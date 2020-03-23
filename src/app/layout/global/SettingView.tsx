@@ -4,11 +4,13 @@ import React from "react";
 import {AppStore, Settings} from "../../../redux/store";
 import {Dispatch} from "redux";
 import ElectronSelect from "../../PathSelect/ElectronSelect";
-import {Button, Modal} from "antd";
+import {Button, Modal, Select, Tabs} from "antd";
 import GitInitCommand from "../../../redux/commands/git/GitInitCommand";
 import {ToggleSettingCommand} from "../../../redux/commands/ToggleSettingCommand";
 import {AppInitCommand} from "../../../redux/commands/app/AppInitCommand";
 import {SaveWorkspaceSettingCommand} from "../../../redux/commands/SaveWorkspaceSettingCommand";
+import {languages} from "../../../i18n/International";
+import {ChangeLangCommand} from "../../../i18n/ChangeLangCommand";
 
 interface Props {
     state: AppStore,
@@ -23,32 +25,55 @@ class SettingView extends React.Component<Props, Settings> {
     }
 
     render() {
-        const {dispatch} = this.props;
+        const {dispatch, state} = this.props;
+        const selectOptions = Object.values(languages)
+            .map(lang => {
+                return <Select.Option key={lang.id} value={lang.id}>{lang.title}</Select.Option>;
+            });
+
         return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
                       onOk={() => this.save()}
                       visible={this.props.state.showSetting}>
             <div className='app-setting-view'>
-                <h1>
-                    设置
-                </h1>
+                <Tabs defaultActiveKey="1" tabPosition='left' style={{ height: 220 }}>
+                    <Tabs.TabPane key='basic' tab={'basic'}>
+                        <h1>
+                            设置
+                        </h1>
 
-                <div className='app-setting-content'>
-                    <p>
-                        工作区路径
-                    </p>
-                    <ElectronSelect
-                        value={this.state.workSpace? this.state.workSpace: ''}
-                        onChange={path => this.updateWorkSpace(path)}>
-                        选择路径
-                    </ElectronSelect>
+                        <div className='app-setting-content'>
+                            <p>
+                                工作区路径
+                            </p>
+                            <ElectronSelect
+                                value={this.state.workSpace? this.state.workSpace: ''}
+                                onChange={path => this.updateWorkSpace(path)}>
+                                选择路径
+                            </ElectronSelect>
 
-                    <p>
-                        初始化工作区
-                    </p>
-                    <Button type='danger' onClick={() => {
-                        this.props.dispatch(new GitInitCommand());
-                    }}>初始化</Button>
-                </div>
+                            <p>
+                                初始化工作区
+                            </p>
+                            <Button type='danger' onClick={() => {
+                                this.props.dispatch(new GitInitCommand());
+                            }}>初始化</Button>
+                        </div>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane key={'language'} tab={'language'}>
+                        <Select
+                            className={'language-select'}
+                            value={state.lang}
+                            showSearch
+                            placeholder="Select a person"
+                            optionFilterProp="children"
+                            onChange={(value: string) => {
+                                dispatch(new ChangeLangCommand(value));
+                            }}
+                        >
+                            {selectOptions}
+                        </Select>
+                    </Tabs.TabPane>
+                </Tabs>
             </div>
         </Modal>
     }

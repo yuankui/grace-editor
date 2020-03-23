@@ -7,16 +7,29 @@ import useAppStore from "../app/hooks/useAppStore";
 interface Props {
 }
 
-const languages: {[key: string]: Lang} = {
-    english,
-    chinese,
+interface LangOptions {
+    title: string,
+    id: string,
+    lang: Lang,
+}
+export const languages: {[key: string]: LangOptions} = {
+    english: {
+        id: 'english',
+        lang: english,
+        title: 'English',
+    },
+    chinese: {
+        id: 'chinese',
+        lang: chinese,
+        title: 'Chinese(简体中文)',
+    },
 };
 
 
-const International: FunctionComponent<Props> = (props) => {
+export const International: FunctionComponent<Props> = (props) => {
     let state = useAppStore();
     const lang = useMemo(() => {
-        const lang = languages[state.lang];
+        const lang = languages[state.lang].lang;
         const defaultLang = english;
         // 默认语言+设置语言，当设置语言没有的时候，就会去设置语言里面去找。
         return {...defaultLang, ...lang};
@@ -26,5 +39,3 @@ const International: FunctionComponent<Props> = (props) => {
         {props.children}
     </I18nContext.Provider>;
 };
-
-export default International;

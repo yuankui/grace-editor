@@ -93,7 +93,8 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 url: '',
                 linkKey: '',
             }
-        }
+        },
+        lang: 'english',
     };
 }
 

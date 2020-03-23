@@ -1,7 +1,7 @@
-import React from "react";
-import {mapState, Rotate} from "../../../../../utils";
+import React, {useState} from "react";
+import {Rotate} from "../../../../../utils";
 import {Icon, Switch} from "antd";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {ToggleDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
@@ -12,6 +12,8 @@ import Actions from "./popover/Actions";
 import {ToggleFullWidthCommand} from "../../../../../redux/commands/settings/ToggleFullWidthCommand";
 import {UpdateProfileSettingCommand} from "../../../../../redux/commands/profile/UpdateProfileSettingCommand";
 import {toggleAboutCommand} from "../../../../../redux/commands/ToggleAboutCommand";
+import useAppStore from "../../../../hooks/useAppStore";
+import {useLang} from "../../../../../i18n/i18n";
 
 interface MoreProps {
     state: AppStore,
@@ -22,66 +24,58 @@ interface MoreState {
     showPopup: boolean,
 }
 
-class More extends React.Component<MoreProps, MoreState> {
+const More: React.FC<any> = props => {
+    const dispatch = useDispatch();
+    const state = useAppStore();
+    const profile = state.profile || {};
+    const isDarkMode = !!profile.isDarkMode;
+    const fullWidth = profile.content && !!profile.content.fullWidth;
+    const isPreview = !!(profile?.markdownPreview);
+    const lang = useLang();
+    const [showPopup, setShow] = useState(false);
+    const toggle = (show: boolean) => {
+        setShow(show);
+    };
 
-    constructor(props: Readonly<MoreProps>) {
-        super(props);
-        this.state = {
-            showPopup: false,
-        }
-    }
+    const actions = <Actions width={200}>
+        <Action title='Dark Mode' onClick={() => {
+            dispatch(new ToggleDarkModeCommand(!isDarkMode));
+        }}>
+            <Switch checked={isDarkMode}/>
+        </Action>
+        <Action title='Full Width' onClick={() => {
+            dispatch(new ToggleFullWidthCommand(!fullWidth));
+        }}>
+            <Switch checked={fullWidth}/>
+        </Action>
+        <Action title='Markdown Preview' onClick={() => {
+            dispatch(new UpdateProfileSettingCommand({
+                markdownPreview: !isPreview
+            }));
+        }}>
+            <Switch checked={isPreview}/>
+        </Action>
+        <Action title={lang["setting.title"]} onClick={() => {
+            dispatch(new ToggleSettingCommand(true));
+            toggle(false);
+        }}/>
+        <Action title='About' onClick={() => {
+            dispatch(new toggleAboutCommand(true));
+            toggle(false);
+        }}/>
+    </Actions>;
 
-    toggle(show: boolean) {
-        this.setState({
-            showPopup: show,
-        })
-    }
-    render() {
-        const profile = this.props.state.profile || {};
-        const isDarkMode = !!profile.isDarkMode;
-        const fullWidth = profile.content && !!profile.content.fullWidth;
-        const isPreview = !!(profile?.markdownPreview);
+    return <Popover placement="bottomLeft"
+                    content={actions}
+                    visible={showPopup}
+                    onVisibleChange={toggle}
+    >
+        <a>
+            <Rotate deg={90}>
+                <Icon type='more'/>
+            </Rotate>
+        </a>
+    </Popover>
+};
 
-        const actions = <Actions width={200}>
-            <Action title='Dark Mode' onClick={() => {
-                this.props.dispatch(new ToggleDarkModeCommand(!isDarkMode));
-            }}>
-                <Switch checked={isDarkMode}/>
-            </Action>
-            <Action title='Full Width' onClick={() => {
-                this.props.dispatch(new ToggleFullWidthCommand(!fullWidth));
-            }}>
-                <Switch checked={fullWidth}/>
-            </Action>
-            <Action title='Markdown Preview' onClick={() => {
-                this.props.dispatch(new UpdateProfileSettingCommand({
-                    markdownPreview: !isPreview
-                }));
-            }}>
-                <Switch checked={isPreview}/>
-            </Action>
-            <Action title='Settings' onClick={() => {
-                this.props.dispatch(new ToggleSettingCommand(true));
-                this.toggle(false);
-            }}/>
-            <Action title='About' onClick={() => {
-                this.props.dispatch(new toggleAboutCommand(true));
-                this.toggle(false);
-            }}/>
-        </Actions>;
-
-        return <Popover placement="bottomLeft"
-                        content={actions}
-                        visible={this.state.showPopup}
-                        onVisibleChange={visible => this.toggle(visible)}
-                        >
-            <a>
-                <Rotate deg={90}>
-                    <Icon type='more'/>
-                </Rotate>
-            </a>
-        </Popover>
-    }
-}
-
-export default connect(mapState)(More);
+export default More;

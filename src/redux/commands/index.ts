@@ -79,4 +79,6 @@ export type CommandType = "TestCommand"
     | "Recovery/All"
     | "Recovery/Location"
 
+    | "Lang/Change"
+
 ;
