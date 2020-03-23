@@ -46,6 +46,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 fullWidth: false,
             },
             markdownPreview: false,
+            lang: 'english'
         },
         theme: LightTheme,
         status: {
@@ -94,7 +95,6 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 linkKey: '',
             }
         },
-        lang: 'english',
     };
 }
 

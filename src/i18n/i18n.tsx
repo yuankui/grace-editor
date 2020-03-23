@@ -10,6 +10,7 @@ export function useLang() {
 export interface Lang {
     'top.create-file': string,
     'left.favorite.title': string,
+    'left.repository.title': string,
     'setting.title': string,
     'setting.basic': string,
     'setting.lang': string,

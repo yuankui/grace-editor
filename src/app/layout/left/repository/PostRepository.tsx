@@ -5,6 +5,7 @@ import {If} from "../../../../utils";
 import {PostHolder} from "../../../post/PostHolder";
 import {ExpandPostTree} from "../../../post/ExpandPostTree";
 import {SiderGroup} from "../sider/SiderGroup";
+import {useLang} from "../../../../i18n/i18n";
 
 export const PostRepository: React.FC = () => {
     const store = useStore<AppStore>();
@@ -13,6 +14,7 @@ export const PostRepository: React.FC = () => {
     if (topPostIds == null)
         topPostIds = [];
 
+    const lang = useLang();
     const children = topPostIds
         .sort((a, b) => {
             const weightA = posts.posts.get(a).weight;
@@ -29,7 +31,7 @@ export const PostRepository: React.FC = () => {
             </React.Fragment>;
         });
 
-    return <SiderGroup title='Repository'>
+    return <SiderGroup title={lang["left.repository.title"]}>
             {children}
         </SiderGroup>
 };

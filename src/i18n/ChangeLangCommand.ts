@@ -17,7 +17,10 @@ export class ChangeLangCommand extends AppCommand {
     process(state: AppStore, dispatch: Dispatch<any>): AppStore {
         return {
             ...state,
-            lang: this.lang,
+            profile: {
+                ...state.profile,
+                lang: this.lang,
+            }
         }
     }
 }

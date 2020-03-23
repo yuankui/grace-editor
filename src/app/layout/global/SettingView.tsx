@@ -62,7 +62,7 @@ class SettingView extends React.Component<Props, Settings> {
                     <Tabs.TabPane key={'language'} tab={'language'}>
                         <Select
                             className={'language-select'}
-                            value={state.lang}
+                            value={state.profile.lang}
                             showSearch
                             placeholder="Select a person"
                             optionFilterProp="children"
