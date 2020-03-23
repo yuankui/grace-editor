@@ -15,10 +15,18 @@ export interface Lang {
 
     'left.favorite.title': string,
     'left.repository.title': string,
+
+    // 设置
     'setting.title': string,
     'setting.basic': string,
     'setting.lang': string,
     'setting.lang.select-lang': string,
+    'setting.basic.working-dir': string,
+    'setting.basic.init-working-dir': string,
+    'setting.basic.initialize': string,
+    'setting.basic.choose-directory': string,
+
+    // more
     'more.about': string,
     'more.markdown.preview': string,
     'more.full-width': string,

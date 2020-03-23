@@ -38,26 +38,23 @@ const SettingView: React.FC<any> = () => {
         <div className='app-setting-view'>
             <Tabs defaultActiveKey="1" tabPosition='left' style={{height: 220}}>
                 <Tabs.TabPane key='basic' tab={lang["setting.basic"]}>
-                    <h1>
-                        设置
-                    </h1>
 
                     <div className='app-setting-content'>
                         <p>
-                            工作区路径
+                            {lang["setting.basic.working-dir"]}
                         </p>
                         <ElectronSelect
                             value={workSpace ? workSpace : ''}
                             onChange={setWorkSpace}>
-                            选择路径
+                            {lang["setting.basic.choose-directory"]}
                         </ElectronSelect>
 
                         <p>
-                            初始化工作区
+                            {lang["setting.basic.init-working-dir"]}
                         </p>
                         <Button type='danger' onClick={() => {
                             dispatch(new GitInitCommand());
-                        }}>初始化</Button>
+                        }}>{lang["setting.basic.initialize"]}</Button>
                     </div>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'language'} tab={lang["setting.lang"]}>

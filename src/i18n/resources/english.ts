@@ -2,7 +2,7 @@ import {Lang} from "../i18n";
 
 const lang: Lang = {
     'top.create': 'Create New',
-    'top.commit': '提交',
+    'top.commit': 'Commit',
     'top.push': 'Push',
     'top.pull': 'Pull',
 
@@ -12,10 +12,15 @@ const lang: Lang = {
     "setting.lang": "Language",
     "setting.title": "Settings",
     "setting.lang.select-lang": 'Select Language',
+    'setting.basic.working-dir': 'Working Directory',
+    'setting.basic.init-working-dir': 'Initialize Working Directory',
+    'setting.basic.initialize': "Initialize",
+    'setting.basic.choose-directory': "Choose Directory",
+
     "more.about": 'About',
-    'more.markdown.preview': 'Markdown预览',
+    'more.markdown.preview': 'Markdown Preview',
     'more.full-width': 'Full Width',
-    'more.dark-mode': '黑暗模式',
+    'more.dark-mode': 'Dark Mode',
 };
 
 
