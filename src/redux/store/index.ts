@@ -96,6 +96,7 @@ export interface AppStore {
     status: AppStatus,
     profile: UserProfile,
     theme: Theme,
+    lang: string,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {

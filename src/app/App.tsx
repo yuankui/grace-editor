@@ -19,6 +19,7 @@ import FindInPage from "./findInPage/FindInPage";
 import HTML5Backend from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
+import International from "../i18n/International";
 
 interface AppProps {
     state: AppStore,
@@ -65,16 +66,18 @@ class App extends React.Component<AppProps> {
             'platform-' + getProcess().platform,
         ]);
         return (
-            <DndProvider backend={HTML5Backend}>
-                <div id='app-container' className={className} style={styles}>
-                    <FindInPage/>
-                    <SearchDialog/>
-                    <SettingView/>
-                    <AboutPage/>
-                    <LeftSide />
-                    <RightSide/>
-                </div>
-            </DndProvider>
+            <International>
+                <DndProvider backend={HTML5Backend}>
+                    <div id='app-container' className={className} style={styles}>
+                        <FindInPage/>
+                        <SearchDialog/>
+                        <SettingView/>
+                        <AboutPage/>
+                        <LeftSide />
+                        <RightSide/>
+                    </div>
+                </DndProvider>
+            </International>
         );
     }
 }
