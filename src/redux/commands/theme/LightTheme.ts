@@ -5,6 +5,7 @@ const black = Color('black').alpha(1);
 const white = Color("white").alpha(1);
 
 export const LightTheme: Theme = {
+    type: "light",
     '--base-sider-menu-color': Color('#F9F9F9'),
     '--base-font-color': black.alpha(.65),
     "--base-font-active-color": black.alpha(.85),

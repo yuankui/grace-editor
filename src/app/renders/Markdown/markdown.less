@@ -1,3 +1,9 @@
+.code-style {
+    background-color: var(--markdown-code-background-color);
+    color: var(--base-text-color);
+    .code-font();
+}
+
 .app-markdown-render {
     color: var(--base-text-color);
     flex: 1;
@@ -80,17 +86,17 @@
 
         // code
         code.app {
-            background-color: gray;
+            .code-style();
             padding: 0px 5px;
             border-radius: 5px;
         }
 
         pre code {
-            font-family: @code-font;
+            .code-style();
         }
         // pre
         pre.app {
-            background-color: #525253;
+            .code-style();
             padding: 10px 10px;
             border-radius: 5px;
         }

@@ -5,6 +5,7 @@ const white = Color("white").alpha(1);
 
 const darkBaseBg = Color('#363C3F');
 export const DarkTheme: Theme = {
+    type: "dark",
     '--base-sider-menu-color': Color('#363C3F',),
     '--base-font-color': white.alpha(.65),
     '--base-font-hover-color': white.alpha(.85),

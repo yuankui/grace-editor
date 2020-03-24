@@ -1,6 +1,7 @@
 import Color from "color";
 
 export interface Theme {
+    type: 'light' |'dark',
     '--base-sider-menu-color': Color,
     '--base-font-color': Color,
     '--base-background-color': Color,

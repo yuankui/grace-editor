@@ -8,6 +8,10 @@ import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/shell/shell';
 import 'codemirror/mode/sql/sql';
 import 'codemirror/mode/go/go';
+import 'codemirror/theme/base16-dark.css';
+import 'codemirror/theme/base16-light.css';
+
+import useTheme from "../../../hooks/useTheme";
 
 
 interface Props {
@@ -29,6 +33,8 @@ const languageMap: { [key: string]: string; } = {
 
 const Pre: FunctionComponent<Props> = (props) => {
     let children = props.children as any;
+    const theme = useTheme();
+
     if (children == null) {
         return <pre>empty</pre>
     }
@@ -46,7 +52,7 @@ const Pre: FunctionComponent<Props> = (props) => {
         value={code}
         options={{
             mode: mode,
-            theme: 'monokai',
+            theme: theme.type === 'dark'? 'base16-dark': 'base16-light',
             lineNumbers: true,
             readOnly: 'nocursor',
         }}
