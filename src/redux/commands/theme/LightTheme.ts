@@ -21,4 +21,5 @@ export const LightTheme: Theme = {
     "--base-text-inactive-color": Color('#c3c3c3'),
     "--base-text-hover-color": Color('#8b8b8b'),
     "--base-text-active-color": Color('#3b3b3b'),
+    '--markdown-code-background-color': Color("rgb(224, 224, 224)"),
 };

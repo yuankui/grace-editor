@@ -19,6 +19,6 @@ export const DarkTheme: Theme = {
     "--base-background-highlight-color": Color('#3f4447'),
     "--base-text-inactive-color": Color('rgba(147,147,147,1)'),
     "--base-text-hover-color": Color('rgb(199,199,199)'),
-    "--base-text-active-color": Color('rgb(241,241,241)')
-
+    "--base-text-active-color": Color('rgb(241,241,241)'),
+    '--markdown-code-background-color': Color("rgb(73, 76, 80)"),
 };

@@ -16,4 +16,5 @@ export interface Theme {
     '--base-text-inactive-color': Color,
     '--base-text-hover-color': Color,
     '--base-text-active-color': Color,
+    '--markdown-code-background-color': Color,
 }
