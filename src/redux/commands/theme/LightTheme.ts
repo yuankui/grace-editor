@@ -23,4 +23,6 @@ export const LightTheme: Theme = {
     "--base-text-hover-color": Color('#8b8b8b'),
     "--base-text-active-color": Color('#3b3b3b'),
     '--markdown-code-background-color': Color("rgb(224, 224, 224)"),
+    "--base-selection-background-color": Color("#B4D8FE"),
+    "--base-selection-text-color": Color("#000"),
 };

@@ -18,4 +18,6 @@ export interface Theme {
     '--base-text-hover-color': Color,
     '--base-text-active-color': Color,
     '--markdown-code-background-color': Color,
+    '--base-selection-background-color': Color,
+    '--base-selection-text-color': Color,
 }
