@@ -4,6 +4,8 @@ import {Theme} from "./Theme";
 const white = Color("white").alpha(1);
 
 const darkBaseBg = Color('#363C3F');
+const linkColor = Color('#6BCAFB');
+
 export const DarkTheme: Theme = {
     type: "dark",
     '--base-sider-menu-color': Color('#363C3F',),
@@ -24,4 +26,10 @@ export const DarkTheme: Theme = {
     '--markdown-code-background-color': Color("rgb(73, 76, 80)"),
     "--base-selection-background-color": Color("#98b5d4"),
     "--base-selection-text-color": Color("#FFF"),
+
+    '--checkbox-background-checked-color': white.alpha(.40),
+    '--checkbox-background-color': Color('rgba(0, 0, 0, 0)'),
+    '--checkbox-border-color': white.alpha(.80),
+
+    '--base-link-color': linkColor,
 };

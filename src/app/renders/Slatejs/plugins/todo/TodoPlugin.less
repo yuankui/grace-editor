@@ -1,11 +1,24 @@
 .todo-block {
     .check-box {
         margin-right: 5px;
+
     }
 
     &.check-true {
         text-decoration: line-through;
         color: var(--base-font-disable-color);
+
+    }
+
+    // check box color
+    .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: var(--checkbox-background-checked-color);
+        border-color: var(--checkbox-background-checked-color);
+    }
+
+    .ant-checkbox-inner {
+        background-color: var(--checkbox-background-color);
+        border-color: var(--checkbox-border-color);
     }
     padding-bottom: 6px;
 }

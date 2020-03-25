@@ -20,4 +20,8 @@ export interface Theme {
     '--markdown-code-background-color': Color,
     '--base-selection-background-color': Color,
     '--base-selection-text-color': Color,
+    '--checkbox-background-checked-color': Color,
+    '--checkbox-background-color': Color,
+    '--checkbox-border-color': Color,
+    '--base-link-color': Color,
 }

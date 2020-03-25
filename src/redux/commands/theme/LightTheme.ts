@@ -4,6 +4,7 @@ import {Theme} from "./Theme";
 const black = Color('black').alpha(1);
 const white = Color("white").alpha(1);
 
+const linkColor = Color("rgb(21, 160, 177)");
 export const LightTheme: Theme = {
     type: "light",
     '--base-sider-menu-color': Color('#F9F9F9'),
@@ -25,4 +26,10 @@ export const LightTheme: Theme = {
     '--markdown-code-background-color': Color("rgb(224, 224, 224)"),
     "--base-selection-background-color": Color("#B4D8FE"),
     "--base-selection-text-color": Color("#000"),
+
+    '--checkbox-background-checked-color': black.alpha(.40),
+    '--checkbox-background-color': Color('rgba(0, 0, 0, 0)'),
+    '--checkbox-border-color': black.alpha(.40),
+
+    '--base-link-color': linkColor,
 };
