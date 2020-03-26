@@ -4,6 +4,8 @@ import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
 import isHotkey from "is-hotkey";
 import {Editor} from "slate";
+import PubSub from 'pubsub-js';
+
 
 export interface Props {
     fullWidth: boolean,
@@ -45,14 +47,16 @@ export default class EditorContent extends React.Component<Props, any> {
                 <div className='title'>
                     <input placeholder={"Untitled"}
                            onKeyDown={e => {
-                               if (isHotkey('enter', e.nativeEvent)) {
-                                   const editor = this.contentRef.current as Editor;
-                                   if (editor != null) {
-                                       editor.moveAnchorToStartOfDocument();
-                                       editor.moveFocusToStartOfDocument();
-                                       editor.focus();
-                                   }
-                               }
+                               // if (isHotkey('enter', e.nativeEvent)) {
+                               //     const editor = this.contentRef.current as Editor;
+                               //     if (editor != null) {
+                               //         editor.moveAnchorToStartOfDocument();
+                               //         editor.moveFocusToStartOfDocument();
+                               //         editor.focus();
+                               //     }
+                               // }
+
+                               PubSub.publish("title-enter", null);
                            }}
                            key={post.id}
                            ref={this.titleRef}
