@@ -21,6 +21,7 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
+import {notify} from "./hooks/useMessage";
 
 interface AppProps {
     state: AppStore,
@@ -69,7 +70,9 @@ class App extends React.Component<AppProps> {
         return (
             <International>
                 <DndProvider backend={HTML5Backend}>
-                    <div id='app-container' className={className} style={styles}>
+                    <div id='app-container' className={className} style={styles} onKeyDown={e => {
+                        notify("keydown", e.nativeEvent);
+                    }}>
                         <FindInPage/>
                         <SearchDialog/>
                         <SettingView/>

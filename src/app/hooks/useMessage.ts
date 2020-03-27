@@ -58,6 +58,7 @@ export function useRefMessage<Data, Ref>(topic: MessageTopic, refMessageConsumer
 
 export type MessageTopic = "codemirror-focus"
     | "title-enter"
+    | "keydown"
     ;
 
 export function notify(topic: MessageTopic, data?: any) {
