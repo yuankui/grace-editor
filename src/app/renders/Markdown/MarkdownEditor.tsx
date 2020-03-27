@@ -6,6 +6,7 @@ import {renderDecoration} from "./editor/renderDecoration";
 import {decorateNode} from "./editor/decorateNode";
 import isHotkey from "is-hotkey";
 import {classNames} from "../../../utils";
+import {useLazyMessage} from "../../hooks/useMessage";
 
 
 interface Props {
@@ -33,8 +34,15 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
         }, 500);
     };
 
+    let init = useLazyMessage('title-enter');
+
     return (
         <Editor
+            ref={editor => {
+                init(data => {
+                    editor?.focus();
+                })
+            }}
             className='app-markdown-editor'
             placeholder="Write some markdown..."
             value={value}
