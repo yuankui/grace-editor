@@ -9,7 +9,7 @@ import {BlockParagraph} from "./plugins/common";
 import {createCopyPaste} from "./paste/copyPaste";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
-import {useLazyMessage} from "../../hooks/useMessage";
+import {useLazyMessage, useRefMessage} from "../../hooks/useMessage";
 
 
 export interface GetState {
@@ -59,14 +59,11 @@ const SlatejsRender: FunctionRender = props => {
         lazySave(v);
     };
 
-    const setConsumer = useLazyMessage('title-enter');
+    const ref = useRefMessage<any, Editor>('title-enter', (editor, data) => {
+        editor?.focus();
+    });
     return <Editor value={value}
-
-                   ref={editor => {
-                       setConsumer(data => {
-                           editor?.focus();
-                       })
-                   }}
+                   ref={ref}
                    className='slate-editor'
                    placeholder="Start from here..."
                    plugins={plugins}

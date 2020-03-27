@@ -6,6 +6,7 @@ import {Editor} from "slate";
 import CodeEditor from "./CodeEditor";
 import * as MathJax from "@nteract/mathjax";
 import LatexBlock from "./LatexBlock";
+import {notify} from "../../../../hooks/useMessage";
 
 interface Props {
     props: RenderBlockProps,
@@ -42,6 +43,9 @@ const TexBlock: FunctionComponent<Props> = (props) => {
                 onDoubleClick={e => {
                     e.stopPropagation();
                     setEditMode(true);
+                    setTimeout(() => {
+                        notify('codemirror-focus');
+                    }, 10);
                 }}>
 
 
@@ -51,18 +55,20 @@ const TexBlock: FunctionComponent<Props> = (props) => {
         <If key={2} test={src != null && src != ''}>
             <LatexBlock latex={src}/>
         </If>
-        <If key={3} test={editMode && isFocus}>
-            <div className='tex-editor-wrapper' onClick={e=>{
-                // 阻断消息，防止传给上层的slate，他会调用updateSelection，触发Codemirror的onBlur
-                e.stopPropagation();
-                e.preventDefault();
-            }}>
-                <CodeEditor mode={'stex'} value={src} onChange={changeSrc} onBlur={() => {
-                    setEditMode(false);
-                }}/>
-            </div>
-
-        </If>
+        <div className='tex-editor-wrapper'
+             style={{display: editMode ? 'block' : 'none'}}
+             onClick={e => {
+                 // 阻断消息，防止传给上层的slate，他会调用updateSelection，触发Codemirror的onBlur
+                 e.stopPropagation();
+                 e.preventDefault();
+             }}>
+            <CodeEditor mode={'stex'}
+                        value={src}
+                        onChange={changeSrc}
+                        onBlur={() => {
+                            setEditMode(false);
+                        }}/>
+        </div>
     </div>;
 };
 

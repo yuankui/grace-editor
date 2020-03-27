@@ -3,7 +3,7 @@ import {useEffect} from "react";
 
 const emitter = mitt();
 
-export function useMessage<T>(topic: string, consumer: Consumer<T>) {
+export function useMessage<T>(topic: MessageTopic, consumer: Consumer<T>) {
     useEffect(() => {
         emitter.on(topic, consumer);
         return () => {
@@ -12,7 +12,7 @@ export function useMessage<T>(topic: string, consumer: Consumer<T>) {
     })
 }
 
-export function useLazyMessage<T>(topic: string): Consumer<Consumer<T>> {
+export function useLazyMessage<T>(topic: MessageTopic): Consumer<Consumer<T>> {
     let consumer: Consumer<T> | null = null;
 
     const consumerConsumer = c => {
@@ -38,7 +38,7 @@ export interface RefConsumer<Ref> {
     (ref: Ref): void,
 }
 
-export function useRefMessage<Data, Ref>(topic: string, refMessageConsumer: RefMessageConsumer<Data, Ref>): RefConsumer<Ref> {
+export function useRefMessage<Data, Ref>(topic: MessageTopic, refMessageConsumer: RefMessageConsumer<Ref, Data>): RefConsumer<Ref> {
     let ref: any = null;
 
     const refConsumer: RefConsumer<Ref> = r => {
@@ -56,7 +56,11 @@ export function useRefMessage<Data, Ref>(topic: string, refMessageConsumer: RefM
     return refConsumer;
 }
 
-export function notify(topic: string, data?: any) {
+export type MessageTopic = "codemirror-focus"
+    | "title-enter"
+    ;
+
+export function notify(topic: MessageTopic, data?: any) {
     emitter.emit(topic, data);
 }
 

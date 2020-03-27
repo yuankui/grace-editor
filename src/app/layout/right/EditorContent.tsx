@@ -4,6 +4,7 @@ import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
 import {Editor} from "slate";
 import {notify} from "../../hooks/useMessage";
+import isHotkey from "is-hotkey";
 
 
 export interface Props {
@@ -42,9 +43,11 @@ export default class EditorContent extends React.Component<Props, any> {
                 <div className='title'>
                     <input placeholder={"Untitled"}
                            onKeyDown={e => {
-                               e.stopPropagation();
-                               e.preventDefault();
-                               notify("title-enter");
+                               if (isHotkey('enter', e.nativeEvent)) {
+                                   e.stopPropagation();
+                                   e.preventDefault();
+                                   notify("title-enter");
+                               }
                            }}
                            key={post.id}
                            defaultValue={post.title}
