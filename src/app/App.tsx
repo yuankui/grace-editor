@@ -17,7 +17,7 @@ import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
 import useAppStore from "./hooks/useAppStore";
 
-export const App: React.FC = (props) => {
+export const App: React.FC = () => {
     const state = useAppStore();
     const dispatch = useDispatch();
     const store = useStore();
