@@ -30,6 +30,32 @@ export function useLazyMessage<T>(topic: string): Consumer<Consumer<T>> {
     return consumerConsumer;
 }
 
+export interface RefMessageConsumer<Ref, Data> {
+    (ref: Ref, data: Data): void,
+}
+
+export interface RefConsumer<Ref> {
+    (ref: Ref): void,
+}
+
+export function useRefMessage<Data, Ref>(topic: string, refMessageConsumer: RefMessageConsumer<Data, Ref>): RefConsumer<Ref> {
+    let ref: any = null;
+
+    const refConsumer: RefConsumer<Ref> = r => {
+        ref = r;
+    };
+
+
+    useEffect(() => {
+        emitter.on(topic, data => {
+            if (ref != null) {
+                refMessageConsumer(ref, data);
+            }
+        })
+    });
+    return refConsumer;
+}
+
 export function notify(topic: string, data?: any) {
     emitter.emit(topic, data);
 }
