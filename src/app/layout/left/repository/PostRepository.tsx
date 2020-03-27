@@ -1,11 +1,13 @@
 import {useStore} from "react-redux";
 import React from "react";
-import {AppStore} from "../../../../redux/store";
+import {AppStore, getParents} from "../../../../redux/store";
 import {If} from "../../../../utils";
 import {PostHolder} from "../../../post/PostHolder";
 import {ExpandPostTree} from "../../../post/ExpandPostTree";
 import {SiderGroup} from "../sider/SiderGroup";
 import {useLang} from "../../../../i18n/i18n";
+import useAppStore from "../../../hooks/useAppStore";
+import {useMessage} from "../../../message/message";
 
 export const PostRepository: React.FC = () => {
     const store = useStore<AppStore>();

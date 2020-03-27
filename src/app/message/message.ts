@@ -1,5 +1,6 @@
 import mitt from 'mitt'
 import {useEffect} from "react";
+import {Consumer} from "../../common";
 
 const emitter = mitt();
 
@@ -9,7 +10,7 @@ export function useMessage<T>(topic: MessageTopic, consumer: Consumer<T>) {
         return () => {
             emitter.off(topic, consumer);
         }
-    })
+    }, []);
 }
 
 export function useLazyMessage<T>(topic: MessageTopic): Consumer<Consumer<T>> {
@@ -58,12 +59,9 @@ export function useRefMessage<Data, Ref>(topic: MessageTopic, refMessageConsumer
 
 export type MessageTopic = "codemirror-focus"
     | "title-enter"
+    | "locate-post"
     ;
 
 export function notify(topic: MessageTopic, data?: any) {
     emitter.emit(topic, data);
-}
-
-export interface Consumer<T> {
-    (data: T): void,
 }

@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import {ExpandContext, ExpandState} from "./ExpandContext";
 import {PostTree} from "./PostTree";
+import useAppStore from "../hooks/useAppStore";
+import {useMessage} from "../message/message";
+import {getParents} from "../../redux/store";
 
 interface Props {
     postId: string,
@@ -9,14 +12,16 @@ interface Props {
 export const ExpandPostTree: React.FC<Props> = props => {
     const [expandKeys, setExpandKeys] = useState([] as Array<string>);
 
-    const context: ExpandState = {
-        value: expandKeys,
-        set: value => {
-            setExpandKeys(value)
-        }
-    };
+    const expandState = new ExpandState(expandKeys, setExpandKeys);
 
-    return <ExpandContext.Provider value={context}>
+    let state = useAppStore();
+
+    useMessage<string>("locate-post", postId => {
+        let parents = getParents(postId, state.posts);
+        expandState.add(parents);
+    });
+
+    return <ExpandContext.Provider value={expandState}>
         <PostTree postId={props.postId}/>
     </ExpandContext.Provider>
 };

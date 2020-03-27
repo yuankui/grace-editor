@@ -42,13 +42,9 @@ export const PostTitle: React.FC<Props> = props => {
     const hasChildren = childrenIds != null && childrenIds.length != 0;
 
     // toggle expand
-    const {value: expandKeys, set: setExpandKeys} = useContext(ExpandContext);
+    const expandContext = useContext(ExpandContext);
     const toggleExpand = () => {
-        if (_.includes(expandKeys, postId)) {
-            setExpandKeys(remove(expandKeys, postId));
-        } else {
-            setExpandKeys([...expandKeys, postId]);
-        }
+        expandContext.toggle(postId);
     };
 
     const currentPostId = useCurrentPostId();
