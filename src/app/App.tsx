@@ -1,12 +1,10 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
-import {AppStore} from "../redux/store";
+import React, {useEffect} from 'react';
+import {useDispatch, useStore} from "react-redux";
 import SearchDialog from "./SearchDialog";
 import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
 import {HotKeyAction} from "./hotkeys";
-import {classNames, mapState} from "../utils";
+import {classNames} from "../utils";
 import CreatePost from "./hotkeys/CreatePost";
 import SettingView from "./layout/global/SettingView";
 import Test from "./hotkeys/Test";
@@ -22,17 +20,15 @@ import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
 import {notify} from "./hooks/useMessage";
+import useAppStore from "./hooks/useAppStore";
 
-interface AppProps {
-    state: AppStore,
-    dispatch: Dispatch<any>,
-}
+const App: React.FC = () => {
+    const state = useAppStore();
+    const dispatch = useDispatch();
+    const store = useStore();
 
-class App extends React.Component<AppProps> {
-
-    componentDidMount(): void {
-        const {state, dispatch} = this.props;
-        const getState: GetState = () => this.props.state;
+    useEffect(() => {
+        const getState: GetState = () => store.getState();
 
         const hotKeys: Array<HotKeyAction> = [
             Setting(dispatch, state),
@@ -59,32 +55,31 @@ class App extends React.Component<AppProps> {
                 history.goForward();
             }
         });
-    }
+    });
 
-    render() {
-        const styles: any = this.props.state.theme;
-        const className = classNames([
-            'app-container',
-            'platform-' + getProcess().platform,
-        ]);
-        return (
-            <International>
-                <DndProvider backend={HTML5Backend}>
-                    <div id='app-container' className={className} style={styles} onKeyDown={e => {
-                        notify("keydown", e.nativeEvent);
-                    }}>
-                        <FindInPage/>
-                        <SearchDialog/>
-                        <SettingView/>
-                        <AboutPage/>
-                        <LeftSide />
-                        <RightSide/>
-                        <HelpView/>
-                    </div>
-                </DndProvider>
-            </International>
-        );
-    }
-}
+    const styles: any = state.theme;
+    const className = classNames([
+        'app-container',
+        'platform-' + getProcess().platform,
+    ]);
+    return (
+        <International>
+            <DndProvider backend={HTML5Backend}>
+                <div id='app-container' className={className} style={styles} onKeyDown={e => {
+                    notify("keydown", e.nativeEvent);
+                }}>
+                    <FindInPage/>
+                    <SearchDialog/>
+                    <SettingView/>
+                    <AboutPage/>
+                    <LeftSide />
+                    <RightSide/>
+                    <HelpView/>
+                </div>
+            </DndProvider>
+        </International>
+    );
+};
 
-export default connect(mapState)(App);
+
+export default App;
