@@ -1,16 +1,12 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useStore} from "react-redux";
 import SearchDialog from "./SearchDialog";
-import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
-import {HotKeyAction} from "./hotkeys";
+import {createHotKeyPlugins, HotKeyAction} from "./hotkeys";
 import {classNames} from "../utils";
-import CreatePost from "./hotkeys/CreatePost";
 import SettingView from "./layout/global/SettingView";
-import Test from "./hotkeys/Test";
 import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
-import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
 import {getProcess, history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
@@ -19,7 +15,6 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
-import {notify} from "./message/message";
 import useAppStore from "./hooks/useAppStore";
 
 const App: React.FC = () => {
@@ -29,13 +24,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const getState: GetState = () => store.getState();
-
-        const hotKeys: Array<HotKeyAction> = [
-            Setting(dispatch, state),
-            CreatePost(dispatch, state),
-            Test(dispatch, state),
-            ToggleFavorite(dispatch, getState),
-        ];
+        const hotKeys: Array<HotKeyAction> = createHotKeyPlugins(dispatch, getState);
 
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
@@ -65,9 +54,7 @@ const App: React.FC = () => {
     return (
         <International>
             <DndProvider backend={HTML5Backend}>
-                <div id='app-container' className={className} style={styles} onKeyDown={e => {
-                    notify("keydown", e.nativeEvent);
-                }}>
+                <div id='app-container' className={className} style={styles}>
                     <FindInPage/>
                     <SearchDialog/>
                     <SettingView/>
