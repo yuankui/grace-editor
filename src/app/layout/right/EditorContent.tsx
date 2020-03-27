@@ -1,11 +1,9 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
-import {AppStore, Post} from "../../../redux/store";
+import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
-import isHotkey from "is-hotkey";
 import {Editor} from "slate";
-import PubSub from 'pubsub-js';
-import useMessage from "../../hooks/useMessage";
+import {notify} from "../../hooks/useMessage";
 
 
 export interface Props {
@@ -40,7 +38,7 @@ export default class EditorContent extends React.Component<Props, any> {
         // @ts-ignore
         const partialWidth = !this.props.fullWidth && !(Editor.fixWidth);
         const flex = partialWidth ? 0 : 1;
-useMessage<AppStore>('hello', )
+
         return <div className='app-right-content'>
             <div className='post-editor' style={{
                 flexGrow: flex,
@@ -48,16 +46,7 @@ useMessage<AppStore>('hello', )
                 <div className='title'>
                     <input placeholder={"Untitled"}
                            onKeyDown={e => {
-                               // if (isHotkey('enter', e.nativeEvent)) {
-                               //     const editor = this.contentRef.current as Editor;
-                               //     if (editor != null) {
-                               //         editor.moveAnchorToStartOfDocument();
-                               //         editor.moveFocusToStartOfDocument();
-                               //         editor.focus();
-                               //     }
-                               // }
-
-                               PubSub.publish("title-enter", null);
+                               notify("title-enter");
                            }}
                            key={post.id}
                            ref={this.titleRef}
