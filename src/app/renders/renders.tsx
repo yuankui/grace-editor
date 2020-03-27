@@ -7,12 +7,13 @@ export interface RenderProps {
     dispatch: Dispatch<any>
     value: any,
     onChange: OnChange<any>,
-    editorRef: any,
     readOnly?: boolean,
 }
 
 export class Render<S = any> extends React.Component<RenderProps, S> {
 }
+
+export type FunctionRender = React.FC<RenderProps>;
 
 export interface OnChange<T> {
     (value: T): void,

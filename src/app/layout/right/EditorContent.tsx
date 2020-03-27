@@ -13,13 +13,9 @@ export interface Props {
 }
 
 export default class EditorContent extends React.Component<Props, any> {
-    private readonly titleRef: React.RefObject<HTMLInputElement>;
-    private readonly contentRef: React.RefObject<any>;
 
     constructor(props) {
         super(props);
-        this.titleRef = createRef();
-        this.contentRef = createRef();
     }
 
     render() {
@@ -49,14 +45,13 @@ export default class EditorContent extends React.Component<Props, any> {
                                notify("title-enter");
                            }}
                            key={post.id}
-                           ref={this.titleRef}
                            defaultValue={post.title}
                            onChange={this.onTitleChange}/>
                 </div>
 
                 {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
                 <div className='content'>
-                    <Editor editorRef={this.contentRef} value={post.content} onChange={v => this.onContentChange(v)}/>
+                    <Editor value={post.content} onChange={v => this.onContentChange(v)}/>
                 </div>
             </div>
         </div>
