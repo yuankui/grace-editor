@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useStore} from "react-redux";
+import {connect, useDispatch, useStore} from "react-redux";
 import SearchDialog from "./SearchDialog";
 import {isHotkey} from 'is-hotkey';
 import {createHotKeyPlugins, HotKeyAction} from "./hotkeys";
@@ -17,7 +17,7 @@ import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
 import useAppStore from "./hooks/useAppStore";
 
-const App: React.FC = () => {
+export const App: React.FC = (props) => {
     const state = useAppStore();
     const dispatch = useDispatch();
     const store = useStore();
@@ -67,6 +67,3 @@ const App: React.FC = () => {
         </International>
     );
 };
-
-
-export default App;

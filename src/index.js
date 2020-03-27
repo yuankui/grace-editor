@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './styles/index.less';
-import App from './app/App';
+import {App} from './app/App';
 import * as serviceWorker from './serviceWorker';
 import {applyMiddleware, compose, createStore} from "redux";
 import {Provider} from "react-redux";
@@ -22,17 +22,18 @@ const store = createStore(enhanceCommandReducer(initReducer),
         routerMiddleware(history),
     )));
 
+const Wrapper = () => {
+    return <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <App/>
+        </ConnectedRouter>
+    </Provider>;
+};
 
 // init app
 store.dispatch(new AppInitCommand())
     .then(() => {
-        ReactDOM.render(
-            <Provider store={store}>
-                <ConnectedRouter history={history}>
-                    <App/>
-                </ConnectedRouter>
-            </Provider>,
-            document.getElementById('root'));
+        ReactDOM.render(<Wrapper/>, document.getElementById('root'));
 
         store.dispatch(new RecoveryStateCommand());
     });
