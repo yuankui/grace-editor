@@ -19,7 +19,7 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
-import {notify} from "./hooks/useMessage";
+import {notify} from "./message/message";
 import useAppStore from "./hooks/useAppStore";
 
 const App: React.FC = () => {

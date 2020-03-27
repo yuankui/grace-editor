@@ -3,7 +3,7 @@ import {ChangeEvent, createRef} from 'react';
 import {Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
 import {Editor} from "slate";
-import {notify} from "../../hooks/useMessage";
+import {notify} from "../../message/message";
 import isHotkey from "is-hotkey";
 
 

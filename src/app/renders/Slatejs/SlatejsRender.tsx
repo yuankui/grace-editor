@@ -9,7 +9,7 @@ import {BlockParagraph} from "./plugins/common";
 import {createCopyPaste} from "./paste/copyPaste";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
-import {useLazyMessage, useRefMessage} from "../../hooks/useMessage";
+import {useRefMessage} from "../../message/message";
 
 
 export interface GetState {

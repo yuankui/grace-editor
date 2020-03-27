@@ -6,7 +6,7 @@ import {renderDecoration} from "./editor/renderDecoration";
 import {decorateNode} from "./editor/decorateNode";
 import isHotkey from "is-hotkey";
 import {classNames} from "../../../utils";
-import {useRefMessage} from "../../hooks/useMessage";
+import {useRefMessage} from "../../message/message";
 
 
 interface Props {

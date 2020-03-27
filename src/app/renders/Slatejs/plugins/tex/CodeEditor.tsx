@@ -6,7 +6,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/yaml/yaml';
 import {lazyExecute} from "../../../../../utils/lazyExecute";
-import {useRefMessage} from "../../../../hooks/useMessage";
+import {useRefMessage} from "../../../../message/message";
 import codeMirror from 'codemirror';
 
 interface Props {

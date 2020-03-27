@@ -6,7 +6,7 @@ import {Editor} from "slate";
 import CodeEditor from "./CodeEditor";
 import * as MathJax from "@nteract/mathjax";
 import LatexBlock from "./LatexBlock";
-import {notify} from "../../../../hooks/useMessage";
+import {notify} from "../../../../message/message";
 
 interface Props {
     props: RenderBlockProps,
