@@ -12,6 +12,24 @@ export function useMessage<T>(topic: string, consumer: Consumer<T>) {
     })
 }
 
+export function useLazyMessage<T>(topic: string): Consumer<Consumer<T>> {
+    let consumer: Consumer<T> | null = null;
+
+    const consumerConsumer = c => {
+        consumer = c;
+    };
+
+    useEffect(() => {
+        emitter.on(topic, event => {
+            if (consumer != null) {
+                consumer(event);
+            }
+        })
+    });
+
+    return consumerConsumer;
+}
+
 export function notify(topic: string, data?: any) {
     emitter.emit(topic, data);
 }

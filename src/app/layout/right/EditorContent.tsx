@@ -42,6 +42,8 @@ export default class EditorContent extends React.Component<Props, any> {
                 <div className='title'>
                     <input placeholder={"Untitled"}
                            onKeyDown={e => {
+                               e.stopPropagation();
+                               e.preventDefault();
                                notify("title-enter");
                            }}
                            key={post.id}

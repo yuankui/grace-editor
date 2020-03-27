@@ -1,6 +1,6 @@
 import {FunctionRender} from "../renders";
 import React, {useMemo, useState} from "react";
-import {Editor, Plugin} from "slate-react";
+import {Editor} from "slate-react";
 import {Value, ValueJSON} from "slate";
 import createSlateEditorPlugins from "./plugins/plugins";
 import {AppStore} from "../../../redux/store";
@@ -9,13 +9,8 @@ import {BlockParagraph} from "./plugins/common";
 import {createCopyPaste} from "./paste/copyPaste";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
+import {useLazyMessage} from "../../hooks/useMessage";
 
-
-interface State {
-    value: any,
-    plugins: Array<Plugin>,
-    copyPaste: Plugin,
-}
 
 export interface GetState {
     (): AppStore,
@@ -64,7 +59,14 @@ const SlatejsRender: FunctionRender = props => {
         lazySave(v);
     };
 
+    const setConsumer = useLazyMessage('title-enter');
     return <Editor value={value}
+
+                   ref={editor => {
+                       setConsumer(data => {
+                           editor?.focus();
+                       })
+                   }}
                    className='slate-editor'
                    placeholder="Start from here..."
                    plugins={plugins}
