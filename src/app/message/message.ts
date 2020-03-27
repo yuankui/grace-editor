@@ -10,7 +10,7 @@ export function useMessage<T>(topic: MessageTopic, consumer: Consumer<T>) {
         return () => {
             emitter.off(topic, consumer);
         }
-    }, []);
+    });
 }
 
 export function useLazyMessage<T>(topic: MessageTopic): Consumer<Consumer<T>> {

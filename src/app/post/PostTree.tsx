@@ -10,13 +10,14 @@ import {PostHolder} from "./PostHolder";
 import {ExpandContext} from "./ExpandContext";
 import _ from 'lodash';
 import {MovePostCommand} from "../../redux/commands/MovePostCommand";
+import useAppStore from "../hooks/useAppStore";
 
 interface Props {
     postId: string,
 }
 
 export const PostTree: React.FC<Props> = props => {
-    const {posts} = useStore<AppStore>().getState();
+    const {posts} = useAppStore();
     const post = posts.posts.get(props.postId);
     const dispatch = useDispatch();
 
