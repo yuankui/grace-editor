@@ -1,12 +1,18 @@
-import React, {useEffect} from 'react';
-import {connect, useDispatch, useStore} from "react-redux";
+import React from 'react';
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
+import {AppStore} from "../redux/store";
 import SearchDialog from "./SearchDialog";
+import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
-import {createHotKeyPlugins, HotKeyAction} from "./hotkeys";
-import {classNames} from "../utils";
+import {HotKeyAction} from "./hotkeys";
+import {classNames, mapState} from "../utils";
+import CreatePost from "./hotkeys/CreatePost";
 import SettingView from "./layout/global/SettingView";
+import Test from "./hotkeys/Test";
 import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
+import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
 import {getProcess, history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
@@ -15,16 +21,25 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
-import useAppStore from "./hooks/useAppStore";
+import {notify} from "./hooks/useMessage";
 
-export const App: React.FC = () => {
-    const state = useAppStore();
-    const dispatch = useDispatch();
-    const store = useStore();
+interface AppProps {
+    state: AppStore,
+    dispatch: Dispatch<any>,
+}
 
-    useEffect(() => {
-        const getState: GetState = () => store.getState();
-        const hotKeys: Array<HotKeyAction> = createHotKeyPlugins(dispatch, getState);
+class App extends React.Component<AppProps> {
+
+    componentDidMount(): void {
+        const {state, dispatch} = this.props;
+        const getState: GetState = () => this.props.state;
+
+        const hotKeys: Array<HotKeyAction> = [
+            Setting(dispatch, state),
+            CreatePost(dispatch, state),
+            Test(dispatch, state),
+            ToggleFavorite(dispatch, getState),
+        ];
 
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
@@ -44,26 +59,32 @@ export const App: React.FC = () => {
                 history.goForward();
             }
         });
-    });
+    }
 
-    const styles: any = state.theme;
-    const className = classNames([
-        'app-container',
-        'platform-' + getProcess().platform,
-    ]);
-    return (
-        <International>
-            <DndProvider backend={HTML5Backend}>
-                <div id='app-container' className={className} style={styles}>
-                    <FindInPage/>
-                    <SearchDialog/>
-                    <SettingView/>
-                    <AboutPage/>
-                    <LeftSide />
-                    <RightSide/>
-                    <HelpView/>
-                </div>
-            </DndProvider>
-        </International>
-    );
-};
+    render() {
+        const styles: any = this.props.state.theme;
+        const className = classNames([
+            'app-container',
+            'platform-' + getProcess().platform,
+        ]);
+        return (
+            <International>
+                <DndProvider backend={HTML5Backend}>
+                    <div id='app-container' className={className} style={styles} onKeyDown={e => {
+                        notify("keydown", e.nativeEvent);
+                    }}>
+                        <FindInPage/>
+                        <SearchDialog/>
+                        <SettingView/>
+                        <AboutPage/>
+                        <LeftSide />
+                        <RightSide/>
+                        <HelpView/>
+                    </div>
+                </DndProvider>
+            </International>
+        );
+    }
+}
+
+export default connect(mapState)(App);
