@@ -3,16 +3,12 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../redux/store";
 import SearchDialog from "./SearchDialog";
-import Setting from "./hotkeys/Setting";
 import {isHotkey} from 'is-hotkey';
-import {HotKeyAction} from "./hotkeys";
+import {createHotKeyPlugins} from "./hotkeys";
 import {classNames, mapState} from "../utils";
-import CreatePost from "./hotkeys/CreatePost";
 import SettingView from "./layout/global/SettingView";
-import Test from "./hotkeys/Test";
 import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
-import {ToggleFavorite} from "./hotkeys/ToggleFavorite";
 import {GetState} from "./renders/Slatejs/SlatejsRender";
 import {getProcess, history} from '../redux/utils';
 import FindInPage from "./findInPage/FindInPage";
@@ -21,7 +17,6 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
-import {notify} from "./hooks/useMessage";
 
 interface AppProps {
     state: AppStore,
@@ -34,12 +29,7 @@ class App extends React.Component<AppProps> {
         const {state, dispatch} = this.props;
         const getState: GetState = () => this.props.state;
 
-        const hotKeys: Array<HotKeyAction> = [
-            Setting(dispatch, state),
-            CreatePost(dispatch, state),
-            Test(dispatch, state),
-            ToggleFavorite(dispatch, getState),
-        ];
+        const hotKeys = createHotKeyPlugins(dispatch, getState());
 
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
@@ -70,9 +60,7 @@ class App extends React.Component<AppProps> {
         return (
             <International>
                 <DndProvider backend={HTML5Backend}>
-                    <div id='app-container' className={className} style={styles} onKeyDown={e => {
-                        notify("keydown", e.nativeEvent);
-                    }}>
+                    <div id='app-container' className={className} style={styles}>
                         <FindInPage/>
                         <SearchDialog/>
                         <SettingView/>
