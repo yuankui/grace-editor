@@ -1,11 +1,9 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
-import {AppStore} from "../redux/store";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector, useStore} from "react-redux";
 import SearchDialog from "./SearchDialog";
 import {isHotkey} from 'is-hotkey';
-import {createHotKeyPlugins} from "./hotkeys";
-import {classNames, mapState} from "../utils";
+import {createHotKeyPlugins, HotKeyAction} from "./hotkeys";
+import {classNames} from "../utils";
 import SettingView from "./layout/global/SettingView";
 import {LeftSide} from "./layout/LeftSide";
 import {RightSide} from "./layout/RightSide";
@@ -17,19 +15,16 @@ import {DndProvider} from "react-dnd";
 import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
+import {AppStore} from "../redux/store";
 
-interface AppProps {
-    state: AppStore,
-    dispatch: Dispatch<any>,
-}
+export const App: React.FC = () => {
+    const styles = useSelector<AppStore, any>(state => state.theme);
+    const dispatch = useDispatch();
+    const store = useStore();
 
-class App extends React.Component<AppProps> {
-
-    componentDidMount(): void {
-        const {state, dispatch} = this.props;
-        const getState: GetState = () => this.props.state;
-
-        const hotKeys = createHotKeyPlugins(dispatch, getState());
+    useEffect(() => {
+        const getState: GetState = () => store.getState();
+        const hotKeys: Array<HotKeyAction> = createHotKeyPlugins(dispatch, getState);
 
         window.addEventListener('keydown', e => {
             for (let hotkey of hotKeys) {
@@ -49,30 +44,25 @@ class App extends React.Component<AppProps> {
                 history.goForward();
             }
         });
-    }
+    });
 
-    render() {
-        const styles: any = this.props.state.theme;
-        const className = classNames([
-            'app-container',
-            'platform-' + getProcess().platform,
-        ]);
-        return (
-            <International>
-                <DndProvider backend={HTML5Backend}>
-                    <div id='app-container' className={className} style={styles}>
-                        <FindInPage/>
-                        <SearchDialog/>
-                        <SettingView/>
-                        <AboutPage/>
-                        <LeftSide />
-                        <RightSide/>
-                        <HelpView/>
-                    </div>
-                </DndProvider>
-            </International>
-        );
-    }
-}
-
-export default connect(mapState)(App);
+    const className = classNames([
+        'app-container',
+        'platform-' + getProcess().platform,
+    ]);
+    return (
+        <International>
+            <DndProvider backend={HTML5Backend}>
+                <div id='app-container' className={className} style={styles}>
+                    <FindInPage/>
+                    <SearchDialog/>
+                    <SettingView/>
+                    <AboutPage/>
+                    <LeftSide />
+                    <RightSide/>
+                    <HelpView/>
+                </div>
+            </DndProvider>
+        </International>
+    );
+};

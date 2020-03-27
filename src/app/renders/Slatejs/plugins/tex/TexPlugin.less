@@ -10,12 +10,14 @@
             word-break: break-all;
         }
     }
-    max-width: 500px;
 }
 
 .tex-editor-wrapper{
     display: flex;
     flex-direction: column;
+    .CodeMirror {
+        height: 100% !important;
+    }
 }
 
 .latex-wrapper {
