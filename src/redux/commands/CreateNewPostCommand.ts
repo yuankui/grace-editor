@@ -4,6 +4,8 @@ import {ExpandCommand} from "./menu/ExpandCommand";
 import {CreateEmptyPostCommand} from "./post/CreateEmptyPostCommand";
 import {MovePostCommand} from "./MovePostCommand";
 import {PostFormat} from "../../PostFormat";
+import {notify} from "../../app/message/message";
+import {PostSelectCommand} from "./menu/PostSelectCommand";
 
 export class CreateNewPostCommand extends AppCommand {
     parentId: string | null;
@@ -21,7 +23,7 @@ export class CreateNewPostCommand extends AppCommand {
         return "CreateNewPost";
     }
 
-    process(store: AppStore): AppStore {
+    process(store: AppStore, dispatch: any): AppStore {
 
         // create new under null(root)
         store = new CreateEmptyPostCommand(this.postId, this.postFormat).process(store);
@@ -38,6 +40,8 @@ export class CreateNewPostCommand extends AppCommand {
             ...post,
             parentId: this.parentId,
         });
+
+        dispatch(PostSelectCommand(this.postId));
 
         return store;
     }
