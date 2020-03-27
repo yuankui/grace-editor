@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {ChangeEvent, createRef} from 'react';
-import {Post} from "../../../redux/store";
+import {AppStore, Post} from "../../../redux/store";
 import {getRender} from "../../renders/factory";
 import isHotkey from "is-hotkey";
 import {Editor} from "slate";
 import PubSub from 'pubsub-js';
+import useMessage from "../../hooks/useMessage";
 
 
 export interface Props {
@@ -39,7 +40,7 @@ export default class EditorContent extends React.Component<Props, any> {
         // @ts-ignore
         const partialWidth = !this.props.fullWidth && !(Editor.fixWidth);
         const flex = partialWidth ? 0 : 1;
-
+useMessage<AppStore>('hello', )
         return <div className='app-right-content'>
             <div className='post-editor' style={{
                 flexGrow: flex,
