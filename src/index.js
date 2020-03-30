@@ -12,7 +12,6 @@ import {AppInitCommand} from "./redux/commands/app/AppInitCommand";
 import {CheckRemoteCommand} from "./redux/commands/app/CheckRemoteCommand";
 import {lazyExecute} from "./utils/lazyExecute";
 import {RecoveryStateCommand} from './redux/commands/recovery/RecoveryStateCommand';
-import useTheme from "./app/hooks/useTheme";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,19 +22,13 @@ const store = createStore(enhanceCommandReducer(initReducer),
         routerMiddleware(history),
     )));
 
-const Wrapper = () => {
-    let theme = useTheme();
-    console.log(theme);
-    return <App/>;
-
-};
 
 // init app
 store.dispatch(new AppInitCommand())
     .then(() => {
         ReactDOM.render(<Provider store={store}>
             <ConnectedRouter history={history}>
-                <Wrapper/>
+                <App/>
             </ConnectedRouter>
         </Provider>, document.getElementById('root'));
 
