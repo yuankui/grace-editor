@@ -18,6 +18,7 @@ export interface Settings {
 export interface GitSetting {
     userName?: string,
     userEmail?: string,
+    // https://github.com/settings/tokens
     githubToken?: string,
 }
 

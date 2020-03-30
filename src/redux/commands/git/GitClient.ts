@@ -1,7 +1,7 @@
 import * as git from 'isomorphic-git';
 import {AppStore} from "../../store";
 const fs = require('fs');
-const http = require("isomorphic-git/http/node");
+import http from "isomorphic-git/http/node";
 
 export class GitClient {
     private getState: () => AppStore;
