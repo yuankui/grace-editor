@@ -28,7 +28,7 @@ export default class GitSetupCommand extends AppCommand {
 
         // 初始化git仓库
         await dispatch(new UpdateStateCommand({
-            repo: new GitClient(s.settings.workSpace),
+            repo: new GitClient(() => s),
         }));
 
         await dispatch(new GitInitCommand());

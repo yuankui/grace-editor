@@ -1,16 +1,25 @@
 import * as git from 'isomorphic-git';
+import {AppStore} from "../../store";
 const fs = require('fs');
 const http = require("isomorphic-git/http/node");
 
 export class GitClient {
+    private getState: () => AppStore;
 
-    private readonly workspace : string;
+    constructor(getState: () => AppStore) {
+        this.getState = getState;
+    }
 
-    constructor(workspace: string) {
-        this.workspace = workspace;
+    private get workspace() {
+        return this.getState().settings.workSpace;
+    }
+
+    private get gitSetting() {
+        return this.getState().profile.gitSetting || {};
     }
 
     async commit(msg: string): Promise<any> {
+
         await git.add({
             fs,
             dir: this.workspace,
@@ -22,8 +31,8 @@ export class GitClient {
             dir: this.workspace,
             message: msg,
             author: {
-                name: "local",
-                email: "local@local"
+                name: this.gitSetting.userName,
+                email: this.gitSetting.userEmail
             }
         })
     }
@@ -42,12 +51,12 @@ export class GitClient {
             ref: 'master',
             remote: 'origin',
             author: {
-                name: "local",
-                email: 'local@local',
+                name: this.gitSetting.userName,
+                email: this.gitSetting.userEmail
             },
             onAuth: (url, auth) => {
                 return {
-                    username: "743bc997fdf0d061753b5bda73c83ecb278b585e",
+                    username: this.gitSetting.githubToken,
                 };
             },
         })

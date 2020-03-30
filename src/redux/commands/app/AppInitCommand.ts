@@ -17,11 +17,11 @@ export class AppInitCommand extends AppCommand {
         // load workspace
         await dispatch(new LoadWorkspaceSettingCommand());
 
-        // setup git repo
-        await dispatch(new GitSetupCommand());
-
         // load profile settings
         await dispatch(new LoadProfileSettingCommand());
+
+        // setup git repo
+        await dispatch(new GitSetupCommand());
 
         // init backend
         await dispatch(new InitBackendCommand());
