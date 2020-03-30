@@ -26,7 +26,7 @@ export const App: React.FC = () => {
         const getState: GetState = () => store.getState();
         const hotKeys: Array<HotKeyAction> = createHotKeyPlugins(dispatch, getState);
 
-        window.addEventListener('keydown', e => {
+        const listener = e => {
             for (let hotkey of hotKeys) {
                 if (isHotkey(hotkey.hotkey, e)) {
                     hotkey.action();
@@ -43,8 +43,14 @@ export const App: React.FC = () => {
             if (isHotkey('mod+]', e)) {
                 history.goForward();
             }
-        });
-    });
+        };
+
+        window.addEventListener('keydown', listener);
+
+        return () => {
+            window.removeEventListener('keydown', listener);
+        }
+    }, []);
 
     const className = classNames([
         'app-container',
