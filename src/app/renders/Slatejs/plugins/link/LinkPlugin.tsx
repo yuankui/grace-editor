@@ -1,4 +1,4 @@
-import {Plugin} from 'slate-react';
+import {Editor} from 'slate-react';
 import isHotkey from "is-hotkey";
 import React from "react";
 import {Dispatch} from "redux";
@@ -6,13 +6,37 @@ import {LinkUpdateCommand} from "../../../../../redux/commands/slatejs/link/Link
 import {GetState} from "../../SlatejsRender";
 import LinkModal from "./LinkModal";
 import {Button, Popover, Tooltip} from "antd";
-import {executeCommand} from "../../utils/executeCommand";
-import {COMMAND_PASTE_TEXT} from "../../paste/copyPaste";
+import {EditorPlugin} from "../EditorPlugin";
 
 export const InlineTypeLink = 'inline-link';
 
-export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<any>): Plugin {
+export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<any>): EditorPlugin {
     return {
+        name: "LinkPlugin",
+        onPasteText(str: string, editor: Editor, next: () => void) {
+            if (str.split("\n").length > 1) {
+                return next();
+            }
+
+            // https://mathiasbynens.be/demo/url-regex
+            const regex = '^(https?|ftp):\\/\\/.+$';
+            if (str.match(regex)) {
+                editor.insertInline({
+                    type: InlineTypeLink,
+                    data: {
+                        url: str,
+                    },
+                    nodes: [
+                        {
+                            object: 'text',
+                            text: str
+                        }
+                    ]
+                });
+                return true;
+            }
+            return next();
+        },
         schema: {
             inlines: {
                 [InlineTypeLink]: {
@@ -73,33 +97,7 @@ export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<
                            dispatch={dispatch}/>
                 {next()}
             </>;
-        },
-        onCommand: (command, editor, next) => {
-            return executeCommand(command, COMMAND_PASTE_TEXT, args => {
-                const str = args as string;
-                if (str.split("\n").length > 1) {
-                    return false;
-                }
-
-                // https://mathiasbynens.be/demo/url-regex
-                const regex = '^(https?|ftp):\\/\\/.+$';
-                if (str.match(regex)) {
-                    editor.insertInline({
-                        type: InlineTypeLink,
-                        data: {
-                            url: str,
-                        },
-                        nodes: [
-                            {
-                                object: 'text',
-                                text: str
-                            }
-                        ]
-                    });
-                    return true;
-                }
-                return false;
-            }) || next();
         }
+
     }
 };

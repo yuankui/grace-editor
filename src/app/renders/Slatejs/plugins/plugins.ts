@@ -1,4 +1,3 @@
-import {Plugin} from 'slate';
 import {Dispatch} from "redux";
 
 import {createHeaderPlugin} from "./header/HeaderPlugin";
@@ -19,9 +18,10 @@ import createChildrenPlugin from "./children/ChildrenPlugin";
 import {createTablePlugin} from "./table/OsTablePlugin";
 import {createNestPagePlugin} from "./nest-page/NestPagePlugin";
 import {createTexPlugin} from "./tex/TexPlugin";
+import {EditorPlugin} from "./EditorPlugin";
 
 
-export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<Plugin> {
+export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<EditorPlugin> {
     return [
         createNestPagePlugin(),
         createTablePlugin(), // table 因为 table+enter 要优先于普通，所以要提高优先级放在第一位

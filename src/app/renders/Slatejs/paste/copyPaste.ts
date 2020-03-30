@@ -1,9 +1,10 @@
-import {getEventTransfer, Plugin} from "slate-react";
+import {getEventTransfer} from "slate-react";
 import {from} from "rxjs";
 import {filter, reduce, toArray} from "rxjs/operators";
 import {Document} from "slate";
 import {Base64} from 'js-base64';
 import {serializer} from "../utils/Serializer";
+import {EditorPlugin} from "../plugins/EditorPlugin";
 
 /**
  * args: document: Document(slatejs)
@@ -15,11 +16,10 @@ export const COMMAND_PASTE_TEXT = "command-paste-text";
  */
 export const COMMAND_PASTE_FILE = "command-paste-file";
 
-export function createCopyPaste(plugins: Array<Plugin>): Plugin {
+export function createCopyPaste(plugins: Array<EditorPlugin>): EditorPlugin {
+    let pastePlugins = createCommandChain(plugins);
     return {
-        commands: {
-            [COMMAND_PASTE_TEXT]: createCommandChain(COMMAND_PASTE_TEXT, plugins),
-        },
+        name: "CompositePastePlugin",
         onCopy: (event, editor, next) => {
             event.preventDefault();
             const transfer = getEventTransfer(event);
@@ -74,26 +74,23 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
                         const document = Document.fromJSON(obj);
                         editor.insertFragment(document);
                     } else {
-                        editor.command(COMMAND_PASTE_TEXT, str);
+                        pastePlugins(editor, str);
                     }
                 })
             });
 
             event.preventDefault();
             event.stopPropagation();
-        },
+        }
     }
 }
 
-function createCommandChain(command: string, plugins: Array<Plugin>) {
-    return (editor, args) => {
+function createCommandChain(plugins: Array<EditorPlugin>) {
+    return (editor, str) => {
         for (let plugin of plugins) {
-            if (plugin.onCommand) {
+            if (plugin.onPasteText) {
                 let next = false;
-                plugin.onCommand({
-                    type: command,
-                    args: args,
-                }, editor, () => {
+                plugin.onPasteText(str , editor, () => {
                     next = true;
                 });
                 if (!next) {

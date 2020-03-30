@@ -1,11 +1,11 @@
-import {Block, Document, Editor as CoreEditor, Value} from "slate";
+import {Block, Editor as CoreEditor, Value} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
-import {Plugin} from 'slate-react';
+import {Editor} from 'slate-react';
 import {createEmptyParagraph} from "../utils/createEmptyParagraph";
 import {List} from "immutable";
-import {COMMAND_PASTE_TEXT} from "../paste/copyPaste";
 import {serializer} from "../utils/Serializer";
+import {EditorPlugin} from "./EditorPlugin";
 
 export const BlockParagraph = 'paragraph';
 
@@ -40,8 +40,13 @@ export function ToggleBlockOnPrefix(prefix: string,
 
 export const CommandToggleParagraph = 'toggleParagraph';
 
-export function createCommonPlugin(): Plugin {
+export function createCommonPlugin(): EditorPlugin {
     return {
+        name: "CommonPlugin",
+        onPasteText(str: string, editor: Editor, next: () => void) {
+            const value: Value = serializer().deserialize(str);
+            editor.insertFragment(value.document);
+        },
         commands: {
             [CommandToggleParagraph]: (editor, args) => {
                 editor.setBlocks({
@@ -80,14 +85,5 @@ export function createCommonPlugin(): Plugin {
                 },
             },
         },
-        onCommand: (command, editor, next) => {
-            if (command.type !== COMMAND_PASTE_TEXT) {
-                next();
-                return;
-            }
-            const str: string = command.args as any;
-            const value: Value = serializer().deserialize(str);
-            editor.insertFragment(value.document);
-        }
     }
 }
