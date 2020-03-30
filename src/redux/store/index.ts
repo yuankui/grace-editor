@@ -6,6 +6,7 @@ import {PostFormat} from "../../PostFormat";
 import {HLColor} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
 import Color from "color";
 import {Theme} from "../commands/theme/Theme";
+import {GitClient} from "../commands/git/GitClient";
 
 
 export interface SiderState {
@@ -92,7 +93,7 @@ export interface AppStore {
     siderState: SiderState,
     router: RouterState,
     settings: Settings,
-    repo?: SimpleGit,
+    repo?: GitClient,
     slatejs: Slatejs,
     status: AppStatus,
     profile: UserProfile,

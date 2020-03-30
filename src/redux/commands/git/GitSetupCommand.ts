@@ -1,10 +1,10 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import simplegit from "simple-git/promise";
 import FileSystem from "../../../backend/electron/FileSystem";
 import GitInitCommand from "./GitInitCommand";
 import {Dispatch} from "redux";
 import {UpdateStateCommand} from "../UpdateStateCommand";
+import {GitClient} from "./GitClient";
 
 export default class GitSetupCommand extends AppCommand {
     name(): CommandType {
@@ -28,7 +28,7 @@ export default class GitSetupCommand extends AppCommand {
 
         // 初始化git仓库
         await dispatch(new UpdateStateCommand({
-            repo: simplegit(s.settings.workSpace),
+            repo: new GitClient(s.settings.workSpace),
         }));
 
         await dispatch(new GitInitCommand());

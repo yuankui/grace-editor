@@ -19,7 +19,6 @@ export default class GitCommitCommand extends AppCommand {
             return;
         }
 
-        await state.repo.add('.');
         await state.repo.commit(this.message);
         message.info("commit success");
     }

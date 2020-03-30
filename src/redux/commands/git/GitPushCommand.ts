@@ -19,7 +19,7 @@ export default class GitPushCommand extends AppCommand {
 
       NProgress.start();
       try {
-          const log = await state.repo.push('origin', 'master');
+          const log = await state.repo.push();
           message.info("push success");
       } catch (e) {
           message.error("push error" + e.toString());

@@ -18,7 +18,7 @@ export default class GitPullCommand extends AppCommand {
 
         NProgress.start();
         try {
-            await state.repo.pull('origin', 'master');
+            await state.repo.pull();
             message.info("pull success");
             NProgress.done();
         } catch (e) {

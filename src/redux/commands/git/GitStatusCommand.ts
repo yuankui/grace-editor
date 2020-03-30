@@ -12,7 +12,7 @@ export default class GitStatusCommand extends AppCommand {
           return;
       }
 
-      const status = await state.repo.status();
-      console.log(status);
+      // const status = await state.repo.status();
+      // console.log(status);
   }
 }
