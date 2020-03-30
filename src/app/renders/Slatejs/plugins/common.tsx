@@ -43,7 +43,13 @@ export const CommandToggleParagraph = 'toggleParagraph';
 export function createCommonPlugin(): EditorPlugin {
     return {
         name: "CommonPlugin",
-        onPasteText(str: string, editor: Editor, next: () => void) {
+        onPasteText(str: string, type: string, editor: Editor, next: () => void) {
+            if (type == 'text/plain') {
+                editor.insertText(str);
+                return next();
+            }
+
+            
             const value: Value = serializer().deserialize(str);
             editor.insertFragment(value.document);
         },

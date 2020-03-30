@@ -74,7 +74,7 @@ export function createCopyPaste(plugins: Array<EditorPlugin>): EditorPlugin {
                         const document = Document.fromJSON(obj);
                         editor.insertFragment(document);
                     } else {
-                        pastePlugins(editor, str);
+                        pastePlugins(editor, str, itemType);
                     }
                 })
             });
@@ -86,11 +86,11 @@ export function createCopyPaste(plugins: Array<EditorPlugin>): EditorPlugin {
 }
 
 function createCommandChain(plugins: Array<EditorPlugin>) {
-    return (editor, str) => {
+    return (editor, str, type) => {
         for (let plugin of plugins) {
             if (plugin.onPasteText) {
                 let next = false;
-                plugin.onPasteText(str , editor, () => {
+                plugin.onPasteText(str, type , editor, () => {
                     next = true;
                 });
                 if (!next) {

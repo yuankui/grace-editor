@@ -13,7 +13,7 @@ export const InlineTypeLink = 'inline-link';
 export default function createLinkPlugin(getState: GetState, dispatch: Dispatch<any>): EditorPlugin {
     return {
         name: "LinkPlugin",
-        onPasteText(str: string, editor: Editor, next: () => void) {
+        onPasteText(str: string, type: string, editor: Editor, next: () => void) {
             if (str.split("\n").length > 1) {
                 return next();
             }

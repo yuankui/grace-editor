@@ -11,7 +11,6 @@ import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
 import {useRefMessage} from "../../message/message";
 
-
 export interface GetState {
     (): AppStore,
 }
@@ -61,6 +60,8 @@ const SlatejsRender: FunctionRender = props => {
 
     const ref = useRefMessage<any, Editor>('title-enter', (editor, data) => {
         editor?.focus();
+        // @ts-ignore
+        window.editor = editor;
     });
     return <Editor value={value}
                    ref={ref}

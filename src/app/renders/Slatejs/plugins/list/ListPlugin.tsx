@@ -19,18 +19,18 @@ const rules: Rules = {
         {
             min: 1,
             match: [
-                {type: BlockTypeListItem},
-                {type: BlockTypeBulletedList},
-                {type: BlockTypeNumberedList},
+                // {type: BlockTypeListItem},
+                // {type: BlockTypeBulletedList},
+                // {type: BlockTypeNumberedList},
             ]
         }
     ],
     normalize: (editor: Editor, error) => {
 
         // if (error.code === "child_type_invalid") {
-        //     editor.setBlocks(BlockTypeListItem);
+        //     editor.wrapBlock(BlockTypeListItem);
         // }
-        // console.log(error);
+        console.log(error);
     }
 };
 /**
