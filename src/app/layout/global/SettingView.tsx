@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import React, {useState} from "react";
-import {AppStore} from "../../../redux/store";
+import {AppStore, UserProfile} from "../../../redux/store";
 import {Dispatch} from "redux";
 import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal, Select, Tabs} from "antd";
@@ -12,7 +12,9 @@ import {languages} from "../../../i18n/International";
 import {ChangeLangCommand} from "../../../i18n/ChangeLangCommand";
 import {useLang} from "../../../i18n/i18n";
 import useAppStore from "../../hooks/useAppStore";
-import GitSetting from "./settings/GitSetting";
+import GitSettingView from "./settings/GitSettingView";
+import {lazyExecute} from "../../../utils/lazyExecute";
+import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
 
 
 const SettingView: React.FC<any> = () => {
@@ -32,6 +34,10 @@ const SettingView: React.FC<any> = () => {
         await dispatch(new AppInitCommand());
         await dispatch(new ToggleSettingCommand(false));
     };
+
+    const lazySave = lazyExecute((v: Partial<UserProfile>) => {
+        dispatch(new UpdateProfileSettingCommand(v))
+    }, 500);
 
     return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
                   onOk={() => save()}
@@ -73,7 +79,11 @@ const SettingView: React.FC<any> = () => {
                     </Select>
                 </Tabs.TabPane>
                 <Tabs.TabPane key={'git'} tab={lang['setting.git.config']}>
-                    <GitSetting/>
+                    <GitSettingView value={state.profile.gitSetting || {}} onChange={data => {
+                        lazySave({
+                            gitSetting: data,
+                        })
+                    }}/>
                 </Tabs.TabPane>
             </Tabs>
         </div>

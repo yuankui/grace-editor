@@ -1,10 +1,8 @@
 import {Backend} from "../../backend";
 import Immutable from 'immutable';
 import {RouterState} from "connected-react-router";
-import {SimpleGit} from "simple-git/promise";
 import {PostFormat} from "../../PostFormat";
 import {HLColor} from "../../app/renders/Slatejs/plugins/highlight/HighlightPlugin";
-import Color from "color";
 import {Theme} from "../commands/theme/Theme";
 import {GitClient} from "../commands/git/GitClient";
 
@@ -17,12 +15,19 @@ export interface Settings {
     workSpace: string,
 }
 
+export interface GitSetting {
+    userName?: string,
+    userEmail?: string,
+    githubToken?: string,
+}
+
 export interface UserProfile {
     favor: Favor,
     isDarkMode: boolean,
     content: ContentConfig,
     markdownPreview: boolean,
     lang: string,
+    gitSetting?: GitSetting,
 }
 
 export interface Post {
