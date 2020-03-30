@@ -12,6 +12,7 @@ import {languages} from "../../../i18n/International";
 import {ChangeLangCommand} from "../../../i18n/ChangeLangCommand";
 import {useLang} from "../../../i18n/i18n";
 import useAppStore from "../../hooks/useAppStore";
+import GitSetting from "./settings/GitSetting";
 
 
 const SettingView: React.FC<any> = () => {
@@ -70,6 +71,9 @@ const SettingView: React.FC<any> = () => {
                     >
                         {selectOptions}
                     </Select>
+                </Tabs.TabPane>
+                <Tabs.TabPane key={'git'} tab={lang['setting.git.config']}>
+                    <GitSetting/>
                 </Tabs.TabPane>
             </Tabs>
         </div>

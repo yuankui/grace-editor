@@ -20,6 +20,7 @@ export interface Lang {
     'setting.title': string,
     'setting.basic': string,
     'setting.lang': string,
+    'setting.git.config': string,
     'setting.lang.select-lang': string,
     'setting.basic.working-dir': string,
     'setting.basic.init-working-dir': string,

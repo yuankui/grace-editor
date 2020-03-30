@@ -12,6 +12,7 @@ const lang: Lang = {
     'left.repository.title': 'Repository',
     "setting.basic": "Basic",
     "setting.lang": "Language",
+    "setting.git.config": "Git",
     "setting.title": "Settings",
     "setting.lang.select-lang": 'Select Language',
     'setting.basic.working-dir': 'Working Directory',
@@ -26,7 +27,7 @@ const lang: Lang = {
 
     // hotkeys
     'hotkey.rich-text.header.title': 'Heading',
-    'hotkey.rich-text.header.desc': heading,
+    'hotkey.rich-text.header.desc': heading
 };
 
 
