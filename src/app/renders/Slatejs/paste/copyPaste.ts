@@ -80,6 +80,7 @@ export function createCopyPaste(plugins: Array<Plugin>): Plugin {
             });
 
             event.preventDefault();
+            event.stopPropagation();
         },
     }
 }
