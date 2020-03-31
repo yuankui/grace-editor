@@ -74,7 +74,12 @@ export const PostTree: React.FC<Props> = props => {
                                     innerRef={drop}
                                     post={post}
                                     onExpand={expand => {
-                                        expandContext.toggle(post.id);
+                                        if (expand) {
+                                            expandContext.add([post.id]);
+                                        } else {
+                                            expandContext.remove([post.id]);
+                                        }
+
                                     }}
                                     expanded={expanded}/>}
                   >
