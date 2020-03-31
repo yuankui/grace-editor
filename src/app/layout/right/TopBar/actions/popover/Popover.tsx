@@ -1,6 +1,8 @@
 import React, {CSSProperties, FunctionComponent, ReactNode, useState} from 'react';
 import {Popover as Pop} from "antd";
 import {classNames} from "../../../../../../utils";
+import {useMessage} from "../../../../../message/message";
+import {Notifier} from "../../../../../hooks/useNotifier";
 
 interface OwnProps {
     placement: TooltipPlacement,
@@ -11,6 +13,7 @@ interface OwnProps {
     className?: string,
     style?: CSSProperties,
     popoverStyle?: CSSProperties,
+    notifier?: Notifier,
 }
 
 type Props = OwnProps;
@@ -34,6 +37,12 @@ const Popover: FunctionComponent<Props> = (props) => {
         props.className || '',
         'grace-popover'
     ]);
+
+    if (props.notifier) {
+        props.notifier.listen(data => {
+            setVisible(false);
+        })
+    }
 
     return (<Pop placement={props.placement}
                  className={className}

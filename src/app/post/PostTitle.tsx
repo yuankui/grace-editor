@@ -14,6 +14,7 @@ import Popover from "../layout/right/TopBar/actions/popover/Popover";
 import Actions from "../layout/right/TopBar/actions/popover/Actions";
 import {Action} from "../layout/right/TopBar/actions/popover/Action";
 import {PostFormat} from "../../PostFormat";
+import {useNotifier} from "../hooks/useNotifier";
 
 interface Props {
     post: Post,
@@ -50,6 +51,11 @@ export const PostTitle: React.FC<Props> = props => {
     const currentPostId = useCurrentPostId();
     // is current post
     const isCurrent = postId === currentPostId;
+
+    // close popup notifier
+
+    const notifier = useNotifier();
+
     return <div ref={props.innerRef}
                 onClick={(e) => {
                     dispatch(PostSelectCommand(item.id));
@@ -87,8 +93,9 @@ export const PostTitle: React.FC<Props> = props => {
                 </OperationButton>
             </Popover>
 
-            <Popover content={<AddActions parent={item.id} afterAdd={async id => {
+            <Popover notifier={notifier} content={<AddActions parent={item.id} afterAdd={async id => {
                 props.onExpand(true);
+                notifier.notice();
                 await dispatch(PostSelectCommand(id));
             }}/>} title="Create Document" placement='bottom'>
                 <OperationButton>
