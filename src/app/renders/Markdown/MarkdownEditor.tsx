@@ -1,12 +1,13 @@
-import React, {CSSProperties, FunctionComponent, useState} from 'react';
+import React, {CSSProperties, FunctionComponent, useMemo, useState} from 'react';
 import {Editor, RenderBlockProps} from "slate-react";
 import Plain from 'slate-plain-serializer';
 import {Editor as CoreEditor, Value} from "slate";
 import {renderDecoration} from "./editor/renderDecoration";
-import {decorateNode} from "./editor/decorateNode";
+import decorateNode from "./editor/decorateNode";
 import isHotkey from "is-hotkey";
 import {classNames} from "../../../utils";
 import {useRefMessage} from "../../message/message";
+import {lazyExecute} from "../../../utils/lazyExecute";
 
 
 interface Props {
@@ -15,23 +16,25 @@ interface Props {
     style: CSSProperties,
 }
 
-let timer = setTimeout(() => {}, 500);
-
 const MarkdownEditor: FunctionComponent<Props> = (props) => {
 
     const [value, setValue] = useState(checkCodeBlock(Plain.deserialize(props.value)));
-    const onChange = (v: Value) => {
-        setValue(v);
 
-        clearTimeout(timer);
-        timer = setTimeout(() => {
+    const lazyChange = useMemo(() => {
+        return lazyExecute((v: Value) => {
             const text = v.document
                 .nodes
                 .map(n => n?.text || '')
                 .join('\n');
 
             props.onChange(text);
+            setValue(checkCodeBlock(v));
         }, 500);
+    }, []);
+
+    const onChange = (v: Value) => {
+        setValue(v);
+        lazyChange(v);
     };
 
     const ref = useRefMessage<any, Editor>('title-enter', (editor, data) => {
@@ -50,7 +53,7 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
             decorateNode={decorateNode}
             renderBlock={renderBlock}
             onChange={e => {
-                onChange(checkCodeBlock(e.value));
+                onChange(e.value);
             }}
         />
     );

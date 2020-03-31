@@ -71,7 +71,10 @@ markdown.italic.inside.url = Prism.util.clone(Prism.languages.markdown.url);
 markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic);
 markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
 
-export function decorateNode(node: Node, editor: Editor, next) {
+export default function decorateNode(node: Node, editor: Editor, next) {
+
+    const startTime = new Date();
+
     const others = next() || [];
     if (node.object !== 'block') return others;
 
@@ -140,5 +143,7 @@ export function decorateNode(node: Node, editor: Editor, next) {
         start = end
     }
 
+    const cost = new Date().getMilliseconds() - startTime.getMilliseconds();
+    console.log("decorate.......", cost);
     return [...others, ...decorations]
 }
