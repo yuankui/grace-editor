@@ -1,6 +1,6 @@
 {
   "name": "grace-editor",
-  "version": "1.1.33",
+  "version": "1.1.34",
   "description": "a graceful editor",
   "main": "./build/main.js",
   "scripts": {
