@@ -6,6 +6,7 @@ import {createEmptyParagraph} from "../utils/createEmptyParagraph";
 import {List} from "immutable";
 import {serializer} from "../utils/Serializer";
 import {EditorPlugin} from "./EditorPlugin";
+import {node} from "prop-types";
 
 export const BlockParagraph = 'paragraph';
 
@@ -51,7 +52,17 @@ export function createCommonPlugin(): EditorPlugin {
 
             
             const value: Value = serializer().deserialize(str);
-            editor.insertFragment(value.document);
+
+            // 拆开insert，而不用自带的insertFragment，因为会有些问题
+            value.document.nodes.forEach(node => {
+                if (node?.object == 'block') {
+                    editor.insertBlock(node);
+                } else if (node?.object == 'inline') {
+                    editor.insertInline(node)
+                } else if (node?.object == 'text') {
+                    editor.insertText(node.text);
+                }
+            });
         },
         commands: {
             [CommandToggleParagraph]: (editor, args) => {

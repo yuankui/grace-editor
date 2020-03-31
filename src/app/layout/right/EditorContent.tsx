@@ -63,6 +63,7 @@ export default class EditorContent extends React.Component<Props, any> {
     }
 
     onContentChange = (value: any) => {
+        console.log(JSON.stringify(value));
         this.props.onChange({
             ...this.props.post as Post,
             content: value,
