@@ -1,14 +1,14 @@
 import React, {FC} from "react";
 import {AppStore} from "../../redux/store";
-import {useStore} from "react-redux";
 import {If} from "../../utils";
 import {ExpandPostTree} from "../post/ExpandPostTree";
 import {SiderGroup} from "../layout/left/sider/SiderGroup";
 import {FavoritePostHolder} from "./PostHolder";
 import {useLang} from "../../i18n/i18n";
+import useAppStore from "../hooks/useAppStore";
 
 export const Favorite: FC = () => {
-    const state: AppStore = useStore().getState();
+    const state: AppStore = useAppStore();
 
     const favor = state.profile.favor || {};
     const posts = favor.posts || [];
