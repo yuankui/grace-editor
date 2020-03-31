@@ -29,7 +29,7 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
 
             props.onChange(text);
             setValue(checkCodeBlock(v));
-        }, 500);
+        }, 200);
     }, []);
 
     const onChange = (v: Value) => {
