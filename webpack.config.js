@@ -32,7 +32,7 @@ module.exports = {
         ),
     ],
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".md"]
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".md", ".mp3"]
     },
     devServer: {
         port: 8089,

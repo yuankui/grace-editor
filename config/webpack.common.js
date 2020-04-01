@@ -49,6 +49,14 @@ module.exports = {
                 ]
             },
             {
+                test: /\.mp3$/,
+                use: [
+                    {
+                        loader: path.resolve('mp3-loader.js'),
+                    }
+                ]
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader', 'css-loader'

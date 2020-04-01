@@ -61,6 +61,7 @@ export type MessageTopic = "codemirror-focus"
     | "title-enter"
     | "locate-post"
     | "post-create"
+    | "key-strike"
     ;
 
 export function notify(topic: MessageTopic, data?: any) {

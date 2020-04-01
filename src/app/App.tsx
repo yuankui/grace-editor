@@ -16,6 +16,7 @@ import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
 import {AppStore} from "../redux/store";
+import AudioPlayer from "./focusMode/AudioPlayer";
 
 export const App: React.FC = () => {
     const styles = useSelector<AppStore, any>(state => state.theme);
@@ -60,6 +61,7 @@ export const App: React.FC = () => {
         <International>
             <DndProvider backend={HTML5Backend}>
                 <div id='app-container' className={className} style={styles}>
+                    <AudioPlayer/>
                     <FindInPage/>
                     <SearchDialog/>
                     <SettingView/>
