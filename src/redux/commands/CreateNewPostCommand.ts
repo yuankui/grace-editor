@@ -41,6 +41,10 @@ export class CreateNewPostCommand extends AppCommand {
             parentId: this.parentId,
         });
 
+        setTimeout(() => {
+            notify("post-create", this.postId);
+        }, 100);
+
         dispatch(PostSelectCommand(this.postId));
 
         return store;
