@@ -37,6 +37,7 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
         };
     }
     return {
+        plugins: {},
         profile:{
             favor: {
                 posts: [],
@@ -46,7 +47,8 @@ export function initReducer(state: AppStore | undefined, action: any): AppStore 
                 fullWidth: false,
             },
             markdownPreview: false,
-            lang: 'english'
+            lang: 'english',
+            plugins: {},
         },
         theme: LightTheme,
         status: {

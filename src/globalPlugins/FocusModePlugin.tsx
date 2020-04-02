@@ -6,6 +6,6 @@ interface FocusModeState {
 
 export default {
     init: context => {
-        
+
     }
-} as GlobalPlugin<FocusModeState>;
+} as GlobalPlugin;

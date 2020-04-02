@@ -29,6 +29,14 @@ export interface UserProfile {
     markdownPreview: boolean,
     lang: string,
     gitSetting?: GitSetting,
+    plugins: PluginStateMap,
+}
+
+export interface PluginKeyValue {
+    [key: string]: any,
+}
+export interface PluginStateMap {
+    [pluginId: string]: PluginKeyValue,
 }
 
 export interface Post {
@@ -104,6 +112,7 @@ export interface AppStore {
     status: AppStatus,
     profile: UserProfile,
     theme: Theme,
+    plugins: PluginStateMap,
 }
 
 export function getParents(postId: string, store: PostsStore): Array<string> {
