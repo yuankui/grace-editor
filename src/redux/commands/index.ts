@@ -81,4 +81,7 @@ export type CommandType = "TestCommand"
 
     | "Lang/Change"
 
+    | "Plugin/UpdateSetting"
+    | "Plugin/UpdateState"
+
 ;
