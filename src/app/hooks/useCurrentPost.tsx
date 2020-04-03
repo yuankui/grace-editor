@@ -3,10 +3,10 @@ import useAppStore from "./useAppStore";
 
 export function useCurrentPost() {
     const postId = useCurrentPostId();
+    const appStore = useAppStore();
+
     if (postId == null) {
         return null;
     }
-
-    const appStore = useAppStore();
     return appStore.posts.posts.get(postId);
 }

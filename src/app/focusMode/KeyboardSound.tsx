@@ -3,10 +3,9 @@ import url from './Mechanical-Keyboard-single-button-presses-8-www.FesliyanStudi
 
 interface Props {}
 
-const AudioPlayer: FunctionComponent<Props> = (props) => {
+const KeyboardSound: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const onKeyPress = (e) => {
-            console.log('url', url);
             const audio = new Audio(url);
             audio.play();
         };
@@ -17,4 +16,4 @@ const AudioPlayer: FunctionComponent<Props> = (props) => {
     return null;
 };
 
-export default AudioPlayer;
+export default KeyboardSound;
