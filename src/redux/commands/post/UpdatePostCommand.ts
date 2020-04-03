@@ -4,11 +4,13 @@ import {Dispatch} from "redux";
 import {UpdateStateCommand} from "../UpdateStateCommand";
 
 export class UpdatePostCommand extends AppCommand {
-    post: Post;
+    private readonly post: Partial<Post>;
+    private readonly postId?: string;
 
-    constructor(post: Post) {
+    constructor(post: Partial<Post>, postId?:string) {
         super();
         this.post = post;
+        this.postId = postId;
     }
 
     name(): CommandType {
@@ -19,25 +21,28 @@ export class UpdatePostCommand extends AppCommand {
 
         const posts = state.posts;
 
+        const postId = this.postId || this.post?.id;
 
-        let oldPost = posts.posts.get(this.post.id);
+        if (!postId) {
+            console.error("empty postId", this.post);
+            return;
+        }
+        let oldPost = posts.posts.get(postId);
 
         const newPost: Post = {
             ...oldPost,
-            content: this.post.content,
-            title: this.post.title,
-            tags: this.post.tags,
+            ...this.post,
         };
 
         await state.backend.savePost({
             ...newPost,
-            parentId: posts.parentMap.get(this.post.id),
+            parentId: posts.parentMap.get(postId),
         });
 
         dispatch(new UpdateStateCommand({
             posts: {
                 ...posts,
-                posts: posts.posts.set(this.post.id, newPost),
+                posts: posts.posts.set(postId, newPost),
             }
         }))
     }

@@ -60,7 +60,6 @@ export function useRefMessage<Data, Ref>(topic: MessageTopic, refMessageConsumer
 export type MessageTopic = "codemirror-focus"
     | "title-enter"
     | "locate-post"
-    | "post-create"
     | "key-strike"
     ;
 

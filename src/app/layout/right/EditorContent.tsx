@@ -5,28 +5,30 @@ import {getRender} from "../../renders/factory";
 import {Editor} from "slate";
 import {notify} from "../../message/message";
 import isHotkey from "is-hotkey";
+import {useDispatch} from "react-redux";
+import {UpdatePostCommand} from "../../../redux/commands/post/UpdatePostCommand";
 
 
 export interface Props {
     fullWidth: boolean,
     post: Post | null,
-    onChange: (v: Post) => void,
 }
 
 const EditorContent: React.FC<Props> = props => {
+    const dispatch = useDispatch();
     const onContentChange = (value: any) => {
         console.log(JSON.stringify(value));
-        props.onChange({
-            ...props.post as Post,
+        dispatch(new UpdatePostCommand({
+            id: post.id,
             content: value,
-        })
+        }));
     };
 
     const onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
-        props.onChange({
-            ...props.post as Post,
+        dispatch(new UpdatePostCommand({
+            id: post.id,
             title: value.target.value,
-        })
+        }));
     };
 
     if (props.post == null) {
