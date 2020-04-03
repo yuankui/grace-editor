@@ -13,7 +13,7 @@ interface OwnProps {
     className?: string,
     style?: CSSProperties,
     popoverStyle?: CSSProperties,
-    notifier?: Notifier,
+    hideNotifier?: Notifier,
 }
 
 type Props = OwnProps;
@@ -38,8 +38,8 @@ const Popover: FunctionComponent<Props> = (props) => {
         'grace-popover'
     ]);
 
-    if (props.notifier) {
-        props.notifier.listen(data => {
+    if (props.hideNotifier) {
+        props.hideNotifier.listen(data => {
             setVisible(false);
         })
     }

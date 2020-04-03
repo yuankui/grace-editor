@@ -93,10 +93,9 @@ export const PostTitle: React.FC<Props> = props => {
                 </OperationButton>
             </Popover>
 
-            <Popover notifier={notifier} content={<AddActions parent={item.id} afterAdd={async id => {
+            <Popover hideNotifier={notifier} content={<AddActions parent={item.id} afterAdd={async id => {
                 props.onExpand(true);
                 notifier.notice();
-                await dispatch(PostSelectCommand(id));
             }}/>} title="Create Document" placement='bottom'>
                 <OperationButton>
                     <MaterialIcon value='add'/>
