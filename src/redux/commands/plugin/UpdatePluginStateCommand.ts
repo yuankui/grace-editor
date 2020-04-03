@@ -1,8 +1,7 @@
 import {AppCommand, CommandType} from "../index";
 import {AppStore} from "../../store";
-import {UpdateProfileSettingCommand} from "../profile/UpdateProfileSettingCommand";
 
-export class UpdatePluginSettingCommand extends AppCommand {
+export class UpdatePluginStateCommand extends AppCommand {
     private readonly pluginId: string;
     private readonly settings: any;
 
@@ -13,17 +12,18 @@ export class UpdatePluginSettingCommand extends AppCommand {
     }
 
     name(): CommandType {
-        return "Plugin/UpdateSetting";
+        return "Plugin/UpdateState";
     }
 
-    async process(store: AppStore, dispatch: any): Promise<any> {
+    process(store: AppStore, dispatch: any): AppStore {
         const newMap = {
-            ...store.profile.plugins,
+            ...store.plugins,
             [this.pluginId]: this.settings,
         };
 
-        await dispatch(new UpdateProfileSettingCommand({
+        return {
+            ...store,
             plugins: newMap,
-        }));
+        }
     }
 }
