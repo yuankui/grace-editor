@@ -11,9 +11,9 @@ export const createKeySoundPlugin = () => {
                 title: 'KeySound',
                 hook: (props: any) => {
                     // factory(title, value, onChange) => ReactNode
-                    const value = context.getState("pluginId.keySound", "switch");
+                    const value = context.getSetting("pluginId.keySound", "switch");
                     return props.factory("KeySound", value, (state) => {
-                        context.setState("pluginId.keySound", "switch", state);
+                        context.setSetting("pluginId.keySound", "switch", state);
                     })
                 }
             })

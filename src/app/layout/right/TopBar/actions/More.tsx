@@ -29,15 +29,17 @@ const More: React.FC<any> = props => {
 
     let context = usePluginContext();
     let hooks = context.getContainerHooks("app.more.settings");
-    const factory = (title, value, onChange) => {
-        return <Action title={title} onClick={() => {
+    const factory = key => (title, value, onChange) => {
+        return <Action key={key} title={title} onClick={() => {
             onChange(!value);
         }}>
             <Switch checked={value}/>
         </Action>
     };
 
-    let hookActions = hooks.map(hook => hook.hook({factory}));
+    let hookActions = hooks.map((hook, i) => hook.hook({
+        factory: factory(i),
+    }));
 
     const actions = <Actions width={200}>
         <Action title={lang["more.dark-mode"]} onClick={() => {

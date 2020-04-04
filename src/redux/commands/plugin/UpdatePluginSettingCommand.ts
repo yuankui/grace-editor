@@ -17,7 +17,8 @@ export class UpdatePluginSettingCommand extends AppCommand {
     }
 
     async process(store: AppStore, dispatch: any): Promise<any> {
-        const oldSettings = store.profile.plugins[this.pluginId] || {};
+        const plugins = store?.profile?.plugins || {};
+        const oldSettings = plugins[this.pluginId] || {};
 
         const newSettings = {
             ...oldSettings,

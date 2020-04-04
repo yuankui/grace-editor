@@ -1,6 +1,7 @@
 import {AppStore} from "../redux/store";
 import {Store} from "redux";
 import {UpdatePluginStateCommand} from "../redux/commands/plugin/UpdatePluginStateCommand";
+import {UpdatePluginSettingCommand} from "../redux/commands/plugin/UpdatePluginSettingCommand";
 
 export interface GlobalPlugin {
     init: (context: PluginContext) => void,
@@ -42,7 +43,8 @@ export class PluginContext {
     }
 
     getState(pluginId: string, key: string) {
-        const pluginState = this.store.getState().plugins[pluginId] || {};
+        const plugins = this.store.getState().plugins || {};
+        const pluginState = plugins[pluginId] || {};
         return pluginState[key];
     }
 
@@ -53,12 +55,13 @@ export class PluginContext {
     }
 
     getSetting(pluginId: string, key: string) {
-        const pluginState = this.store.getState().profile.plugins[pluginId] || {};
+        const plugins = this.store.getState()?.profile?.plugins || {};
+        const pluginState = plugins[pluginId] || {};
         return pluginState[key];
     }
 
     setSetting(pluginId: string, key: string, state: any) {
-        this.store.dispatch(new UpdatePluginStateCommand(pluginId, {
+        this.store.dispatch(new UpdatePluginSettingCommand(pluginId, {
             [key]: state,
         }));
     }
