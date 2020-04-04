@@ -1,7 +1,6 @@
 import {useDispatch} from "react-redux";
 import React, {useState} from "react";
-import {AppStore, UserProfile} from "../../../redux/store";
-import {Dispatch} from "redux";
+import {UserProfile} from "../../../redux/store";
 import ElectronSelect from "../../PathSelect/ElectronSelect";
 import {Button, Modal, Select, Tabs} from "antd";
 import GitInitCommand from "../../../redux/commands/git/GitInitCommand";

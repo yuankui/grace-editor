@@ -15,6 +15,7 @@ import HelpView from "./help/HelpView";
 import {AppStore} from "../redux/store";
 import KeyboardSound from "./focusMode/KeyboardSound";
 import HotKeyContainer from "./hotkeys/HotKeyContainer";
+import {PluginContextProvider} from "../globalPlugins/PluginContextProvider";
 
 export const App: React.FC = () => {
     const styles = useSelector<AppStore, any>(state => state.theme);
@@ -22,20 +23,23 @@ export const App: React.FC = () => {
         'app-container',
         'platform-' + getProcess().platform,
     ]);
+
     return (
         <International>
             <DndProvider backend={HTML5Backend}>
-                <div id='app-container' className={className} style={styles}>
-                    <KeyboardSound/>
-                    <FindInPage/>
-                    <SearchDialog/>
-                    <SettingView/>
-                    <AboutPage/>
-                    <LeftSide />
-                    <RightSide/>
-                    <HelpView/>
-                    <HotKeyContainer/>
-                </div>
+                <PluginContextProvider>
+                    <div id='app-container' className={className} style={styles}>
+                        <KeyboardSound/>
+                        <FindInPage/>
+                        <SearchDialog/>
+                        <SettingView/>
+                        <AboutPage/>
+                        <LeftSide />
+                        <RightSide/>
+                        <HelpView/>
+                        <HotKeyContainer/>
+                    </div>
+                </PluginContextProvider>
             </DndProvider>
         </International>
     );

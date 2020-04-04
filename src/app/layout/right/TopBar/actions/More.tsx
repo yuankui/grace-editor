@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import {Rotate} from "../../../../../utils";
 import {Icon, Switch} from "antd";
 import {useDispatch} from "react-redux";
-import {AppStore} from "../../../../../redux/store";
-import {Dispatch} from "redux";
 import {ToggleDarkModeCommand} from "../../../../../redux/commands/settings/ToggleDarkModeCommand";
 import {ToggleSettingCommand} from "../../../../../redux/commands/ToggleSettingCommand";
 import Popover from "./popover/Popover";
@@ -14,15 +12,7 @@ import {UpdateProfileSettingCommand} from "../../../../../redux/commands/profile
 import {toggleAboutCommand} from "../../../../../redux/commands/ToggleAboutCommand";
 import useAppStore from "../../../../hooks/useAppStore";
 import {useLang} from "../../../../../i18n/i18n";
-
-interface MoreProps {
-    state: AppStore,
-    dispatch: Dispatch<any>,
-}
-
-interface MoreState {
-    showPopup: boolean,
-}
+import {usePluginContext} from "../../../../../globalPlugins/usePluginContext";
 
 const More: React.FC<any> = props => {
     const dispatch = useDispatch();
@@ -36,6 +26,18 @@ const More: React.FC<any> = props => {
     const toggle = (show: boolean) => {
         setShow(show);
     };
+
+    let context = usePluginContext();
+    let hooks = context.getContainerHooks("app.more.settings");
+    const factory = (title, value, onChange) => {
+        return <Action title={title} onClick={() => {
+            onChange(!value);
+        }}>
+            <Switch checked={value}/>
+        </Action>
+    };
+
+    let hookActions = hooks.map(hook => hook.hook({factory}));
 
     const actions = <Actions width={200}>
         <Action title={lang["more.dark-mode"]} onClick={() => {
@@ -55,10 +57,12 @@ const More: React.FC<any> = props => {
         }}>
             <Switch checked={isPreview}/>
         </Action>
+        {hookActions}
         <Action title={lang["setting.title"]} onClick={() => {
             dispatch(new ToggleSettingCommand(true));
             toggle(false);
         }}/>
+
         <Action title={lang["more.about"]} onClick={() => {
             dispatch(new toggleAboutCommand(true));
             toggle(false);

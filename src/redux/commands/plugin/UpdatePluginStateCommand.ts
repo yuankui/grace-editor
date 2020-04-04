@@ -3,9 +3,9 @@ import {AppStore} from "../../store";
 
 export class UpdatePluginStateCommand extends AppCommand {
     private readonly pluginId: string;
-    private readonly settings: any;
+    private readonly settings: {[key:string]: any};
 
-    constructor(pluginId: string, settings: any) {
+    constructor(pluginId: string, settings: {[key:string]: any}) {
         super();
         this.pluginId = pluginId;
         this.settings = settings;
@@ -16,9 +16,16 @@ export class UpdatePluginStateCommand extends AppCommand {
     }
 
     process(store: AppStore, dispatch: any): AppStore {
+        const oldSettings = store.plugins[this.pluginId] || {};
+
+        const newSettings = {
+            ...oldSettings,
+            ...this.settings,
+        };
+
         const newMap = {
             ...store.plugins,
-            [this.pluginId]: this.settings,
+            [this.pluginId]: newSettings,
         };
 
         return {

@@ -1,4 +1,4 @@
-import {GlobalPlugin} from "../GlobalPlugin";
+import {GlobalPlugin} from "./GlobalPlugin";
 
 interface FocusModeState {
     focus: boolean,
