@@ -7,6 +7,7 @@ import {notify} from "../../message/message";
 import isHotkey from "is-hotkey";
 import {useDispatch} from "react-redux";
 import {UpdatePostCommand} from "../../../redux/commands/post/UpdatePostCommand";
+import {usePluginHooks} from "../../../globalPlugins/usePluginHooks";
 
 
 export interface Props {
@@ -31,14 +32,22 @@ const EditorContent: React.FC<Props> = props => {
         }));
     };
 
+    let contentHooks = usePluginHooks("internal.render.content");
+
     if (props.post == null) {
         return <div>
             还未打开文档哦。
         </div>
     }
+
+
     const post: Post = props.post;
 
     let Editor = getRender(post);
+    let content = <Editor value={post.content} onChange={v => onContentChange(v)}/>;
+    contentHooks.forEach(hook => {
+        content = hook.hook(content);
+    });
 
     // see src/app/renders/Markdown/MarkdownRender.tsx:32 MarkdownRender.fixWidth = true;
     // @ts-ignore
@@ -66,7 +75,7 @@ const EditorContent: React.FC<Props> = props => {
 
             {/*<Tags value={post.tags} onChange={this.onTagsChange}/>*/}
             <div className='content'>
-                <Editor value={post.content} onChange={v => onContentChange(v)}/>
+                {content}
             </div>
         </div>
     </div>

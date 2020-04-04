@@ -13,7 +13,6 @@ import AboutPage from "./about/AboutPage";
 import {International} from "../i18n/International";
 import HelpView from "./help/HelpView";
 import {AppStore} from "../redux/store";
-import KeyboardSound from "./focusMode/KeyboardSound";
 import HotKeyContainer from "./hotkeys/HotKeyContainer";
 import {PluginContextProvider} from "../globalPlugins/PluginContextProvider";
 
@@ -29,7 +28,6 @@ export const App: React.FC = () => {
             <DndProvider backend={HTML5Backend}>
                 <PluginContextProvider>
                     <div id='app-container' className={className} style={styles}>
-                        <KeyboardSound/>
                         <FindInPage/>
                         <SearchDialog/>
                         <SettingView/>
