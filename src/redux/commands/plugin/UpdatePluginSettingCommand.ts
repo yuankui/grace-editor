@@ -30,7 +30,6 @@ export class UpdatePluginSettingCommand extends AppCommand {
             [this.pluginId]: newSettings,
         };
 
-
         await dispatch(new UpdateProfileSettingCommand({
             plugins: newMap,
         }));
