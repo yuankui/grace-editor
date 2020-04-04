@@ -26,7 +26,7 @@ export class UpdatePluginSettingCommand extends AppCommand {
         };
 
         const newMap = {
-            ...store.plugins,
+            ...plugins,
             [this.pluginId]: newSettings,
         };
 

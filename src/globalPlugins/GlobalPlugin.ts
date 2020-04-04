@@ -2,6 +2,7 @@ import {AppStore} from "../redux/store";
 import {Store} from "redux";
 import {UpdatePluginStateCommand} from "../redux/commands/plugin/UpdatePluginStateCommand";
 import {UpdatePluginSettingCommand} from "../redux/commands/plugin/UpdatePluginSettingCommand";
+import electron from "electron";
 
 export interface GlobalPlugin {
     init: (context: PluginContext) => void,
@@ -40,6 +41,10 @@ export class PluginContext {
                 });
                 this.containerHookMap[containerId] = newHooks;
             })
+    }
+
+    get electron() {
+        return electron;
     }
 
     getState(pluginId: string, key: string) {
