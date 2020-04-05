@@ -27,8 +27,11 @@ export const createKeySoundPlugin = () => {
                 hook: (content) => {
                     const on = context.getSetting("pluginId.keySound", "switch");
 
+                    if (!on) {
+                        return content;
+                    }
                     return <div className='key-stroke' style={{
-                        height: '100%'
+                        height: '100%',
                     }} onKeyPress={e => {
                         if (on && e.key.match(/^[a-zA-Z]$/)) {
                             const audio = new Audio(url);

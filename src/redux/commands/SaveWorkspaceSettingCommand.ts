@@ -31,7 +31,8 @@ export class SaveWorkspaceSettingCommand extends AppCommand {
 
         const json = JSON.stringify(settings);
 
-        await fs.writeFile(graceConfig, new Buffer(json, 'utf-8'));
+
+        await fs.writeFile(graceConfig, Buffer.from(json, 'utf-8'));
 
         await dispatch(new UpdateStateCommand({
             settings: settings

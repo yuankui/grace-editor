@@ -7,11 +7,11 @@ export function createFocusModePlugin(): GlobalPlugin {
             // 监听全屏事件
             context.electron.remote.getCurrentWindow()
                 .on('enter-full-screen', () => {
-                    context.setSetting('pluginId.FocusMode', 'on', true);
+                    context.setState('pluginId.FocusMode', 'on', true);
                 });
             context.electron.remote.getCurrentWindow()
                 .on('leave-full-screen', () => {
-                    context.setSetting('pluginId.FocusMode', 'on', false);
+                    context.setState('pluginId.FocusMode', 'on', false);
                 });
 
 
@@ -22,12 +22,12 @@ export function createFocusModePlugin(): GlobalPlugin {
                 title: 'FocusMode',
                 hook: (props: any) => {
                     // factory(title, value, onChange) => ReactNode
-                    const value = context.getSetting("pluginId.FocusMode", "on");
+                    const value = context.getState("pluginId.FocusMode", "on");
                     return props.factory("FocusMode", value, (state) => {
                         setTimeout(() => {
                             context.electron.remote.getCurrentWindow().setFullScreen(!!state);
                         }, 100);
-                        context.setSetting("pluginId.FocusMode", "on", state);
+                        context.setState("pluginId.FocusMode", "on", state);
                     })
                 }
             });
@@ -38,28 +38,35 @@ export function createFocusModePlugin(): GlobalPlugin {
                 hookId: 'app.content.render.focusMode',
                 title: 'FocusMode',
                 hook: (content: any) => {
+                    if (!context.getState('pluginId.FocusMode', 'on')) {
+                        return content;
+                    }
                     return <div className='focus-mode-container'>
-                        <div id='focus-mode-rect' style={{
-                            position: 'fixed'
-                        }}></div>
                         <div className='focus-mode-scroll'>{content}</div>
                     </div>
                 }
             });
 
-            window.addEventListener('keydown', e => {
-                const rect = window.getSelection()?.getRangeAt(0).getClientRects().item(0);
-                let ele = document.getElementById('focus-mode-rect');
-                if (ele != null && rect != null) {
-                    ele.style.top = `${rect.top}px`;
-                    ele.style.height = `${rect.height}px`;
+            setInterval(() => {
+                // 如果focusMode开启
+                if (context.getState('pluginId.FocusMode', 'on')) {
+                    const selectionRect = window.getSelection()?.getRangeAt(0).getClientRects().item(0);
+                    if (selectionRect == null) return;
 
-                    ele.style.left = `100px`;
-                    ele.style.width = `200px`;
+                    const container = document.getElementsByClassName('focus-mode-scroll')?.item(0) as HTMLElement;
+                    if (container == null) {
+                        return;
+                    }
+
+                    const containerRect = container.getClientRects().item(0);
+                    if (containerRect == null) return;
+
+                    const bodyHeight = document.body.getBoundingClientRect().height;
+
+                    container.style.top = `${containerRect.y + bodyHeight / 2 - selectionRect.y}px`;
+
                 }
-
-                console.log('rect', rect);
-            })
+            }, 200);
         }
     }
 }

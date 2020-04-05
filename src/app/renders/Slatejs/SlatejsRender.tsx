@@ -10,6 +10,7 @@ import {createCopyPaste} from "./paste/copyPaste";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
 import {useRefMessage} from "../../message/message";
+import {createSlateFocusModePlugin} from "../../../globalPlugins/FocusMode/createSlateFocusModePlugin";
 
 export interface GetState {
     (): AppStore,
@@ -61,19 +62,24 @@ const SlatejsRender: FunctionRender = props => {
     const ref = useRefMessage<any, Editor>('title-enter', (editor, data) => {
         editor?.focus();
     });
+
+    let focusMode = useMemo(() => {
+        return createSlateFocusModePlugin();
+    }, []);
     return <Editor value={value}
                    ref={ref}
                    className='slate-editor'
                    placeholder="Start from here..."
                    plugins={plugins}
-                   renderBlock={(props, editor, next) => {
-                       if (props.node.type === BlockParagraph) {
-                           return <div className={BlockParagraph} {...props.attributes}>
-                               {props.children}
-                           </div>
-                       }
-                       return next();
-                   }}
+                   // renderBlock={(props, editor, next) => {
+                   //     if (props.node.type === BlockParagraph) {
+                   //         return <div className={BlockParagraph} {...props.attributes}>
+                   //             {props.children}
+                   //         </div>
+                   //     }
+                   //     return next();
+                   // }}
+                   renderBlock={focusMode.renderBlock}
                    readOnly={!!props.readOnly}
                    onPaste={copyPaste.onPaste}
                    onCopy={copyPaste.onCopy}
