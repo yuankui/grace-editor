@@ -42,7 +42,7 @@ const SlatejsRender: FunctionRender = props => {
         const copyPaste = createCopyPaste(plugins);
         const lazySave = lazyExecute((value: Value) => {
             debug(() => {
-                console.log('value, ', JSON.stringify(value.toJSON()));
+                // console.log('value, ', JSON.stringify(value.toJSON()));
             });
             props.onChange(value.toJSON());
         }, 100);

@@ -18,7 +18,7 @@ export interface Props {
 const EditorContent: React.FC<Props> = props => {
     const dispatch = useDispatch();
     const onContentChange = (value: any) => {
-        console.log(JSON.stringify(value));
+        // console.log(JSON.stringify(value));
         dispatch(new UpdatePostCommand({
             id: post.id,
             content: value,
