@@ -1,5 +1,6 @@
 import {GlobalPlugin} from "../GlobalPlugin";
 import React from "react";
+import {createSlateFocusModePlugin} from "./createSlateFocusModePlugin";
 
 export function createFocusModePlugin(): GlobalPlugin {
     return {
@@ -32,6 +33,7 @@ export function createFocusModePlugin(): GlobalPlugin {
                 }
             });
 
+            // 动态调整当前行位置到中间
             context.registerHook({
                 containerId: 'internal.render.content',
                 priority: 0,
@@ -45,6 +47,20 @@ export function createFocusModePlugin(): GlobalPlugin {
                         <div className='focus-mode-scroll'>{content}</div>
                     </div>
                 }
+            });
+
+            // 高亮当前行
+            context.registerHook({
+                containerId: 'hookId.slate.render.block',
+                priority: 0,
+                hookId: 'hookId.slate.render.block-focusMode',
+                title: 'FocusMode',
+                hook: () => {
+                    if (!context.getState('pluginId.FocusMode', 'on')) {
+                        return undefined;
+                    }
+                    return createSlateFocusModePlugin().renderBlock;
+                },
             });
 
             setInterval(() => {
@@ -64,7 +80,6 @@ export function createFocusModePlugin(): GlobalPlugin {
                     const bodyHeight = document.body.getBoundingClientRect().height;
 
                     container.style.top = `${containerRect.y + bodyHeight / 2 - selectionRect.y}px`;
-
                 }
             }, 200);
         }

@@ -11,6 +11,7 @@ import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
 import {useRefMessage} from "../../message/message";
 import {createSlateFocusModePlugin} from "../../../globalPlugins/FocusMode/createSlateFocusModePlugin";
+import {usePluginHooks} from "../../../globalPlugins/usePluginHooks";
 
 export interface GetState {
     (): AppStore,
@@ -63,23 +64,18 @@ const SlatejsRender: FunctionRender = props => {
         editor?.focus();
     });
 
-    let focusMode = useMemo(() => {
-        return createSlateFocusModePlugin();
-    }, []);
+    // find first. TODO 支持链式封装，多个book同时生效
+    let renderBlock = usePluginHooks('hookId.slate.render.block').find(()=> true)?.hook();
+    const attrs = renderBlock ? {
+        renderBlock,
+    } : {};
+
     return <Editor value={value}
                    ref={ref}
                    className='slate-editor'
                    placeholder="Start from here..."
                    plugins={plugins}
-                   // renderBlock={(props, editor, next) => {
-                   //     if (props.node.type === BlockParagraph) {
-                   //         return <div className={BlockParagraph} {...props.attributes}>
-                   //             {props.children}
-                   //         </div>
-                   //     }
-                   //     return next();
-                   // }}
-                   renderBlock={focusMode.renderBlock}
+                   {...attrs}
                    readOnly={!!props.readOnly}
                    onPaste={copyPaste.onPaste}
                    onCopy={copyPaste.onCopy}
