@@ -15,8 +15,8 @@ export const PostRepository: React.FC = () => {
     const lang = useLang();
     const children = topPostIds
         .sort((a, b) => {
-            const weightA = posts.posts.get(a).weight;
-            const weightB = posts.posts.get(b).weight;
+            const weightA = posts.posts.get(a).weight || '';
+            const weightB = posts.posts.get(b).weight || '';
             return weightA.localeCompare(weightB);
         })
         .map((postId, index) => {

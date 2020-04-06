@@ -4,6 +4,8 @@
 
     .container {
         width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .handle {
         width: 0;
@@ -33,7 +35,7 @@
     }
 
     .app-left-handle {
-        height: 44px;
+        flex: 0 0 44px;
         user-select: none;
         .drag-handle();
         background-color: var(--base-sider-menu-color);
