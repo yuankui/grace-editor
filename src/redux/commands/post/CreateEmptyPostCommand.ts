@@ -30,6 +30,23 @@ export class CreateEmptyPostCommand extends AppCommand {
             weight: '',
         };
 
+        // 设置初始weight，使其位于最后一位
+        let children = store.posts.childrenMap.get(null);
+        if (children != null && children.length > 0) {
+            const posts = children.map(childId => postsStore.posts.get(childId))
+                .filter(c => c != null)
+                .sort((a, b) => {
+                    const aWeight = a.weight || "";
+                    const bWeight = b.weight || '';
+                    // 倒序排列
+                    return b.weight.localeCompare(a.weight);
+                });
+            if (posts.length>0) {
+                newPost.weight = posts[0].weight + '2';
+                // TODO fix
+            }
+        }
+
         const newPostStore: PostsStore = {
             ...postsStore,
             posts: postsStore.posts.set(this.postId, newPost),

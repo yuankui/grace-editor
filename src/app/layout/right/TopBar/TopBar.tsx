@@ -11,7 +11,6 @@ import {createPostId} from "../../../../redux/utils";
 import {FavorButton} from "./FavorButton";
 import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
-import {PostSelectCommand} from "../../../../redux/commands/menu/PostSelectCommand";
 import useAppStore from "../../../hooks/useAppStore";
 import {useLang} from "../../../../i18n/i18n";
 
@@ -35,7 +34,6 @@ const TopBar: React.FC<any> = () => {
             <a onClick={() => {
                 let postId = createPostId();
                 dispatch(new CreateNewPostCommand(postId, null));
-                dispatch(PostSelectCommand(postId));
             }}>{lang["top.create"]}</a>
             <InputButton placeHolder='commit message' onConfirm={save}>
                 {lang["top.commit"]}
