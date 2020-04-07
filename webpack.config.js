@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 const _ = require('lodash');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 require("babel-polyfill");
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -30,6 +31,7 @@ module.exports = {
                 'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
             }
         ),
+        // new BundleAnalyzerPlugin(),
     ],
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".md", ".mp3"]
