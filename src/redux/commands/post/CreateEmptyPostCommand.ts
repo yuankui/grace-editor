@@ -39,7 +39,7 @@ export class CreateEmptyPostCommand extends AppCommand {
                     const aWeight = a.weight || "";
                     const bWeight = b.weight || '';
                     // 倒序排列
-                    return b.weight.localeCompare(a.weight);
+                    return bWeight.localeCompare(aWeight);
                 });
             if (posts.length>0) {
                 newPost.weight = posts[0].weight + '2';
