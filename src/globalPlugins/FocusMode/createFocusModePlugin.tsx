@@ -1,6 +1,8 @@
 import {GlobalPlugin} from "../GlobalPlugin";
 import React from "react";
 import {createSlateFocusModePlugin} from "./createSlateFocusModePlugin";
+import isHotkey from "is-hotkey";
+import {notify} from "../../app/message/message";
 
 export function createFocusModePlugin(): GlobalPlugin {
     return {
@@ -82,6 +84,22 @@ export function createFocusModePlugin(): GlobalPlugin {
                     container.style.top = `${containerRect.y + bodyHeight / 2 - selectionRect.y}px`;
                 }
             }, 200);
+
+            // toggle最大化窗口
+            window.addEventListener('keydown', e => {
+                if (isHotkey('mod+enter', e)) {
+                    const isFocus = context.getState('pluginId.FocusMode', 'on');
+
+                    context.electron.remote.getCurrentWindow()
+                        .setFullScreen(!isFocus);
+
+                    if (!isFocus) {
+                        setTimeout(()=> {
+                            notify("title-enter");
+                        }, 1000);
+                    }
+                }
+            })
         }
     }
 }
