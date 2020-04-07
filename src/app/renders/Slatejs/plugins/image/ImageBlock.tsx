@@ -22,6 +22,6 @@ export const ImageBlock: React.FC<Props> = props => {
     return <img
         {...props.attributes}
         src={src}
-        className={ImageBlockType+ " " + 'focus-' + props.isFocused}
+        className={ImageBlockType + " " + 'focus-' + props.isFocused}
     />
-}
+};
