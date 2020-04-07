@@ -30,12 +30,18 @@
             visibility: hidden;
         }
 
-        .slate-editor > [data-slate-object="block"] {
+        .slate-editor [data-slate-object="block"] {
             opacity: .1;
         }
 
         .focus-block {
-            opacity: 1 !important;
+            &[data-slate-object="block"] {
+                opacity: 1 !important;
+            }
+
+            & [data-slate-object="block"] {
+                opacity: 1 !important;
+            }
         }
     }
 }
