@@ -10,6 +10,7 @@ import {ReverseMutationFactory} from "./hook-struct/ReverseMutationFactory";
 import {WhereParser} from "./hook-struct/WhereParser";
 import {Pager} from "./hook-struct/Pager";
 import {createWhereParser} from "./hooks/where-parser/createWhereParser";
+import {createIdChecker} from "./hooks/doc-checker/createIdChecker";
 
 export class Index<T extends ID = ID> {
     private readonly hookRegister: HookRegister;
@@ -21,13 +22,13 @@ export class Index<T extends ID = ID> {
     async init(hookRegisterConsumers?: Array<HookRegisterConsumer>) {
         // 1. 初始化默认的registerConsumer
         for (let consumer of Index.getDefaultHookRegisterConsumers()) {
-            await consumer.init(HookRegister);
+            await consumer.init(this.hookRegister);
         }
 
         // 2. 初始化参数中的registerConsumer
         if (hookRegisterConsumers) {
             for (let consumer of hookRegisterConsumers) {
-                await consumer.init(HookRegister);
+                await consumer.init(this.hookRegister);
             }
         }
     }
@@ -35,6 +36,7 @@ export class Index<T extends ID = ID> {
     private static getDefaultHookRegisterConsumers(): Array<HookRegisterConsumer> {
         return [
             createWhereParser(),
+            createIdChecker(),
         ]
     }
 
@@ -63,7 +65,7 @@ export class Index<T extends ID = ID> {
         // 6. 获取详情服务
         const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
         // 7. 写入详情
-        await detailService.hook.get(numberId);
+        return await detailService.hook.get(numberId);
     }
 
     async add(doc: T) {

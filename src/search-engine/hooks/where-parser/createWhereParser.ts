@@ -8,7 +8,7 @@ import {ExprParser} from "../../hook-struct/ExprParser";
 export function createWhereParser(): HookRegisterConsumer {
     return {
         name: "WhereParser",
-        init(hookRegister: HookRegister): Promise<any> {
+        async init(hookRegister: HookRegister): Promise<any> {
 
             // 过滤
             hookRegister.register<WhereParser>({

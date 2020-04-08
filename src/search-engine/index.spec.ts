@@ -1,24 +1,32 @@
 import {Index} from "./Index";
+import {ID} from "./hook-struct/ID";
+
+interface Person extends ID {
+    name: string,
+    age: number,
+    male: boolean,
+}
 
 async function run() {
-    const index = await Index.open("index.dat");
+    const index = new Index<Person>("index.dat");
+    await index.init();
 
     await index.add({
-        id: 'yuankui',
+        _id: 'yuankui',
         name: 'yuankui',
         age: 33,
         male: true,
     });
 
     await index.add({
-        id: 'wangfang',
+        _id: 'wangfang',
         name: 'wangfang',
         age: 34,
         male: false,
     });
 
     await index.add({
-        id: 'yuansiqi',
+        _id: 'yuansiqi',
         name: 'yuansiqi',
         age: 34,
         male: true,
@@ -43,6 +51,10 @@ async function run() {
                     }
                 }
             }
+        },
+        page: {
+            page: 0,
+            pageSize: 10,
         }
     });
     console.log(docs);
