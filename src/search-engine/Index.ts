@@ -1,12 +1,20 @@
+import {Field} from "./Field";
+import {Detail} from "./Detail";
+import path from 'path';
+
 export class Index<T = any> {
     private path: string;
+    private fields: Array<Field>;
+    private detail: Detail;
 
-    private constructor(path: string) {
-        this.path = path;
+    constructor(dir: string) {
+        this.path = dir;
+        this.fields = [];
+        this.detail = new Detail(path.join(dir, 'detail'));
     }
 
-    private async init() {
-
+    async init() {
+        await this.detail.init();
     }
 
     static async open(path: string): Promise<Index> {

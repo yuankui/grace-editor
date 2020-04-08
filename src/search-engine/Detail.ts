@@ -1,70 +1,45 @@
-import RocksDB from "rocksdb";
+import {KV} from "./KV";
 
 export class Detail<T = any> {
     private path: string;
-    private rocksdb: RocksDB;
+    private readonly kv: KV;
 
-    private constructor(path: string) {
+    constructor(path: string) {
         this.path = path;
-        this.rocksdb = new RocksDB(path);
+        this.kv = new KV(path);
     }
 
-    private async init() {
-        return new Promise((resolve, reject) => {
-            this.rocksdb.open(err => {
-                if (err == null) {
-                    resolve();
-                } else {
-                    reject(err);
-                }
-            })
-        })
-    }
-
-    static async open(path: string): Promise<Detail> {
-        const detail = new Detail(path);
-        await detail.init();
-        return detail;
+    async init() {
+        await this.kv.init();
     }
 
     async add(docId: string, doc: T) {
-        return new Promise((resolve, reject) => {
-            this.rocksdb.put(docId, JSON.stringify(doc), err => {
-                if (err == null) {
-                    resolve();
-                } else {
-                    reject(err);
-                }
-            })
-        })
+        if (this.kv == null) {
+            throw new Error("empty kv");
+        }
+        await this.kv.put(docId, JSON.stringify(doc));
     }
 
     async get(docId: string): Promise<T> {
-        return new Promise<any>((resolve, reject) => {
-            this.rocksdb.get(docId, (err, value) => {
-                if (err == null) {
-                    resolve(JSON.parse(value.toString()));
-                } else {
-                    reject(err);
-                }
-            })
-        })
+        if (this.kv == null) {
+            throw new Error("empty kv");
+        }
+        const buffer = await this.kv.get(docId);
+        return JSON.parse(buffer.toString('utf-8'));
     }
 
     async remove(docId: string) {
-        return new Promise((resolve, reject) => {
-            this.rocksdb.del(docId, err => {
-                if (err == null) {
-                    resolve();
-                } else {
-                    reject(err);
-                }
-            })
-        });
+        if (this.kv == null) {
+            throw new Error("empty kv");
+        }
+        await this.kv.del(docId);
     }
 
     async list(page: number, pageSize: number): Promise<Array<T>> {
-        const iterator = this.rocksdb.iterator({});
+        if (this.kv == null) {
+            throw new Error("empty kv");
+        }
+        const iterator = this.kv.iterator();
         const next = async (iter) => {
             return new Promise<any>((resolve, reject) => {
                 iterator.next((err, key, value) => {
