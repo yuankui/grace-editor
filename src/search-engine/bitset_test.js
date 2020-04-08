@@ -1,14 +1,12 @@
-const Fastbitset = require('fastbitset');
 const {BitSet} = require('bitset');
 const byteBuffer = require('bytebuffer');
 
 const bitset = new BitSet();
-const fastbitset = new Fastbitset();
+
 
 const randomInt = (max) => {
     const value = Math.random() * max;
-    const int = parseInt(value.toString());
-    return int;
+    return parseInt(value.toString());
 };
 
 
@@ -16,7 +14,6 @@ for (let i = 0; i < 1000000; i++) {
     const bool = randomInt(100) % 2 === 0;
     if (bool) {
         bitset.set(i, 1);
-        fastbitset.add(i);
     }
 }
 

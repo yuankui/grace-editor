@@ -128,6 +128,7 @@
     "redux-commands": "^2.0.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
+    "roaring": "^1.0.6",
     "rocksdb": "^4.1.0",
     "rxjs": "^6.5.4",
     "slate": "^0.47.9",
