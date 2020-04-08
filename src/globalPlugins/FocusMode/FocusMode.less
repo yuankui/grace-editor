@@ -32,6 +32,11 @@
 
         .slate-editor [data-slate-object="block"] {
             opacity: .1;
+
+            // 防止嵌套block，多重透明，导致完全看不清的情况
+            [data-slate-object="block"] {
+                opacity: 1;
+            }
         }
 
         .focus-block {
