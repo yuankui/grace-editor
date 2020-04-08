@@ -5,26 +5,61 @@ import {PkField} from "./PkField";
 import {ReverseMap} from "./ReverseMap";
 import {IdMap} from "./IdMap";
 import {SearchReq} from "./SearchReq";
+import {HookRegister} from "./HookRegister";
+import {Filter} from "./Filter";
+import {RoaringBitmap32} from "roaring";
+import * as rxjs from "rxjs";
+import {take, toArray} from "rxjs/operators";
+import {HookRegisterConsumer} from "./HookRegisterConsumer";
+import {createBooleanFieldSupporter} from "./field-types/boolean-type/createBooleanFieldSupporter";
+import {createIntegerFieldSupporter} from "./field-types/int-type/createIntegerFieldSupporter";
+import {createListFieldSupporter} from "./field-types/list-type/createListFieldSupporter";
+import {createStringFieldSupporter} from "./field-types/string-type/createStringFieldSupporter";
 
 export class Index<T = any> {
     private path: string;
-    private fields: Array<Field>;
+    private readonly fields: Array<Field>;
     private pkField: PkField;
     private detail: Detail;
     private reverseMap: ReverseMap;
     private idMap: IdMap;
+    private readonly hookRegister: HookRegister;
+    private readonly filters: Array<Filter>;
+    private readonly fieldSupporters: Array<HookRegisterConsumer>;
 
     constructor(dir: string) {
+        this.hookRegister = new HookRegister();
         this.path = dir;
         this.fields = [];
         this.detail = new Detail(path.join(dir, 'detail'));
         this.pkField = new PkField<T>();
         this.reverseMap = new ReverseMap(path.join(dir, 'reverse'));
-        this.idMap = new IdMap(path.join(dir, 'id_map'))
+        this.idMap = new IdMap(path.join(dir, 'id_map'));
+        this.filters = [];
+        this.fieldSupporters = [
+            createBooleanFieldSupporter(),
+            createIntegerFieldSupporter(),
+            createListFieldSupporter(),
+            createStringFieldSupporter(),
+        ]
     }
 
     async init() {
         await this.detail.init();
+
+        // TODO 这是干啥的？
+        for (let field of this.fields) {
+            await field.init(this.hookRegister);
+        }
+
+        for (let filter of this.filters) {
+            await filter.init(this.hookRegister);
+        }
+
+        // field supporters
+        for (let fieldSupporter of this.fieldSupporters) {
+            await fieldSupporter.init(this.hookRegister);
+        }
     }
 
     static async open(path: string): Promise<Index> {
@@ -34,7 +69,32 @@ export class Index<T = any> {
     }
 
     async jsonSearch(query: SearchReq): Promise<Array<T>> {
-        return [];
+        const hooks = this.hookRegister.getHooks("hook.filter");
+
+        const hook = hooks.find(hook => {
+            return hook.hook.accept(query.where);
+        });
+
+        if (hook == null) {
+            throw new Error("unsupported where: " + JSON.stringify(query.where));
+        }
+
+        // 获取bitmap
+        const bitmap: RoaringBitmap32 = hook.hook.filter(query.where);
+
+        // 拉取详情
+        return new Promise<any>((resolve, reject) => {
+            rxjs.from(bitmap.iterator())
+                .pipe(
+                    take(100),
+                    toArray(),
+                )
+                .subscribe(array => {
+                    resolve(array);
+                }, error => {
+                    reject(error);
+                })
+        })
     }
 
     async get(docId: string): Promise<T> {

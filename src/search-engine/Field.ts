@@ -1,3 +1,5 @@
+import {HookRegister} from "./HookRegister";
+
 export abstract class Field<T = any> {
     // 解析doc，生成token
     abstract parse(doc: T): Array<string>;
@@ -6,5 +8,5 @@ export abstract class Field<T = any> {
         return "";
     }
 
-
+    abstract async init(hookRegister: HookRegister);
 }
