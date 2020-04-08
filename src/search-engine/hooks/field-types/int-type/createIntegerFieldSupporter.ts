@@ -1,5 +1,5 @@
-import {HookRegisterConsumer} from "../../HookRegisterConsumer";
-import {HookRegister} from "../../HookRegister";
+import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
+import {HookRegister} from "../../../HookRegister";
 import {IntegerField} from "./IntegerField";
 
 export function createIntegerFieldSupporter(): HookRegisterConsumer {

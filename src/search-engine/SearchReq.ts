@@ -1,4 +1,6 @@
 // language=yaml
+import {Page} from "./hook-struct/Page";
+
 const example = `type: and
 params:
   left:
@@ -13,10 +15,11 @@ params:
       value: yuankui`;
 
 export interface SearchReq {
-    where: Exp<any>,
+    where: Expression<any>,
+    page: Page,
 }
 
-export interface Exp<T> {
+export interface Expression<T> {
     type: string,
     params: T,
 }

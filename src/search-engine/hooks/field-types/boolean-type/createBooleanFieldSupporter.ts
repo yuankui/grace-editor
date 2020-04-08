@@ -1,5 +1,5 @@
-import {HookRegisterConsumer} from "../../HookRegisterConsumer";
-import {HookRegister} from "../../HookRegister";
+import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
+import {HookRegister} from "../../../HookRegister";
 import {BooleanField} from "./BooleanField";
 
 export function createBooleanFieldSupporter(): HookRegisterConsumer {

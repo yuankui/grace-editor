@@ -1,20 +1,21 @@
-import {HookRegisterConsumer} from "../../HookRegisterConsumer";
-import {HookRegister} from "../../HookRegister";
-import {StringField} from "./StringField";
+import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
+import {HookRegister} from "../../../HookRegister";
+import {isArrayLike} from "rxjs/internal-compatibility";
+import {ListField} from "./ListField";
 
-export function createStringFieldSupporter(): HookRegisterConsumer {
+export function createListFieldSupporter(): HookRegisterConsumer {
     return {
         async init(hookRegister: HookRegister): Promise<any> {
             hookRegister.register({
-                id: 'StringField',
+                id: 'ListField',
                 name: 'parse.field.type',
                 hook: {
                     // 新插入一个新字段的时候，用于自动创建该字段的schema
                     accept: (value: any) => {
-                        return typeof value === 'string';
+                        return isArrayLike(value);
                     },
                     createField: (value: any) => {
-                        return new StringField();
+                        return new ListField();
                     }
                 }
             })

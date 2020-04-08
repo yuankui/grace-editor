@@ -1,156 +1,123 @@
-import {Field} from "./Field";
-import {Detail} from "./Detail";
-import path from 'path';
-import {PkField} from "./PkField";
-import {ReverseMap} from "./ReverseMap";
-import {IdMap} from "./IdMap";
 import {SearchReq} from "./SearchReq";
 import {HookRegister} from "./HookRegister";
-import {Filter} from "./Filter";
-import {RoaringBitmap32} from "roaring";
-import * as rxjs from "rxjs";
-import {take, toArray} from "rxjs/operators";
 import {HookRegisterConsumer} from "./HookRegisterConsumer";
-import {createBooleanFieldSupporter} from "./field-types/boolean-type/createBooleanFieldSupporter";
-import {createIntegerFieldSupporter} from "./field-types/int-type/createIntegerFieldSupporter";
-import {createListFieldSupporter} from "./field-types/list-type/createListFieldSupporter";
-import {createStringFieldSupporter} from "./field-types/string-type/createStringFieldSupporter";
+import {ID} from "./hook-struct/ID";
+import {DocChecker} from "./hook-struct/DocChecker";
+import {Mapper} from "./hook-struct/Mapper";
+import {DetailService} from "./hook-struct/DetailService";
+import {ReverseIndex} from "./hook-struct/ReverseIndex";
+import {ReverseMutationFactory} from "./hook-struct/ReverseMutationFactory";
+import {WhereParser} from "./hook-struct/WhereParser";
+import {Pager} from "./hook-struct/Pager";
+import {createWhereParser} from "./hooks/where-parser/createWhereParser";
 
-export class Index<T = any> {
-    private path: string;
-    private readonly fields: Array<Field>;
-    private pkField: PkField;
-    private detail: Detail;
-    private reverseMap: ReverseMap;
-    private idMap: IdMap;
+export class Index<T extends ID = ID> {
     private readonly hookRegister: HookRegister;
-    private readonly filters: Array<Filter>;
-    private readonly fieldSupporters: Array<HookRegisterConsumer>;
 
     constructor(dir: string) {
         this.hookRegister = new HookRegister();
-        this.path = dir;
-        this.fields = [];
-        this.detail = new Detail(path.join(dir, 'detail'));
-        this.pkField = new PkField<T>();
-        this.reverseMap = new ReverseMap(path.join(dir, 'reverse'));
-        this.idMap = new IdMap(path.join(dir, 'id_map'));
-        this.filters = [];
-        this.fieldSupporters = [
-            createBooleanFieldSupporter(),
-            createIntegerFieldSupporter(),
-            createListFieldSupporter(),
-            createStringFieldSupporter(),
+    }
+
+    async init(hookRegisterConsumers?: Array<HookRegisterConsumer>) {
+        // 1. 初始化默认的registerConsumer
+        for (let consumer of Index.getDefaultHookRegisterConsumers()) {
+            await consumer.init(HookRegister);
+        }
+
+        // 2. 初始化参数中的registerConsumer
+        if (hookRegisterConsumers) {
+            for (let consumer of hookRegisterConsumers) {
+                await consumer.init(HookRegister);
+            }
+        }
+    }
+
+    private static getDefaultHookRegisterConsumers(): Array<HookRegisterConsumer> {
+        return [
+            createWhereParser(),
         ]
     }
 
-    async init() {
-        await this.detail.init();
-
-        // TODO 这是干啥的？
-        for (let field of this.fields) {
-            await field.init(this.hookRegister);
-        }
-
-        for (let filter of this.filters) {
-            await filter.init(this.hookRegister);
-        }
-
-        // field supporters
-        for (let fieldSupporter of this.fieldSupporters) {
-            await fieldSupporter.init(this.hookRegister);
-        }
-    }
-
-    static async open(path: string): Promise<Index> {
-        const index = new Index(path);
-        await index.init();
-        return index;
-    }
-
     async jsonSearch(query: SearchReq): Promise<Array<T>> {
-        const hooks = this.hookRegister.getHooks("hook.filter");
+        // 1. 根据where条件进行过滤
+        const hook = this.hookRegister.getHook<WhereParser>("where.parser");
+        const bitset = await hook.hook.filter(query.where);
 
-        const hook = hooks.find(hook => {
-            return hook.hook.accept(query.where);
+        // 2. 获取pager
+        const pagerHook = this.hookRegister.getHook<Pager>('pager');
+        const ids = pagerHook.hook.page(bitset, query.page);
+
+        // 3. 获取详情服务
+        const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
+        const promises = ids.map(async id => {
+            return await detailService.hook.get(id);
         });
-
-        if (hook == null) {
-            throw new Error("unsupported where: " + JSON.stringify(query.where));
-        }
-
-        // 获取bitmap
-        const bitmap: RoaringBitmap32 = hook.hook.filter(query.where);
-
-        // 拉取详情
-        return new Promise<any>((resolve, reject) => {
-            rxjs.from(bitmap.iterator())
-                .pipe(
-                    take(100),
-                    toArray(),
-                )
-                .subscribe(array => {
-                    resolve(array);
-                }, error => {
-                    reject(error);
-                })
-        })
+        return await Promise.all(promises);
     }
 
     async get(docId: string): Promise<T> {
-        return await this.detail.get(docId);
+        // 5. id映射成整数
+        const idMapper = this.hookRegister.getHook<Mapper<string, number>>("id.mapper");
+        const numberId = idMapper.hook.map(docId);
+
+        // 6. 获取详情服务
+        const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
+        // 7. 写入详情
+        await detailService.hook.get(numberId);
     }
 
     async add(doc: T) {
-        const pk = this.pkField.getPK(doc);
-        const id = await this.idMap.getOrCreate(pk, 'pk');
-        // 1. 加入详情
-        this.detail.add(pk, doc);
-        // 2. 解析字段
-        for (let f of this.fields) {
-            const fieldName = f.name;
-            // 3. 构造索引
-            const tokens = f.parse(doc);
+        // check doc
+        // 1. 检查id字段是否存在
+        let docCheckerHooks = this.hookRegister.getHooks<DocChecker>("doc.checker");
+        for (let hook of docCheckerHooks) {
+            hook.hook.check(doc);
+        }
 
-            // 构造倒排key
-            const keys = tokens.map(token => {
-                return `inverse_${fieldName}_${token}`;
-            });
+        // 2. 获取IDField
+        const id = doc._id;
 
-            // 4. 写入索引
-            for (let key of keys) {
-                const bitmap = await this.reverseMap.get(key);
-                bitmap.add(id);
-                await this.reverseMap.set(key, bitmap);
-            }
+        // 4. 生成倒排的mutation
+        const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
+        const mutations = reverseMutationsFactory.hook.process(doc);
+
+        // 5. id映射成整数
+        const idMapper = this.hookRegister.getHook<Mapper<string, number>>("id.mapper");
+        const numberId = idMapper.hook.map(id);
+
+        // 6. 获取详情服务
+        const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
+        // 7. 写入详情
+        await detailService.hook.set(numberId, doc);
+
+        // 8. 写入倒排
+        const reverseIndex = this.hookRegister.getHook<ReverseIndex>('reverse.index');
+        for (let mutation of mutations) {
+            await reverseIndex.hook.mutate(mutation);
         }
     }
 
     async delete(docId: string) {
-        // 1. 获取详情
-        const doc = await this.detail.get(docId);
-        const pk = this.pkField.getPK(doc);
-        const id = await this.idMap.getOrCreate(pk, 'pk');
+        // 1. id映射成整数
+        const idMapper = this.hookRegister.getHook<Mapper<string, number>>("id.mapper");
+        const numberId = idMapper.hook.map(docId);
 
-        // 2. 根据详情，解析倒排
-        for (let f of this.fields) {
-            const fieldName = f.name;
-            // 3. 构造索引
-            const tokens = f.parse(doc);
+        // 2. 获取详情服务
+        const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
+        // 3. 获取老的详情
+        const doc = await detailService.hook.get(numberId);
 
-            // 构造倒排key
-            const keys = tokens.map(token => {
-                return `inverse_${fieldName}_${token}`;
-            });
+        // 4. 生成老的详情
+        const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
+        const mutations = reverseMutationsFactory.hook.process(doc, true);
 
-            for (let key of keys) {
-                const bitmap = await this.reverseMap.get(key);
-                bitmap.remove(id);
-                // 3. 删除倒排
-                await this.reverseMap.set(key, bitmap);
-            }
+        // 5. 更新倒排
+        const reverseIndex = this.hookRegister.getHook<ReverseIndex>('reverse.index');
+        for (let mutation of mutations) {
+            await reverseIndex.hook.mutate(mutation);
         }
-        // 4. 删除详情
-        await this.detail.remove(pk);
+
+        // 7. 删除详情
+        await detailService.hook.del(numberId);
     }
 }

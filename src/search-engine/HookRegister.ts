@@ -1,23 +1,27 @@
 export class HookRegister {
-    hookMap: { [key: string]: Array<Hook>};
+    hookMap: { [key: string]: Array<Hook> };
 
     constructor() {
         this.hookMap = {};
     }
 
-    register(hook: Hook) {
+    register<T = any>(hook: Hook<T>) {
         let hooks = this.hookMap[hook.name] || [];
-        hooks = [...hooks, hook]
+        hooks = [...hooks, hook];
         this.hookMap[hook.name] = hooks;
     }
 
-    getHooks(name: string): Array<Hook> {
+    getHooks<T = any>(name: string): Array<Hook<T>> {
         return this.hookMap[name];
+    }
+
+    getHook<T = any>(name: string): Hook<T> {
+        return this.getHooks(name)[0];
     }
 }
 
-export interface Hook {
+export interface Hook<T = any> {
     id: string,
     name: string,
-    hook: any,
+    hook: T,
 }
