@@ -1,15 +1,43 @@
 import RocksDB from "rocksdb";
+import fs from 'fs';
+import path from 'path';
 
 export class KV {
-    private path: string;
+    private readonly location: string;
     private rocksdb: RocksDB;
 
     constructor(path: string) {
-        this.path = path;
+        this.location = path;
         this.rocksdb = new RocksDB(path);
     }
 
     async init() {
+        const dir = path.dirname(this.location);
+        // 判断父目录是否存在
+        const exist = await new Promise((resolve, reject) => {
+            fs.lstat(dir, (err, stats) => {
+                if (err == null) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            })
+        });
+
+        // 如果不存在，创建目录
+        if (!exist) {
+            await new Promise((resolve, reject) => {
+                fs.mkdir(dir, err => {
+                    if (err == null) {
+                        resolve();
+                    } else {
+                        reject(err);
+                    }
+                })
+            })
+        }
+
+        // 然后初始化db
         await new Promise((resolve, reject) => {
             this.rocksdb.open(err => {
                 if (err == null) {
