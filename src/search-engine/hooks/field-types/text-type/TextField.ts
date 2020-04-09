@@ -2,7 +2,9 @@ import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import jieba from "nodejieba";
 
-
+jieba.load({
+    stopWordDict: ' \n'
+})
 export class TextField implements Field<string> {
     private readonly _name: string;
 
@@ -21,7 +23,9 @@ export class TextField implements Field<string> {
         if (value == null) {
             return [];
         }
-        const words = jieba.cut(value) || [];
+
+        // 经过简单测试，先用这个api，效果比较好，后续看情况再优化
+        const words = jieba.cutForSearch(value, true) || [];
         return words.map(word => {
             return {
                 key: `reverse.${this.name}.${word}`,

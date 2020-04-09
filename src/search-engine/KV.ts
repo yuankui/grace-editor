@@ -55,7 +55,7 @@ export class KV {
                 if (err == null) {
                     resolve(value);
                 } else {
-                    reject(err);
+                    resolve(null);
                 }
             })
         })

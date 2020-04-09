@@ -13,21 +13,21 @@ async function run() {
 
     await index.add({
         _id: 'yuankui',
-        name: 'yuankui',
+        name: 'yuan kui',
         age: 33,
         male: true,
     });
 
     await index.add({
         _id: 'wangfang',
-        name: 'wangfang',
+        name: 'wang fang',
         age: 34,
         male: false,
     });
 
     await index.add({
         _id: 'yuansiqi',
-        name: 'yuansiqi',
+        name: 'yuan siqi',
         age: 34,
         male: true,
     });

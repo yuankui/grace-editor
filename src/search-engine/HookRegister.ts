@@ -23,7 +23,7 @@ export class HookRegister {
     }
 
     getHooks<T = any>(name: string): Array<Hook<T>> {
-        return this.hookMap[name];
+        return this.hookMap[name] || [];
     }
 
     getHook<T = any>(name: string): Hook<T> {
