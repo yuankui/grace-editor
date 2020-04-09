@@ -1,7 +1,7 @@
 import {HookRegisterConsumer} from "../../HookRegisterConsumer";
 import {HookRegister} from "../../HookRegister";
 import {KVFactory} from "../../hook-struct/KVFactory";
-import {Mapper} from "../../hook-struct/Mapper";
+import {IdMapper} from "../../hook-struct/IdMapper";
 import path from 'path';
 
 export function createIdMapper() : HookRegisterConsumer {
@@ -16,11 +16,11 @@ export function createIdMapper() : HookRegisterConsumer {
             const idMapperPath = path.join(indexPathHook.hook, 'id-mapper');
             const kv = await kvFactory.hook.create(idMapperPath);
 
-            hookRegister.register<Mapper<string, Promise<number>>>({
+            hookRegister.register<IdMapper>({
                 id: 'idMapper',
                 name: 'id.mapper',
                 hook: {
-                    async map(namespace:string, id: string): Promise<number> {
+                    async map(namespace: string, id: string): Promise<number> {
                         const seedKey = `${namespace}.$`;
                         const key = `${namespace}.${id}`;
 
