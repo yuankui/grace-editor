@@ -8,7 +8,45 @@ interface Person extends ID {
     male: boolean,
 }
 
-async function run() {
+
+test('index-insert', async function() {
+    const index = new Index<Person>("./index.dat");
+    await index.init();
+
+    await index.add({
+        _id: 'yuankui',
+        name: 'yuan kui',
+        age: 33,
+        male: true,
+    });
+
+    await index.add({
+        _id: 'wangfang',
+        name: 'wang fang',
+        age: 133,
+        male: false,
+    });
+
+    await index.add({
+        _id: 'yuansiqi',
+        name: 'yuan siqi',
+        age: 34,
+        male: true,
+    });
+});
+
+
+test('index-delete', async function() {
+    const index = new Index<Person>("./index.dat");
+    await index.init();
+
+    await index.delete('yuankui');
+    // await index.delete('wangfang');
+    // await index.delete('yuansiqi');
+});
+
+
+test('index-update', async function() {
     const index = new Index<Person>("./index.dat");
     await index.init();
 
@@ -62,12 +100,5 @@ async function run() {
 
     // const doc = await index.get("hello");
     // console.log(doc);
-}
-
-
-test('index-insert', async function() {
-    await run();
 });
-
-
 

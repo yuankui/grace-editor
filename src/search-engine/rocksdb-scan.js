@@ -1,6 +1,5 @@
 const RocksDB = require("rocksdb");
 
-const rocksdb = new RocksDB('/Users/yuankui/git/grace-editor/index.dat/id-mapper');
 
 async function next(iter) {
     return new Promise((resolve, reject) => {
@@ -14,14 +13,34 @@ async function next(iter) {
     })
 }
 
-rocksdb.open(async err => {
-    const iterator = rocksdb.iterator();
-    for (let i = 0; i < 1000; i++) {
-        const [key, value] = await next(iterator);
+const indexNames = ['doc-detail', 'id-mapper', 'reverse_index'];
 
-        if (key == null && value == null) {
-            break;
-        }
-        console.log(`${key} => ${value}`)
+async function run() {
+    for (let indexName of indexNames) {
+
+        const rocksdb = new RocksDB('/Users/yuankui/git/grace-editor/index.dat/' + indexName);
+
+        await new Promise(resolve => {
+            rocksdb.open(async err => {
+                console.log('');
+                console.log(`=================index name [${indexName}]====================`);
+                console.log('');
+                const iterator = rocksdb.iterator();
+                for (let i = 0; i < 1000; i++) {
+                    const [key, value] = await next(iterator);
+
+                    if (key == null && value == null) {
+                        break;
+                    }
+                    console.log(`${key} => ${value}`)
+                }
+                resolve();
+            });
+        })
+
     }
+}
+
+
+run().then(() => {
 });
