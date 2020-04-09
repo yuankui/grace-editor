@@ -32,32 +32,32 @@ async function run() {
         male: true,
     });
 
-    const docs = await index.jsonSearch({
-        where: {
-            type: 'and',
-            params: {
-                left: {
-                    type: '=',
-                    params: {
-                        field: 'age',
-                        value: 33,
-                    }
-                },
-                right: {
-                    type: 'bool',
-                    params: {
-                        field: 'male',
-                        value: 'false',
-                    }
-                }
-            }
-        },
-        page: {
-            page: 0,
-            pageSize: 10,
-        }
-    });
-    console.log(docs);
+    // const docs = await index.jsonSearch({
+    //     where: {
+    //         type: 'and',
+    //         params: {
+    //             left: {
+    //                 type: '=',
+    //                 params: {
+    //                     field: 'age',
+    //                     value: 33,
+    //                 }
+    //             },
+    //             right: {
+    //                 type: 'bool',
+    //                 params: {
+    //                     field: 'male',
+    //                     value: 'false',
+    //                 }
+    //             }
+    //         }
+    //     },
+    //     page: {
+    //         page: 0,
+    //         pageSize: 10,
+    //     }
+    // });
+    // console.log(docs);
 
     // const doc = await index.get("hello");
     // console.log(doc);
