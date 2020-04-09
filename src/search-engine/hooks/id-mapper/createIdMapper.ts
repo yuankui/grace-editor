@@ -20,27 +20,30 @@ export function createIdMapper() : HookRegisterConsumer {
                 id: 'idMapper',
                 name: 'id.mapper',
                 hook: {
-                    async map(id: string): Promise<number> {
-                        const idBuffer = await kv.get(`name2id_${id}`);
+                    async map(namespace:string, id: string): Promise<number> {
+                        const seedKey = `${namespace}.maxId`;
+                        const key = `${namespace}.${id}`;
+
+                        const idBuffer = await kv.get(key);
                         // 存在就返回
                         if (idBuffer != null) {
                             return parseInt(idBuffer.toString("utf-8"));
                         }
 
                         // 否则就递增，创建一个新的
-                        const maxId = await kv.get(`maxId`);
+                        const maxId = await kv.get(seedKey);
                         if (maxId == null) {
                             // 种子不存在，就建一个种子
-                            await kv.put('maxId', "1")
+                            await kv.put(seedKey, "1");
                             // 并且把映射写进去
-                            await kv.put(`name2id_${id}`, '1');
+                            await kv.put(key, '1');
                             return 1;
                         }
 
                         // 种子存在，就在种子的基础上+1
                         const newId = parseInt(maxId.toString("utf-8")) + 1;
-                        await kv.put(`maxId`, newId.toString());
-                        await kv.put(`name2id_${id}`, newId.toString());
+                        await kv.put(seedKey, newId.toString());
+                        await kv.put(key, newId.toString());
                         return newId;
                     }
                 }

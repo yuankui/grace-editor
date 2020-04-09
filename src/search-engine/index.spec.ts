@@ -22,7 +22,7 @@ async function run() {
     await index.add({
         _id: 'wangfang',
         name: 'wang fang',
-        age: 34,
+        age: 133,
         male: false,
     });
 

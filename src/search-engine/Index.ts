@@ -88,7 +88,7 @@ export class Index<T extends ID = ID> {
     async get(docId: string): Promise<T | null> {
         // 5. id映射成整数
         const idMapper = this.hookRegister.getHook<Mapper<string, number>>("id.mapper");
-        const numberId = idMapper.hook.map(docId);
+        const numberId = idMapper.hook.map('_id', docId);
 
         // 6. 获取详情服务
         const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
@@ -109,7 +109,7 @@ export class Index<T extends ID = ID> {
 
         // 3. id映射成整数
         const idMapper = this.hookRegister.getHook<Mapper<string, Promise<number>>>("id.mapper");
-        const numberId = await idMapper.hook.map(id);
+        const numberId = await idMapper.hook.map('_id', id);
 
         // 4. 生成倒排的mutation
         const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
@@ -130,7 +130,7 @@ export class Index<T extends ID = ID> {
     async delete(docId: string) {
         // 1. id映射成整数
         const idMapper = this.hookRegister.getHook<Mapper<string, number>>("id.mapper");
-        const numberId = idMapper.hook.map(docId);
+        const numberId = idMapper.hook.map('_id', docId);
 
         // 2. 获取详情服务
         const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
