@@ -24,7 +24,7 @@ export class TextField implements Field<string> {
         const words = jieba.cutForSearch(value, true) || [];
         return words.map(word => {
             return {
-                key: `reverse.${this.name}.${word}`,
+                key: `reverse.text.${this.name}.${word}`,
                 index: docId,
                 bit: 1,
             }

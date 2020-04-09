@@ -24,4 +24,4 @@ rocksdb.open(async err => {
         }
         console.log(`${key} => ${value}`)
     }
-})
+});

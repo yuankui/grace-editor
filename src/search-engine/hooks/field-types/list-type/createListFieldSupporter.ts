@@ -1,21 +1,24 @@
 import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
 import {HookRegister} from "../../../HookRegister";
-import {isArrayLike} from "rxjs/internal-compatibility";
 import {ListField} from "./ListField";
+import {IndexFieldFactory} from "../../../hook-struct/IndexFieldFactory";
+import {Field} from "../../../hook-struct/Field";
 
 export function createListFieldSupporter(): HookRegisterConsumer {
     return {
+        name: "ListField",
         async init(hookRegister: HookRegister): Promise<any> {
-            hookRegister.register({
+            hookRegister.register<IndexFieldFactory>({
                 id: 'ListField',
-                name: 'parse.field.type',
+                name: 'index.field.factory',
                 hook: {
-                    // 新插入一个新字段的时候，用于自动创建该字段的schema
-                    accept: (value: any) => {
-                        return isArrayLike(value);
+                    fromConfig(name: string, type: string, config: any): Field<any> | null {
+                        // TODO
+                        return null;
                     },
-                    createField: (value: any) => {
-                        return new ListField();
+                    guess(name: string, value: any): Field<any> | null {
+                        // TODO
+                        return null;
                     }
                 }
             })

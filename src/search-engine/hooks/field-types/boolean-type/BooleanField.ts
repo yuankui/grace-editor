@@ -12,7 +12,7 @@ export class BooleanField implements Field<boolean>{
         if (value == null) {
             return [
                 {
-                    key: `reverse.${name}.null`,
+                    key: `reverse.boolean.${name}.null`,
                     bit: 1,
                     index: docId,
                 }
@@ -20,12 +20,12 @@ export class BooleanField implements Field<boolean>{
         }
         return [
             {
-                key: `reverse.${name}`,
+                key: `reverse.boolean.${name}`,
                 bit: value? 1: 0,
                 index: docId,
             },
             {
-                key: `reverse.${name}.null`,
+                key: `reverse.boolean.${name}.null`,
                 bit: 0,
                 index: docId,
             }
