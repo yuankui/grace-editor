@@ -41,7 +41,7 @@ export function createReverseIndexRepository(): HookRegisterConsumer {
                             bitmap.add(mutate.index);
                         }
 
-                        await kv.put(mutate.key, bitmap);
+                        await kv.put(mutate.key, bitmap.serialize(true));
                     }
                 }
             })

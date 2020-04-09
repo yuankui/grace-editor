@@ -16,6 +16,7 @@ import {ReverseIndexRepository} from "./hook-struct/ReverseIndexRepository";
 import {createIdMapper} from "./hooks/id-mapper/createIdMapper";
 import {createDetailService} from "./hooks/detail/createDetailService";
 import {createTextFieldSupporter} from "./hooks/field-types/text-type/createTextFieldSupporter";
+import {createReverseIndexRepository} from "./hooks/index-repository/createReverseIndexRespository";
 
 export class Index<T extends ID = ID> {
     private readonly hookRegister: HookRegister;
@@ -55,6 +56,7 @@ export class Index<T extends ID = ID> {
             createIdMapper(),
             createDetailService(),
             createTextFieldSupporter(),
+            createReverseIndexRepository(),
         ]
     }
 

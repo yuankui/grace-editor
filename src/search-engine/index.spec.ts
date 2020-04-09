@@ -1,5 +1,6 @@
 import {Index} from "./Index";
 import {ID} from "./hook-struct/ID";
+import {test} from 'mocha';
 
 interface Person extends ID {
     name: string,
@@ -64,16 +65,10 @@ async function run() {
 }
 
 
-describe('index', () => {
-
-    it('search test', () => {
-        run()
-            .then(value => {
-                console.log('success');
-            })
-    });
+test('index-insert', async function() {
+    await run();
+    console.log("hello");
 });
-
 
 
 

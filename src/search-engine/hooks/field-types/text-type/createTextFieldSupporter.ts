@@ -6,10 +6,10 @@ import {Field} from "../../../hook-struct/Field";
 
 export function createTextFieldSupporter(): HookRegisterConsumer {
     return {
-        name: 'StringField',
+        name: 'TextField',
         async init(hookRegister: HookRegister): Promise<any> {
             hookRegister.register<IndexFieldFactory>({
-                id: 'StringField',
+                id: 'TextField',
                 name: 'index.field.factory',
                 hook: {
                     guess(name: string, value: any): Field | null {

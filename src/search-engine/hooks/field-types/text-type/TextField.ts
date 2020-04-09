@@ -2,9 +2,8 @@ import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import jieba from "nodejieba";
 
-jieba.load({
-    stopWordDict: ' \n'
-})
+jieba.load();
+
 export class TextField implements Field<string> {
     private readonly _name: string;
 
