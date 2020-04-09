@@ -31,7 +31,12 @@ export function createReverseIndexRepository(): HookRegisterConsumer {
                             bitmap = new RoaringBitmap32();
                         } else {
                             // 如果存在，就新set一位
-                            bitmap = RoaringBitmap32.deserialize(buffer, true);
+                            try {
+                                bitmap = RoaringBitmap32.deserialize(buffer, true);
+                            } catch (e) {
+                                console.error(e);
+                                bitmap = new RoaringBitmap32();
+                            }
                         }
 
                         // 跟新bit位
