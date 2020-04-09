@@ -5,5 +5,5 @@ import {Field} from "./Field";
  */
 export interface IndexFieldFactory {
     guess(name: string, value: any): Field | null;
-    fromConfig(name: string, config: any): Field | null;
+    fromConfig(name: string, type: string, config: any): Field | null;
 }

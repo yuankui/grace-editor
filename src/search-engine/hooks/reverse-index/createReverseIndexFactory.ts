@@ -14,7 +14,7 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                 id: 'ReverseIndex',
                 name: 'reverse.mutations.factory',
                 hook: {
-                    process(doc: ID, reverse: boolean = false): Array<BitMutation> {
+                    process(doc: ID, docId: number, reverse: boolean = false): Array<BitMutation> {
                         const fields = hookRegister.getHooks<Field>('index.field');
                         return Object.entries(doc)
                             .filter((kv) => {
@@ -26,7 +26,7 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                                 const [k, v] = kv;
                                 let mutations: Array<BitMutation> | null = null;
                                 for (let field of fields) {
-                                    mutations = field.hook.parse(k, v);
+                                    mutations = field.hook.parse(k, v, docId);
                                     if (mutations != null) {
                                         break;
                                     }
@@ -44,6 +44,12 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                                 for (let factory of factories) {
                                     const f = factory.hook.guess(k, v);
                                     if (f != null) {
+                                        // 新建索引后，要将其注册起来。
+                                        hookRegister.register<Field>({
+                                            id: 'field:' + k,
+                                            name: 'index.field',
+                                            hook: f,
+                                        })
                                         field = f;
                                         break;
                                     }
@@ -51,7 +57,7 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
 
                                 // 如果新的字段建立了，就用这个字段进行分词。
                                 if (field != null) {
-                                    mutations = field.parse(k, v);
+                                    mutations = field.parse(k, v, docId);
                                     return mutations;
                                 }
 
