@@ -8,11 +8,7 @@ export class BooleanField implements Field<boolean>{
         this.name = name;
     }
 
-    parse(name: string, value: boolean, docId: number): Array<BitMutation> | null{
-        if (name != this.name) {
-            return null;
-        }
-
+    parse(name: string, value: boolean, docId: number): Array<BitMutation>{
         if (value == null) {
             return [
                 {

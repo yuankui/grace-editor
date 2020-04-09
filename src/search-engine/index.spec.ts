@@ -67,7 +67,6 @@ async function run() {
 
 test('index-insert', async function() {
     await run();
-    console.log("hello");
 });
 
 

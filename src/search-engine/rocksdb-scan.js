@@ -1,6 +1,6 @@
 const RocksDB = require("rocksdb");
 
-const rocksdb = new RocksDB('/Users/yuankui/git/grace-editor/index.dat/reverse_index');
+const rocksdb = new RocksDB('/Users/yuankui/git/grace-editor/index.dat/id-mapper');
 
 async function next(iter) {
     return new Promise((resolve, reject) => {

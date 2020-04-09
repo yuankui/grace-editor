@@ -15,10 +15,7 @@ export class TextField implements Field<string> {
         return this._name;
     }
 
-    parse(name: string, value: string, docId: number): Array<BitMutation> | null{
-        if (name != this.name) {
-            return null;
-        }
+    parse(name: string, value: string, docId: number): Array<BitMutation> {
         if (value == null) {
             return [];
         }

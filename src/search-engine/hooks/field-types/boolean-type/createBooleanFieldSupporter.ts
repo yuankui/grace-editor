@@ -1,20 +1,28 @@
 import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
 import {HookRegister} from "../../../HookRegister";
 import {BooleanField} from "./BooleanField";
+import {IndexFieldFactory} from "../../../hook-struct/IndexFieldFactory";
+import {Field} from "../../../hook-struct/Field";
 
 export function createBooleanFieldSupporter(): HookRegisterConsumer {
     return {
+        name: "BooleanField",
         async init(hookRegister: HookRegister): Promise<any> {
-            hookRegister.register({
+            hookRegister.register<IndexFieldFactory>({
                 id: 'BooleanField',
-                name: 'parse.field.type',
+                name: 'index.field.factory',
                 hook: {
-                    // 新插入一个新字段的时候，用于自动创建该字段的schema
-                    accept: (value: any) => {
-                        return typeof value === 'boolean';
+                    fromConfig(name: string, type: string, config: any): Field<any> | null {
+                        if (type !== 'boolean') {
+                            return null;
+                        }
+                        return new BooleanField(name);
                     },
-                    createField: (value: any) => {
-                        return new BooleanField();
+                    guess(name: string, value: any): Field<any> | null {
+                        if (typeof value === 'boolean') {
+                            return new BooleanField(name);
+                        }
+                        return null;
                     }
                 }
             })

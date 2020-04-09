@@ -1,20 +1,25 @@
 import {HookRegisterConsumer} from "../../../HookRegisterConsumer";
 import {HookRegister} from "../../../HookRegister";
 import {IntegerField} from "./IntegerField";
+import {IndexFieldFactory} from "../../../hook-struct/IndexFieldFactory";
+import {Field} from "../../../hook-struct/Field";
 
 export function createIntegerFieldSupporter(): HookRegisterConsumer {
     return {
+        name: 'IntegerField',
         async init (register: HookRegister): Promise<any> {
-            register.register({
+            register.register<IndexFieldFactory>({
                 id: 'IntegerField',
-                name: 'parse.field.type',
+                name: 'index.field.factory',
                 hook: {
-                    // 新插入一个新字段的时候，用于自动创建该字段的schema
-                    accept: (value: any) => {
-                        return typeof value === 'number';
+                    guess(name: string, value: any): Field<any> | null {
+                        if (typeof value === 'number') {
+                            return new IntegerField(name);
+                        }
+                        return null;
                     },
-                    createField: (value: any) => {
-                        return new IntegerField();
+                    fromConfig(name: string, type: string, config: any): Field<any> | null {
+                        return new IntegerField(name);
                     }
                 }
             })

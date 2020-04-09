@@ -17,6 +17,8 @@ import {createIdMapper} from "./hooks/id-mapper/createIdMapper";
 import {createDetailService} from "./hooks/detail/createDetailService";
 import {createTextFieldSupporter} from "./hooks/field-types/text-type/createTextFieldSupporter";
 import {createReverseIndexRepository} from "./hooks/index-repository/createReverseIndexRespository";
+import {createBooleanFieldSupporter} from "./hooks/field-types/boolean-type/createBooleanFieldSupporter";
+import {createIntegerFieldSupporter} from "./hooks/field-types/int-type/createIntegerFieldSupporter";
 
 export class Index<T extends ID = ID> {
     private readonly hookRegister: HookRegister;
@@ -55,8 +57,12 @@ export class Index<T extends ID = ID> {
             createKVFactory(),
             createIdMapper(),
             createDetailService(),
-            createTextFieldSupporter(),
             createReverseIndexRepository(),
+
+            // field type support
+            createTextFieldSupporter(),
+            createBooleanFieldSupporter(),
+            createIntegerFieldSupporter(),
         ]
     }
 

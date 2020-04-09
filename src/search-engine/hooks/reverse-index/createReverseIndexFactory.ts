@@ -25,10 +25,14 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                             .flatMap(kv => {
                                 const [k, v] = kv;
                                 let mutations: Array<BitMutation> | null = null;
+
                                 for (let field of fields) {
-                                    mutations = field.hook.parse(k, v, docId);
-                                    if (mutations != null) {
-                                        break;
+                                    // 判断字段名是否匹配
+                                    if (field.hook.name === k) {
+                                        mutations = field.hook.parse(k, v, docId);
+                                        if (mutations != null) {
+                                            break;
+                                        }
                                     }
                                 }
 
@@ -49,7 +53,7 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                                             id: 'field:' + k,
                                             name: 'index.field',
                                             hook: f,
-                                        })
+                                        });
                                         field = f;
                                         break;
                                     }
@@ -65,7 +69,7 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                                 }
 
                                 // 如果无法新建字段，就忽略，但是打印报错日志
-                                console.error(`can't create field from ${k}=>${v}`);
+                                console.error(`can't create field from ${k}=>${JSON.stringify(v)}`);
                                 return [];
                             })
                     }
