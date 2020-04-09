@@ -5,21 +5,31 @@ import {ID} from "./hook-struct/ID";
 import {DocChecker} from "./hook-struct/DocChecker";
 import {Mapper} from "./hook-struct/Mapper";
 import {DetailService} from "./hook-struct/DetailService";
-import {ReverseIndex} from "./hook-struct/ReverseIndex";
+import {ReverseIndexRepository} from "./hook-struct/ReverseIndex";
 import {ReverseMutationFactory} from "./hook-struct/ReverseMutationFactory";
 import {WhereParser} from "./hook-struct/WhereParser";
 import {Pager} from "./hook-struct/Pager";
 import {createWhereParser} from "./hooks/where-parser/createWhereParser";
 import {createIdChecker} from "./hooks/doc-checker/createIdChecker";
+import {createReverseIndexFactory} from "./hooks/reverse-index/createReverseIndexFactory";
+import {createKVFactory} from "./hooks/kv/createKVFactory";
 
 export class Index<T extends ID = ID> {
     private readonly hookRegister: HookRegister;
+    private readonly indexPath: string;
 
     constructor(dir: string) {
+        this.indexPath = dir;
         this.hookRegister = new HookRegister();
     }
 
     async init(hookRegisterConsumers?: Array<HookRegisterConsumer>) {
+        // 注册index.path，可能会被别人用到
+        this.hookRegister.register({
+            id: 'index.path',
+            name: 'index.path',
+            hook: this.indexPath,
+        });
         // 1. 初始化默认的registerConsumer
         for (let consumer of Index.getDefaultHookRegisterConsumers()) {
             await consumer.init(this.hookRegister);
@@ -37,6 +47,8 @@ export class Index<T extends ID = ID> {
         return [
             createWhereParser(),
             createIdChecker(),
+            createReverseIndexFactory(),
+            createKVFactory(),
         ]
     }
 
@@ -93,7 +105,7 @@ export class Index<T extends ID = ID> {
         await detailService.hook.set(numberId, doc);
 
         // 8. 写入倒排
-        const reverseIndex = this.hookRegister.getHook<ReverseIndex>('reverse.index');
+        const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index');
         for (let mutation of mutations) {
             await reverseIndex.hook.mutate(mutation);
         }
@@ -114,7 +126,7 @@ export class Index<T extends ID = ID> {
         const mutations = reverseMutationsFactory.hook.process(doc, true);
 
         // 5. 更新倒排
-        const reverseIndex = this.hookRegister.getHook<ReverseIndex>('reverse.index');
+        const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index');
         for (let mutation of mutations) {
             await reverseIndex.hook.mutate(mutation);
         }
