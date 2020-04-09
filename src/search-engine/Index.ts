@@ -136,7 +136,7 @@ export class Index<T extends ID = ID> {
         const mutations = reverseMutationsFactory.hook.process(doc, numberId, true);
 
         // 5. 更新倒排
-        const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index');
+        const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');
         for (let mutation of mutations) {
             await reverseIndex.hook.mutate(mutation);
         }

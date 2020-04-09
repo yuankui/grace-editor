@@ -58,6 +58,9 @@ export function createReverseIndexFactory(): HookRegisterConsumer {
                                 // 如果新的字段建立了，就用这个字段进行分词。
                                 if (field != null) {
                                     mutations = field.parse(k, v, docId);
+                                    if (mutations == null) {
+                                        return [];
+                                    }
                                     return mutations;
                                 }
 
