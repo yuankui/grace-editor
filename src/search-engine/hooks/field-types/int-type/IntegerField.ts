@@ -1,5 +1,7 @@
 import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
+import rxjs from 'rxjs';
+import {map, toArray} from "rxjs/operators";
 
 /**
  * 由于处理负数比较麻烦，所以这里将所有的数字，加上2**31
@@ -19,7 +21,7 @@ export class IntegerField implements Field<number> {
         this.name = name;
     }
 
-    parse(name: string, value: any, docId: number): Array<BitMutation> {
+    async parseAdd(name: string, value: any, docId: number): Promise<Array<BitMutation>> {
         // 1. 现在暂时不对空值进行索引
         if (value == null) {
             return [];
@@ -53,6 +55,20 @@ export class IntegerField implements Field<number> {
                     bit: v === '1'? 1: 0,
                 }
             })
+    }
+    async parseDelete(name: string, value: any, docId: number): Promise<Array<BitMutation>> {
+        return rxjs.range(0, 32)
+            .pipe(
+                map(i => {
+                    return <BitMutation>{
+                        key: `reverse.int.${name}.${i}`,
+                        index: docId,
+                        bit: 0,
+                    }
+                }),
+                toArray(),
+            )
+            .toPromise();
     }
 
 }

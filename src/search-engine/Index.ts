@@ -113,7 +113,7 @@ export class Index<T extends ID = ID> {
 
         // 4. 生成倒排的mutation
         const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
-        const mutations = reverseMutationsFactory.hook.process(doc, numberId);
+        const mutations = reverseMutationsFactory.hook.processAdd(doc, numberId);
 
         // 5. 获取详情服务
         const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
@@ -143,7 +143,7 @@ export class Index<T extends ID = ID> {
 
         // 4. 生成老的详情
         const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
-        const mutations = reverseMutationsFactory.hook.process(doc, numberId, true);
+        const mutations = reverseMutationsFactory.hook.processAdd(doc, numberId, true);
 
         // 5. 更新倒排
         const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');

@@ -15,7 +15,7 @@ export class TextField implements Field<string> {
         return this._name;
     }
 
-    parse(name: string, value: string, docId: number): Array<BitMutation> {
+    async parseAdd(name: string, value: string, docId: number): Promise<Array<BitMutation>> {
         if (value == null) {
             return [];
         }
@@ -29,5 +29,14 @@ export class TextField implements Field<string> {
                 bit: 1,
             }
         });
+    }
+    async parseDelete(name: string, value: any, docId: number): Promise<Array<BitMutation>> {
+        const mutations = await this.parseAdd(name, value, docId);
+        return mutations.map(m => {
+            return {
+                ...m,
+                bit: 0,
+            }
+        })
     }
 }
