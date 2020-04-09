@@ -11,8 +11,10 @@ export function createKVFactory(): HookRegisterConsumer {
                 id: "KVFactory",
                 name: "kv.factory",
                 hook: {
-                    create(location: string): KV {
-                        return new KV(location);
+                    async create(location: string): Promise<KV> {
+                        const kv = new KV(location);
+                        await kv.init();
+                        return kv;
                     }
                 }
             })

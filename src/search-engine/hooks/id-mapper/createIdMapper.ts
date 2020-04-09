@@ -14,7 +14,7 @@ export function createIdMapper() : HookRegisterConsumer {
             }
             const kvFactory = hookRegister.getHook<KVFactory>('kv.factory');
             const idMapperPath = path.join(indexPathHook.hook, 'id-mapper');
-            const kv = kvFactory.hook.create(idMapperPath);
+            const kv = await kvFactory.hook.create(idMapperPath);
 
             hookRegister.register<Mapper<string, Promise<number>>>({
                 id: 'idMapper',

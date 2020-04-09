@@ -15,7 +15,7 @@ export function createDetailService(): HookRegisterConsumer {
             }
             const kvFactory = hookRegister.getHook<KVFactory>('kv.factory');
             const detailKV = path.join(indexPathHook.hook, 'doc-detail');
-            const kv = kvFactory.hook.create(detailKV);
+            const kv = await kvFactory.hook.create(detailKV);
 
             hookRegister.register<DetailService>({
                 id: 'DetailService',

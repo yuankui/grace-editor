@@ -8,7 +8,7 @@ interface Person extends ID {
 }
 
 async function run() {
-    const index = new Index<Person>("index.dat");
+    const index = new Index<Person>("./index.dat");
     await index.init();
 
     await index.add({

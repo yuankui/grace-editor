@@ -17,7 +17,7 @@ export function createReverseIndexRepository(): HookRegisterConsumer {
             const reverseIndexPath = path.join(indexPath, 'reverse_index');
 
             const kvFactoryHook = hookRegister.getHook<KVFactory>('kv.factory');
-            const kv = kvFactoryHook.hook.create(reverseIndexPath);
+            const kv = await kvFactoryHook.hook.create(reverseIndexPath);
 
             hookRegister.register<ReverseIndexRepository>({
                 id: 'ReverseIndexRepository',
