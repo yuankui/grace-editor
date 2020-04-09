@@ -21,7 +21,7 @@ export function createIdMapper() : HookRegisterConsumer {
                 name: 'id.mapper',
                 hook: {
                     async map(namespace:string, id: string): Promise<number> {
-                        const seedKey = `${namespace}.maxId`;
+                        const seedKey = `${namespace}.$`;
                         const key = `${namespace}.${id}`;
 
                         const idBuffer = await kv.get(key);
