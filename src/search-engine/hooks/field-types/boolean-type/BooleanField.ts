@@ -43,16 +43,12 @@ export class BooleanField implements Field {
     }
 
     async parseDelete(doc: Doc, id: number): Promise<Array<BitMutation>> {
-        // 全部置零
+        const name = this.name;
+        // 设置为null
         return [
             {
-                key: `reverse.boolean.${name}`,
-                bit: 0,
-                index: id,
-            },
-            {
                 key: `reverse.boolean.${name}.null`,
-                bit: 0,
+                bit: 1,
                 index: id,
             }
         ]

@@ -144,6 +144,8 @@ export class Index<T extends Doc = Doc> {
         const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
         const mutations = await reverseMutationsFactory.hook.processDelete(doc, numberId, true);
 
+        console.log(`mutations: ${JSON.stringify(mutations)}`);
+
         // 5. 更新倒排
         const reverseIndex = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');
         for (let mutation of mutations) {

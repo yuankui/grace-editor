@@ -9,8 +9,7 @@ interface Person extends Doc {
     male: boolean,
 }
 
-
-test('index-insert', async function() {
+async function createIndex() {
     const index = new Index<Person>("./index.dat");
     await index.init([
         createFieldRegister({
@@ -30,6 +29,11 @@ test('index-insert', async function() {
             ]
         })
     ]);
+    return index;
+}
+
+test('index-insert', async function() {
+    const index = await createIndex();
 
     await index.add({
         _id: 'yuankui',
@@ -55,8 +59,7 @@ test('index-insert', async function() {
 
 
 test('index-delete', async function() {
-    const index = new Index<Person>("./index.dat");
-    await index.init();
+    const index = await createIndex();
 
     await index.delete('yuankui');
     // await index.delete('wangfang');
@@ -65,8 +68,7 @@ test('index-delete', async function() {
 
 
 test('index-update', async function() {
-    const index = new Index<Person>("./index.dat");
-    await index.init();
+    const index = await createIndex();
 
     await index.add({
         _id: 'yuankui',
