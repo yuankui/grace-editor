@@ -1,7 +1,7 @@
 import {HookRegisterConsumer} from "../../HookRegisterConsumer";
 import {HookRegister} from "../../HookRegister";
 import {DocChecker} from "../../hook-struct/DocChecker";
-import {ID} from "../../hook-struct/ID";
+import {Doc} from "../../hook-struct/Doc";
 
 export function createIdChecker(): HookRegisterConsumer {
     return {
@@ -11,7 +11,7 @@ export function createIdChecker(): HookRegisterConsumer {
                 id: 'Id Checker',
                 name: 'doc.checker',
                 hook: {
-                    check(doc: ID) {
+                    check(doc: Doc) {
                         if (doc._id == null) {
                             throw new Error("empty id field");
                         }

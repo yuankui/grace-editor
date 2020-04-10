@@ -1,49 +1,58 @@
 import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
+import {Doc} from "../../../hook-struct/Doc";
 
-export class BooleanField implements Field<boolean> {
+export class BooleanField implements Field {
     readonly name: string;
 
     constructor(name: string) {
         this.name = name;
     }
 
-    async parseAdd(name: string, value: boolean, docId: number): Promise<Array<BitMutation>> {
+    async parseAdd(doc: Doc, old: Doc, id: number): Promise<Array<BitMutation>> {
+        const value = doc[this.name];
+        const oldV = old[this.name];
+
+        // 如果值没有改变，就不做调整
+        if (value == oldV) {
+            return [];
+        }
+
         if (value == null) {
             return [
                 {
                     key: `reverse.boolean.${name}.null`,
                     bit: 1,
-                    index: docId,
+                    index: id,
                 }
-            ]
+            ];
         }
         return [
             {
                 key: `reverse.boolean.${name}`,
                 bit: value ? 1 : 0,
-                index: docId,
+                index: id,
             },
             {
                 key: `reverse.boolean.${name}.null`,
                 bit: 0,
-                index: docId,
+                index: id,
             }
         ]
     }
 
-    async parseDelete(name: string, value: any, docId: number): Promise<Array<BitMutation>> {
+    async parseDelete(doc: Doc, id: number): Promise<Array<BitMutation>> {
         // 全部置零
         return [
             {
                 key: `reverse.boolean.${name}`,
                 bit: 0,
-                index: docId,
+                index: id,
             },
             {
                 key: `reverse.boolean.${name}.null`,
                 bit: 0,
-                index: docId,
+                index: id,
             }
         ]
     }

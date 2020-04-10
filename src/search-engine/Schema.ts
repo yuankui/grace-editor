@@ -1,6 +1,5 @@
 export interface IndexSchema {
     fields: Array<FieldSchema>,
-    pk: FieldSchema,
 }
 
 export interface FieldSchema {

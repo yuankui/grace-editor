@@ -1,8 +1,8 @@
 import {Index} from "./Index";
-import {ID} from "./hook-struct/ID";
+import {Doc} from "./hook-struct/Doc";
 import {test} from 'mocha';
 
-interface Person extends ID {
+interface Person extends Doc {
     name: string,
     age: number,
     male: boolean,
@@ -16,7 +16,7 @@ test('index-insert', async function() {
     await index.add({
         _id: 'yuankui',
         name: 'yuan kui',
-        age: 33,
+        age: 44,
         male: true,
     });
 

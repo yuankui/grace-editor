@@ -1,5 +1,5 @@
-import {ID} from "./ID";
+import {Doc} from "./Doc";
 
-export interface DocChecker<T extends ID = ID> {
+export interface DocChecker<T extends Doc = Doc> {
     check(doc: T);
 }

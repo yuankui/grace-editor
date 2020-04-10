@@ -1,5 +1,5 @@
 import {DetailService} from "../../hook-struct/DetailService";
-import {ID} from "../../hook-struct/ID";
+import {Doc} from "../../hook-struct/Doc";
 import {KV} from "../../KV";
 
 export class DetailServiceImpl implements DetailService {
@@ -13,7 +13,7 @@ export class DetailServiceImpl implements DetailService {
         await this.kv.del(id.toString());
     }
 
-    async get(id: number): Promise<ID | null> {
+    async get(id: number): Promise<Doc | null> {
         const buffer = await this.kv.get(id.toString());
         if (buffer == null) {
             return null;
@@ -22,7 +22,7 @@ export class DetailServiceImpl implements DetailService {
         return JSON.parse(str);
     }
 
-    async set(id: number, doc: ID): Promise<any> {
+    async set(id: number, doc: Doc): Promise<any> {
         await this.kv.put(id.toString(), JSON.stringify(doc));
     }
 }

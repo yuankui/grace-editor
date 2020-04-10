@@ -1,7 +1,7 @@
 import {SearchReq} from "./SearchReq";
 import {HookRegister} from "./HookRegister";
 import {HookRegisterConsumer} from "./HookRegisterConsumer";
-import {ID} from "./hook-struct/ID";
+import {Doc} from "./hook-struct/Doc";
 import {DocChecker} from "./hook-struct/DocChecker";
 import {IdMapper} from "./hook-struct/IdMapper";
 import {DetailService} from "./hook-struct/DetailService";
@@ -15,12 +15,9 @@ import {createKVFactory} from "./hooks/kv/createKVFactory";
 import {ReverseIndexRepository} from "./hook-struct/ReverseIndexRepository";
 import {createIdMapper} from "./hooks/id-mapper/createIdMapper";
 import {createDetailService} from "./hooks/detail/createDetailService";
-import {createTextFieldSupporter} from "./hooks/field-types/text-type/createTextFieldSupporter";
 import {createReverseIndexRepository} from "./hooks/index-repository/createReverseIndexRespository";
-import {createBooleanFieldSupporter} from "./hooks/field-types/boolean-type/createBooleanFieldSupporter";
-import {createIntegerFieldSupporter} from "./hooks/field-types/int-type/createIntegerFieldSupporter";
 
-export class Index<T extends ID = ID> {
+export class Index<T extends Doc = Doc> {
     private readonly hookRegister: HookRegister;
     private readonly indexPath: string;
 
@@ -58,11 +55,6 @@ export class Index<T extends ID = ID> {
             createIdMapper(),
             createDetailService(),
             createReverseIndexRepository(),
-
-            // field type support
-            createTextFieldSupporter(),
-            createBooleanFieldSupporter(),
-            createIntegerFieldSupporter(),
         ]
     }
 
@@ -111,12 +103,15 @@ export class Index<T extends ID = ID> {
         const idMapper = this.hookRegister.getHook<IdMapper>("id.mapper");
         const numberId = await idMapper.hook.map('_id', id);
 
-        // 4. 生成倒排的mutation
-        const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
-        const mutations = await reverseMutationsFactory.hook.processAdd(doc, numberId);
-
         // 5. 获取详情服务
         const detailService = this.hookRegister.getHook<DetailService<T>>('detail.service');
+
+        // 5. 获取老详情
+        const oldDoc = await detailService.hook.get(numberId);
+        // 4. 生成倒排的mutation
+        const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
+        const mutations = await reverseMutationsFactory.hook.processAdd(doc, numberId, oldDoc);
+
         // 6. 写入详情
         await detailService.hook.set(numberId, doc);
 
