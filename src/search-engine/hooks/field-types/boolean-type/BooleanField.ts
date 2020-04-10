@@ -1,6 +1,9 @@
 import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import {Doc} from "../../../hook-struct/Doc";
+import {Bitset, emptySet} from "../../../hook-struct/Bitset";
+import {FieldExpression} from "../../../SearchReq";
+import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
 
 export class BooleanField implements Field {
     readonly name: string;
@@ -54,4 +57,44 @@ export class BooleanField implements Field {
         ]
     }
 
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+        // 字段不相符
+        if (expr.field != this.name) {
+            return null;
+        }
+
+        // 字段相符
+        const config: BooleanExprConfig = expr.config;
+
+        if (config.type == '=') {
+            const nullSet = await repository.getBitset(`reverse.boolean.${this.name}.null`);
+
+            if (config.value == null) {
+                return nullSet;
+            }
+            const trueSet = await repository.getBitset(`reverse.boolean.${this.name}`);
+
+            if (config.value) {
+                return trueSet.andNot(nullSet);
+            } else {
+                return fullIds.clone().andNot(nullSet).andNot(trueSet)
+            }
+        }
+
+        // type不是=，所以无法匹配的文档为0
+        return emptySet();
+    }
 }
+
+type BooleanExprConfig = EqualExpr;
+
+export interface EqualExpr {
+    type: "=",
+    value: boolean | null,
+}
+
+// 这里暂时不支持，因为可以通过 [Not] + [=] 组合而成
+// interface NotEqualExpr {
+//     type: "!=",
+//     value: boolean | null,
+// }

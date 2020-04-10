@@ -2,6 +2,7 @@ import {BitMutation} from "./BitMutation";
 import {Doc} from "./Doc";
 import {Bitset} from "./Bitset";
 import {FieldExpression} from "../SearchReq";
+import {ReverseIndexRepository} from "./ReverseIndexRepository";
 
 /**
  * 字段，用于将字段break成倒排索引
@@ -11,6 +12,6 @@ export interface Field {
     // 如果分词为空，就返回[]
     parseAdd(doc: Doc, old: Doc | null, id: number): Promise<Array<BitMutation>>;
     parseDelete(doc: Doc, id: number): Promise<Array<BitMutation>>;
-    search(expr: FieldExpression): Promise<Bitset|null>;
+    search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset|null>;
     readonly name: string;
 }

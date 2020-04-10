@@ -1,6 +1,9 @@
 import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import {Doc} from "../../../hook-struct/Doc";
+import {Bitset} from "../../../hook-struct/Bitset";
+import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
+import {FieldExpression} from "../../../SearchReq";
 
 /**
  * 由于处理负数比较麻烦，所以这里将所有的数字，加上2**31
@@ -85,5 +88,12 @@ export class IntegerField implements Field {
     async parseDelete(doc: Doc, id: number): Promise<Array<BitMutation>> {
         return [this.empty(id, 1)];
     }
+
+    search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+        // TODO 实现integerField
+        return undefined;
+    }
+
+
 
 }

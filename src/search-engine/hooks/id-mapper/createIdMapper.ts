@@ -45,6 +45,15 @@ export function createIdMapper() : HookRegisterConsumer {
                         await kv.put(seedKey, newId.toString());
                         await kv.put(key, newId.toString());
                         return newId;
+                    },
+                    async get(namespace: string, id: string): Promise<number | null> {
+                        const key = `${namespace}.${id}`;
+                        const idBuffer = await kv.get(key);
+                        // 存在就返回
+                        if (idBuffer != null) {
+                            return parseInt(idBuffer.toString("utf-8"));
+                        }
+                        return null;
                     }
                 }
             })

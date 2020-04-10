@@ -10,7 +10,7 @@ export function createIdFieldRegister(): HookRegisterConsumer {
             hookRegister.register<Field>({
                 id: 'all doc field',
                 name: 'index.field',
-                hook: new IDField('_id'),
+                hook: new IDField('_id', hookRegister),
             })
         }
     }

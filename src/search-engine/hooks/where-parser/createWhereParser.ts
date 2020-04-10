@@ -15,7 +15,7 @@ export function createWhereParser(): HookRegisterConsumer {
                 id: 'where parser',
                 name: 'where.parser',
                 hook: {
-                    async filter(expr: Expression<any>): Promise<Bitset> {
+                    async filter(expr: Expression): Promise<Bitset> {
                         const exprParsers = hookRegister.getHooks<ExprParser>('expr.parser');
                         const parser = exprParsers.find(parser => {
                             return parser.hook.canParse(expr);
