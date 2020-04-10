@@ -16,6 +16,7 @@ import {ReverseIndexRepository} from "./hook-struct/ReverseIndexRepository";
 import {createIdMapper} from "./hooks/id-mapper/createIdMapper";
 import {createDetailService} from "./hooks/detail/createDetailService";
 import {createReverseIndexRepository} from "./hooks/index-repository/createReverseIndexRespository";
+import {createIdFieldRegister} from "./hooks/field-types/id-field/createIdFieldRegister";
 
 export class Index<T extends Doc = Doc> {
     private readonly hookRegister: HookRegister;
@@ -55,6 +56,7 @@ export class Index<T extends Doc = Doc> {
             createIdMapper(),
             createDetailService(),
             createReverseIndexRepository(),
+            createIdFieldRegister(),
         ]
     }
 
