@@ -1,6 +1,7 @@
 import {Index} from "./Index";
 import {Doc} from "./hook-struct/Doc";
 import {test} from 'mocha';
+import {createFieldRegister} from "./hooks/createFieldRegister";
 
 interface Person extends Doc {
     name: string,
@@ -11,7 +12,24 @@ interface Person extends Doc {
 
 test('index-insert', async function() {
     const index = new Index<Person>("./index.dat");
-    await index.init();
+    await index.init([
+        createFieldRegister({
+            fields: [
+                {
+                    name: 'name',
+                    type: 'text',
+                },
+                {
+                    name: 'age',
+                    type: 'int',
+                },
+                {
+                    name: "male",
+                    type: "boolean",
+                }
+            ]
+        })
+    ]);
 
     await index.add({
         _id: 'yuankui',

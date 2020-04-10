@@ -4,6 +4,6 @@ export interface IndexSchema {
 
 export interface FieldSchema {
     name: string,
-    type: string,
-    config: any,
+    type: string | 'int' | 'text' | 'boolean',
+    config?: any,
 }

@@ -22,7 +22,7 @@ export class IntegerField implements Field {
 
     async parseAdd(doc: Doc, old: Doc, id: number): Promise<Array<BitMutation>> {
         const value = doc[this.name];
-        const oldValue = old[this.name];
+        const oldValue = old ? old[this.name] : null;
 
         // 相等，就不做更改
         if (value == oldValue) {
@@ -50,7 +50,7 @@ export class IntegerField implements Field {
         if (typeof value !== 'number') {
             const v = parseInt(value.toString());
             if (Number.isNaN(value)) {
-                console.log(`not a number, ${name} => ${value}`);
+                console.log(`not a number, ${this.name} => ${value}`);
                 // 转换失败，索引设置为null
                 return [this.empty(id, 1)];
             }
@@ -59,7 +59,7 @@ export class IntegerField implements Field {
 
         // 3. 无论是转换之前的，还是转换之后，都进行正化
         if (value > MaxInt || value < MinInt) {
-            console.error(`value exceed scope, not indexing, ${name} => ${value}`);
+            console.error(`value exceed scope, not indexing, ${this.name} => ${value}`);
             return [
                 this.empty(id, 1),
             ];
@@ -72,7 +72,7 @@ export class IntegerField implements Field {
             .reverse()
             .map((v, i) => {
                 return <BitMutation>{
-                    key: `reverse.int.${name}.${i}`,
+                    key: `reverse.int.${this.name}.${i}`,
                     index: id,
                     bit: v === '1' ? 1 : 0,
                 }

@@ -10,8 +10,9 @@ export class BooleanField implements Field {
     }
 
     async parseAdd(doc: Doc, old: Doc, id: number): Promise<Array<BitMutation>> {
+        const name = this.name;
         const value = doc[this.name];
-        const oldV = old[this.name];
+        const oldV = old? old[this.name] : null;
 
         // 如果值没有改变，就不做调整
         if (value == oldV) {
@@ -21,7 +22,7 @@ export class BooleanField implements Field {
         if (value == null) {
             return [
                 {
-                    key: `reverse.boolean.${name}.null`,
+                    key: `reverse.boolean.${this.name}.null`,
                     bit: 1,
                     index: id,
                 }
