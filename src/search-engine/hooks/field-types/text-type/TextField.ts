@@ -19,6 +19,9 @@ export class TextField implements Field {
     async parseAdd(doc: Doc, old: Doc, id: number): Promise<Array<BitMutation>> {
         const value = doc[this.name];
         const oldValue = old? old[this.name] : null;
+        if (value == oldValue) {
+            return [];
+        }
 
         // remove old mutation
         const removeMutations = this.encode(oldValue, 0, id);

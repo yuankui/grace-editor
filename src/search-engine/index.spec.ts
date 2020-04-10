@@ -38,7 +38,7 @@ test('index-insert', async function() {
     await index.add({
         _id: 'yuankui',
         name: 'yuan kui',
-        age: 44,
+        age: 46,
         male: true,
     });
 
