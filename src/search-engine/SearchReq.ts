@@ -1,25 +1,36 @@
 // language=yaml
 import {Page} from "./hook-struct/Page";
 
-const example = `type: and
-params:
-  left:
-    type: =
-    params:
-      field: age
-      value: 33
-  right:
-    type: =
-    params:
-      field: name
-      value: yuankui`;
-
 export interface SearchReq {
-    where: Expression<any>,
+    where: Expression,
     page: Page,
 }
 
-export interface Expression<T> {
-    type: string,
-    params: T,
+export type Expression = AndExpression
+    | OrExpression
+    | NotExpression
+    | FieldExpression
+    ;
+
+export interface AndExpression {
+    type: 'and',
+    left: Expression,
+    right: Expression,
+}
+
+export interface OrExpression {
+    type: 'or',
+    left: Expression,
+    right: Expression,
+}
+
+export interface NotExpression {
+    type: 'not',
+    inner: Expression,
+}
+
+export interface FieldExpression {
+    type: 'field',
+    field: string,
+    config: any;
 }
