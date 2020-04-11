@@ -4,8 +4,8 @@ import {WhereParser} from "../../hook-struct/WhereParser";
 import {Bitset} from "../../hook-struct/Bitset";
 import {Expression} from "../../SearchReq";
 import {ExpressionParser} from "../expressions/ExpressionParser";
-import {ReverseIndexRepository} from "../../hook-struct/ReverseIndexRepository";
 import {FactoryParser} from "../expressions/FactoryParser";
+import {RequestContext} from "../../RequestContext";
 
 export function createWhereParser(): HookRegisterConsumer {
     return {
@@ -13,19 +13,17 @@ export function createWhereParser(): HookRegisterConsumer {
         async init(hookRegister: HookRegister): Promise<any> {
 
             const hook: WhereParser = {
-                async filter(expr: Expression): Promise<Bitset> {
+                async filter(expr: Expression, requestContext: RequestContext): Promise<Bitset> {
                     const exprParsers = hookRegister.getHooks<ExpressionParser>('expression.parser');
-                    const indexRepositoryHook = hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');
 
-                    const fullIds = await indexRepositoryHook.hook.getBitset('inverted.full_id');
                     const factoryParser: FactoryParser = {
                         async filter(expr: Expression): Promise<Bitset> {
-                            return hook.filter(expr);
+                            return hook.filter(expr, requestContext);
                         }
                     };
 
                     for (let parser of exprParsers) {
-                        const bitset = await parser.hook.filter(expr, factoryParser, fullIds);
+                        const bitset = await parser.hook.filter(expr, factoryParser, requestContext);
                         if (bitset != null) {
                             return bitset;
                         }

@@ -6,6 +6,7 @@ import {Bitset} from "../../../hook-struct/Bitset";
 import {FactoryParser} from "../FactoryParser";
 import {Field} from "../../../hook-struct/Field";
 import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
+import {RequestContext} from "../../../RequestContext";
 
 export function createFieldExpressionParser(): HookRegisterConsumer {
     return {
@@ -15,7 +16,7 @@ export function createFieldExpressionParser(): HookRegisterConsumer {
                 id: "Field Expression Parser",
                 name: "expression.parser",
                 hook: {
-                    async filter(expr: Expression, parser: FactoryParser, fullIds: Bitset): Promise<Bitset | null> {
+                    async filter(expr: Expression, parser: FactoryParser, requestContext: RequestContext): Promise<Bitset | null> {
                         if (expr.type != 'field') {
                             return null;
                         }
@@ -24,7 +25,7 @@ export function createFieldExpressionParser(): HookRegisterConsumer {
                         const fields = hookRegister.getHooks<Field>("index.field");
 
                         for (let field of fields) {
-                            const bitset = await field.hook.search(expr, indexRepositoryHook.hook, fullIds);
+                            const bitset = await field.hook.search(expr, indexRepositoryHook.hook, requestContext);
                             if (bitset != null) {
                                 // 有个expr能够被解析
                                 return bitset;

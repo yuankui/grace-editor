@@ -4,6 +4,7 @@ import {Doc} from "../../../hook-struct/Doc";
 import {Bitset, emptySet} from "../../../hook-struct/Bitset";
 import {FieldExpression} from "../../../SearchReq";
 import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
+import {RequestContext} from "../../../RequestContext";
 
 export class BooleanField implements Field {
     readonly name: string;
@@ -57,7 +58,7 @@ export class BooleanField implements Field {
         ]
     }
 
-    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, requestContext: RequestContext): Promise<Bitset | null> {
         // 字段不相符
         if (expr.field != this.name) {
             return null;
@@ -77,7 +78,7 @@ export class BooleanField implements Field {
             if (config.value) {
                 return trueSet.andNot(nullSet);
             } else {
-                return fullIds.clone().andNot(nullSet).andNot(trueSet)
+                return requestContext.fullIds.clone().andNot(nullSet).andNot(trueSet)
             }
         }
 

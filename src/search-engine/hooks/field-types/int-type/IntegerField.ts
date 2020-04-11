@@ -6,6 +6,7 @@ import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepositor
 import {FieldExpression} from "../../../SearchReq";
 import {range} from "rxjs";
 import {flatMap, toArray} from "rxjs/operators";
+import {RequestContext} from "../../../RequestContext";
 
 /**
  * 由于处理负数比较麻烦，所以这里将所有的数字，加上2**31
@@ -91,7 +92,7 @@ export class IntegerField implements Field {
         return [this.empty(id, 1)];
     }
 
-    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, requestContext: RequestContext): Promise<Bitset | null> {
         // 字段不相符
         if (expr.field != this.name) {
             return null;
@@ -113,7 +114,7 @@ export class IntegerField implements Field {
 
         // 2. get null set, 1 == null, 0 == not-null
         const nullSet = await repository.getBitset(`reverse.int.${this.name}.null`);
-        const existSet = fullIds.clone().andNot(nullSet);
+        const existSet = requestContext.fullIds.clone().andNot(nullSet);
 
         // 3. 比较，等到[大于集，等于集，小于集]
         const [greater, equal, lower] = this.compare(config.value, valueSets, existSet);

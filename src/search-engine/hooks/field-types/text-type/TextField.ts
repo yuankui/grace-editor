@@ -5,6 +5,7 @@ import {Doc} from "../../../hook-struct/Doc";
 import {FieldExpression} from "../../../SearchReq";
 import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
 import {Bitset} from "../../../hook-struct/Bitset";
+import {RequestContext} from "../../../RequestContext";
 
 jieba.load();
 
@@ -63,7 +64,7 @@ export class TextField implements Field {
         return this.encode(value, 0, id);
     }
 
-    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, requestContext: RequestContext): Promise<Bitset | null> {
         // 字段不相符
         if (expr.field != this.name) {
             return null;
@@ -83,7 +84,7 @@ export class TextField implements Field {
 
         const words = this.cut(config.text.toString());
 
-        const result = fullIds.clone();
+        const result = requestContext.fullIds.clone();
 
         // 目前是或且的关系，后续支持或的关系，并且支持匹配度排序
         for (let word of words) {

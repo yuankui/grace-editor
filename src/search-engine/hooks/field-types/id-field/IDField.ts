@@ -7,6 +7,7 @@ import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepositor
 import {EqualExpr} from "../boolean-type/BooleanField";
 import {HookRegister} from "../../../HookRegister";
 import {IdMapper} from "../../../hook-struct/IdMapper";
+import {RequestContext} from "../../../RequestContext";
 
 export class IDField implements Field {
     readonly name: string;
@@ -37,7 +38,7 @@ export class IDField implements Field {
         ]
     }
 
-    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, requestContext: RequestContext): Promise<Bitset | null> {
         // 字段不相符
         if (expr.field != this.name) {
             return null;
@@ -58,7 +59,7 @@ export class IDField implements Field {
             // 能映射成id，看看全集里面有没有
             const idSet = newSet();
             idSet.add(numberId);
-            idSet.and(fullIds);
+            idSet.and(requestContext.fullIds);
             return idSet;
         }
 

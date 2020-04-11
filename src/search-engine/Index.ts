@@ -20,6 +20,7 @@ import {createIdFieldRegister} from "./hooks/field-types/id-field/createIdFieldR
 import {createFieldExpressionParser} from "./hooks/expressions/field/createFieldExpressionParser";
 import {createLogicExpressionParser} from "./hooks/expressions/logic/createLogicExpressionParser";
 import {createPagerHook} from "./hooks/pager/createPagerHook";
+import {RequestContext} from "./RequestContext";
 
 export class Index<T extends Doc = Doc> {
     private readonly hookRegister: HookRegister;
@@ -67,9 +68,18 @@ export class Index<T extends Doc = Doc> {
     }
 
     async jsonSearch(query: SearchReq): Promise<Array<T>> {
+
+        // 0. 获取全量ids
+        const indexRepositoryHook = this.hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');
+        const fullIds = await indexRepositoryHook.hook.getBitset('inverted.full_id');
+
+        const requestContext: RequestContext = {
+            fullIds: fullIds,
+        };
+
         // 1. 根据where条件进行过滤
         const hook = this.hookRegister.getHook<WhereParser>("where.parser");
-        const bitset = await hook.hook.filter(query.where);
+        const bitset = await hook.hook.filter(query.where, requestContext);
 
         // 2. 获取pager
         const pagerHook = this.hookRegister.getHook<Pager>('pager');
@@ -83,7 +93,7 @@ export class Index<T extends Doc = Doc> {
         const promises = ids.map(async id => {
             return await detailService.hook.get(id);
         });
-        const docs = await Promise.all(promises)
+        const docs = await Promise.all(promises);
         return docs.filter(doc => doc != null)
             .map(doc => doc as T);
     }

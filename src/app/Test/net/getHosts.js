@@ -19,7 +19,7 @@ function getHosts(url) {
                                     const hosts = Base64.decode(b);
                                     return parseHost(hosts);
                                 })
-                                .filter(o => o != null);
+                                .filter(o => o != null, requestContext);
 
                             resolve(hosts);
                         }

@@ -106,9 +106,9 @@ test('search', async function() {
         }
     });
 
+    console.log(JSON.stringify(docs, null, 2));
+
     expect(docs).to.be.ofSize(1);
     expect(docs.map(d => d._id)).to.be.equalTo(['661542']);
-
-    console.log(JSON.stringify(docs, null, 2));
 });
 

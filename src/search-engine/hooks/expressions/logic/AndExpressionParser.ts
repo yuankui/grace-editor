@@ -4,7 +4,7 @@ import {Bitset} from "../../../hook-struct/Bitset";
 import {FactoryParser} from "../FactoryParser";
 
 export class AndExpressionParser implements ExpressionParser{
-    async filter(expr: Expression, parser: FactoryParser, fullIds: Bitset): Promise<Bitset | null> {
+    async filter(expr: Expression, parser: FactoryParser): Promise<Bitset | null> {
         if (expr.type != 'and') {
             return null;
         }
