@@ -64,7 +64,7 @@ export class BooleanField implements Field {
         }
 
         // 字段相符
-        const config: BooleanExprConfig = expr.config;
+        const config = expr.config as BooleanExprConfig;
 
         if (config.type == '=') {
             const nullSet = await repository.getBitset(`reverse.boolean.${this.name}.null`);

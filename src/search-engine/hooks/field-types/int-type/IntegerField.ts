@@ -98,7 +98,7 @@ export class IntegerField implements Field {
         }
 
         // 字段相符
-        const config: CompareExpr = expr.config;
+        const config = expr.config as CompareExpr;
 
         // 1. get value
         const valueSets = await range(0, 32)

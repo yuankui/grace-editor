@@ -57,6 +57,6 @@ export function emptySet(): Bitset {
     return new BitsetImpl(new RoaringBitmap32());
 }
 
-export function newSet(): Bitset {
-    return new BitsetImpl(new RoaringBitmap32());
+export function newSet(numbers?: Iterable<number>): Bitset {
+    return new BitsetImpl(new RoaringBitmap32(numbers));
 }

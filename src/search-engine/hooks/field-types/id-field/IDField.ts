@@ -44,7 +44,7 @@ export class IDField implements Field {
         }
 
         // 字段相符
-        const config: EqualExpr = expr.config;
+        const config = expr.config as EqualExpr;
 
         if (config.type == '=') {
             const strId = JSON.stringify(config.value);

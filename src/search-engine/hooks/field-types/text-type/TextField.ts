@@ -2,6 +2,9 @@ import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import jieba from "nodejieba";
 import {Doc} from "../../../hook-struct/Doc";
+import {FieldExpression} from "../../../SearchReq";
+import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
+import {Bitset} from "../../../hook-struct/Bitset";
 
 jieba.load();
 
@@ -50,5 +53,9 @@ export class TextField implements Field {
 
         // remove, set bit = 0
         return this.encode(value, 0, id);
+    }
+
+    search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+        return undefined;
     }
 }

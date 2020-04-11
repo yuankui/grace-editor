@@ -1,5 +1,7 @@
 // language=yaml
 import {Page} from "./hook-struct/Page";
+import {CompareExpr} from "./hooks/field-types/int-type/IntegerField";
+import {EqualExpr} from "./hooks/field-types/boolean-type/BooleanField";
 
 export interface SearchReq {
     where: Expression,
@@ -32,5 +34,5 @@ export interface NotExpression {
 export interface FieldExpression {
     type: 'field',
     field: string,
-    config: any;
+    config: CompareExpr | EqualExpr;
 }
