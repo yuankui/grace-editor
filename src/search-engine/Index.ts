@@ -133,7 +133,7 @@ export class Index<T extends Doc = Doc> {
         const reverseMutationsFactory = this.hookRegister.getHook<ReverseMutationFactory<T>>('reverse.mutations.factory');
         const mutations = await reverseMutationsFactory.hook.processAdd(doc, numberId, oldDoc);
 
-        console.log(`mutations: ${JSON.stringify(mutations)}`);
+        // console.log(`mutations: ${JSON.stringify(mutations)}`);
 
         // 6. 写入详情
         await detailService.hook.set(numberId, doc);

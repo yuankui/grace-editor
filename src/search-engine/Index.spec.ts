@@ -112,3 +112,25 @@ test('search', async function() {
     expect(docs.map(d => d._id)).to.be.equalTo(['661542']);
 });
 
+test('write-performance', async function() {
+    const index = await createIndex();
+
+    const start = new Date().getTime();
+
+    const startIndex = 20000;
+    const count = 100;
+    for (let i = startIndex; i < startIndex + count; i++) {
+        console.log(i);
+        await index.add({
+            _id: i.toString(),
+            "title": "给大家推荐除了电信联通移动科学上网速度非常不错的 ISP",
+            "url": "https://www.v2ex.com/t/661544",
+            "created": 1586612356,
+            "content": "前排提示，非深圳朋友不用看了。\r\n\r\n\r\n\r\n\r\n这是深圳本地 ISP,Topway 也叫天威视讯，之前一直是做电视业务的，不知道什么时候开始做家宽了，和米国一些 ISP 一样，采用的是同轴电视线，理论带宽一栋楼共享 1G 对等，但还有电视业务....反正实际使用没太大问题，配了千兆同轴猫，最大可以办理的带宽 200M,实际跑不满，说是有带宽损耗，speedtest.net 实测最多 180Mbps，上行也有缩水，还有延迟不小，从本地网关到接入第一跳网关延迟在 7ms 左右，后面就是全光传输了，网络有时候不稳定。\r\n\r\n\r\n\r\n优点来啦，接入采用 DHCP，最多实测 100M 获取 2 个固定！固定！固定！没错你没看错是固定，因为 DHCP 只要你不断电，IP 不会变，不封 80.443 ，但是只要一开服务，第二天 80 就没了，不知道什么原理，200M 宽带可以获取到 4 个固定 ip，出国线路方面大部分走联通 9929，一些 ip 走普通联通，延迟速度都非常不错，比原生联通都好。\r\n\r\n\r\n\r\n总结：\r\n1.延迟大，网络不太稳定，毕竟是同轴\r\n\r\n\r\n2.固定公网 ip，出国速度良好\r\n\r\n\r\n3.价格实惠\r\n\r\n\r\n4.部分地方的天威走的是电信穿透，这个质量嘛...\r\n\r\n\r\n5.有点国内网站还没有国外网站快\r\n\r\n\r\n6 。自带 DNS 乱解析。\r\n\r\n\r\n\r\n附上测速图片： https://s1.ax1x.com/2020/04/11/GbXJBj.png",
+        });
+    }
+
+    const cost = new Date().getTime() - start;
+    console.log(`cost: ${cost}ms`);
+})
+    .timeout(50_000);
