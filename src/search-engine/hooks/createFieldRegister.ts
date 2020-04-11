@@ -6,11 +6,11 @@ import {Field} from "../hook-struct/Field";
 import {HookRegisterConsumer} from "../HookRegisterConsumer";
 import {HookRegister} from "../HookRegister";
 
-const TypeMap: {[key:string]: new (name: string, config: any) => Field} = {
+const TypeMap: { [key: string]: new (name: string, config: any) => Field; } = {
     'text': TextField,
     'int': IntegerField,
     'boolean': BooleanField,
-}
+};
 
 export function createFieldRegister(schema: IndexSchema) : HookRegisterConsumer {
     return {
