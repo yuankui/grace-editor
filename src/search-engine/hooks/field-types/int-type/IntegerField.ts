@@ -1,9 +1,11 @@
 import {Field} from "../../../hook-struct/Field";
 import {BitMutation} from "../../../hook-struct/BitMutation";
 import {Doc} from "../../../hook-struct/Doc";
-import {Bitset} from "../../../hook-struct/Bitset";
+import {Bitset, emptySet} from "../../../hook-struct/Bitset";
 import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
 import {FieldExpression} from "../../../SearchReq";
+import {range} from "rxjs";
+import {flatMap, toArray} from "rxjs/operators";
 
 /**
  * 由于处理负数比较麻烦，所以这里将所有的数字，加上2**31
@@ -89,11 +91,87 @@ export class IntegerField implements Field {
         return [this.empty(id, 1)];
     }
 
-    search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
-        // TODO 实现integerField
-        return undefined;
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+        // 字段不相符
+        if (expr.field != this.name) {
+            return null;
+        }
+
+        // 字段相符
+        const config: CompareExpr = expr.config;
+
+        // 1. get value
+        const valueSets = await range(0, 32)
+            .pipe(
+                flatMap(i => {
+                    const key = `reverse.int.${this.name}.${i}`;
+                    return repository.getBitset(key);
+                }),
+                toArray(),
+            )
+            .toPromise();
+
+        // 2. get null set, 1 == null, 0 == not-null
+        const nullSet = await repository.getBitset(`reverse.int.${this.name}.null`);
+        const existSet = fullIds.clone().andNot(nullSet);
+
+        // 3. 比较，等到[大于集，等于集，小于集]
+        const [greater, equal, lower] = this.compare(config.value, valueSets, existSet);
+
+        switch (config.type) {
+            case "<":
+                return lower;
+            case "<=":
+                return lower.or(equal);
+            case "=":
+                return equal;
+            case ">":
+                return greater;
+            case ">=":
+                return greater.or(equal);
+            default:
+                return null;
+        }
     }
 
+    compare(num: number, valueSets: Array<Bitset>, fullIds: Bitset): [Bitset,Bitset,Bitset] {
+        // 把num转换成二进制，然后一位一位地和valueSet进行比较
+        const numBits = num.toString(2).split('');
 
+        // 初始化3个集合，[大于集，不确定集，小于集]
+        const greaterSet = emptySet();
+        const lowerSet = emptySet();
+        const uncertainSet = fullIds.clone();
 
+        // 然后循环，一位一位比较
+        for (let i = 31; i >= 0; i++) {
+            const bit = numBits[i] || '0';
+            const bitset = valueSets[i];
+
+            // 分3种情况
+            if (bit == '0') {
+                // 从不确定集中找出1的集合，列入【大于集】
+                const oneSet = uncertainSet.clone().and(bitset);
+                greaterSet.or(oneSet);
+
+                // 然后剔除这部分1的集合
+                uncertainSet.andNot(oneSet);
+            } else { // == '1'
+                // 从不确定集中找出0的集合，列入【小于集】
+                const zeroSet = uncertainSet.clone().andNot(bitset);
+                lowerSet.or(zeroSet);
+
+                // 然后剔除这部分1的集合
+                uncertainSet.andNot(zeroSet);
+            }
+        }
+
+        // 循环完了还没确定的，就是等于的了。
+        return [greaterSet, uncertainSet, lowerSet]
+    }
+}
+
+export interface CompareExpr {
+    type: "=" | ">" | "<" | '<=' | ">=",
+    value: number,
 }
