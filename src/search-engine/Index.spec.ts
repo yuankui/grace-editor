@@ -2,6 +2,9 @@ import {Index} from "./Index";
 import {Doc} from "./hook-struct/Doc";
 import {test} from 'mocha';
 import {createFieldRegister} from "./hooks/createFieldRegister";
+import chaiArrays from "chai-arrays";
+import chai, {expect} from 'chai';
+chai.use(chaiArrays);
 
 interface Person extends Doc {
     title: string,
@@ -102,6 +105,9 @@ test('search', async function() {
            }
         }
     });
+
+    expect(docs).to.be.ofSize(1);
+    expect(docs.map(d => d._id)).to.be.equalTo(['661542']);
 
     console.log(JSON.stringify(docs, null, 2));
 });
