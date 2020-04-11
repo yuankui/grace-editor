@@ -5,6 +5,7 @@ import {Expression} from "../../../SearchReq";
 import {Bitset} from "../../../hook-struct/Bitset";
 import {FactoryParser} from "../FactoryParser";
 import {Field} from "../../../hook-struct/Field";
+import {ReverseIndexRepository} from "../../../hook-struct/ReverseIndexRepository";
 
 export function createFieldExpressionParser(): HookRegisterConsumer {
     return {
@@ -19,10 +20,11 @@ export function createFieldExpressionParser(): HookRegisterConsumer {
                             return null;
                         }
 
+                        const indexRepositoryHook = hookRegister.getHook<ReverseIndexRepository>('reverse.index.repository');
                         const fields = hookRegister.getHooks<Field>("index.field");
 
                         for (let field of fields) {
-                            const bitset = await field.hook.search(expr);
+                            const bitset = await field.hook.search(expr, indexRepositoryHook.hook, fullIds);
                             if (bitset != null) {
                                 // 有个expr能够被解析
                                 return bitset;
@@ -31,11 +33,10 @@ export function createFieldExpressionParser(): HookRegisterConsumer {
 
                         // 不能解析
                         console.error(`can't parse expr: ${JSON.stringify(expr)}`);
-                        return bitset
+                        return null;
                     }
                 }
             })
         }
     }
-
 }

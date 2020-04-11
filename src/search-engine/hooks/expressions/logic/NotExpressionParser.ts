@@ -1,5 +1,5 @@
 import {ExpressionParser} from "../ExpressionParser";
-import {Expression, NotExpression} from "../../../SearchReq";
+import {Expression} from "../../../SearchReq";
 import {Bitset} from "../../../hook-struct/Bitset";
 import {FactoryParser} from "../FactoryParser";
 
@@ -9,7 +9,7 @@ export class NotExpressionParser implements ExpressionParser {
             return null;
         }
 
-        const inner = await parser.filter(expr.inner, parser, fullIds);
+        const inner = await parser.filter(expr.inner);
 
         return fullIds.clone().andNot(inner);
     }

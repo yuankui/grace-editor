@@ -35,14 +35,22 @@ export class TextField implements Field {
         return [...removeMutations, ...addMutations];
     }
 
+    cut(text: string) {
+        return jieba.cutForSearch(text, true) || [];
+    }
+
+    key(word: string) {
+        return `reverse.text.${this.name}.${word}`;
+    }
+
     encode(value: string, bit: 0 | 1, id: number): Array<BitMutation> {
         if (value == null) {
             return [];
         }
-        const words = jieba.cutForSearch(value, true) || [];
+        const words = this.cut(value);
         return words.map(word => {
             return {
-                key: `reverse.text.${this.name}.${word}`,
+                key: this.key(word),
                 index: id,
                 bit: bit,
             }
@@ -62,10 +70,30 @@ export class TextField implements Field {
         }
 
         const config = expr.config as TextExpr;
-        if (config.type === 'query') {
 
+        // 目前仅仅支持query查询方式
+        if (config.type !== 'query') {
+            return null;
         }
-        return null;
+
+        // 如果查询词位空，就报错
+        if (config.text == null) {
+            throw new Error(`empty text for expr: ${JSON.stringify(expr)}`);
+        }
+
+        const words = this.cut(config.text.toString());
+
+        const result = fullIds.clone();
+
+        // 目前是或且的关系，后续支持或的关系，并且支持匹配度排序
+        for (let word of words) {
+            const bitset = await repository.getBitset(this.key(word));
+
+            // 且。 TODO 后续支持或
+            result.and(bitset);
+        }
+
+        return result;
     }
 }
 

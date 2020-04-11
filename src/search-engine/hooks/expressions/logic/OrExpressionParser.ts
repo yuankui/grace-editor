@@ -1,5 +1,5 @@
 import {ExpressionParser} from "../ExpressionParser";
-import {Expression, OrExpression} from "../../../SearchReq";
+import {Expression} from "../../../SearchReq";
 import {Bitset} from "../../../hook-struct/Bitset";
 import {FactoryParser} from "../FactoryParser";
 
@@ -9,8 +9,8 @@ export class OrExpressionParser implements ExpressionParser {
             return null;
         }
 
-        const left = await parser.filter(expr.left, parser, fullIds);
-        const right = await parser.filter(expr.right, parser, fullIds);
+        const left = await parser.filter(expr.left);
+        const right = await parser.filter(expr.right);
         return left.or(right);
     }
 }

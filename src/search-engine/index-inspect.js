@@ -54,7 +54,7 @@ async function scanBitmap(type) {
                 }
 
                 const bitmap = RoaringBitmap32.deserialize(value, true);
-                console.log(`${key} => ${JSON.stringify(bitmap.toArray())}`)
+                console.log(`${JSON.stringify(key.toString())} => ${JSON.stringify(bitmap.toArray())}`)
             }
             resolve();
         });

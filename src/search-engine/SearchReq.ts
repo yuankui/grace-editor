@@ -6,7 +6,7 @@ import {TextExpr} from "./hooks/field-types/text-type/TextField";
 
 export interface SearchReq {
     where: Expression,
-    page: Page,
+    page?: Page,
 }
 
 export type Expression = AndExpression

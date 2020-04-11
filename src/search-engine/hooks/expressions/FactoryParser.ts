@@ -5,5 +5,5 @@ export interface FactoryParser {
     /**
      * if return null, can't parse
      */
-    filter(expr: Expression, parser: FactoryParser, fullIds: Bitset): Promise<Bitset>;
+    filter(expr: Expression): Promise<Bitset>;
 }

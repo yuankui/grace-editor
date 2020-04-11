@@ -5,6 +5,7 @@ import {BitMutation} from "../../hook-struct/BitMutation";
 import path from 'path';
 import {KVFactory} from "../../hook-struct/KVFactory";
 import {RoaringBitmap32} from "roaring";
+import {Bitset, emptySet, newSet} from "../../hook-struct/Bitset";
 
 export function createReverseIndexRepository(): HookRegisterConsumer {
     return {
@@ -47,7 +48,18 @@ export function createReverseIndexRepository(): HookRegisterConsumer {
                         }
 
                         await kv.put(mutate.key, bitmap.serialize(true));
+                    },
+
+                    async getBitset(key: string): Promise<Bitset> {
+                        const buffer = await kv.get(key);
+                        if (buffer == null) {
+                            return emptySet();
+                        }
+
+                        const bitmap = RoaringBitmap32.deserialize(buffer, true);
+                        return newSet(bitmap);
                     }
+
                 }
             })
         }

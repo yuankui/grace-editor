@@ -9,8 +9,8 @@ export class AndExpressionParser implements ExpressionParser{
             return null;
         }
 
-        const left = await parser.filter(expr.left, parser, fullIds);
-        const right = await parser.filter(expr.right, parser, fullIds);
+        const left = await parser.filter(expr.left);
+        const right = await parser.filter(expr.right);
         return left.and(right);
     }
 }
