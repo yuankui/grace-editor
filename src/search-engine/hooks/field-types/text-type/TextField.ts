@@ -55,7 +55,25 @@ export class TextField implements Field {
         return this.encode(value, 0, id);
     }
 
-    search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
-        return undefined;
+    async search(expr: FieldExpression, repository: ReverseIndexRepository, fullIds: Bitset): Promise<Bitset | null> {
+        // 字段不相符
+        if (expr.field != this.name) {
+            return null;
+        }
+
+        const config = expr.config as TextExpr;
+        if (config.type === 'query') {
+
+        }
+        return null;
     }
 }
+
+export interface TextExpr {
+    type: 'query',
+    text: string,
+}
+
+// TODO 新增一个title-text类型，专门针对长度不大的text进行索引
+// 因为这部分的匹配，必须要求精确
+// 所以这里的方法是，将title，按照长度是
