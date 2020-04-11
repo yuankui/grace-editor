@@ -1,12 +1,20 @@
 import {RoaringBitmap32} from "roaring";
 
-export interface Bitset extends Iterable<number>{
+export interface Bitset extends Iterable<number> {
     and(other: Bitset): Bitset;
+
     or(other: Bitset): Bitset;
+
     andNot(other: Bitset): Bitset;
+
     clone(): Bitset;
+
     add(num: number): Bitset;
+
     remove(num: number): Bitset;
+
+    // only use for test, production use [iterator]()
+    toArray(): Array<number>;
 }
 
 class BitsetImpl implements Bitset {
@@ -50,6 +58,10 @@ class BitsetImpl implements Bitset {
     remove(num: number): Bitset {
         this.bitmap.remove(num);
         return this;
+    }
+
+    toArray(): Array<number> {
+        return this.bitmap.toArray();
     }
 
 }
