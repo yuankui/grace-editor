@@ -1,10 +1,10 @@
-import React, {ReactNode} from "react";
+import React, {useState} from "react";
 import {AppStore} from "../../../../../redux/store";
-import {Dispatch} from "redux";
-import {mapState, useCurrentPostId} from "../../../../../utils";
-import {connect, useStore} from "react-redux";
+import {useCurrentPostId} from "../../../../../utils";
+import {useStore} from "react-redux";
 import {RenderAttributes} from "slate-react";
 import {ImageBlockType} from "./ImagePlugin";
+import Modal from "./Modal";
 
 interface Props {
     imageId: string,
@@ -19,9 +19,28 @@ export const ImageBlock: React.FC<Props> = props => {
         postId as string,
         props.imageId,
     );
-    return <img
-        {...props.attributes}
-        src={src}
-        className={ImageBlockType + " " + 'focus-' + props.isFocused}
-    />
+
+    const [visible, setVisible] = useState(false);
+    return <>
+        <Modal visible={visible} onVisibleChange={setVisible}>
+            <div onClick={e => {
+                console.log('image click');
+                e.stopPropagation();
+                e.preventDefault();
+            }}>
+                <img src={src}/>
+            </div>
+
+        </Modal>
+        <img
+            onClick={e => {
+                setVisible(true);
+                e.stopPropagation();
+                e.preventDefault();
+            }}
+            {...props.attributes}
+            src={src}
+            className={ImageBlockType + " " + 'focus-' + props.isFocused}
+        />
+    </>
 };
