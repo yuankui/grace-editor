@@ -25,6 +25,9 @@ const Modal: FunctionComponent<Props> = (props) => {
         }
     }, [el]);
 
+    if (!props.visible) {
+        return null;
+    }
     return ReactDOM.createPortal(<div onClick={e=> {
         console.log('modal click');
         props.onVisibleChange(false);

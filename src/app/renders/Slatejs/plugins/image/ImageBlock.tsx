@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {CSSProperties, useEffect, useState} from "react";
 import {AppStore} from "../../../../../redux/store";
 import {useCurrentPostId} from "../../../../../utils";
 import {useStore} from "react-redux";
 import {RenderAttributes} from "slate-react";
 import {ImageBlockType} from "./ImagePlugin";
 import Modal from "./Modal";
+import ScaleImage from "./ScaleImage";
 
 interface Props {
     imageId: string,
@@ -21,6 +22,8 @@ export const ImageBlock: React.FC<Props> = props => {
     );
 
     const [visible, setVisible] = useState(false);
+
+
     return <>
         <Modal visible={visible} onVisibleChange={setVisible}>
             <div onClick={e => {
@@ -28,7 +31,7 @@ export const ImageBlock: React.FC<Props> = props => {
                 e.stopPropagation();
                 e.preventDefault();
             }}>
-                <img src={src}/>
+                <ScaleImage src={src} />
             </div>
 
         </Modal>
