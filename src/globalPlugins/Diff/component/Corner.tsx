@@ -1,6 +1,6 @@
 import React, {FunctionComponent, ReactNode, useState} from 'react';
-import {classNames} from "../../../../utils";
-import Popover from "../../../layout/right/TopBar/actions/popover/Popover";
+import {classNames} from "../../../utils";
+import Popover from "../../../app/layout/right/TopBar/actions/popover/Popover";
 
 type Placement = "in" | "out";
 type ActionStyle = "show" | "hover";

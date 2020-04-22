@@ -4,8 +4,8 @@ import React from "react";
 import TypeFactory from "./TypeFactory";
 import JsonKey from "./JsonKey";
 import Suffix from "./JsonSuffix";
-import {If} from "../../../../../../utils";
 import {Icon} from "antd";
+import {If} from "../../../../../utils";
 
 interface State {
     visible: boolean,

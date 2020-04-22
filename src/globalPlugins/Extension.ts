@@ -122,7 +122,7 @@ export class ExtensionManager {
         this.containerHookMap[hook.containerId] = hooks;
     }
 
-    getContainerHooks(containerId: string): Array<Hook> {
+    getContainerHooks<T=any>(containerId: string): Array<Hook<T>> {
         const hooks = this.containerHookMap[containerId] || [];
 
         // filter disabled
@@ -170,11 +170,11 @@ export class ExtensionContext {
         this.manager.registerContainer(container);
     }
 
-    registerHook(hook: Hook) {
+    registerHook<T = any>(hook: Hook<T>) {
         this.manager.registerHook(this.extensionId, hook);
     }
 
-    getContainerHooks(containerId: string): Array<Hook> {
+    getContainerHooks<T=any>(containerId: string): Array<Hook<T>> {
         return this.manager.getContainerHooks(containerId);
     }
 }
@@ -184,11 +184,11 @@ export interface Container {
     pluginId?: string,
 }
 
-export interface Hook {
+export interface Hook<T = any> {
     extensionId?: string,
     hookId: string,
     title: string,
     containerId: string,
     priority: number,
-    hook: any,
+    hook: T,
 }

@@ -1,5 +1,3 @@
-import {Render, RenderProps} from "../renders";
-import {mapState} from "../../../utils";
 import {connect} from "react-redux";
 import React from "react";
 import 'codemirror/mode/python/python';
@@ -11,6 +9,8 @@ import {YamlView} from "./ObjectView/yaml/YamlView";
 import Warn from "./Warn";
 import Tabs from "./tabs/Tabs";
 import Panel from "./tabs/Panel";
+import {Render, RenderProps} from "../../app/renders/renders";
+import {mapState} from "../../utils";
 
 interface State {
     syntaxError?: string,

@@ -1,9 +1,9 @@
-import {Render, RenderProps} from "../renders";
 import React from "react";
 import {Value} from "slate";
 import CodeEditor from "./CodeEditor";
 import {BlockCodeLine} from "./plugins/LinePlugin";
 import {findSame} from "./text-diff";
+import {Render, RenderProps} from "../../app/renders/renders";
 
 interface State {
     value1: Value,

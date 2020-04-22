@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {If} from "../../../utils";
+import {If} from "../../utils";
 
 interface OwnProps {
     error?: string,

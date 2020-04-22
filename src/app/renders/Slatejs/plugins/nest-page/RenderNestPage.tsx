@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import useAppStore from "../../../../hooks/useAppStore";
 import {classNames, If} from "../../../../../utils";
 import {PostSelectCommand} from "../../../../../redux/commands/menu/PostSelectCommand";
-import {getRender} from "../../../factory";
+import {useRender} from "../../../useRender";
 import Corner, {CornerAction} from "../../../Diff/component/Corner";
 import {Icon, Switch} from "antd";
 import {ListTile} from "../../../../ListTile";
@@ -29,7 +29,7 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
 
     const showTitle = !!node.data.get("showTitle");
 
-    const Render = getRender(post);
+    const Render = useRender(post);
     const actions: Array<CornerAction> = [
         { // toggle show title
             title: <ListTile title={"Show Title"} trailing={<Switch checked={showTitle}/>}/>,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ChangeEvent} from 'react';
 import {Post} from "../../../redux/store";
-import {getRender} from "../../renders/factory";
+import {useRender} from "../../renders/useRender";
 import {Editor} from "slate";
 import {notify} from "../../message/message";
 import isHotkey from "is-hotkey";
@@ -43,7 +43,7 @@ const EditorContent: React.FC<Props> = props => {
 
     const post: Post = props.post;
 
-    let Editor = getRender(post);
+    let Editor = useRender(post);
     let content = <Editor value={post.content} onChange={v => onContentChange(v)}/>;
     contentHooks.forEach(hook => {
         content = hook.hook(content);
