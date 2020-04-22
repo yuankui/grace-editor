@@ -2,8 +2,10 @@ import {Extension} from "../Extension";
 import React from "react";
 import url from "./Mechanical-Keyboard-single-button-presses-8-www.FesliyanStudios.com.mp3";
 
-export const createKeySoundPlugin = () => {
+export function createKeySoundPlugin(): Extension {
     return {
+        id: "core.key.sound",
+        title: "打字声音",
         init: context => {
             context.registerHook({
                 containerId: 'app.more.settings',
@@ -12,9 +14,9 @@ export const createKeySoundPlugin = () => {
                 title: 'KeySound',
                 hook: (props: any) => {
                     // factory(title, value, onChange) => ReactNode
-                    const value = context.getSetting("pluginId.keySound", "switch");
+                    const value = context.getSetting("switch");
                     return props.factory("KeySound", value, (state) => {
-                        context.setSetting("pluginId.keySound", "switch", state);
+                        context.setSetting("switch", state);
                     })
                 }
             });
@@ -25,7 +27,7 @@ export const createKeySoundPlugin = () => {
                 hookId: 'internal.render.content-key.stroke',
                 priority: 0,
                 hook: (content) => {
-                    const on = context.getSetting("pluginId.keySound", "switch");
+                    const on = context.getSetting("switch");
 
                     if (!on) {
                         return content;
@@ -43,5 +45,5 @@ export const createKeySoundPlugin = () => {
                 }
             })
         }
-    } as Extension;
+    };
 };

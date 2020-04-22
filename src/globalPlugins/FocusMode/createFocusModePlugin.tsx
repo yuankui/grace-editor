@@ -6,15 +6,17 @@ import {notify} from "../../app/message/message";
 
 export function createFocusModePlugin(): Extension {
     return {
+        id: "core.focus.mode",
+        title: "Focus Mode",
         init: context => {
             // 监听全屏事件
             context.electron.remote.getCurrentWindow()
                 .on('enter-full-screen', () => {
-                    context.setState('pluginId.FocusMode', 'on', true);
+                    context.setState('on', true);
                 });
             context.electron.remote.getCurrentWindow()
                 .on('leave-full-screen', () => {
-                    context.setState('pluginId.FocusMode', 'on', false);
+                    context.setState('on', false);
                 });
 
 
@@ -25,12 +27,12 @@ export function createFocusModePlugin(): Extension {
                 title: 'FocusMode',
                 hook: (props: any) => {
                     // factory(title, value, onChange) => ReactNode
-                    const value = context.getState("pluginId.FocusMode", "on");
+                    const value = context.getState("on");
                     return props.factory("FocusMode", value, (state) => {
                         setTimeout(() => {
                             context.electron.remote.getCurrentWindow().setFullScreen(!!state);
                         }, 100);
-                        context.setState("pluginId.FocusMode", "on", state);
+                        context.setState("on", state);
                     })
                 }
             });
@@ -42,7 +44,7 @@ export function createFocusModePlugin(): Extension {
                 hookId: 'app.content.render.focusMode',
                 title: 'FocusMode',
                 hook: (content: any) => {
-                    if (!context.getState('pluginId.FocusMode', 'on')) {
+                    if (!context.getState('on')) {
                         return content;
                     }
                     return <div className='focus-mode-container'>
@@ -58,7 +60,7 @@ export function createFocusModePlugin(): Extension {
                 hookId: 'hookId.slate.render.block-focusMode',
                 title: 'FocusMode',
                 hook: () => {
-                    if (!context.getState('pluginId.FocusMode', 'on')) {
+                    if (!context.getState('on')) {
                         return undefined;
                     }
                     return createSlateFocusModePlugin().renderBlock;
@@ -67,7 +69,7 @@ export function createFocusModePlugin(): Extension {
 
             setInterval(() => {
                 // 如果focusMode开启
-                if (context.getState('pluginId.FocusMode', 'on')) {
+                if (context.getState('on')) {
                     const selectionRect = window.getSelection()?.getRangeAt(0).getClientRects().item(0);
                     if (selectionRect == null) return;
 
@@ -88,7 +90,7 @@ export function createFocusModePlugin(): Extension {
             // toggle最大化窗口
             window.addEventListener('keydown', e => {
                 if (isHotkey('mod+enter', e)) {
-                    const isFocus = context.getState('pluginId.FocusMode', 'on');
+                    const isFocus = context.getState('on');
 
                     context.electron.remote.getCurrentWindow()
                         .setFullScreen(!isFocus);

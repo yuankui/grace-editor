@@ -10,7 +10,6 @@ const randomInt = (max) => {
 
 
 async function run() {
-    const detail = await Detail.open('detail.dat');
 
 
 

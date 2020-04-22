@@ -143,7 +143,7 @@ export class ExtensionContext {
     }
 
     getState(key: string) {
-        this.manager.getState(this.extensionId, key);
+        return this.manager.getState(this.extensionId, key);
     }
 
     setState(key: string, state: any) {
