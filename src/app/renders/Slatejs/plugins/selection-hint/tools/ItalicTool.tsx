@@ -1,6 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {MarkTypeItalic} from "../../inline/InlinePlugin";
 
 export default function createItalicTool(): Tool {

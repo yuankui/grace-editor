@@ -3,10 +3,11 @@ import {Button, Input, Modal} from "antd";
 import React from "react";
 import {InlineTypeLink} from "./LinkPlugin";
 import {GetState} from "../../SlatejsRender";
-import {Editor, Inline, InlineJSON, Range} from "slate";
+import {InlineJSON} from "slate";
 import {Dispatch} from "redux";
 import {ToolsHintToggleCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintToggleCommand";
 import {QueryIsInInline} from "../todo/TodoPlugin";
+import {Editor} from "slate-react";
 
 interface Props {
     getState: GetState,

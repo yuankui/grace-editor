@@ -1,6 +1,5 @@
 import {HintAction} from "./index";
-import React, {Dispatch, ReactNode} from "react";
-import {Editor} from "slate";
+import React, {ReactNode} from "react";
 import {HeaderTypePrefix} from "../../header/HeaderPlugin";
 
 const headerMap = {
@@ -32,7 +31,7 @@ export default class HeaderAction implements HintAction {
         this.level = level;
     }
 
-    action(editor: Editor): void {
+    action(editor): void {
         const blockType = HeaderTypePrefix + this.level;
 
         editor.setBlocks(blockType)

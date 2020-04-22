@@ -5,7 +5,7 @@ import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
 import {Modal} from "antd";
 import {HintUpdateCommand} from "../../../../../redux/commands/slatejs/hint/HintUpdateCommand";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {DropdownSelect} from "../../../../DropdownSelect";
 import {HintAction} from "./actions";
 import HeaderAction from "./actions/HeaderAction";

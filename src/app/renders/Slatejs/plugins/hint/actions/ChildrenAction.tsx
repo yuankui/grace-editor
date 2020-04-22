@@ -1,10 +1,9 @@
 import {HintAction} from "./index";
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
 import {CommandToggleChildren} from "../../children/ChildrenPlugin";
 
 export default class ChildrenAction implements HintAction {
-    action(editor: Editor): void {
+    action(editor): void {
         editor.command(CommandToggleChildren);
     }
 

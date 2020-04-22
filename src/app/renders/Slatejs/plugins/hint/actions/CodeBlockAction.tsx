@@ -1,11 +1,10 @@
 import {HintAction} from "./index";
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
 import {BlockTypeCodeBlock} from "../../code/CodePlugin";
 
 
 export default class CodeBlockAction implements HintAction {
-    action(editor: Editor): void {
+    action(editor): void {
         editor.setBlocks(BlockTypeCodeBlock)
             .deleteBackward();
     }

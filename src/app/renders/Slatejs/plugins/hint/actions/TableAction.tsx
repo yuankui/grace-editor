@@ -35,7 +35,7 @@ const TableConfirm = (props: Props) => {
 
 
 export default class TableAction implements HintAction {
-    modal(editor: Editor, hide: () => void): ReactNode {
+    modal(editor, hide: () => void): ReactNode {
         return <TableConfirm editor={editor} hide={hide}/>
     }
 

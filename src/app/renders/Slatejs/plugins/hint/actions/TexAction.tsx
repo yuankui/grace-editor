@@ -1,13 +1,11 @@
 import {HintAction} from "./index";
-import React, {Dispatch, ReactNode} from "react";
-import {Editor} from "slate";
-import {HeaderTypePrefix} from "../../header/HeaderPlugin";
+import React, {ReactNode} from "react";
 import {BlockTex} from "../../tex/TexPlugin";
 
 
 export default class TexAction implements HintAction {
 
-    action(editor: Editor): void {
+    action(editor): void {
         editor.insertBlock({
             type: BlockTex,
             data: {

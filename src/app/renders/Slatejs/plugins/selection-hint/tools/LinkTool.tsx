@@ -1,6 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {InlineTypeLink} from "../../link/LinkPlugin";
 import {LinkUpdateCommand} from "../../../../../../redux/commands/slatejs/link/LinkUpdateCommand";
 import {GetState} from "../../../SlatejsRender";

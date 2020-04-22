@@ -3,7 +3,7 @@ import {mapState} from "../../../../../utils";
 import {connect} from "react-redux";
 import {AppStore} from "../../../../../redux/store";
 import {Dispatch} from "redux";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {ToolsHintUpdateCommand} from "../../../../../redux/commands/slatejs/tools-hint/ToolsHintUpdateCommand";
 import {createTools, Tool, ToolOrSeparator} from "./tools";
 import {Popover, Tooltip} from "antd";

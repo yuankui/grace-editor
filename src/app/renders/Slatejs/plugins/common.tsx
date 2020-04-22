@@ -1,12 +1,11 @@
-import {Block, Editor as CoreEditor, Value} from "slate";
+import {Block, Value} from "slate";
 import React from "react";
 import isHotkey from "is-hotkey";
-import {Editor} from 'slate-react';
 import {createEmptyParagraph} from "../utils/createEmptyParagraph";
 import {List} from "immutable";
 import {serializer} from "../utils/Serializer";
 import {EditorPlugin} from "./EditorPlugin";
-import {node} from "prop-types";
+import {Editor} from "slate-react";
 
 export const BlockParagraph = 'paragraph';
 
@@ -20,7 +19,7 @@ export const BlockParagraph = 'paragraph';
  */
 export function ToggleBlockOnPrefix(prefix: string,
                                     event: React.KeyboardEvent<Element>,
-                                    editor: CoreEditor,
+                                    editor: Editor,
                                     callback: () => void) {
     // 空格触发list
     if (isHotkey(' ', event.nativeEvent)) {

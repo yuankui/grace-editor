@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {RenderBlockProps} from "slate-react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {useDispatch} from "react-redux";
 import useAppStore from "../../../../hooks/useAppStore";
 import {classNames, If} from "../../../../../utils";

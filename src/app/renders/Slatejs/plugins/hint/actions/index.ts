@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 
 export interface HintAction {
     icon(width: number): ReactNode,

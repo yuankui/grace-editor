@@ -1,5 +1,6 @@
 import Prism from 'prismjs';
-import {DecorationJSON, Editor, Node} from "slate";
+import {DecorationJSON, Node} from "slate";
+import {Editor} from 'slate-react';
 
 Prism.languages.markdown = Prism.languages.extend("markup", {});
 Prism.languages.insertBefore("markdown", "prolog", {

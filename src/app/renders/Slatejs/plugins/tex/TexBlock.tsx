@@ -1,10 +1,8 @@
 import React, {FunctionComponent, useState} from 'react';
 import 'katex/dist/katex.min.css';
 import {classNames, If} from "../../../../../utils";
-import {RenderBlockProps} from "slate-react";
-import {Editor} from "slate";
+import {Editor, RenderBlockProps} from "slate-react";
 import CodeEditor from "./CodeEditor";
-import * as MathJax from "@nteract/mathjax";
 import LatexBlock from "./LatexBlock";
 import {notify} from "../../../../message/message";
 

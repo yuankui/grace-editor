@@ -1,7 +1,7 @@
 import React, {CSSProperties, FunctionComponent, useMemo, useState} from 'react';
 import {Editor, RenderBlockProps} from "slate-react";
 import Plain from 'slate-plain-serializer';
-import {Editor as CoreEditor, Value} from "slate";
+import {Value} from "slate";
 import {renderDecoration} from "./editor/renderDecoration";
 import decorateNode from "./editor/decorateNode";
 import isHotkey from "is-hotkey";
@@ -59,7 +59,7 @@ const MarkdownEditor: FunctionComponent<Props> = (props) => {
     );
 };
 
-const onKeyDown = (event: React.KeyboardEvent, editor: CoreEditor, next: () => any) => {
+const onKeyDown = (event: React.KeyboardEvent, editor: Editor, next: () => any) => {
     if (isHotkey('tab', event.nativeEvent)) {
         editor.insertText('  ');
         event.stopPropagation();
@@ -70,7 +70,7 @@ const onKeyDown = (event: React.KeyboardEvent, editor: CoreEditor, next: () => a
     next();
 };
 
-const renderBlock = (props: RenderBlockProps, editor: CoreEditor, next: () => any) => {
+const renderBlock = (props: RenderBlockProps, editor: Editor, next: () => any) => {
     const {node, attributes, children} = props;
     if (node.data.get('codeBlock') == true) {
         let className = classNames([

@@ -1,6 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {InlineMarkTypes} from "../../inline/InlinePlugin";
 
 export default function createResetTool(): Tool {
@@ -19,7 +19,7 @@ export default function createResetTool(): Tool {
         action(editor: Editor): void {
             let e = editor;
             for (let inlineMarkType of InlineMarkTypes) {
-                e = e.removeMark(inlineMarkType);
+                e.removeMark(inlineMarkType);
             }
             e.setBlocks({
                 type: 'paragraph',

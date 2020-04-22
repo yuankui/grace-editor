@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {useDrop} from "react-dnd";
 import {DragObjectPost, DragSourceTypes} from "../../../../post/dnd/DragTypes";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {BlockTypeNestPage} from "./NestPagePlugin";
 import {classNames} from "../../../../../utils";
 

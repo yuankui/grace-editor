@@ -1,10 +1,9 @@
 import {HintAction} from "./index";
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
 import {TodoBlockType} from "../../todo/TodoPlugin";
 
 export default class TodoAction implements HintAction {
-    action(editor: Editor): void {
+    action(editor): void {
         editor.setBlocks(TodoBlockType)
             .deleteBackward();
     }

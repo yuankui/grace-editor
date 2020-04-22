@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import createBoldTool from "./BoldTool";
 import createItalicTool from "./ItalicTool";
 import createLineThroughTool from "./LineThroughTool";

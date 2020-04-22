@@ -1,6 +1,6 @@
-import {Plugin} from 'slate-react';
+import {Editor, Plugin} from 'slate-react';
 import React from "react";
-import {Block, Editor, Rules} from "slate";
+import {Block, Rules} from "slate";
 import isHotkey from "is-hotkey";
 import {BlockParagraph, ToggleBlockOnPrefix} from "../common";
 import {executeCommand} from "../../utils/executeCommand";
@@ -25,7 +25,7 @@ const rules: Rules = {
             ]
         }
     ],
-    normalize: (editor: Editor, error) => {
+    normalize: (editor, error) => {
 
         // if (error.code === "child_type_invalid") {
         //     editor.wrapBlock(BlockTypeListItem);
@@ -44,7 +44,7 @@ export function createListPlugin(): Plugin {
                 [BlockTypeNumberedList]: rules,
             }
         },
-        onKeyDown: (event, editor, next) => {
+        onKeyDown: (event, editor: Editor, next) => {
             let block = editor.value.focusBlock;
 
             // 空格触发list
@@ -114,7 +114,7 @@ export function createListPlugin(): Plugin {
                         )
                         .wrapBlock(type)
                 } else {
-                    editor = editor.setBlocks(BlockTypeListItem).wrapBlock(type)
+                    editor.setBlocks(BlockTypeListItem).wrapBlock(type)
                 }
 
                 return editor;
@@ -135,7 +135,7 @@ export function createListPlugin(): Plugin {
                     return editor;
                 }
 
-                editor = editor.wrapBlock(listType);
+                editor.wrapBlock(listType);
 
                 return editor;
             },

@@ -1,4 +1,4 @@
-import {Editor, Plugin} from 'slate-react';
+import {Plugin, Editor} from 'slate-react';
 
 export interface EditorPlugin extends Plugin {
 

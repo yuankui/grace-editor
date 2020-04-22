@@ -1,6 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {MarkTypeLineThrough} from "../../inline/InlinePlugin";
 
 export default function createLineThroughTool(): Tool {

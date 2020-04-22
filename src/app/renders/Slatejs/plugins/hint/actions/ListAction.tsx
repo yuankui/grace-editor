@@ -1,7 +1,5 @@
 import {HintAction} from "./index";
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
-import {CommandToggleChildren} from "../../children/ChildrenPlugin";
 import {BlockTypeBulletedList, BlockTypeNumberedList, CommandToggleList} from "../../list/ListPlugin";
 
 const listMap = {
@@ -28,7 +26,7 @@ export default class ListAction implements HintAction {
         this.listType = listType;
     }
 
-    action(editor: Editor): void {
+    action(editor): void {
         editor.command(CommandToggleList, this.listType);
     }
 

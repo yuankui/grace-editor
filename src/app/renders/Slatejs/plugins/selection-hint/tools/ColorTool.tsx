@@ -1,8 +1,8 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
-import {HLColor, HighlightMarkType, RemoveColorCommand, ToggleColorCommand} from "../../highlight/HighlightPlugin";
-import {Dropdown, Icon, Popover} from "antd";
+import {Editor} from "slate-react";
+import {HighlightMarkType, HLColor, RemoveColorCommand, ToggleColorCommand} from "../../highlight/HighlightPlugin";
+import {Dropdown, Icon} from "antd";
 import {Dispatch} from "redux";
 import {ToggleHighlightColorCommand} from "../../../../../../redux/commands/slatejs/color/ToggleHighlightColorCommand";
 import {GetState} from "../../../SlatejsRender";

@@ -1,12 +1,11 @@
 import {HintAction} from "./index";
 import React, {ReactNode} from "react";
-import {Editor} from "slate";
 import {QuoteBlockType} from "../../quote/QuotePlugin";
 
 
 export default class QuoteAction implements HintAction {
 
-    action(editor: Editor): void {
+    action(editor): void {
         editor.setBlocks(QuoteBlockType);
     }
 

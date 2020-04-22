@@ -1,6 +1,6 @@
 import {Tool} from "./index";
 import React from "react";
-import {Editor} from "slate";
+import {Editor} from "slate-react";
 import {HeaderTypePrefix} from "../../header/HeaderPlugin";
 
 export default function createHeadingTool(level: number): Tool {

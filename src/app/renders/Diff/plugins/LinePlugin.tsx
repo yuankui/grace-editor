@@ -1,6 +1,6 @@
 import {Plugin} from "slate-react";
 import React from "react";
-import {Block, BlockJSON, Document, Node, Value} from "slate";
+import {Block, BlockJSON, Document, Editor, Node, Value} from "slate";
 import {List} from "immutable";
 
 export const BlockCodeLine = "block-code-line";
@@ -73,7 +73,8 @@ export function createLinePlugin(): Plugin {
 
 
                 const value = editor.value.set('document', document) as Value;
-                editor.onChange({
+
+                (editor as any).onChange({
                     operations: List.of(),
                     value,
                 });
