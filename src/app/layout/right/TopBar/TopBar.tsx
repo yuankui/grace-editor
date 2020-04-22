@@ -31,7 +31,7 @@ const TopBar: React.FC<any> = () => {
             e.preventDefault();
         }}>
             <FavorButton/>
-            <a onClick={() => {
+            <a className='create-new-btn' onClick={() => {
                 let postId = createPostId();
                 dispatch(new CreateNewPostCommand(postId, null));
             }}>{lang["top.create"]}</a>
