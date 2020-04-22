@@ -12,7 +12,7 @@ import {UpdateProfileSettingCommand} from "../../../../../redux/commands/profile
 import {toggleAboutCommand} from "../../../../../redux/commands/ToggleAboutCommand";
 import useAppStore from "../../../../hooks/useAppStore";
 import {useLang} from "../../../../../i18n/i18n";
-import {usePluginContext} from "../../../../../globalPlugins/usePluginContext";
+import {useExtensionManager} from "../../../../../globalPlugins/useExtensionManager";
 
 const More: React.FC<any> = props => {
     const dispatch = useDispatch();
@@ -27,8 +27,8 @@ const More: React.FC<any> = props => {
         setShow(show);
     };
 
-    let context = usePluginContext();
-    let hooks = context.getContainerHooks("app.more.settings");
+    let manager = useExtensionManager();
+    let hooks = manager.getContainerHooks("app.more.settings");
     const factory = key => (title, value, onChange) => {
         return <Action key={key} title={title} onClick={() => {
             onChange(!value);

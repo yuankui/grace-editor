@@ -1,6 +1,6 @@
-import {usePluginContext} from "./usePluginContext";
+import {useExtensionManager} from "./useExtensionManager";
 
 export function usePluginHooks(containerId: string) {
-    return usePluginContext()
+    return useExtensionManager()
         .getContainerHooks(containerId);
 }

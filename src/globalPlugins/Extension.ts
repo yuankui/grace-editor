@@ -123,7 +123,7 @@ export class ExtensionManager {
             if (!hook.extensionId) {
                 return false;
             }
-            return !!this.getSetting(hook.extensionId, DisabledKey);
+            return !this.getSetting(hook.extensionId, DisabledKey);
         })
         return enabled;
     }
