@@ -36,7 +36,7 @@ interface ContainerHookMap {
     [containerId: string]: Array<Hook>,
 }
 
-const DisabledKey = "_disabled";
+export const DisabledKey = "_disabled";
 
 export class ExtensionManager {
     private readonly extensions: Array<Extension>;
@@ -66,6 +66,9 @@ export class ExtensionManager {
             })
     }
 
+    getExtensions() {
+        return this.extensions;
+    }
     get electron() {
         return electron;
     }

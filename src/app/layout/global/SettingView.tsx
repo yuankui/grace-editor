@@ -14,6 +14,7 @@ import useAppStore from "../../hooks/useAppStore";
 import GitSettingView from "./settings/GitSettingView";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
+import ExtensionView from "./settings/ExtensionView";
 
 
 const SettingView: React.FC<any> = () => {
@@ -83,6 +84,9 @@ const SettingView: React.FC<any> = () => {
                             gitSetting: data,
                         })
                     }}/>
+                </Tabs.TabPane>
+                <Tabs.TabPane key='extensions' tab={lang['setting.extension.title']}>
+                    <ExtensionView/>
                 </Tabs.TabPane>
             </Tabs>
         </div>
