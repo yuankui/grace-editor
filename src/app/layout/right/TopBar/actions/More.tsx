@@ -76,7 +76,7 @@ const More: React.FC<any> = props => {
                     visible={showPopup}
                     onVisibleChange={toggle}
     >
-        <a>
+        <a className='show-setting'>
             <Rotate deg={90}>
                 <Icon type='more'/>
             </Rotate>

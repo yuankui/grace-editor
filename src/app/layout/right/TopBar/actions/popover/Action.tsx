@@ -1,9 +1,11 @@
 import React, {Component} from "react";
+import {classNames} from "../../../../../../utils";
 
 interface TitleActionProps {
     title: string,
     children?: any,
     onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
+    className?: string,
 }
 
 export class Action extends Component<TitleActionProps> {
@@ -14,7 +16,11 @@ export class Action extends Component<TitleActionProps> {
     }
 
     render() {
-        return <div className='menu-container' onClick={e => this.onClick(e)}>
+        const className = classNames([
+            'menu-container',
+            this.props.className || '',
+        ]);
+        return <div className={className} onClick={e => this.onClick(e)}>
             <div className='title'>
                 {this.props.title}
             </div>
