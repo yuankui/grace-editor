@@ -1,4 +1,4 @@
-import {GlobalPlugin} from "../GlobalPlugin";
+import {Extension} from "../Extension";
 import React from "react";
 import url from "./Mechanical-Keyboard-single-button-presses-8-www.FesliyanStudios.com.mp3";
 
@@ -43,5 +43,5 @@ export const createKeySoundPlugin = () => {
                 }
             })
         }
-    } as GlobalPlugin;
+    } as Extension;
 };

@@ -1,10 +1,10 @@
-import {GlobalPlugin} from "../GlobalPlugin";
+import {Extension} from "../Extension";
 import React from "react";
 import {createSlateFocusModePlugin} from "./createSlateFocusModePlugin";
 import isHotkey from "is-hotkey";
 import {notify} from "../../app/message/message";
 
-export function createFocusModePlugin(): GlobalPlugin {
+export function createFocusModePlugin(): Extension {
     return {
         init: context => {
             // 监听全屏事件

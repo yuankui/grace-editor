@@ -1,7 +1,7 @@
-import {PluginContext} from "./GlobalPlugin";
+import {ExtensionManager} from "./Extension";
 import {useContext} from "react";
 import {ReactPluginContext} from "./PluginContextProvider";
 
-export function usePluginContext(): PluginContext {
+export function usePluginContext(): ExtensionManager {
     return useContext(ReactPluginContext);
 }
