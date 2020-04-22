@@ -33,7 +33,7 @@ const Folder: FunctionComponent<Props> = (props) => {
                           setDelta(0);
                       }}
     >
-        <div className='container' style={styles}>
+        <div className='left-container' style={styles}>
             {props.children}
         </div>
         <div className='handle'>
