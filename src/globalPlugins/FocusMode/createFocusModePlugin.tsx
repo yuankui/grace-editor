@@ -9,7 +9,7 @@ export function createFocusModePlugin(): Extension {
         id: "core.focus.mode",
         title: "Focus Mode",
         // language=Markdown
-        desc: "### 开启专注模式，安静，认真地写作吧.\n快捷键\n- window: `alt`+`enter`\n- mac: `cmd`+`enter`",
+        desc: "### 开启专注模式，安静，认真地写作吧.\n快捷键\n\n- window: `alt`+`enter`\n- mac: `cmd`+`enter`",
         init: context => {
             // 监听全屏事件
             context.electron.remote.getCurrentWindow()
