@@ -14,6 +14,7 @@ export function createObjectEditorExtension(): Extension {
                 priority: 0,
                 title: "Object Viewer",
                 hook: {
+                    title: "Object",
                     type: "object",
                     render: ObjectRender,
                 }

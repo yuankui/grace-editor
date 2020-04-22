@@ -14,6 +14,7 @@ export function createDiffExtension(): Extension {
                 priority: 0,
                 title: "Diff Checker",
                 hook: {
+                    title: "Diff",
                     type: "diff",
                     render: DiffRender,
                 }

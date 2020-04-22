@@ -15,6 +15,8 @@ import Actions from "../layout/right/TopBar/actions/popover/Actions";
 import {Action} from "../layout/right/TopBar/actions/popover/Action";
 import {PostFormat} from "../../PostFormat";
 import {useNotifier} from "../hooks/useNotifier";
+import {useExtensionManager} from "../../globalPlugins/useExtensionManager";
+import {UserDefinedRender, UserDefinedRenderContainerId} from "../renders/UserDefinedRender";
 
 interface Props {
     post: Post,
@@ -122,14 +124,19 @@ const AddActions: React.FC<AddProps> = (props) => {
         props.afterAdd(id);
     };
 
+    const manager = useExtensionManager();
+    const hooks = manager.getContainerHooks<UserDefinedRender>(UserDefinedRenderContainerId);
+
+    const otherCreate = hooks.map(hook => {
+        return <Action key={hook.hookId} title={hook.hook.title || hook.hook.type || "UnKnown"} onClick={createDoc(hook.hook.type)}/>;
+    });
+
     return <Actions width={200}>
-        <Action title='JSON' onClick={createDoc("object")}/>
-        <Action title='Diff' onClick={createDoc("diff")}/>
+        <Action title='RichText' onClick={createDoc("richText")}/>
         <Action title='Markdown' onClick={createDoc("markdown")}/>
-        <Action title='HttpClient' onClick={createDoc("httpClient")}/>
         <If test={process.env.NODE_ENV === 'development'}>
             <Action title='JobConfig' onClick={createDoc("jobConfig")}/>
         </If>
-        <Action title='RichText' onClick={createDoc("richText")}/>
+        {otherCreate}
     </Actions>
 };
