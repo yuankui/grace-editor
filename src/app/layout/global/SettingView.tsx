@@ -46,7 +46,7 @@ const SettingView: React.FC<any> = () => {
 
                   visible={state.showSetting}>
         <div className='app-setting-view'>
-            <Tabs defaultActiveKey="1" tabPosition='left' style={{height: 220}}>
+            <Tabs defaultActiveKey="1" tabPosition='left'>
                 <Tabs.TabPane key='basic' tab={lang["setting.basic"]}>
 
                     <div className='app-setting-content'>

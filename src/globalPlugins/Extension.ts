@@ -17,6 +17,11 @@ export interface Extension {
     title: string,
 
     /**
+     * 详细描述
+     */
+    desc?: string,
+
+    /**
      * 初始化
      * @param context
      */

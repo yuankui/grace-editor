@@ -5,7 +5,9 @@ import url from "./Mechanical-Keyboard-single-button-presses-8-www.FesliyanStudi
 export function createKeySoundPlugin(): Extension {
     return {
         id: "core.key.sound",
-        title: "打字声音",
+        title: "节奏打击",
+        // language=Markdown
+        desc: "模拟机械键盘打字声音\uD83D\uDE06",
         init: context => {
             context.registerHook({
                 containerId: 'app.more.settings',
