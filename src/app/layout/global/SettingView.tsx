@@ -14,7 +14,7 @@ import useAppStore from "../../hooks/useAppStore";
 import GitSettingView from "./settings/GitSettingView";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
-import ExtensionView from "./settings/ExtensionView";
+import ExtensionListView from "./settings/extension/ExtensionListView";
 
 
 const SettingView: React.FC<any> = () => {
@@ -41,6 +41,9 @@ const SettingView: React.FC<any> = () => {
 
     return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
                   onOk={() => save()}
+                  width={800}
+                  bodyStyle={{height: '400px'}}
+
                   visible={state.showSetting}>
         <div className='app-setting-view'>
             <Tabs defaultActiveKey="1" tabPosition='left' style={{height: 220}}>
@@ -86,7 +89,7 @@ const SettingView: React.FC<any> = () => {
                     }}/>
                 </Tabs.TabPane>
                 <Tabs.TabPane key='extensions' tab={lang['setting.extension.title']}>
-                    <ExtensionView/>
+                    <ExtensionListView/>
                 </Tabs.TabPane>
             </Tabs>
         </div>

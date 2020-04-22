@@ -12,6 +12,7 @@ const lang: Lang = {
     "setting.lang": "语言设置",
     "setting.git.config": "Git仓库配置",
     "setting.extension.title": "扩展功能",
+    "setting.extension.list.title": "扩展列表",
     "setting.title": "设置",
     "setting.lang.select-lang": '选择语言',
     'setting.basic.working-dir': '仓库路径',

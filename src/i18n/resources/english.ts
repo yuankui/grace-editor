@@ -14,6 +14,7 @@ const lang: Lang = {
     "setting.lang": "Language",
     "setting.git.config": "Git",
     "setting.extension.title": "Extensions",
+    "setting.extension.list.title": "Extension List",
     "setting.title": "Settings",
     "setting.lang.select-lang": 'Select Language',
     'setting.basic.working-dir': 'Working Directory',
