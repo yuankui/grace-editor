@@ -18,8 +18,8 @@ interface ContainerHookMap {
 
 export class PluginContext {
     private readonly plugins: Array<GlobalPlugin>;
-    private containers: ContainerMap;
-    private containerHookMap: ContainerHookMap;
+    private readonly containers: ContainerMap;
+    private readonly containerHookMap: ContainerHookMap;
     private store: Store<AppStore>;
 
     constructor(plugins: Array<GlobalPlugin>, store: Store<AppStore>) {
