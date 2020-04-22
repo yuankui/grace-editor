@@ -3,4 +3,5 @@ export type PostFormat = "richText"
     | "jobConfig"
     | "markdown"
     | "httpClient"
+    | string
     ;
