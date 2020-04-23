@@ -3,8 +3,6 @@ import {AppStore} from "../../redux/store";
 import {Dispatch} from "redux";
 
 export interface RenderProps {
-    state: AppStore,
-    dispatch: Dispatch<any>
     value: any,
     onChange: OnChange<any>,
     readOnly?: boolean,

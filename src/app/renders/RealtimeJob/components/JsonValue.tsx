@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useMemo, useState} from 'react';
 import {Value} from "../Value";
 import {UnControlled as CodeMirror} from "react-codemirror2";
-import Warn from "../../ObjectEditor/Warn";
+import Warn from "../../../../globalPlugins/ObjectEditor/Warn";
 
 interface Props extends Value<any>{
 

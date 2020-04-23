@@ -6,9 +6,9 @@ import {changeValue} from "./utils";
 import SourceConfig from "./config/SourceConfig";
 import LabelConfig from "./config/LabelConfig";
 import StoragePlugin from "./config/StoragePlugin";
-import Tabs from "../ObjectEditor/tabs/Tabs";
-import Panel from "../ObjectEditor/tabs/Panel";
 import JsonValue from "./components/JsonValue";
+import Tabs from "../../../globalPlugins/ObjectEditor/tabs/Tabs";
+import Panel from "../../../globalPlugins/ObjectEditor/tabs/Panel";
 
 export const JobRender: FC<RenderProps> = (props) => {
 

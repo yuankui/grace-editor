@@ -6,11 +6,11 @@ import useAppStore from "../../../../hooks/useAppStore";
 import {classNames, If} from "../../../../../utils";
 import {PostSelectCommand} from "../../../../../redux/commands/menu/PostSelectCommand";
 import {useRender} from "../../../useRender";
-import Corner, {CornerAction} from "../../../Diff/component/Corner";
 import {Icon, Switch} from "antd";
 import {ListTile} from "../../../../ListTile";
 import {BlockTypeNestPage} from "./NestPagePlugin";
 import {Map} from "immutable";
+import Corner, {CornerAction} from "../../../../../globalPlugins/Diff/component/Corner";
 
 interface Props {
     props: RenderBlockProps,
