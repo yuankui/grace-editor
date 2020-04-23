@@ -32,4 +32,8 @@ export const LightTheme: Theme = {
     '--checkbox-border-color': black.alpha(.40),
 
     '--base-link-color': linkColor,
+
+    // tour
+    "--tour-tooltip-action-color": white,
+    "--tour-tooltip-background-color": white,
 };

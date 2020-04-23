@@ -25,8 +25,12 @@ const lang: Lang = {
     "more.full-width": "Full Width",
     "more.markdown.preview": "Markdown预览",
     "hotkey.rich-text.header.desc": "",
-    "hotkey.rich-text.header.title": "标题"
+    "hotkey.rich-text.header.title": "标题",
 
+    // tour
+    'tour.tooltip.back': 'Previous',
+    'tour.tooltip.next': 'Next',
+    "tour.tooltip.close": 'Close',
 };
 
 export default lang

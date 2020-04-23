@@ -29,7 +29,12 @@ const lang: Lang = {
 
     // hotkeys
     'hotkey.rich-text.header.title': 'Heading',
-    'hotkey.rich-text.header.desc': heading
+    'hotkey.rich-text.header.desc': heading,
+
+    // tour
+    'tour.tooltip.back': '上一步',
+    'tour.tooltip.next': '下一步',
+    "tour.tooltip.close": '关闭',
 };
 
 

@@ -38,4 +38,10 @@ export interface Lang {
     // hotkeys
     'hotkey.rich-text.header.title': string,
     'hotkey.rich-text.header.desc': string,
+
+    // tour
+    'tour.tooltip.back': string,
+    'tour.tooltip.next': string,
+    'tour.tooltip.close': string,
+
 }

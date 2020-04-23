@@ -24,4 +24,9 @@ export interface Theme {
     '--checkbox-background-color': Color,
     '--checkbox-border-color': Color,
     '--base-link-color': Color,
+
+    // tour
+    '--tour-tooltip-background-color': Color,
+    '--tour-tooltip-action-color': Color,
+
 }

@@ -32,4 +32,6 @@ export const DarkTheme: Theme = {
     '--checkbox-border-color': white.alpha(.80),
 
     '--base-link-color': linkColor,
+    "--tour-tooltip-action-color": darkBaseBg,
+    "--tour-tooltip-background-color": Color('#000'),
 };
