@@ -35,6 +35,36 @@
         border-color: var(--base-hover-background-color);
     }
 
+    // 选择路径按钮
+    .ant-btn-icon-only {
+        background-color: var(--base-hover-background-color);
+        border-color: var(--base-active-background-color);
+        .text();
+        &:hover {
+            background-color: var(--base-background-color);
+        }
+    }
+
+    // 输入框
+    .ant-input {
+        background-color: var(--base-hover-background-color);
+        border-color: var(--base-active-background-color);
+        .text();
+
+        &:hover {
+            border-color: inherit;
+        }
+        &.ant-input-disabled {
+            color: var(--base-text-inactive-color);
+        }
+    }
+
+    // 选择框
+    .ant-select-selection {
+        background-color: var(--base-hover-background-color);
+        .text();
+    }
+
 }
 .app-setting-view {
     user-select: none;
