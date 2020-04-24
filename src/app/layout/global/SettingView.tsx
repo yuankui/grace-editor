@@ -11,7 +11,7 @@ import {languages} from "../../../i18n/International";
 import {ChangeLangCommand} from "../../../i18n/ChangeLangCommand";
 import {useLang} from "../../../i18n/i18n";
 import useAppStore from "../../hooks/useAppStore";
-import GitSettingView from "./settings/GitSettingView";
+import GitSettingView from "./settings/git/GitSettingView";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
 import ExtensionListView from "./settings/extension/ExtensionListView";

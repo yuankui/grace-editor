@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import {Input} from "antd";
 import FieldLabel from "./FieldLabel";
-import {GitSetting} from "../../../../redux/store";
-import {Consumer} from "../../../../common";
+import {GitSetting} from "../../../../../redux/store";
+import {Consumer} from "../../../../../common";
 
 interface Props {
     value: GitSetting,
