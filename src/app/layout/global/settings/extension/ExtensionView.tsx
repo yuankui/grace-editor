@@ -21,9 +21,8 @@ const ExtensionView: FunctionComponent<Props> = (props) => {
     }
 
     const descStyle: CSSProperties = {
-        maxHeight: expand ? '100px' : '0px',
+        height: expand ? 'auto' : '0px',
         transition: 'all .2s',
-        overflow: "hidden",
         padding: '0px 10px',
         overflowY: "auto",
     }

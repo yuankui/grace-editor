@@ -1,5 +1,41 @@
 @import "settings/extension/extension";
 
+.text {
+    color: var(--base-text-color);
+
+}
+.app-setting {
+    .text();
+
+
+
+    h1,h2,h3,h4,h5,h6 {
+        .text();
+    }
+
+    // 覆盖antd的默认逻辑
+    .ant-tabs {
+        .text();
+    }
+
+    .ant-modal-body {
+        background-color: var(--base-background-color);
+    };
+
+    .ant-modal-footer {
+        border-top: 1px solid var(--base-hover-background-color);
+        background-color: var(--base-background-color);
+    }
+
+    .ant-tabs-left-content {
+        border-color: var(--base-hover-background-color);
+    }
+
+    .ant-tabs .ant-tabs-left-bar {
+        border-color: var(--base-hover-background-color);
+    }
+
+}
 .app-setting-view {
     user-select: none;
     min-width: 400px;

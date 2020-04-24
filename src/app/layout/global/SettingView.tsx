@@ -15,6 +15,7 @@ import GitSettingView from "./settings/GitSettingView";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
 import ExtensionListView from "./settings/extension/ExtensionListView";
+import useTheme from "../../hooks/useTheme";
 
 
 const SettingView: React.FC<any> = () => {
@@ -39,11 +40,13 @@ const SettingView: React.FC<any> = () => {
         dispatch(new UpdateProfileSettingCommand(v))
     }, 500);
 
+    const theme = useTheme() as any;
     return <Modal onCancel={() => dispatch(new ToggleSettingCommand(false))}
                   onOk={() => save()}
                   width={800}
                   bodyStyle={{height: '400px'}}
-
+                  style={theme}
+                  className='app-setting'
                   visible={state.showSetting}>
         <div className='app-setting-view'>
             <Tabs defaultActiveKey="1" tabPosition='left'>
