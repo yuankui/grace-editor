@@ -29,4 +29,6 @@ export interface Theme {
     '--tour-tooltip-background-color': Color,
     '--tour-tooltip-action-color': Color,
 
+    // input
+    '--base-input-background-color': Color,
 }

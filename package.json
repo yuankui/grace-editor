@@ -60,6 +60,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.11",
     "@nteract/mathjax": "^4.0.5",
     "@types/bytebuffer": "^5.0.40",
     "@types/chai-arrays": "^1.0.3",

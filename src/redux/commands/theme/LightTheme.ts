@@ -36,4 +36,7 @@ export const LightTheme: Theme = {
     // tour
     "--tour-tooltip-action-color": white,
     "--tour-tooltip-background-color": white,
+
+    // input
+    "--base-input-background-color": white,
 };

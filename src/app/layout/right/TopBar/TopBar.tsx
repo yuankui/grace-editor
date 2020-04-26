@@ -2,7 +2,6 @@ import React from "react";
 import {If, mapState} from "../../../../utils";
 import {connect, useDispatch} from "react-redux";
 import GitCommitCommand from "../../../../redux/commands/git/GitCommitCommand";
-import InputButton from "./InputButton";
 import GitPushCommand from "../../../../redux/commands/git/GitPushCommand";
 import GitPullCommand from "../../../../redux/commands/git/GitPullCommand";
 import More from "./actions/More";
@@ -13,6 +12,7 @@ import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
 import useAppStore from "../../../hooks/useAppStore";
 import {useLang} from "../../../../i18n/i18n";
+import { ModalInput } from "./ModalInput/ModalInput";
 
 const TopBar: React.FC<any> = () => {
     const dispatch = useDispatch();
@@ -35,9 +35,9 @@ const TopBar: React.FC<any> = () => {
                 let postId = createPostId();
                 dispatch(new CreateNewPostCommand(postId, null));
             }}>{lang["top.create"]}</a>
-            <InputButton placeHolder='commit message' onConfirm={save}>
+            <ModalInput placeHolder='commit message' onConfirm={save}>
                 {lang["top.commit"]}
-            </InputButton>
+            </ModalInput>
             <If test={state.status.canGitPush}>
                 <a onClick={() => dispatch(new GitPushCommand())}>
                     {lang["top.push"]}

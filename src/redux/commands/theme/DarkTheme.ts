@@ -34,4 +34,7 @@ export const DarkTheme: Theme = {
     '--base-link-color': linkColor,
     "--tour-tooltip-action-color": darkBaseBg,
     "--tour-tooltip-background-color": Color('#000'),
+
+    // input
+    "--base-input-background-color": Color('#131313'),
 };
