@@ -12,7 +12,7 @@ import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
 import useAppStore from "../../../hooks/useAppStore";
 import {useLang} from "../../../../i18n/i18n";
-import { ModalInput } from "./ModalInput/ModalInput";
+import {ModalInput} from "./ModalInput/ModalInput";
 
 const TopBar: React.FC<any> = () => {
     const dispatch = useDispatch();
@@ -26,10 +26,15 @@ const TopBar: React.FC<any> = () => {
 
     return <div className='top-bar' onDoubleClick={ToggleMaximize}>
         <Nav/>
-        <div className='tools' onDoubleClick={e => {
-            e.stopPropagation();
-            e.preventDefault();
-        }}>
+        <div className='tools'
+             onClick={e => {
+                 e.stopPropagation();
+                 e.preventDefault();
+             }}
+             onDoubleClick={e => {
+                 e.stopPropagation();
+                 e.preventDefault();
+             }}>
             <FavorButton/>
             <a className='create-new-btn' onClick={() => {
                 let postId = createPostId();
