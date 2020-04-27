@@ -40,6 +40,7 @@ export class GitClient {
     init(): Promise<any> {
         return git.init({
             fs,
+            dir: this.workspace,
         })
     }
 

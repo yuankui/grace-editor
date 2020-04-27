@@ -9,7 +9,7 @@ interface Props {}
 const ExtensionListView: FunctionComponent<Props> = (props) => {
     const manager = useExtensionManager();
     const extensions = manager.getExtensions();
-    const list = extensions.map(e => <ExtensionView extension={e}/>);
+    const list = extensions.map((e, index) => <ExtensionView key={index} extension={e}/>);
     return <div>
         <h2><Message value={'setting.extension.list.title'}/></h2>
         {list}
