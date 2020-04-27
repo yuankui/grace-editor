@@ -6,6 +6,13 @@ import path from 'path';
 import {Dispatch} from "redux";
 
 export default class GitInitCommand extends AppCommand {
+    private readonly dir: string;
+
+    constructor(dir: string) {
+        super();
+        this.dir = dir;
+    }
+
     name(): CommandType {
         return "Git/Init";
     }
@@ -17,7 +24,7 @@ export default class GitInitCommand extends AppCommand {
 
         try {
             try {
-                let stats = await new FileSystem().stats(path.join(state.settings.workSpace, '.git'));
+                let stats = await new FileSystem().stats(path.join(this.dir, '.git'));
                 if (stats != null && stats.isDirectory()) {
                     return;
                 }

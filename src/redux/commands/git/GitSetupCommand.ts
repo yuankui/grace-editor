@@ -31,7 +31,7 @@ export default class GitSetupCommand extends AppCommand {
             repo: new GitClient(() => s),
         }));
 
-        await dispatch(new GitInitCommand());
+        await dispatch(new GitInitCommand(s.settings.workSpace));
     }
 
     async init(fs, state) {
