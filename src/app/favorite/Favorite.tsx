@@ -24,12 +24,10 @@ export const Favorite: FC = () => {
             <FavoritePostHolder postId={postId} mode={"after"}/>
         </React.Fragment>);
 
+    if (posts.length == 0) {
+        return null;
+    }
     return <SiderGroup title={lang["left.favorite.title"]}>
-        <If test={posts.length == 0}>
-            <div>
-                Empty collection
-            </div>
-        </If>
         {children}
     </SiderGroup>
 };
