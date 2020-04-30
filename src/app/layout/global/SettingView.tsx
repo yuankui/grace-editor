@@ -16,6 +16,7 @@ import {lazyExecute} from "../../../utils/lazyExecute";
 import {UpdateProfileSettingCommand} from "../../../redux/commands/profile/UpdateProfileSettingCommand";
 import ExtensionListView from "./settings/extension/ExtensionListView";
 import useTheme from "../../hooks/useTheme";
+import UserCommandView from "./settings/user-command/UserCommandView";
 
 
 const SettingView: React.FC<any> = () => {
@@ -66,7 +67,7 @@ const SettingView: React.FC<any> = () => {
                             {lang["setting.basic.init-working-dir"]}
                         </p>
                         <Button type='danger' onClick={() => {
-                            dispatch(new GitInitCommand());
+                            dispatch(new GitInitCommand(workSpace));
                         }}>{lang["setting.basic.initialize"]}</Button>
                     </div>
                 </Tabs.TabPane>
@@ -93,6 +94,10 @@ const SettingView: React.FC<any> = () => {
                 </Tabs.TabPane>
                 <Tabs.TabPane key='extensions' tab={lang['setting.extension.title']}>
                     <ExtensionListView/>
+                </Tabs.TabPane>
+
+                <Tabs.TabPane key='user-commands' tab={"UserCommands"}>
+                    <UserCommandView/>
                 </Tabs.TabPane>
             </Tabs>
         </div>

@@ -5,6 +5,7 @@ import 'codemirror/mode/python/python';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/yaml/yaml';
+import 'codemirror/mode/shell/shell';
 import {lazyExecute} from "../../../../../utils/lazyExecute";
 import {useRefMessage} from "../../../../message/message";
 import codeMirror from 'codemirror';
@@ -12,7 +13,7 @@ import codeMirror from 'codemirror';
 interface Props {
     value: string,
     onChange(value: string): void,
-    mode?: 'python' | 'javascript' | 'stex' | 'xml' | 'yaml',
+    mode?: 'python' | 'javascript' | 'stex' | 'xml' | 'yaml' | "shell",
     onBlur?() :void,
 }
 
