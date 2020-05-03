@@ -35,6 +35,10 @@
             flex-direction: row;
             align-items: center;
         }
+
+        .command-operation {
+            margin: 0 5px;
+        }
     }
 
     .command-edit {
@@ -42,6 +46,28 @@
     }
 }
 
-.app-delete-pop {
+.app-popover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
 
+.app-delete-pop {
+    background-color: var(--base-background-color);
+    color: var(--base-text-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        font-size: 1.2em;
+        color: var(--base-text-color);
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        button {
+            margin: 0 5px;
+        }
+    }
 }

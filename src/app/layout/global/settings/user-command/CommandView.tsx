@@ -3,7 +3,7 @@ import FieldLabel from "../git/FieldLabel";
 import CodeEditor from "../../../../renders/Slatejs/plugins/tex/CodeEditor";
 import {UserCommand} from "./UserCommand";
 import {changeValue} from "../../../../renders/RealtimeJob/utils";
-import {Switch} from "@material-ui/core";
+import {Button, Switch} from "@material-ui/core";
 import Input from "../git/Input";
 import Tag from "./Tag";
 import {If} from "../../../../../utils";
@@ -34,7 +34,7 @@ const CommandView: FunctionComponent<Props> = (props) => {
                 <Tag enable={!!props.value.button}>按钮</Tag>
                 <Tag enable={props.value.cron != null && props.value.cron != ''}>定期执行</Tag>
             </div>
-            <a onClick={e => {
+            <a className={'command-operation'} onClick={e => {
                 setEditing(!editing);
             }}>
                 {editing ? "Save" : "Edit"}
@@ -43,16 +43,30 @@ const CommandView: FunctionComponent<Props> = (props) => {
                 content={<div className='app-delete-pop'
                 >
                     <h1>确认删除吗</h1>
-                    <a onClick={() => {
-                        props.onDelete();
-                        setShowDelete(false);
-                    }}>OK</a>
-                    <a onClick={() => setShowDelete(false)}>Cancel</a>
+                    <div className='actions'>
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                props.onDelete();
+                                setShowDelete(false);
+                            }}
+                            color={"primary"}
+                            size={"small"}>
+                            OK
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => setShowDelete(false)}
+                            size={"small"}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </div>}
                 visible={showDelete}
                 onClose={() => setShowDelete(false)}
             >
-                <a onClick={e=> {
+                <a className={'command-operation'} onClick={e => {
                     setShowDelete(true);
                 }}>Delete</a>
             </Popover>
