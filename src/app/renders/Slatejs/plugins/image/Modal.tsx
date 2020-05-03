@@ -37,7 +37,7 @@ const Modal: FunctionComponent<Props> = (props) => {
     const className = classNames([
         props.className,
         'modal-container'
-    ])
+    ]);
 
     return ReactDOM.createPortal(<div
         onClick={e => {
