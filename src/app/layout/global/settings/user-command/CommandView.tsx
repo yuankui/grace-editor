@@ -8,6 +8,8 @@ import Input from "../git/Input";
 import Tag from "./Tag";
 import {If} from "../../../../../utils";
 import Popover from "./Popover";
+import Info from "../Info";
+import Link from "./Link";
 
 interface Props {
     value: UserCommand,
@@ -17,25 +19,29 @@ interface Props {
 
 const CommandView: FunctionComponent<Props> = (props) => {
     const [editing, setEditing] = useState(false);
+    const [state, setState] = useState(props.value);
 
-    const changeTitle = changeValue(props.value, props.onChange)("title");
-    const changeCommand = changeValue(props.value, props.onChange)("command");
-    const changeButton = changeValue(props.value, props.onChange)("button");
-    const changeCron = changeValue(props.value, props.onChange)("cron");
-    const changeHotkey = changeValue(props.value, props.onChange)("hotkey");
+    const changeTitle = changeValue(state, setState)("title");
+    const changeCommand = changeValue(state, setState)("command");
+    const changeButton = changeValue(state, setState)("button");
+    const changeCron = changeValue(state, setState)("cron");
+    const changeHotkey = changeValue(state, setState)("hotkey");
 
     const [showDelete, setShowDelete] = useState(false);
 
     const title = <div className='command-title'>
-        <div className='title'>{props.value.title}</div>
+        <div className='title'>{state.title}</div>
         <div className='right'>
             <div className='command-status'>
-                <Tag enable={!!props.value.hotkey}>Hotkey {props.value.hotkey}</Tag>
-                <Tag enable={!!props.value.button}>按钮</Tag>
-                <Tag enable={props.value.cron != null && props.value.cron != ''}>定期执行</Tag>
+                <Tag enable={!!state.hotkey}>Hotkey {state.hotkey}</Tag>
+                <Tag enable={!!state.button}>按钮</Tag>
+                <Tag enable={state.cron != null && state.cron != ''}>定期执行</Tag>
             </div>
             <a className={'command-operation'} onClick={e => {
                 setEditing(!editing);
+                if (editing) {
+                    props.onChange(state);
+                }
             }}>
                 {editing ? "Save" : "Edit"}
             </a>
@@ -75,19 +81,33 @@ const CommandView: FunctionComponent<Props> = (props) => {
     </div>;
 
 
-    const width = 80;
+    const width = 120;
+    const scheduleInfo = <Info>
+        <h2>定时设置</h2>
+        <p>通过crontab的语法，定时运行命令</p>
+        <p>例如每10秒运行一次: <code>*/10 * * * * *</code></p>
+        <p>参考：<Link href={'https://github.com/kelektiv/node-cron'}>
+            github.com/kelektiv/node-cron
+        </Link> </p>
+    </Info>;
+
+    const hotkeyInfo = <Info>
+        <h2>快捷键设置</h2>
+        <p>通过自定义快捷键来执行命令</p>
+        <p>例如: <code>cmd+p</code>,<code>ctrl+u</code></p>
+    </Info>;
     return <div className={'app-user-command'}>
         {title}
         <If test={editing}>
             <div className='command-edit'>
                 <FieldLabel title={"Title"} width={width}>
-                    <Input defaultValue={props.value.title} onChange={e => {
+                    <Input defaultValue={state.title} onChange={e => {
                         changeTitle(e.target.value);
                     }}/>
                 </FieldLabel>
 
                 <FieldLabel title={"Command"} width={width}>
-                    <CodeEditor value={props.value.command.config} mode={"shell"} onChange={value => {
+                    <CodeEditor value={state.command.config} mode={"shell"} onChange={value => {
                         changeCommand({
                             type: 'shell',
                             config: value,
@@ -96,19 +116,19 @@ const CommandView: FunctionComponent<Props> = (props) => {
                 </FieldLabel>
 
                 <FieldLabel title={"Button"} width={width}>
-                    <Switch checked={!!(props.value.button)} onChange={(event, checked) => {
+                    <Switch checked={!!(state.button)} onChange={(event, checked) => {
                         changeButton(checked);
                     }}/>
                 </FieldLabel>
 
-                <FieldLabel title={"Scheduled"} width={width}>
-                    <Input defaultValue={props.value.cron || ""} onChange={e => {
+                <FieldLabel title={<span>Scheduled {scheduleInfo}</span>} width={width}>
+                    <Input defaultValue={state.cron || ""} onChange={e => {
                         changeCron(e.target.value);
                     }}/>
                 </FieldLabel>
 
-                <FieldLabel title={"HotKey"} width={width}>
-                    <Input defaultValue={props.value.hotkey || ""} onChange={e => {
+                <FieldLabel title={<span>HotKey {hotkeyInfo}</span>} width={width}>
+                    <Input defaultValue={state.hotkey || ""} onChange={e => {
                         changeHotkey(e.target.value);
                     }}/>
                 </FieldLabel>

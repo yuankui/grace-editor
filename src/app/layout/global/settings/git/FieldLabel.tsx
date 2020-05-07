@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, ReactNode} from 'react';
 
 interface Props {
-    title: string,
+    title: ReactNode,
     width?: number,
 }
 
