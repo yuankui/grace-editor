@@ -87,7 +87,12 @@ const CommandView: FunctionComponent<Props> = (props) => {
                 </FieldLabel>
 
                 <FieldLabel title={"Command"} width={width}>
-                    <CodeEditor value={props.value.command} mode={"shell"} onChange={changeCommand}/>
+                    <CodeEditor value={props.value.command.config} mode={"shell"} onChange={value => {
+                        changeCommand({
+                            type: 'shell',
+                            config: value,
+                        })
+                    }}/>
                 </FieldLabel>
 
                 <FieldLabel title={"Button"} width={width}>

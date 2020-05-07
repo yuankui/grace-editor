@@ -1,5 +1,3 @@
-import HotkeyGitPush from "./HotkeyGitPush";
-import HotkeyGitPull from "./HotkeyGitPull";
 import Setting from "./Setting";
 import CreatePost from "./CreatePost";
 import Test from "./Test";
@@ -13,8 +11,6 @@ export interface HotKeyAction {
 
 export function createHotKeyPlugins(dispatch, state): Array<HotKeyAction> {
     const plugins = [
-        HotkeyGitPush,
-        HotkeyGitPull,
         Setting,
         CreatePost,
         Test,

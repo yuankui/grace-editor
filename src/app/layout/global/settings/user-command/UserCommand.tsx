@@ -1,7 +1,10 @@
 export interface UserCommand {
     title: string,
 
-    command: string,
+    command: {
+        type: string,
+        config: any,
+    },
 
     /**
      * 快捷键执行
@@ -18,3 +21,6 @@ export interface UserCommand {
      */
     button?: boolean
 }
+
+export const UserCommandName = 'core.user-command';
+export const UserCommandSettingKey = 'commands';

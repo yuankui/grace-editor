@@ -16,6 +16,7 @@ import {AppStore} from "../redux/store";
 import HotKeyContainer from "./hotkeys/HotKeyContainer";
 import {PluginContextProvider} from "../globalPlugins/PluginContextProvider";
 import Tour from "./tour/Tour";
+import UserCommandWidget from "./layout/global/settings/user-command/UserCommandWidget";
 
 export const App: React.FC = () => {
     const styles = useSelector<AppStore, any>(state => state.theme);
@@ -28,6 +29,7 @@ export const App: React.FC = () => {
         <International>
             <DndProvider backend={HTML5Backend}>
                 <PluginContextProvider>
+                    <UserCommandWidget/>
                     <div id='app-container' className={className} style={styles}>
                         <Tour/>
                         <FindInPage/>

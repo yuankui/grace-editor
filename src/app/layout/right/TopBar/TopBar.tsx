@@ -1,18 +1,20 @@
 import React from "react";
-import {If, mapState} from "../../../../utils";
+import {mapState} from "../../../../utils";
 import {connect, useDispatch} from "react-redux";
 import GitCommitCommand from "../../../../redux/commands/git/GitCommitCommand";
 import GitPushCommand from "../../../../redux/commands/git/GitPushCommand";
-import GitPullCommand from "../../../../redux/commands/git/GitPullCommand";
 import More from "./actions/More";
 import {CreateNewPostCommand} from "../../../../redux/commands/CreateNewPostCommand";
 import {createPostId} from "../../../../redux/utils";
 import {FavorButton} from "./FavorButton";
 import {Nav} from "./Nav";
 import {ToggleMaximize} from "../../left/LeftHandle";
-import useAppStore from "../../../hooks/useAppStore";
 import {useLang} from "../../../../i18n/i18n";
 import {ModalInput} from "./ModalInput/ModalInput";
+import {useExtensionManager} from "../../../../globalPlugins/useExtensionManager";
+import {UserCommand, UserCommandName, UserCommandSettingKey} from "../../global/settings/user-command/UserCommand";
+import {executeCommand} from "../../global/settings/user-command/executeCommand";
+import useAppStore from "../../../hooks/useAppStore";
 
 const TopBar: React.FC<any> = () => {
     const dispatch = useDispatch();
@@ -23,6 +25,18 @@ const TopBar: React.FC<any> = () => {
     };
 
     const lang = useLang();
+
+    const manager = useExtensionManager();
+    const commands: Array<UserCommand> = manager.getSetting(UserCommandName, UserCommandSettingKey);
+
+    const commandButtons = commands.filter(command => {
+        return !!command.button
+    })
+        .map((command, i) => {
+            return <a key={`command-` + i} onClick={() => executeCommand(command, state.settings.workSpace)}>
+                {command.title}
+            </a>
+        });
 
     return <div className='top-bar' onDoubleClick={ToggleMaximize}>
         <Nav/>
@@ -43,16 +57,7 @@ const TopBar: React.FC<any> = () => {
             <ModalInput placeHolder='commit message' onConfirm={save}>
                 {lang["top.commit"]}
             </ModalInput>
-            <If test={state.status.canGitPush}>
-                <a onClick={() => dispatch(new GitPushCommand())}>
-                    {lang["top.push"]}
-                </a>
-            </If>
-            <If test={state.status.canGitPull}>
-                <a onClick={() => dispatch(new GitPullCommand())}>
-                    {lang["top.pull"]}
-                </a>
-            </If>
+            {commandButtons}
             <More/>
         </div>
     </div>;
