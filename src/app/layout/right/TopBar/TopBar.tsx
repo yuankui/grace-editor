@@ -27,7 +27,7 @@ const TopBar: React.FC<any> = () => {
     const lang = useLang();
 
     const manager = useExtensionManager();
-    const commands: Array<UserCommand> = manager.getSetting(UserCommandName, UserCommandSettingKey);
+    const commands: Array<UserCommand> = manager.getSetting(UserCommandName, UserCommandSettingKey) || [];
 
     const commandButtons = commands.filter(command => {
         return !!command.button

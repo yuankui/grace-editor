@@ -7,29 +7,27 @@ import NProgress from "nprogress";
 
 export function executeCommand(command: UserCommand, workPath: string, quiet: boolean = false) {
     !quiet && NProgress.start();
-    const process = exec(command.command.config, {
+    exec(command.command.config, {
         cwd: workPath,
-    });
-
-    process.on('exit', code => {
+    }, (error, stdout, stderr) => {
         // some errors
-        if (code != 0) {
-            const out = process.stdout?.read();
-            const error = process.stderr?.read();
+        if (error != null && error.code != 0) {
             message.error(<div>
                 <h2>error</h2>
                 <p>
-                    stdout: {out}
+                    stdout: {stdout}
                 </p>
                 <p>
-                    stderr: {error}
+                    stderr: {stderr}
                 </p>
             </div>);
+            !quiet && NProgress.done();
             return;
         }
 
         console.log("execute command success: " + command.title);
         !quiet && NProgress.done();
         !quiet && message.info("execute command success: " + command.title);
-    })
+    });
+
 }
