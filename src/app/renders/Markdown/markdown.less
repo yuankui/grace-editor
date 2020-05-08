@@ -54,6 +54,14 @@
                 border-bottom-left-radius: 5px;
                 border-bottom-right-radius: 5px;
             }
+
+            .app-markdown-header {
+                // 解决代码段里面的header问题
+                font-weight: normal;
+                font-size: 1em;
+                margin: inherit;
+                display: inline;
+            }
         }
 
         code {
@@ -125,4 +133,11 @@
             }
         }
     }
+}
+
+.app-markdown-header {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 20px 0 10px 0;
+    display: inline-block;
 }

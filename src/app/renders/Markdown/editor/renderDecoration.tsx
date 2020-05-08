@@ -22,12 +22,7 @@ export function renderDecoration(props, editor, next) {
             return (
                 <span
                     {...attributes}
-                    style={{
-                        fontWeight: 'bold',
-                        fontSize: '20px',
-                        margin: '20px 0 10px 0',
-                        display: 'inline-block',
-                    }}
+                    className={'app-markdown-header'}
                 >
             {children}
           </span>
