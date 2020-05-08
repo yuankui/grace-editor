@@ -41,6 +41,4 @@ nsis:
   oneClick: false
 
 linux:
-  target:
-    - deb
-    - AppImage
+  target: AppImage
