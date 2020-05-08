@@ -1,16 +1,23 @@
 .app-side-group {
-  .app-side-group-title {
-    &:hover {
-      background-color: var(--base-hover-background-color);
-    }
+    .app-side-group-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            &:hover {
+                background-color: var(--base-hover-background-color);
+            }
 
-    &:active {
-      background-color: var(--base-active-background-color);
-    }
+            &:active {
+                background-color: var(--base-active-background-color);
+            }
 
-    padding: 3px;
-    border-radius: 5px;
-  }
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+    }
 
     .ant-collapse-header {
         padding: 0 0 0 12px;

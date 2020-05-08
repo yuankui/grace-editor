@@ -5,12 +5,15 @@ import {ExpandPostTree} from "../../../post/ExpandPostTree";
 import {SiderGroup} from "../sider/SiderGroup";
 import {useLang} from "../../../../i18n/i18n";
 import useAppStore from "../../../hooks/useAppStore";
+import {CreateNewPostCommand} from "../../../../redux/commands/CreateNewPostCommand";
+import {useDispatch} from "react-redux";
+import {createPostId} from "../../../../redux/utils";
 
 export const PostRepository: React.FC = () => {
     const store = useAppStore();
     const {posts} = store;
     const topPostIds = posts.childrenMap.get(null) || [];
-
+    const dispatch = useDispatch();
 
     const lang = useLang();
     const children = topPostIds
@@ -29,7 +32,16 @@ export const PostRepository: React.FC = () => {
             </React.Fragment>;
         });
 
-    return <SiderGroup title={lang["left.repository.title"]}>
+    const addButton = <a className='link' onClick={e=> {
+        const postId = createPostId();
+        dispatch(new CreateNewPostCommand(postId, null));
+
+        e.stopPropagation();
+        e.preventDefault();
+    }}>
+        <i className="fas fa-plus"/>
+    </a>
+    return <SiderGroup title={lang["left.repository.title"]} action={addButton}>
             {children}
         </SiderGroup>
 };

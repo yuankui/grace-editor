@@ -1,12 +1,16 @@
 import {Collapse} from "../../../post/Collapse";
-import React from "react";
+import React, {ReactNode} from "react";
 
 interface Props {
-    title: string,
+    title: ReactNode,
+    action?: ReactNode,
 }
 
 export const SiderGroup: React.FC<Props> = props => {
-    return <Collapse className={'app-side-group'} title={<span className='app-side-group-title'>{props.title}</span>}>
+    return <Collapse className={'app-side-group'} title={<div className='app-side-group-title'>
+        <div className='title'>{props.title}</div>
+        <div className='action'>{props.action}</div>
+    </div>}>
         {props.children}
     </Collapse>
 };
