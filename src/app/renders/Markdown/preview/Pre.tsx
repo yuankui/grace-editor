@@ -8,6 +8,7 @@ import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/shell/shell';
 import 'codemirror/mode/sql/sql';
 import 'codemirror/mode/go/go';
+import 'codemirror/mode/clike/clike';
 import 'codemirror/theme/base16-dark.css';
 import 'codemirror/theme/base16-light.css';
 
@@ -23,6 +24,10 @@ const languageMap: { [key: string]: string; } = {
     js: 'javascript',
     java: 'javascript',
     xml: 'xml',
+    c: 'clike',
+    'c++': 'clike',
+    cpp: 'clike',
+    oc: 'clike',
     sql: 'sql',
     python: 'python',
     css: 'css',
