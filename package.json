@@ -118,7 +118,6 @@
     "markdown-to-jsx": "^6.11.0",
     "mitt": "^1.2.0",
     "node-fetch": "^2.6.0",
-    "nodejieba": "^2.4.1",
     "nprogress": "^0.2.0",
     "open": "^7.0.3",
     "prismjs": "^1.17.1",
