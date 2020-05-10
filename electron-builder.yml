@@ -32,7 +32,7 @@ mac:
 
 win:
   target: nsis
-  sign: ./sign/sign.js
+#  sign: ./sign/sign.js
   icon: electron/Grace.ico
 
 nsis:
