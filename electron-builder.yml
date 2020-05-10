@@ -12,6 +12,7 @@ extraMetadata:
 
 files:
   - "build/**/*"
+  - "asserts/**/*"
   - '!**/node_modules/**/*'
 
 dmg:
@@ -43,4 +44,4 @@ nsis:
 
 linux:
   target: AppImage
-  icon: ./asserts/120x120.png
+  icon: ./asserts/256x256.png

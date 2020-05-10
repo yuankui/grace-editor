@@ -1,3 +1,4 @@
+const path = require('path');
 const {app, BrowserWindow} = require('electron');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -5,19 +6,28 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
 
 function createMainWindow() {
-    const window = new BrowserWindow({
+
+    const options = {
         //https://electronjs.org/docs/api/frameless-window#%E5%8F%AF%E6%8B%96%E6%8B%BD%E5%8C%BA
         titleBarStyle: "hidden",
         minWidth: 1200,
         width: 1200,
         height: 700,
         minHeight: 700,
+        icon: path.join(__dirname, '/256x256.png'),
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
         },
         frame: false,
-    });
+    };
+
+    console.log(__dirname);
+    console.log(__filename);
+    console.log(path.join(__dirname, '/256x256.png'));
+    console.log(path.join(__dirname, './256x256.png'));
+
+    const window = new BrowserWindow(options);
 
     if (isDevelopment) {
         window.loadURL(`http://localhost:8089`);
