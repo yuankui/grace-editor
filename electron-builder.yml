@@ -13,10 +13,7 @@ extraMetadata:
 files:
   - "build/**/*"
   - '!**/node_modules/**/*'
-  - from: "asserts/*"
-    to: /
-    filter:
-      - "**/*.png"
+  - "asserts/*"
 
 dmg:
   contents:

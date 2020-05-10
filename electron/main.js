@@ -14,7 +14,7 @@ function createMainWindow() {
         width: 1200,
         height: 700,
         minHeight: 700,
-        icon: path.join(__dirname, '/256x256.png'),
+        icon: path.join(app.getAppPath(), '/asserts/256x256.png'),
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false,
@@ -22,6 +22,8 @@ function createMainWindow() {
         frame: false,
     };
 
+    console.log('__dirname', __dirname);
+    console.log('__dirname', app.getAppPath());
     console.log(JSON.stringify(options));
 
     const window = new BrowserWindow(options);
