@@ -22,10 +22,7 @@ function createMainWindow() {
         frame: false,
     };
 
-    console.log(__dirname);
-    console.log(__filename);
-    console.log(path.join(__dirname, '/256x256.png'));
-    console.log(path.join(__dirname, './256x256.png'));
+    console.log(JSON.stringify(options));
 
     const window = new BrowserWindow(options);
 
