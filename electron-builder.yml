@@ -43,4 +43,4 @@ nsis:
 
 linux:
   target: AppImage
-  icon: ./asserts/600x600.png
+  icon: ./asserts/120x120.png
