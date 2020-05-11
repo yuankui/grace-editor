@@ -24,15 +24,16 @@ const AutoUpdate: FunctionComponent<Props> = (props) => {
 
         const openHome = () => {
             open('https://grace-note.app');
-        }
+        };
         // 最新版本大于当前版本
-        if (cmp(latestVersion, currentVersion) >= 0) {
+        if (cmp(latestVersion, currentVersion) > 0) {
             message.info(<span>发现新版本({currentVersion}->{latestVersion})，是否更新？<a onClick={openHome}>前往下载</a></span>);
         }
     }
-    useEffect(()  =>{
+
+    useEffect(() => {
         checkUpdate();
-    }, [])
+    }, []);
     return <>
 
     </>;
