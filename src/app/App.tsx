@@ -18,7 +18,6 @@ import {PluginContextProvider} from "../globalPlugins/PluginContextProvider";
 import Tour from "./tour/Tour";
 import UserCommandWidget from "./layout/global/settings/user-command/UserCommandWidget";
 import AutoUpdate from "../auto-update/AutoUpdate";
-import {CSSBaseline, ZEITUIProvider} from "@zeit-ui/react";
 
 export const App: React.FC = () => {
     const styles = useSelector<AppStore, any>(state => state.theme);
@@ -27,26 +26,24 @@ export const App: React.FC = () => {
         'platform-' + getProcess().platform,
     ]);
 
+
     return (
         <International>
             <DndProvider backend={HTML5Backend}>
                 <PluginContextProvider>
-                    <ZEITUIProvider>
-                        {/*<CSSBaseline/>*/}
-                        <UserCommandWidget/>
-                        <div id='app-container' className={className} style={styles}>
-                            <Tour/>
-                            <FindInPage/>
-                            <SearchDialog/>
-                            <SettingView/>
-                            <AboutPage/>
-                            <LeftSide />
-                            <RightSide/>
-                            <HelpView/>
-                            <HotKeyContainer/>
-                            <AutoUpdate/>
-                        </div>
-                    </ZEITUIProvider>
+                    <UserCommandWidget/>
+                    <div id='app-container' className={className} style={styles}>
+                        <Tour/>
+                        <FindInPage/>
+                        <SearchDialog/>
+                        <SettingView/>
+                        <AboutPage/>
+                        <LeftSide />
+                        <RightSide/>
+                        <HelpView/>
+                        <HotKeyContainer/>
+                        <AutoUpdate/>
+                    </div>
                 </PluginContextProvider>
             </DndProvider>
         </International>
