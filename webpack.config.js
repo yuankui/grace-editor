@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 const _ = require('lodash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const pkg = require('./package.json');
 
 require("babel-polyfill");
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -28,8 +29,8 @@ module.exports = {
         }),
         new webpack.DefinePlugin(
             {
-                'VERSION': JSON.stringify(gitRevisionPlugin.version()),
-                'COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash().substring(0, 8)),
+                'VERSION': JSON.stringify(pkg.version),
+                'COMMIT_HASH': JSON.stringify(gitRevisionPlugin.commithash().substring(0, 8)),
                 'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
             }
         ),

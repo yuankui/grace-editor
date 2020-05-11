@@ -21,6 +21,7 @@ const lang: Lang = {
     'setting.basic.choose-directory': "选择路径",
 
     "more.about": '关于',
+    "more.exit": '退出',
     "more.dark-mode": "黑暗模式",
     "more.full-width": "Full Width",
     "more.markdown.preview": "Markdown预览",

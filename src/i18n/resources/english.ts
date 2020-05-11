@@ -23,6 +23,7 @@ const lang: Lang = {
     'setting.basic.choose-directory': "Choose Directory",
 
     "more.about": 'About',
+    "more.exit": 'Exit',
     'more.markdown.preview': 'Markdown Preview',
     'more.full-width': 'Full Width',
     'more.dark-mode': 'Dark Mode',

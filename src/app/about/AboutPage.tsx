@@ -8,7 +8,6 @@ import open from 'open';
 interface Props {}
 
 // https://stackoverflow.com/questions/38400314/including-git-commit-hash-and-date-in-webpack-build
-declare var VERSION: string;
 const appUrl = 'https://grace-note.app';
 
 const AboutPage: FunctionComponent<Props> = (props) => {
@@ -29,7 +28,7 @@ const AboutPage: FunctionComponent<Props> = (props) => {
             }} className='app-name'>
                 Grace Note
             </a>
-            <div><b>Version</b>: {VERSION}</div>
+            <div><b>Version</b>: {VERSION}-{COMMIT_HASH}</div>
             <div><b>Contacts</b>: yuankui64@gmail.com</div>
         </div>
     </Modal>;

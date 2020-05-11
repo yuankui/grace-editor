@@ -13,6 +13,7 @@ import {toggleAboutCommand} from "../../../../../redux/commands/ToggleAboutComma
 import useAppStore from "../../../../hooks/useAppStore";
 import {useLang} from "../../../../../i18n/i18n";
 import {useExtensionManager} from "../../../../../globalPlugins/useExtensionManager";
+import electron from "../../../../../backend/electron/electron";
 
 const More: React.FC<any> = props => {
     const dispatch = useDispatch();
@@ -68,6 +69,10 @@ const More: React.FC<any> = props => {
         <Action title={lang["more.about"]} onClick={() => {
             dispatch(new toggleAboutCommand(true));
             toggle(false);
+        }}/>
+
+        <Action title={lang["more.exit"]} onClick={() => {
+            electron.remote.app.exit();
         }}/>
     </Actions>;
 

@@ -3,6 +3,7 @@ import CreatePost from "./CreatePost";
 import Test from "./Test";
 import {ToggleFavorite} from "./ToggleFavorite";
 import closePost from "./HotkeyClosePost";
+import closeApp from "./HotkeyCloseApp";
 
 export interface HotKeyAction {
     hotkey: string,
@@ -16,6 +17,7 @@ export function createHotKeyPlugins(dispatch, state): Array<HotKeyAction> {
         Test,
         ToggleFavorite,
         closePost,
+        closeApp,
     ];
 
     return plugins.map(p => p(dispatch, state));

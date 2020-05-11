@@ -31,6 +31,7 @@ export interface Lang {
 
     // more
     'more.about': string,
+    'more.exit': string,
     'more.markdown.preview': string,
     'more.full-width': string,
     'more.dark-mode': string,
