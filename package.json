@@ -15,11 +15,12 @@
     "build": "yarn build-renderer && yarn build-main",
     "build-dev": "yarn build-renderer-dev && yarn build-main",
     "patch": "npm version patch",
+    "git-tag": "git tag v${npm_package_version}",
     "before-package": "node before-package.js",
     "build-electron": "electron-builder --config electron-builder.yml -mwl",
     "package-linux": "electron-builder --config electron-builder.yml -l",
     "package-mac": "electron-builder --config electron-builder.yml -m",
-    "dist": "yarn build && yarn before-package && yarn build-electron",
+    "dist": "yarn build && yarn before-package && yarn git-tag && yarn build-electron",
     "dist-dev": "yarn build-dev && yarn before-package && yarn build-electron"
   },
   "keywords": [],
