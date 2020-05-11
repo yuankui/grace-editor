@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, {Component, ReactNode} from "react";
 import {classNames} from "../../../../../../utils";
 
 interface TitleActionProps {
-    title: string,
+    title: ReactNode,
     children?: any,
     onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
     className?: string,

@@ -22,6 +22,7 @@ const lang: Lang = {
 
     "more.about": '关于',
     "more.exit": '退出',
+    "more.check-update": "检查更新",
     "more.dark-mode": "黑暗模式",
     "more.full-width": "Full Width",
     "more.markdown.preview": "Markdown预览",

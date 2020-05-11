@@ -14,6 +14,8 @@ import useAppStore from "../../../../hooks/useAppStore";
 import {useLang} from "../../../../../i18n/i18n";
 import {useExtensionManager} from "../../../../../globalPlugins/useExtensionManager";
 import electron from "../../../../../backend/electron/electron";
+import {checkUpdate} from "../../../../../auto-update/AutoUpdate";
+import Message from "../../../../../i18n/Message";
 
 const More: React.FC<any> = props => {
     const dispatch = useDispatch();
@@ -69,6 +71,12 @@ const More: React.FC<any> = props => {
         <Action title={lang["more.about"]} onClick={() => {
             dispatch(new toggleAboutCommand(true));
             toggle(false);
+        }}/>
+
+        <Action title={<Message value='more.check-update' />} onClick={async () => {
+            await checkUpdate(true);
+            toggle(false);
+
         }}/>
 
         <Action title={lang["more.exit"]} onClick={() => {

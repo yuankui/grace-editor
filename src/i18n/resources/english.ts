@@ -24,6 +24,7 @@ const lang: Lang = {
 
     "more.about": 'About',
     "more.exit": 'Exit',
+    "more.check-update": "Check Updates",
     'more.markdown.preview': 'Markdown Preview',
     'more.full-width': 'Full Width',
     'more.dark-mode': 'Dark Mode',
