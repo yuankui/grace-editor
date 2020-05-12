@@ -10,7 +10,6 @@ import {createCopyPaste} from "./paste/copyPaste";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {useDispatch, useStore} from "react-redux";
 import {useRefMessage} from "../../message/message";
-import {createSlateFocusModePlugin} from "../../../globalPlugins/FocusMode/createSlateFocusModePlugin";
 import {usePluginHooks} from "../../../globalPlugins/usePluginHooks";
 
 export interface GetState {
@@ -61,7 +60,10 @@ const SlatejsRender: FunctionRender = props => {
     };
 
     const ref = useRefMessage<any, Editor>('title-enter', (editor, data) => {
-        editor?.focus();
+        if (editor == null) return;
+        editor.focus();
+        editor.moveFocusToStartOfDocument();
+        editor.insertBlock(BlockParagraph);
     });
 
     // find first. TODO 支持链式封装，多个book同时生效

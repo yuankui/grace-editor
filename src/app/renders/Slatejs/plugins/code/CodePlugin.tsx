@@ -10,19 +10,28 @@ export const BlockTypeCodeBlock = 'code-block';
 export function createCodePlugin(): Plugin {
     return {
         decorateNode: (node, editor, next) => {
-            const others = next() || [];
-            if (node.object != 'block') {
-                return others;
+            if (node.object == 'block' && node.type == BlockTypeCodeBlock) {
+                return decorateNode(node);
             }
-            if (node.type !== BlockTypeCodeBlock) {
-                return others;
-            }
-
-            const codeDecorations = decorateNode(node);
-
-            return [...others, ...codeDecorations];
+            return next();
         },
+        renderMark: (props, editor, next) => {
+            const node = props.node;
+            const ancestors = editor.value.document.getAncestors(node.key);
+            if (ancestors && ancestors.some(a => {
+                if (a == null) return false;
+                if (a.object != 'block') return false;
+                return a.type == BlockTypeCodeBlock;
 
+            })) {
+                return props.children
+            }
+
+            if (node.object == 'block' && node.type == BlockTypeCodeBlock) {
+                return props.children;
+            }
+            return next();
+        },
         renderDecoration: (props, editor, next) => {
             return renderDecoration(props, editor, next);
         },
@@ -37,7 +46,7 @@ export function createCodePlugin(): Plugin {
             }
 
             if (isHotkey('enter', event.nativeEvent)) {
-                editor.insertBlock("\n");
+                editor.insertText("\n");
                 event.preventDefault();
                 return;
             }
