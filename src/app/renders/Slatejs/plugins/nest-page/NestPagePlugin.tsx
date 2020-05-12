@@ -28,10 +28,5 @@ export function createNestPagePlugin(): Plugin {
                 {next()}
             </PostDropHolder>
         },
-        decorateNode: (node, editor, next) => {
-            const decoration: DecorationJSON = {
-
-            }
-        }
     }
 }
