@@ -2,30 +2,21 @@
     font-family: @code-font;
 }
 
-pre.code-block {
-    .code-font();
-    background: var(--base-background-highlight-color);
-    padding: 20px;
-
+.code-block {
+    margin-top: 5px;
     white-space: pre-line;
-
     // 如果要换行
     // https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space
 
-    // 语法高亮
-    .code-comment {
-        color: #8f5536;
+    &.select-true {
+        outline: blue;
     }
 
-    .code-punctuation {
-        color: #e1ff77;
+    .CodeMirror {
+        height: auto;
     }
 
-    .code-keyword {
-        color: #ac4142;
-    }
-
-    .code-string {
-        color: #f4bf75;
+    .CodeMirror-scroll {
+        height: auto;
     }
 }

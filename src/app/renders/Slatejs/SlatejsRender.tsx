@@ -63,6 +63,7 @@ const SlatejsRender: FunctionRender = props => {
         if (editor == null) return;
         editor.focus();
         editor.moveFocusToStartOfDocument();
+        editor.moveAnchorToStartOfDocument();
         editor.insertBlock(BlockParagraph);
     });
 

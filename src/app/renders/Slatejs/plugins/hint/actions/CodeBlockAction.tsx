@@ -5,8 +5,7 @@ import {BlockTypeCodeBlock} from "../../code/CodePlugin";
 
 export default class CodeBlockAction implements HintAction {
     action(editor): void {
-        editor.setBlocks(BlockTypeCodeBlock)
-            .deleteBackward();
+        editor.setBlocks(BlockTypeCodeBlock);
     }
 
     icon(width: number): ReactNode {
