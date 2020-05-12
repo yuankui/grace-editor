@@ -1,4 +1,4 @@
-import {Block, DecorationJSON, Node} from "slate";
+import {Block, DecorationJSON} from "slate";
 import Prism from 'prismjs';
 
 export function decorateNode(node: Block): Array<DecorationJSON> {
