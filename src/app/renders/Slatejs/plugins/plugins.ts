@@ -23,12 +23,12 @@ import {EditorPlugin} from "./EditorPlugin";
 
 export default function createSlateEditorPlugins(getState: GetState, dispatch: Dispatch<any>): Array<EditorPlugin> {
     return [
+        createCodePlugin(),
         createNestPagePlugin(),
         createTablePlugin(), // table 因为 table+enter 要优先于普通，所以要提高优先级放在第一位
         createListPlugin(), // list 优先于 Header，在 list 进行 enter 的时候，要新建一个 list-item
         createHeaderPlugin(),
         createTodoPlugin(),
-        createCodePlugin(),
         createImagePlugin(getState),
         createHighlightPlugin(getState),
         createQuotePlugin(),

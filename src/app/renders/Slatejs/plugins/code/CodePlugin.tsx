@@ -37,7 +37,7 @@ export function createCodePlugin(): Plugin {
             }
 
             if (isHotkey('enter', event.nativeEvent)) {
-                editor.insertText("\n");
+                editor.insertBlock("\n");
                 event.preventDefault();
                 return;
             }
