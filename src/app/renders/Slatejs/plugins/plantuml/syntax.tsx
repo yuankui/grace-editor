@@ -16,7 +16,7 @@ CodeMirror.defineSimpleMode("plantuml", {
         },
         // message ->
         {
-            regex: /(\w+)(\s*)(->|<-)(\s*)(\w+)(\s*:\s*)(.+)/,
+            regex: /(\w+)(\s*)(-->|->|<-|->x|->>|-\\|\\\\-|\/\/--|->o|o\\\\--|<->|<->o)(\s*)(\w+)(\s*:\s*)(.+)/,
             token: ["variable-2", null, null, null, "variable-2", null, "string"],
         },
         // return
