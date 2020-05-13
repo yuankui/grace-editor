@@ -6,7 +6,7 @@ CodeMirror.defineSimpleMode("plantuml", {
     // The start state contains the rules that are intially used
     start: [
         {
-            regex: /(?:@startuml|@enduml)\b/,
+            regex: /(?:@startuml|@enduml|activate|return)\b/,
             token: "keyword"
         },
         {
