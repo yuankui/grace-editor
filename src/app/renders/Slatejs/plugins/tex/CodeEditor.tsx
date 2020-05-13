@@ -6,6 +6,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/shell/shell';
+import 'codemirror/mode/textile/textile';
 import {lazyExecute} from "../../../../../utils/lazyExecute";
 import {useRefMessage} from "../../../../message/message";
 import codeMirror from 'codemirror';

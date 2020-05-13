@@ -19,6 +19,7 @@ import {BlockTypeBulletedList, BlockTypeNumberedList} from "../list/ListPlugin";
 import QuoteAction from "./actions/QuoteAction";
 import TableAction from "./actions/TableAction";
 import TexAction from "./actions/TexAction";
+import PlantUMLAction from "./actions/PlantUMLAction";
 
 interface Props {
     state: AppStore,
@@ -58,6 +59,7 @@ class BlockList extends React.Component<Props, State> {
                         new QuoteAction(),
                         new TableAction(),
                         new TexAction(),
+                        new PlantUMLAction(),
                     ],
                 }
             ]
