@@ -4,6 +4,8 @@ import {Editor, RenderBlockProps} from "slate-react";
 import {notify} from "../../../../message/message";
 import ReactPlantUML from "react-plantuml";
 import CodeEditor from "../tex/CodeEditor";
+import './syntax';
+import {lazyExecute} from "../../../../../utils/lazyExecute";
 
 interface Props {
     props: RenderBlockProps,
@@ -18,14 +20,22 @@ interface Props {
 const PlantUMLBlock: FunctionComponent<Props> = (props) => {
     const {node} = props.props;
     const src = node.data.get('src');
+
+    const [imageSrc, setImageSrc] = useState(src);
+
     const [editMode, setEditMode] = useState(false);
 
+    const lazyUpdateImage = lazyExecute((src: string) => {
+        setImageSrc(src);
+    }, 2000);
     const changeSrc = (value: string) => {
         props.editor.setNodeByKey(node.key, {
             data: {
                 src: value,
             }
         } as any);
+
+        lazyUpdateImage(value);
     };
 
     const isFocus = props.props.isFocused || props.props.isSelected;
@@ -50,7 +60,7 @@ const PlantUMLBlock: FunctionComponent<Props> = (props) => {
             Double Click to Edit
         </If>
         <If key={2} test={src != null && src != ''}>
-            <ReactPlantUML src={src} alt={src}/>
+            <ReactPlantUML src={imageSrc} alt={'plantuml'}/>
         </If>
         <div className='plantuml-editor-wrapper'
              style={{display: editMode ? 'block' : 'none'}}
@@ -59,7 +69,7 @@ const PlantUMLBlock: FunctionComponent<Props> = (props) => {
                  e.stopPropagation();
                  e.preventDefault();
              }}>
-            <CodeEditor mode={'javascript'}
+            <CodeEditor mode={'plantuml'}
                         value={src}
                         onChange={changeSrc}
                         onBlur={() => {

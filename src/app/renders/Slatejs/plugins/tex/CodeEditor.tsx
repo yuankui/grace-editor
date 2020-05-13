@@ -14,7 +14,7 @@ import codeMirror from 'codemirror';
 interface Props {
     value: string,
     onChange(value: string): void,
-    mode?: 'python' | 'javascript' | 'stex' | 'xml' | 'yaml' | "shell",
+    mode?: 'python' | 'javascript' | 'stex' | 'xml' | 'yaml' | "shell" | "plantuml",
     onBlur?() :void,
 }
 
