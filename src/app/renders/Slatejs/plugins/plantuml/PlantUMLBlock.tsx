@@ -63,7 +63,7 @@ const PlantUMLBlock: FunctionComponent<Props> = (props) => {
             <ReactPlantUML src={imageSrc} alt={'plantuml'}/>
         </If>
         <div className='plantuml-editor-wrapper'
-             // style={{display: editMode ? 'block' : 'none'}}
+             style={{display: editMode ? 'block' : 'none'}}
              onClick={e => {
                  // 阻断消息，防止传给上层的slate，他会调用updateSelection，触发Codemirror的onBlur
                  e.stopPropagation();
