@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useEffect, useMemo, useState} from 'react';
 import Board from "./Board";
 import RectNode from "./node/RectNode";
 import {NodeConf, Value} from "./model";
@@ -47,9 +47,28 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         props.onChange(newValue);
     }
 
-    // 回滚，回复历史，cmd+Z，cmd+shift+Z
+
+    const [nodeMap, setNodeMap] = useState<{[key: string]: NodeWithParent}>({});
+
     useEffect(() => {
-        const listener = (e: KeyboardEvent) => {
+        lazyUpdateNodeMap(props.value, setNodeMap);
+    }, [props.value, setNodeMap]);
+
+    let notifier = useNotifier();
+
+    const listener = useMemo(() => {
+        const listeners = [
+            bindKey('tab', "InsertChild", notifier),
+            bindKey('enter', "InsertSibling", notifier),
+            bindKey('backspace', "DeleteNode", notifier),
+            bindKey('mod+enter', "EditNode", notifier),
+            bindKey('up', "MoveUp", notifier),
+            bindKey('down', "MoveDown", notifier),
+            bindKey('left', "MoveLeft", notifier),
+            bindKey('right', "MoveRight", notifier),
+        ]
+
+        const historyListener = (e: KeyboardEvent) => {
             console.log('press', e.key, e.metaKey, e.shiftKey);
             if (isHotkey('cmd+z', e)) {
                 history.pop((item: Value) => {
@@ -69,46 +88,31 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                 return;
             }
         }
-        window.addEventListener('keydown', listener);
-        return () => window.removeEventListener('keydown', listener);
-    }, []);
-    const [nodeMap, setNodeMap] = useState<{[key: string]: NodeWithParent}>({});
-
-    useEffect(() => {
-        lazyUpdateNodeMap(props.value, setNodeMap);
-    }, [props.value, setNodeMap]);
-
-    let notifier = useNotifier();
-
-    useEffect(() => {
-        const listeners = [
-            bindKey('tab', "InsertChild", notifier),
-            bindKey('enter', "InsertSibling", notifier),
-            bindKey('backspace', "DeleteNode", notifier),
-            bindKey('mod+enter', "EditNode", notifier),
-            bindKey('up', "MoveUp", notifier),
-            bindKey('down', "MoveDown", notifier),
-            bindKey('left', "MoveLeft", notifier),
-            bindKey('right', "MoveRight", notifier),
-        ]
-        const listener = (e: KeyboardEvent) => {
+        return (e: React.KeyboardEvent) => {
+            // 回滚，回复历史，cmd+Z，cmd+shift+Z
+            historyListener(e.nativeEvent);
             for (let item of listeners) {
-                if (item(e)) {
+                if (item(e.nativeEvent)) {
                     e.stopPropagation();
                     e.preventDefault();
                     break;
                 }
             }
         }
-
-        window.addEventListener('keydown', listener);
-        return () => window.removeEventListener('keydown', listener);
     }, [])
 
     const [scale, setScale] = useState(1);
 
     return (
-        <div className="App">
+        <div className="mindmap-wrapper"
+             // contentEditable={true}
+            tabIndex={0}
+             onKeyDown={listener}
+             onChange={e => {
+                 e.preventDefault();
+                 e.stopPropagation();
+             }}
+             suppressContentEditableWarning={true}>
             <MindMapContextProvider value={{
                 scale,
                 reset: () => setScale(1),
