@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useCallback, useMemo, useState} from 'react';
 import {RenderProps} from "../renders";
 import MindMap from "./MindMap";
 import {Value} from "./model";
@@ -23,11 +23,14 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
 
     const [state, setState] = useState(value || defaultValue);
 
-    const save = (value: any) => {
-        setState(value);
-        onChange(value);
-    }
-    const lazySave = lazyExecute(save, 500);
+    const lazySave = useMemo(() => {
+        const lazySave = lazyExecute(onChange, 500);
+        return (value: any) => {
+            setState(value);
+            lazySave(value);
+        };
+    }, [])
+
     return <MindMap value={state} onChange={lazySave}/>;
 };
 
