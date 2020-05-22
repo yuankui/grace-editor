@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useMemo, useState} from 'react';
+import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
 import Board from "./Board";
 import RectNode from "./node/RectNode";
 import {NodeConf, Value} from "./model";
@@ -103,9 +103,28 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
 
     const [scale, setScale] = useState(1);
 
+    const [svgSize, setSvgSize] = useState([1000, 500]);
+    const ref = useRef<HTMLDivElement>(null);
+    // 定期同步svg尺寸
+    useEffect(() => {
+        const syncWidth = () => {
+            if (ref.current) {
+                const [oldWidth, oldHeight] = svgSize;
+                const {clientWidth: width, clientHeight: height} = ref.current;
+                if (oldWidth != width || oldHeight != height) {
+                    setSvgSize([width, height]);
+                }
+            }
+        }
+        syncWidth();
+        const h = setInterval(syncWidth, 50);
+        return () => clearInterval(h);
+    }, [svgSize])
+
     return (
         <div className="mindmap-wrapper"
              // contentEditable={true}
+            ref={ref}
             tabIndex={0}
              onKeyDown={listener}
              onChange={e => {
@@ -119,7 +138,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                 setScale,
                 nodeMap: nodeMap,
             }}>
-                <Board width={1000} height={500}>
+                <Board width={svgSize[0]} height={svgSize[1]}>
                     <RectNode nodeConf={node}
                               pos={{
                                   x: 150,

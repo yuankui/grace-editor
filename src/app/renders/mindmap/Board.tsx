@@ -79,8 +79,8 @@ const Board: FunctionComponent<Props> = (props) => {
             setStart([e.clientX, e.clientY]);
             setMove([e.clientX, e.clientY]);
         }}
-        width={props.width}
-        height={props.height}
+        width={'100%'}
+        height={'100%'}
         className='board'
         viewBox={`${x - (moveX - startX)} ${y - (moveY - startY)} ${props.width * scale} ${props.height * scale}`}>
         {props.children}
