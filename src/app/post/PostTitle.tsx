@@ -134,6 +134,7 @@ const AddActions: React.FC<AddProps> = (props) => {
     return <Actions width={200}>
         <Action title='RichText' onClick={createDoc("richText")}/>
         <Action title='Markdown' onClick={createDoc("markdown")}/>
+        <Action title='MindMap' onClick={createDoc("mindmap")}/>
         <If test={process.env.NODE_ENV === 'development'}>
             <Action title='JobConfig' onClick={createDoc("jobConfig")}/>
         </If>

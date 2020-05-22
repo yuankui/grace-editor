@@ -8,6 +8,7 @@ import MarkdownRender from "./Markdown/MarkdownRender";
 import HttpClientRender from "./HttpClient/HttpClientRender";
 import {useExtensionManager} from "../../globalPlugins/useExtensionManager";
 import {UserDefinedRender, UserDefinedRenderContainerId} from "./UserDefinedRender";
+import MindMapRender from "./mindmap/MindMapRender";
 
 type RenderMap = {
     [key in PostFormat]: any;
@@ -20,6 +21,7 @@ export function useRender(post: Post): ComponentType<RenderProps> {
         jobConfig: JobRender,
         markdown: MarkdownRender,
         httpClient: HttpClientRender,
+        mindmap: MindMapRender,
     };
 
     const manager = useExtensionManager();

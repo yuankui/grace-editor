@@ -1,6 +1,4 @@
 import React from "react";
-import {AppStore} from "../../redux/store";
-import {Dispatch} from "redux";
 
 export interface RenderProps {
     value: any,
