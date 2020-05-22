@@ -6,7 +6,7 @@ import useTheme from "../../../../hooks/useTheme";
 interface Props {
     visible: boolean,
     onVisibleChange: (visible: boolean) => void,
-    className: string,
+    className?: string,
 }
 
 const modalRoot = document.body;
@@ -35,7 +35,7 @@ const Modal: FunctionComponent<Props> = (props) => {
     }
 
     const className = classNames([
-        props.className,
+        props.className || '',
         'modal-container'
     ]);
 

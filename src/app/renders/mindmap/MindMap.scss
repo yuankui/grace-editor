@@ -1,0 +1,43 @@
+.mindmap {
+    width: 100%;
+    height: 100%;
+    background-color: #EEEEF3;
+    box-shadow: 0 0 5px gray;
+
+    .rect {
+        fill: #FFFFFF;
+    }
+}
+
+
+
+.board {
+
+    transition: all 1s;
+    background-color: #EEEEF3;
+    box-shadow: 0 0 5px gray;
+    cursor: pointer;
+
+    * {
+        cursor: default;
+    }
+
+    text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        fill: #4B4949;
+        user-select: none;
+    }
+    textarea {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        border: none;
+        outline: none;
+        padding: 0;
+        resize: none;
+        word-break: normal;
+    }
+
+    .edge {
+        fill: transparent;
+        stroke-width: 3;
+    }
+}
