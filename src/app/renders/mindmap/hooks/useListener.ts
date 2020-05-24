@@ -13,6 +13,8 @@ export type EventType = "NodeDoubleClick"
     | "MoveDown"
     | "MoveLeft"
     | "MoveRight"
+    | "ExpandOn"
+    | "ExpandOff"
     | "InsertSibling";
 
 export interface EventConsumer {
@@ -40,6 +42,7 @@ export function useListener(type: EventType, consumer: EventConsumer, deps?: Arr
 
 export function useNotifier(): Notifier {
     return useCallback((type, param) => {
+        console.log("notify", type, param);
         mq.emit(type, param);
     }, [])
 }

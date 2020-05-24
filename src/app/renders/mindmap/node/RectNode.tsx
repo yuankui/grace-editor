@@ -35,7 +35,13 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const nodePos = props.pos;
     const [paddingTop, paddingLeft] = [5, 10];
     const children = nodeConf.children || [];
-
+    const changeNode = (node: NodeConf) => {
+        const groupHeight = computeGroupHeight(node.children, node.collapse);
+        props.onNodeConfChange({
+            ...node,
+            groupHeight: Math.max(groupHeight, node.height),
+        })
+    }
     // 节点选中状态
     const [select, setSelect] = useState(false);
     let notifier = useNotifier();
@@ -81,14 +87,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         props.onAddSibling();
     }, [select])
 
-    const changeNode = (node: NodeConf) => {
-        const groupHeight = computeGroupHeight(node.children);
-        props.onNodeConfChange({
-            ...node,
-            groupHeight: Math.max(groupHeight, node.height),
-        })
-    }
-
     // 改变文本框尺寸
     const changeTextArea = (textArea: Size) => {
 
@@ -103,7 +101,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         }
 
         // 计算子节点高度和
-        const childHeight = computeGroupHeight(nodeConf.children);
+        const childHeight = computeGroupHeight(nodeConf.children, nodeConf.collapse);
 
         props.onNodeConfChange({
             ...nodeConf,
@@ -142,6 +140,31 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         if (node.parent == null) return;
         notifier('NodeClick', node.parent.id);
     }, [nodeMap, select]);
+
+
+    // 展开
+    useListener('ExpandOn', () => {
+        if (!select) {
+            return;
+        }
+
+        changeNode({
+            ...nodeConf,
+            collapse: false,
+        })
+    }, [nodeConf, select]);
+
+    // 收起
+    useListener('ExpandOff', () => {
+        if (!select) {
+            return;
+        }
+
+        changeNode({
+            ...nodeConf,
+            collapse: true,
+        })
+    }, [nodeConf, select]);
 
 
 

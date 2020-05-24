@@ -2,7 +2,10 @@ import {NodeConf} from "../model";
 import {defaultGutter} from "../Constants";
 
 
-export function computeGroupHeight(children?: Array<NodeConf>) {
+export function computeGroupHeight(children?: Array<NodeConf>, collapse: boolean = false) {
+    if (collapse) {
+        return 0;
+    }
     if (children == null || children.length == 0) {
         return 0;
     }

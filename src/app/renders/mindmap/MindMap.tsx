@@ -66,10 +66,11 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
             bindKey('down', "MoveDown", notifier),
             bindKey('left', "MoveLeft", notifier),
             bindKey('right', "MoveRight", notifier),
+            bindKey('mod+=', "ExpandOn", notifier),
+            bindKey('mod+-', "ExpandOff", notifier),
         ]
 
         const historyListener = (e: KeyboardEvent) => {
-            console.log('press', e.key, e.metaKey, e.shiftKey);
             if (isHotkey('cmd+z', e)) {
                 history.pop((item: Value) => {
                     props.onChange(item);

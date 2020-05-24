@@ -29,6 +29,10 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     const anchorRight = nodePos.x + textSize.width;
 
     let notifier = useNotifier();
+
+    if (nodeConf.collapse) {
+        return null;
+    }
     // 计算子节点
     const childrenEl = children.map(
         (value, index) => {
@@ -90,6 +94,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                              nodeConf={value}/>
         }
     );
+
 
     return <>
         {childrenEl}
