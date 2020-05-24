@@ -14,6 +14,7 @@ import {useNodeMap} from "../context/MindMapContext";
 import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
+import ExpandIcon from "./ExpandIcon";
 
 interface NodeProps {
     pos: Point,
@@ -249,7 +250,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         <NodeSelectBorder select={select}/>
         <NodeRect/>
         <NodeText onAreaChange={changeTextArea}/>
-
+        <ExpandIcon/>
     </NodeContextProvider>;
 };
 

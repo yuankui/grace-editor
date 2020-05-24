@@ -9,6 +9,7 @@ export interface NodeConf {
     height: number, // 高度
     groupHeight: number, // 包含所有子节点的高度
     collapse?: boolean, // 默认展开
+    color: string,
     widget?: Array<WidgetConf>,
     children?: Array<NodeConf>,
 }

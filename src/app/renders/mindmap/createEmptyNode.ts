@@ -10,5 +10,6 @@ export function createEmptyNode(): NodeConf {
         height: 10,
         groupHeight: 10,
         width: 20,
+        color: '#2bada9'
     };
 }
