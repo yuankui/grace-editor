@@ -86,6 +86,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
         </React.Fragment>;
     });
 
+    // TODO remove height text
     const heightText = <text fontSize={fontSize}
                              dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
                              x={leftPos.x}
@@ -137,7 +138,6 @@ const NodeText: FunctionComponent<Props> = (props) => {
     return <>
         {textElement}
         {textEditInput}
-        {heightText}
     </>;
 };
 
