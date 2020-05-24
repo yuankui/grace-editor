@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {useNodeContext} from "./NodeContext";
-import RectNode, {defaultNodeHeight} from "./RectNode";
+import RectNode from "./RectNode";
 import {createEmptyNode} from "../createEmptyNode";
 import {useNotifier} from "../hooks/useListener";
 import {NodeConf} from "../model";
@@ -14,20 +14,15 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     let nodeContext = useNodeContext();
     const {
         nodeConf,
-        nodeSize,
         nodePos,
         textSize,
         onNodeConfChange,
-        childrenSize,
-        updateChildSize,
     } = nodeContext;
-    const {width: nodeWidth} = nodeSize;
     const children = nodeConf.children || [];
 
     // 计算各个节点的位置
     const heights = children.map(child => {
-        let id = child.id;
-        return childrenSize[id]?.height || defaultNodeHeight;
+        return child.groupHeight;
     });
     let childrenYs = computeChildrenYs(nodePos.y, heights);
 
@@ -39,14 +34,11 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         (value, index) => {
             const childY = childrenYs[index];
             const childPos = {
-                x: nodePos.x + nodeWidth + xShift,
+                x: nodePos.x + value.width + xShift,
                 y: childY,
             };
             return <RectNode key={value.id}
                              pos={childPos}
-                             onSizeChange={(size) => {
-                                 setTimeout(() => updateChildSize(value.id, size), 20);
-                             }}
                              onDelete={() => {
                                  const newChildren = children.filter((v, i) => {
                                      return index !== i;
@@ -55,7 +47,6 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                                      ...nodeConf,
                                      children: newChildren,
                                  })
-                                 setTimeout(() => updateChildSize(value.id, null as any), 20);
                              }}
                              onAddSibling={() => {
 

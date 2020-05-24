@@ -6,5 +6,9 @@ export function createEmptyNode(): NodeConf {
         children: [],
         text: "未命名",
         id: uuid(),
+        collapse: false,
+        height: 10,
+        groupHeight: 10,
+        width: 20,
     };
 }

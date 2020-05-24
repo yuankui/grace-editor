@@ -1,15 +1,13 @@
-import React, {FunctionComponent, useCallback, useMemo, useState} from 'react';
+import React, {FunctionComponent, useMemo, useState} from 'react';
 import {RenderProps} from "../renders";
 import MindMap from "./MindMap";
 import {Value} from "./model";
 import {lazyExecute} from "../../../utils/lazyExecute";
+import {createEmptyNode} from "./createEmptyNode";
 
 const defaultValue: Value = {
     roots: [
-        {
-            id: '1',
-            text: '未命名',
-        }
+        createEmptyNode(),
     ],
     pos: []
 };

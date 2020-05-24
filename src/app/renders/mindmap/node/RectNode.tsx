@@ -1,8 +1,7 @@
-import React, {FunctionComponent, useMemo, useState} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {NodeConf} from "../model";
 import NodeEdge from "./NodeEdge";
 import NodeText from "./NodeText";
-import _ from 'lodash';
 import {NodeContextProvider} from "./NodeContext";
 import {Size} from "../model/Size";
 import {Point} from "../model/Point";
@@ -13,15 +12,14 @@ import {useListener, useNotifier} from "../hooks/useListener";
 import {createEmptyNode} from "../createEmptyNode";
 import {NodeSizeMap} from "./NodeSizeMap";
 import {useNodeMap} from "../context/MindMapContext";
-import {EMPTY, empty, from, range} from "rxjs";
-import {catchError, last, skipWhile, take, takeUntil, takeWhile} from "rxjs/operators";
+import {EMPTY, from} from "rxjs";
+import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 
 interface NodeProps {
     pos: Point,
     start?: Point, // 父节点连线起点
     onSelect?: () => void, // 选择 TODO 增加矩形框选择
     select?: boolean, // 选择
-    onSizeChange: (size: Size) => void,
 
     nodeConf: NodeConf,
     onNodeConfChange: (node: NodeConf) => void,
@@ -37,8 +35,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const {nodeConf} = props;
     const {id: nodeId} = nodeConf;
     const nodePos = props.pos;
-    const [nodeSize, setNodeSize] = useState<Size>({width: 0, height: 0})
-    const {width: nodeWidth, height: nodeHeight} = nodeSize;
     const [paddingTop, paddingLeft] = [5, 10];
     const children = nodeConf.children || [];
 
@@ -91,21 +87,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     // 计算节点高度
     const [childrenSize, setChildrenSize] = useState<NodeSizeMap>({});
 
-    const groupHeight: number = useMemo(() => {
-        if (!props.nodeConf.children) {
-            return 0;
-        }
-        const childrenHeights = props.nodeConf.children.map(cNode => {
-            return (childrenSize[cNode.id]?.height || defaultNodeHeight) + defaultGutter;
-        });
-
-        const newHeight = Math.max(_.sum(childrenHeights) - defaultGutter, nodeSize.height);
-        props.onSizeChange({
-            width: nodeSize.width,
-            height: newHeight,
-        })
-        return newHeight;
-    }, [childrenSize]);
 
     const updateChildSize = (nodeId: string, size: Size) => {
         setChildrenSize(prevState => {
@@ -123,21 +104,23 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             width: textArea.width + paddingLeft * 2,
         };
 
-        setNodeSize(size);
-        props.onSizeChange({
-            width: size.width,
-            height: Math.max(size.height, groupHeight),
-        });
-    };
+        if (size.height == nodeConf.height) {
+            // 高度没有改变，就不出发上层更新，性能优化
+            return;
+        }
 
-    // DEBUG: 节点矩形 TODO remove
-    const frameRect = <rect fill={'none'}
-                            strokeWidth={1}
-                            stroke={'red'}
-                            x={props.pos.x}
-                            y={(props.pos.y - groupHeight / 2) | 0}
-                            width={400}
-                            height={groupHeight}/>;
+        // 计算子节点高度和
+        const childHeight = (nodeConf.children || [])
+            .map(n => n.groupHeight)
+            .reduce((sum, curr) => sum + curr, 0);
+
+        props.onNodeConfChange({
+            ...nodeConf,
+            width: size.width,
+            height: size.height,
+            groupHeight: Math.max(childHeight, size.height),
+        })
+    };
 
     // 计算边界
     const edgeEnd: Point = {
@@ -147,8 +130,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     // 文本
     const textArea = {
-        height: nodeHeight - paddingTop * 2,
-        width: nodeWidth - paddingLeft * 2,
+        height: nodeConf.height - paddingTop * 2,
+        width: nodeConf.width - paddingLeft * 2,
     };
     const textPos = {
         x: nodePos.x + paddingLeft,
@@ -234,7 +217,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         paddingLeft: paddingLeft,
         paddingTop: paddingTop,
         nodePos: nodePos,
-        nodeSize: nodeSize,
+        nodeSize: nodeConf,
         nodeStyle: {
             borderRadius: 5,
             borderWidth: 2,

@@ -148,8 +148,6 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                               }}
                               onAddSibling={() => {
                               }}
-                              onSizeChange={() => {
-                              }}
                               onNodeConfChange={n => {
                                   setNodeConf(n);
                               }}
