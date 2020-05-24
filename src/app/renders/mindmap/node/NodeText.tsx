@@ -58,7 +58,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
             width: maxWidth,
             height: totalHeight,
         })
-    }, [size.width, size.height, lineCount, text]);
+    }, [lineCount, text]);
 
     let notifier = useNotifier();
     const textElement = texts.map((t, i) => {
@@ -86,6 +86,12 @@ const NodeText: FunctionComponent<Props> = (props) => {
         </React.Fragment>;
     });
 
+    const heightText = <text fontSize={fontSize}
+                             dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
+                             x={leftPos.x}
+                             y={leftPos.y + 20}>
+        {nodeContext.nodeConf.groupHeight}
+    </text>
 
     useListener('EditNode', () => {
         if (select) {
@@ -131,6 +137,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
     return <>
         {textElement}
         {textEditInput}
+        {heightText}
     </>;
 };
 

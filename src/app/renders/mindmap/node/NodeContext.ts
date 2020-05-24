@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {NodeConf} from "../model";
 import {Point} from "../model/Point";
 import {Size} from "../model/Size";
-import {NodeSizeMap} from "./NodeSizeMap";
 
 export interface NodeContext {
     nodePos: Point,
@@ -16,7 +15,6 @@ export interface NodeContext {
     onNodeConfChange: (nodeConf: NodeConf) => void,
     nodeGutter: number,
     select: boolean,
-    setChildrenSize: (size: NodeSizeMap) => void,
 }
 
 export interface NodeStyle {
@@ -38,7 +36,6 @@ let Context = React.createContext<NodeContext>({
     onNodeConfChange: () => {},
     nodeGutter: 0,
     select: false,
-    setChildrenSize: () => {},
 });
 
 export const NodeContextProvider = Context.Provider;

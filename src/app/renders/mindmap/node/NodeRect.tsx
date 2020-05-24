@@ -7,8 +7,8 @@ interface Props {
 
 const NodeRect: FunctionComponent<Props> = () => {
     let nodeContext = useNodeContext();
-    const {nodePos, nodeConf, nodeStyle, nodeSize} = nodeContext;
-    const {height: nodeHeight, width: nodeWidth} = nodeSize;
+    const {nodePos, nodeConf, nodeStyle} = nodeContext;
+    const {height: nodeHeight, width: nodeWidth} = nodeConf;
     const {id: nodeId} = nodeConf;
     // 矩形背景
     const notifier = useNotifier();

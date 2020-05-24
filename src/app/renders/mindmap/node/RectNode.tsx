@@ -10,10 +10,10 @@ import NodeRect from "./NodeRect";
 import NodeSelectBorder from "./NodeSelectBorder";
 import {useListener, useNotifier} from "../hooks/useListener";
 import {createEmptyNode} from "../createEmptyNode";
-import {NodeSizeMap} from "./NodeSizeMap";
 import {useNodeMap} from "../context/MindMapContext";
 import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
+import {computeGroupHeight} from "./computeGroupHeight";
 
 interface NodeProps {
     pos: Point,
@@ -29,8 +29,6 @@ interface NodeProps {
 
 // 节点之间的，垂直方向的间隙
 const defaultGutter = 20;
-export const defaultNodeHeight = 20;
-export const defaultNodeWidth = 100;
 const RectNode: FunctionComponent<NodeProps> = (props) => {
     const {nodeConf} = props;
     const {id: nodeId} = nodeConf;
@@ -83,22 +81,17 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         props.onAddSibling();
     }, [select])
 
-
-    // 计算节点高度
-    const [childrenSize, setChildrenSize] = useState<NodeSizeMap>({});
-
-
-    const updateChildSize = (nodeId: string, size: Size) => {
-        setChildrenSize(prevState => {
-            return {
-                ...prevState,
-                [nodeId]: size,
-            };
-        });
+    const changeNode = (node: NodeConf) => {
+        const groupHeight = computeGroupHeight(node.children);
+        props.onNodeConfChange({
+            ...node,
+            groupHeight: Math.max(groupHeight, node.height),
+        })
     }
 
     // 改变文本框尺寸
     const changeTextArea = (textArea: Size) => {
+
         const size = {
             height: textArea.height + paddingTop * 2,
             width: textArea.width + paddingLeft * 2,
@@ -110,9 +103,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         }
 
         // 计算子节点高度和
-        const childHeight = (nodeConf.children || [])
-            .map(n => n.groupHeight)
-            .reduce((sum, curr) => sum + curr, 0);
+        const childHeight = computeGroupHeight(nodeConf.children);
 
         props.onNodeConfChange({
             ...nodeConf,
@@ -209,6 +200,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     }, [nodeMap, select]);
 
+
     return <NodeContextProvider value={{
         parentStart: props.start,
         nodeConf: props.nodeConf,
@@ -217,7 +209,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         paddingLeft: paddingLeft,
         paddingTop: paddingTop,
         nodePos: nodePos,
-        nodeSize: nodeConf,
         nodeStyle: {
             borderRadius: 5,
             borderWidth: 2,
@@ -225,12 +216,9 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             borderColor: 'white',
             fontSize: 16,
         },
-        onNodeConfChange: props.onNodeConfChange,
+        onNodeConfChange: changeNode,
         nodeGutter: defaultGutter,
         select: select,
-        childrenSize: childrenSize,
-        setChildrenSize,
-        updateChildSize,
     }}>
         {/*{frameRect}*/}
         <NodeEdge key={props.nodeConf.id} end={edgeEnd}/>

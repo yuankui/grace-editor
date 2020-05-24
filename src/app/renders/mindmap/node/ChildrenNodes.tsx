@@ -4,10 +4,10 @@ import RectNode from "./RectNode";
 import {createEmptyNode} from "../createEmptyNode";
 import {useNotifier} from "../hooks/useListener";
 import {NodeConf} from "../model";
+import {defaultGutter} from "../Constants";
 
 interface Props {}
 
-const defaultGutter = 20;
 // 横坐标便宜
 const xShift = 100;
 const ChildrenNodes: FunctionComponent<Props> = (props) => {
@@ -81,6 +81,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                                          return v;
                                      }
                                  });
+
                                  onNodeConfChange({
                                      ...nodeConf,
                                      children: newChildren,
@@ -102,14 +103,16 @@ function computeChildrenYs(center: number, heights: Array<number>) {
     }
     const res = [0];
     let last = 0;
+    let total = heights[0];
     for (let i = 1; i < heights.length; i++) {
         const current = last + (heights[i] + heights[i - 1]) / 2 + defaultGutter;
         res.push(current);
         last = current;
+        total = total + heights[i] + defaultGutter;
     }
 
-    const avg = (last) / 2;
+    const avg = (total) / 2;
 
-    return res.map(r => r - avg + center);
+    return res.map(r => r + heights[0] / 2 - avg + center);
 }
 export default ChildrenNodes;
