@@ -1,29 +1,19 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
+import {DndState, useDndContext} from "./DndContext";
 
-interface Point {
-    x: number,
-    y: number,
-}
 
 interface Ref {
     (element: SVGElement): void,
 }
-interface DragState {
-    moving: boolean,
-    startPoint?: Point,
-    currentPoint?: Point,
-}
 
-
-export function useDrag(): [Ref, DragState] {
-    const [state, setState] = useState<DragState>({
-        moving: false,
-    });
+export function useDrag(src: any): [Ref, DndState] {
+    const {value: context, onChange} = useDndContext();
 
     const ref = useMemo<Ref>(() => {
         return (element: SVGElement) => {
             element.addEventListener('mousedown', e => {
-                setState({
+                onChange({
+                    src,
                     moving: true,
                     startPoint: {
                         x: e.clientX,
@@ -40,10 +30,10 @@ export function useDrag(): [Ref, DragState] {
 
     useEffect(() => {
         const movingListener = (e: MouseEvent) => {
-            if (!state.moving) {
+            if (!context.moving) {
                 return;
             }
-            setState(prev => {
+            onChange(prev => {
                 return {
                     ...prev,
                     currentPoint: {
@@ -55,11 +45,11 @@ export function useDrag(): [Ref, DragState] {
         };
 
         const mouseUpListener = (e: MouseEvent) => {
-            if (!state.moving) {
+            if (!context.moving) {
                 return;
             }
 
-            setState(prev => {
+            onChange(prev => {
                 return {
                     ...prev,
                     moving: false,
@@ -75,9 +65,9 @@ export function useDrag(): [Ref, DragState] {
             window.removeEventListener('mousemove', movingListener);
             window.removeEventListener('mouseup', mouseUpListener);
         }
-    }, [state.moving]);
+    }, [context.moving]);
 
-    return [ref, state];
+    return [ref, context];
 }
 
 export function useDrop() {
