@@ -70,6 +70,11 @@ export function useDrag(src: any): [Ref, DndState] {
     return [ref, context];
 }
 
+export function useDragMove() {
+    const dndContext = useDndContext();
+    return dndContext.value;
+}
+
 export function useDrop() {
 
 }
