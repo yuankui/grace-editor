@@ -75,6 +75,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         props.onNodeConfChange({
             ...nodeConf,
             children: newChildren,
+            collapse: false,
         });
 
         setTimeout(() => {
