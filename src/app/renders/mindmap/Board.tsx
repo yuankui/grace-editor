@@ -72,13 +72,6 @@ const Board: FunctionComponent<Props> = (props) => {
             notifier('BoardClick');
         }}
 
-        onFocus={e => {
-            console.log('focus');
-        }}
-
-        onBlur={e => {
-            console.log("blur");
-        }}
         onWheel={e => {
             console.log(e.clientX, e.clientY);
             if (e.deltaY > 0) {

@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
 import {useDndContext} from "./DndContext";
+import {HitTest} from "../node/NodeContext";
 
 
 export function useDrag(src: any): React.MouseEventHandler<SVGElement> {
@@ -31,6 +32,6 @@ export function useDragMove() {
     return dndContext.value;
 }
 
-export function useDrop() {
-
+export function useDrop(hitTest: HitTest, onDrop: () => void) {
+    const dragMove = useDragMove();
 }

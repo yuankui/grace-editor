@@ -5,7 +5,7 @@ import {NodeConf, Value} from "./model";
 import {useNotifier} from "./hooks/useListener";
 import {bindKey} from "./hotkey/hotkeys";
 import {NodeMap, NodeWithParent} from "./context/NodeMap";
-import { MindMapContextProvider } from './context/MindMapContext';
+import {MindMapContextProvider} from './context/MindMapContext';
 import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
@@ -49,7 +49,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
     }
 
 
-    const [nodeMap, setNodeMap] = useState<{[key: string]: NodeWithParent}>({});
+    const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
 
     useEffect(() => {
         lazyUpdateNodeMap(props.value, setNodeMap);
@@ -125,9 +125,9 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
 
     return (
         <div className="mindmap-wrapper"
-             // contentEditable={true}
-            ref={ref}
-            tabIndex={0}
+            // contentEditable={true}
+             ref={ref}
+             tabIndex={0}
              onKeyDown={listener}
              onChange={e => {
                  e.preventDefault();

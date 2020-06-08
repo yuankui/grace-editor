@@ -15,6 +15,7 @@ const NodeSelectBorder: FunctionComponent<Props> = (props) => {
     const select = props.select;
     const borderRadius = 5;
 
+
     // 选择边框
     const border = <rect x={nodePos.x - selectWidth}
                          y={nodePos.y - height /2 - selectWidth}

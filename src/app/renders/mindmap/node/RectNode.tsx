@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useCallback, useState} from 'react';
 import {NodeConf} from "../model";
 import NodeEdge from "./NodeEdge";
 import NodeText from "./NodeText";
@@ -241,6 +241,15 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     }, [nodeMap, select]);
 
 
+    const hitTest = useCallback((x: number, y: number) => {
+        const minX = shiftedPos.x;
+        const maxX = shiftedPos.x + nodeConf.width;
+        const minY = shiftedPos.y - nodeConf.height / 2;
+        const maxY = shiftedPos.y + nodeConf.height / 2;
+
+        return minX <= x && x <= maxX && minY <= y && y <= maxY;
+    }, [shiftedPos.x, shiftedPos.y, nodeConf.widget, nodeConf.height]);
+
     return <NodeContextProvider value={{
         parentStart: props.start,
         nodeConf: props.nodeConf,
@@ -259,6 +268,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         onNodeConfChange: changeNode,
         nodeGutter: defaultGutter,
         select: select,
+        hitTest,
     }}>
         {/*{frameRect}*/}
         <NodeEdge key={props.nodeConf.id} end={edgeEnd}/>
