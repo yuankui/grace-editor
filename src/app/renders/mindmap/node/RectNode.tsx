@@ -15,6 +15,7 @@ import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
 import ExpandIcon from "./ExpandIcon";
+import {useDndContext} from "../dragdrop/DndContext";
 
 interface NodeProps {
     pos: Point,
@@ -43,6 +44,20 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             groupHeight: Math.max(groupHeight, node.height),
         })
     }
+    // 拖动便宜计算
+    const context = useDndContext();
+    let shiftedPos: Point = nodePos as Point;
+    if (context.value.src == nodeConf && context.value.moving) {
+        const {currentPoint, startPoint} = context.value;
+        const {y, x} = shiftedPos;
+        if (currentPoint && startPoint) {
+            shiftedPos = {
+                x: x + currentPoint?.x - startPoint?.x,
+                y: y + currentPoint?.y - startPoint?.y,
+            }
+        }
+    }
+
     // 节点选中状态
     const [select, setSelect] = useState(false);
     let notifier = useNotifier();
@@ -115,8 +130,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     // 计算边界
     const edgeEnd: Point = {
-        x: nodePos.x + paddingLeft,
-        y: nodePos.y,
+        x: shiftedPos.x + paddingLeft,
+        y: shiftedPos.y,
     };
 
     // 文本
@@ -125,8 +140,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         width: nodeConf.width - paddingLeft * 2,
     };
     const textPos = {
-        x: nodePos.x + paddingLeft,
-        y: nodePos.y,
+        x: shiftedPos.x + paddingLeft,
+        y: shiftedPos.y,
     };
 
     let nodeMap = useNodeMap();
@@ -233,7 +248,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         textPos: textPos,
         paddingLeft: paddingLeft,
         paddingTop: paddingTop,
-        nodePos: nodePos,
+        nodePos: shiftedPos,
         nodeStyle: {
             borderRadius: 5,
             borderWidth: 2,

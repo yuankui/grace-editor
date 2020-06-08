@@ -42,12 +42,15 @@ export function useDrag(src: any): [Ref, DndState] {
                     }
                 }
             })
+            e.preventDefault();
+            e.stopPropagation();
         };
 
         const mouseUpListener = (e: MouseEvent) => {
             if (!context.moving) {
                 return;
             }
+
 
             onChange(prev => {
                 return {

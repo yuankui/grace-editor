@@ -3,6 +3,7 @@ import {useListener, useNotifier} from "../hooks/useListener";
 import {useNodeContext} from "./NodeContext";
 import {Size} from "../model/Size";
 import isHotkey from "is-hotkey";
+import {useDrag} from "../dragdrop/hooks";
 
 interface Props {
     onAreaChange: (area: Size) => void,
@@ -17,6 +18,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
         onNodeConfChange,
         nodeStyle,
         select,
+        nodeConf,
     } = nodeContext;
 
     const {fontSize} = nodeStyle;
@@ -60,6 +62,10 @@ const NodeText: FunctionComponent<Props> = (props) => {
         })
     }, [lineCount, text]);
 
+    // 拖动节点
+    const [dndRef, dndState] = useDrag(nodeConf);
+
+
     let notifier = useNotifier();
     const textElement = texts.map((t, i) => {
         let textY = leftPos.y + fontSize * (i - lineCount / 2 + 0.5);
@@ -67,6 +73,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
             <text fontSize={fontSize}
                   key={i}
                   ref={ref => {
+                      if (ref) dndRef(ref);
                       refs[i] = ref;
                   }}
                   dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
@@ -135,6 +142,9 @@ const NodeText: FunctionComponent<Props> = (props) => {
                       textarea.style.height = textarea.scrollHeight + "px";
                   }} defaultValue={text}/>
         </foreignObject>;
+
+
+
     return <>
         {textElement}
         {textEditInput}

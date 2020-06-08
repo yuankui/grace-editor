@@ -9,6 +9,7 @@ import { MindMapContextProvider } from './context/MindMapContext';
 import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
+import {DndContextProvider} from "./dragdrop/DndContext";
 
 export interface MindMapProps {
     value: Value,
@@ -133,28 +134,30 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                  e.stopPropagation();
              }}
              suppressContentEditableWarning={true}>
-            <MindMapContextProvider value={{
-                scale,
-                reset: () => setScale(1),
-                setScale,
-                nodeMap: nodeMap,
-            }}>
-                <Board width={svgSize[0]} height={svgSize[1]}>
-                    <RectNode nodeConf={node}
-                              pos={{
-                                  x: 150,
-                                  y: 150,
-                              }}
-                              onDelete={() => {
-                              }}
-                              onAddSibling={() => {
-                              }}
-                              onNodeConfChange={n => {
-                                  setNodeConf(n);
-                              }}
-                    />
-                </Board>
-            </MindMapContextProvider>
+            <DndContextProvider>
+                <MindMapContextProvider value={{
+                    scale,
+                    reset: () => setScale(1),
+                    setScale,
+                    nodeMap: nodeMap,
+                }}>
+                    <Board width={svgSize[0]} height={svgSize[1]}>
+                        <RectNode nodeConf={node}
+                                  pos={{
+                                      x: 150,
+                                      y: 150,
+                                  }}
+                                  onDelete={() => {
+                                  }}
+                                  onAddSibling={() => {
+                                  }}
+                                  onNodeConfChange={n => {
+                                      setNodeConf(n);
+                                  }}
+                        />
+                    </Board>
+                </MindMapContextProvider>
+            </DndContextProvider>
         </div>
     );
 };
