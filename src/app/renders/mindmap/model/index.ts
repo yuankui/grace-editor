@@ -22,4 +22,6 @@ interface WidgetConf {
 export interface Value {
     roots: Array<NodeConf>,
     pos: Array<Point>,
+    scale: number,
+    origin: Point,
 }

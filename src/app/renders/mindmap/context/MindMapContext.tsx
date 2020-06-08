@@ -1,11 +1,13 @@
 import React, {useContext} from "react";
 import {NodeMap} from "./NodeMap";
+import {Point} from "../model/Point";
 
 export interface MindMapContext {
     scale: number,
     setScale: (scale: number) => void,
     reset: () => void,
     nodeMap: NodeMap,
+    outerToInner: (Point) => Point,
 }
 
 const Context = React.createContext<MindMapContext>(null as any);

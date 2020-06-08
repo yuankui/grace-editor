@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import Board from "./Board";
 import RectNode from "./node/RectNode";
 import {NodeConf, Value} from "./model";
@@ -10,10 +10,17 @@ import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
+import {Point} from "./model/Point";
 
 export interface MindMapProps {
     value: Value,
     onChange: (value: Value) => void,
+    scale: number,
+    onScale: (number) => void,
+    origin: Point,
+    onOriginChange: (Point) => void,
+    width: number,
+    height: number,
 }
 
 const updateNodeMap = (value: Value, setNodeMap: any) => {
@@ -107,22 +114,13 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
 
     const [svgSize, setSvgSize] = useState([1000, 500]);
     const ref = useRef<HTMLDivElement>(null);
-    // 定期同步svg尺寸
-    useEffect(() => {
-        const syncWidth = () => {
-            if (ref.current) {
-                const [oldWidth, oldHeight] = svgSize;
-                const {clientWidth: width, clientHeight: height} = ref.current;
-                if (oldWidth != width || oldHeight != height) {
-                    setSvgSize([width, height]);
-                }
-            }
-        }
-        syncWidth();
-        const h = setInterval(syncWidth, 50);
-        return () => clearInterval(h);
-    }, [svgSize])
 
+
+    const outerToInner = useCallback((point: Point) => {
+        const {x, y} = point;
+
+        return point;
+    }, []);
     return (
         <div className="mindmap-wrapper"
             // contentEditable={true}
@@ -140,6 +138,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                     reset: () => setScale(1),
                     setScale,
                     nodeMap: nodeMap,
+                    outerToInner,
                 }}>
                     <Board width={svgSize[0]} height={svgSize[1]}>
                         <RectNode nodeConf={node}
