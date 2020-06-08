@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useNotifier} from "./hooks/useListener";
 import {useMindMapContext} from "./context/MindMapContext";
+import {useDndContext} from "./dragdrop/DndContext";
 
 interface Props {
     width: number,
@@ -16,6 +17,8 @@ const Board: FunctionComponent<Props> = (props) => {
     const [moving, setMoving] = useState(false);
     const [startX, startY] = start;
 
+    const dndContext = useDndContext();
+
     useEffect(() => {
         const [startX, startY] = start;
         const [moveX, moveY] = move;
@@ -24,12 +27,23 @@ const Board: FunctionComponent<Props> = (props) => {
             if (!moving) {
                 return;
             }
+
+            if (dndContext.value.moving) {
+                return;
+            }
             setMove([e.clientX, e.clientY]);
         };
         const onMouseUp = (e: MouseEvent) => {
+            console.log('svg up');
+
             if (!moving) {
                 return;
             }
+
+            if (dndContext.value.moving) {
+                return;
+            }
+
             setMoving(false);
             setPos([x - (moveX - startX), y - (moveY - startY)]);
             setStart([0, 0]);
@@ -42,7 +56,7 @@ const Board: FunctionComponent<Props> = (props) => {
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('mouseup', onMouseUp);
         }
-    }, [moving, start, move, x, y]);
+    }, [moving, start, move, x, y, dndContext.value.moving]);
 
     let notifier = useNotifier();
     const [moveX, moveY] = move;
@@ -75,6 +89,7 @@ const Board: FunctionComponent<Props> = (props) => {
         }}
 
         onMouseDown={e => {
+            console.log("svg down")
             setMoving(true);
             setStart([e.clientX, e.clientY]);
             setMove([e.clientX, e.clientY]);

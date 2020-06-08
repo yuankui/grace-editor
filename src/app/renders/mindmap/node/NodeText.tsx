@@ -63,7 +63,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
     }, [lineCount, text]);
 
     // 拖动节点
-    const [dndRef, dndState] = useDrag(nodeConf);
+    const onMouseDown = useDrag(nodeConf);
 
 
     let notifier = useNotifier();
@@ -73,9 +73,9 @@ const NodeText: FunctionComponent<Props> = (props) => {
             <text fontSize={fontSize}
                   key={i}
                   ref={ref => {
-                      if (ref) dndRef(ref);
                       refs[i] = ref;
                   }}
+                  onMouseDown={onMouseDown}
                   dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
                   onDoubleClick={e => {
                       setShowTextEdit(true);

@@ -47,7 +47,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     // 拖动便宜计算
     const context = useDndContext();
     let shiftedPos: Point = nodePos as Point;
-    if (context.value.src == nodeConf && context.value.moving) {
+    if (context.value.moving && context.value.src.id === nodeConf.id) {
         const {currentPoint, startPoint} = context.value;
         const {y, x} = shiftedPos;
         if (currentPoint && startPoint) {

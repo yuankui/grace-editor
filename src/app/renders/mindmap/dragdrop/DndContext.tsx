@@ -1,10 +1,7 @@
-import {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react';
-import React from "react";
-import {EMPTY, Observable} from 'rxjs';
-import {first, flatMap, last, map, sample, sampleTime, window, windowTime} from "rxjs/operators";
-import {interval} from "rxjs";
+import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react';
+import {Observable} from 'rxjs';
+import {sample, sampleTime} from "rxjs/operators";
 import mitt from 'mitt';
-import {fromArray} from "rxjs/internal/observable/fromArray";
 
 export interface DndState {
     /**
@@ -67,13 +64,65 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
             })
         })
             .pipe(
-                sampleTime(1000/60),
+                sample(new Observable<any>(subscriber => {
+                    const tick = () => {
+                        subscriber.next(0);
+                        window.requestAnimationFrame(tick);
+                    }
+                    tick();
+                })),
             )
             .subscribe(change => {
                 console.log(1);
                 onChange(change as any);
             })
     }, []);
+
+    const moving = value.moving;
+    useEffect(() => {
+        const movingListener = (e: MouseEvent) => {
+            if (!moving) {
+                return;
+            }
+
+            console.log('moving node' + value.src.id);
+            onChange(prev => {
+                return {
+                    ...prev,
+                    currentPoint: {
+                        x: e.clientX,
+                        y: e.clientY,
+                    }
+                }
+            })
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        const mouseUpListener = (e: MouseEvent) => {
+            if (!moving) {
+                return;
+            }
+            console.log('node up');
+
+            onChange(prev => {
+                return {
+                    ...prev,
+                    moving: false,
+                    currentPoint: undefined,
+                    startPoint: undefined,
+                }
+            })
+        };
+        window.addEventListener('mousemove', movingListener);
+        window.addEventListener('mouseup', mouseUpListener);
+
+        return () => {
+            window.removeEventListener('mousemove', movingListener);
+            window.removeEventListener('mouseup', mouseUpListener);
+        }
+    }, [moving]);
+
     return <Context.Provider value={{
         value,
         onChange: change,
