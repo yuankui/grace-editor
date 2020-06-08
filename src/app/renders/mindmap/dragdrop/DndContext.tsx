@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react';
 import {Observable} from 'rxjs';
-import {sample, sampleTime} from "rxjs/operators";
+import {sample} from "rxjs/operators";
 import mitt from 'mitt';
 
 export interface DndState {
