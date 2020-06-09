@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useState} from 'react';
 import {NodeConf} from "../model";
 import NodeEdge from "./NodeEdge";
 import NodeText from "./NodeText";
@@ -44,11 +44,20 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             groupHeight: Math.max(groupHeight, node.height),
         })
     }
-    // 拖动便宜计算
+
+    // 拖动偏移计算
     const context = useDndContext();
+    const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
+
+    useEffect(() => {
+        context.moveEvent.on('move', point => {
+            setCurrentPoint(point);
+        })
+    }, []);
+
     let shiftedPos: Point = nodePos as Point;
     if (context.value.moving && context.value.src.id === nodeConf.id) {
-        const {currentPoint, startPoint} = context.value;
+        const {startPoint} = context.value;
         const {y, x} = shiftedPos;
         if (currentPoint && startPoint) {
             shiftedPos = {

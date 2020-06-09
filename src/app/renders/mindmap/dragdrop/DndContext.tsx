@@ -18,11 +18,6 @@ export interface DndState {
      * 开始移动的点
      */
     startPoint?: Point,
-
-    /**
-     * 当前点
-     */
-    currentPoint?: Point,
 }
 
 export interface DndContext {
@@ -74,33 +69,6 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
         return [input, output];
     }, []);
 
-    const change = useMemo(() => {
-        return (c) => {
-            moveEvent.emit('move', c);
-        }
-    }, []);
-
-    useEffect(() => {
-        new Observable(subscriber => {
-            moveEvent.on('move', change => {
-                subscriber.next(change)
-            })
-        })
-            .pipe(
-                sample(new Observable<any>(subscriber => {
-                    const tick = () => {
-                        subscriber.next(0);
-                        window.requestAnimationFrame(tick);
-                    }
-                    tick();
-                })),
-            )
-            .subscribe(change => {
-                console.log(1);
-
-            })
-    }, []);
-
     const moving = value.moving;
     useEffect(() => {
         const movingListener = (e: MouseEvent) => {
@@ -108,17 +76,7 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
                 return;
             }
 
-            console.log('moving node' + value.src.id);
-            onChange(prev => {
-                return {
-                    ...prev,
-                    currentPoint: {
-                        x: e.clientX,
-                        y: e.clientY,
-                    }
-                }
-            })
-            moveEvent.emit('move', {
+            inputMoveEvent.emit('move', {
                 x: e.clientX,
                 y: e.clientY,
             });
@@ -153,8 +111,8 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
 
     return <Context.Provider value={{
         value,
-        moveEvent,
-        onChange: change,
+        moveEvent: outputMoveEvent,
+        onChange,
     }}>
         {props.children}
     </Context.Provider>;

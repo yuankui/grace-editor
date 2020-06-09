@@ -18,10 +18,6 @@ export function useDrag(src: any): React.MouseEventHandler<SVGElement> {
                     x: e.clientX,
                     y: e.clientY
                 },
-                currentPoint: {
-                    x: e.clientX,
-                    y: e.clientY,
-                }
             })
         };
     }, []);
