@@ -28,6 +28,7 @@ export interface DndState {
 export interface DndContext {
     value: DndState,
     onChange: React.Dispatch<React.SetStateAction<DndState>>,
+    moveEvent: mitt.Emitter,
 }
 
 interface Point {
@@ -43,13 +44,35 @@ export function useDndContext() {
 
 interface Props {}
 
-export const moveEvent = mitt();
-
 export const DndContextProvider: FunctionComponent<Props> = (props) => {
     const [value, onChange] = useState<DndState>({
         moving: false,
         src: null,
     });
+
+    // TODO 重构move逻辑
+    const [inputMoveEvent, outputMoveEvent] = useMemo(() => {
+        const input = mitt();
+        const output = mitt();
+        new Observable(subscriber => {
+            input.on('move', event => {
+                subscriber.next(event);
+            })
+        })
+            .pipe(
+                sample(new Observable<any>(subscriber => {
+                    const tick = () => {
+                        subscriber.next(0);
+                        window.requestAnimationFrame(tick);
+                    }
+                    tick();
+                }))
+            )
+            .subscribe(e => {
+                output.emit('move', e);
+            })
+        return [input, output];
+    }, []);
 
     const change = useMemo(() => {
         return (c) => {
@@ -74,7 +97,7 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
             )
             .subscribe(change => {
                 console.log(1);
-                onChange(change as any);
+
             })
     }, []);
 
@@ -95,6 +118,11 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
                     }
                 }
             })
+            moveEvent.emit('move', {
+                x: e.clientX,
+                y: e.clientY,
+            });
+
             e.preventDefault();
             e.stopPropagation();
         };
@@ -125,6 +153,7 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
 
     return <Context.Provider value={{
         value,
+        moveEvent,
         onChange: change,
     }}>
         {props.children}
