@@ -11,7 +11,10 @@ const defaultValue: Value = {
     ],
     pos: [],
     scale: 1,
-    // TODO add origin
+    origin: {
+        x: 500,
+        y: 250,
+    }
 };
 
 const MindMapRender: FunctionComponent<RenderProps> = (props) => {
@@ -25,7 +28,7 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
 
     const lazySave = useMemo(() => {
         const lazySave = lazyExecute(onChange, 500);
-        return (value: any) => {
+        return (value: Value) => {
             setState(value);
             lazySave(value);
         };
@@ -52,7 +55,6 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
 
     return <div ref={ref}>
         <MindMap value={state}
-                 scale={state.scale}
                  height={height}
                  width={width}
                  onChange={lazySave}/>

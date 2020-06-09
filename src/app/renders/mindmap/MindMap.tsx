@@ -15,10 +15,6 @@ import {Point} from "./model/Point";
 export interface MindMapProps {
     value: Value,
     onChange: (value: Value) => void,
-    scale: number,
-    onScale: (number) => void,
-    origin: Point,
-    onOriginChange: (Point) => void,
     width: number,
     height: number,
 }
@@ -110,17 +106,32 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         }
     }, [])
 
-    const [scale, setScale] = useState(1);
+    // scale
+    const {scale = 1} = props.value;
+    const setScale = useCallback((s) => {
+        props.onChange({
+            ...props.value,
+            scale: s,
+        })
+    }, [props.value]);
 
-    const [svgSize, setSvgSize] = useState([1000, 500]);
+    // 原点
+    const {origin = {x: 500, y: 250}} = props.value;
+
+    const svgSize = [props.width, props.height];
     const ref = useRef<HTMLDivElement>(null);
 
 
     const outerToInner = useCallback((point: Point) => {
         const {x, y} = point;
+        const containerRect = ref.current?.getClientRects()?.item(0) as DOMRect;
 
-        return point;
-    }, []);
+        return {
+            x: (x - containerRect.left) * scale - origin.x,
+            y: (y - containerRect.top) * scale - origin.y,
+        }
+    }, [scale, origin.x, origin.y]);
+
     return (
         <div className="mindmap-wrapper"
             // contentEditable={true}
