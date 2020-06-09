@@ -4,7 +4,7 @@ import {HitTest} from "../node/NodeContext";
 
 
 export function useDrag(src: any): React.MouseEventHandler<SVGElement> {
-    const {onChange} = useDndContext();
+    const {onChange, moveEvent} = useDndContext();
 
     return useMemo<React.MouseEventHandler<SVGElement>>(() => {
         return (e: React.MouseEvent) => {
@@ -18,6 +18,10 @@ export function useDrag(src: any): React.MouseEventHandler<SVGElement> {
                     x: e.clientX,
                     y: e.clientY
                 },
+            })
+            moveEvent.emit('move', {
+                x: e.clientX,
+                y: e.clientY,
             })
         };
     }, []);
