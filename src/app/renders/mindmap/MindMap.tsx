@@ -126,10 +126,13 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         const {x, y} = point;
         const containerRect = ref.current?.getClientRects()?.item(0) as DOMRect;
 
-        return {
-            x: (x - containerRect.left) * scale - origin.x,
-            y: (y - containerRect.top) * scale - origin.y,
+        const outer =  {
+            x: (x - containerRect.left) / scale - origin.x,
+            y: (y - containerRect.top) / scale - origin.y,
         }
+
+        console.log('inner', point, '=>', outer);
+        return outer;
     }, [scale, origin.x, origin.y]);
 
     return (
@@ -165,6 +168,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                                       setNodeConf(n);
                                   }}
                         />
+                        <circle r={10} color={'red'}/>
                     </Board>
                 </MindMapContextProvider>
             </DndContextProvider>
