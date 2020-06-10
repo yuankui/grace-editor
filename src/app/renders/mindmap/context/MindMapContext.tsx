@@ -5,6 +5,8 @@ import {Point} from "../model/Point";
 export interface MindMapContext {
     scale: number,
     setScale: (scale: number) => void,
+    origin: Point,
+    setOrigin: (Point) => void,
     reset: () => void,
     nodeMap: NodeMap,
     outerToInner: (Point) => Point,
