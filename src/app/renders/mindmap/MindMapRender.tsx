@@ -34,31 +34,11 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
         };
     }, [])
 
-    const ref = useRef<HTMLDivElement>(null);
 
-    const [[width, height], setSvgSize] = useState([1000, 500]);
-
-    // 定期同步svg尺寸
-    useEffect(() => {
-        const syncWidth = () => {
-            if (ref.current) {
-                const {clientWidth, clientHeight} = ref.current;
-                if (width != clientWidth || height != clientHeight) {
-                    setSvgSize([width, height]);
-                }
-            }
-        }
-        syncWidth();
-        const h = setInterval(syncWidth, 50);
-        return () => clearInterval(h);
-    }, [width, height])
-
-    return <div ref={ref}>
-        <MindMap value={state}
-                 height={height}
-                 width={width}
-                 onChange={lazySave}/>
-    </div>;
+    return <MindMap value={state}
+                    height={'100%'}
+                    width={'100%'}
+                    onChange={lazySave}/>;
 };
 
 export default MindMapRender;

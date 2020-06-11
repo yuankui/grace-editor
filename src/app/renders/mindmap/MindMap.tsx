@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
 import Board from "./Board";
 import RectNode from "./node/RectNode";
 import {NodeConf, Value} from "./model";
@@ -10,13 +10,12 @@ import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
-import {Point} from "./model/Point";
 
 export interface MindMapProps {
     value: Value,
     onChange: (value: Value) => void,
-    width: number,
-    height: number,
+    width: string,
+    height: string,
 }
 
 const updateNodeMap = (value: Value, setNodeMap: any) => {
@@ -106,39 +105,46 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         }
     }, [])
 
-    // scale
-    const {scale = 1} = props.value;
-    const setScale = useCallback((s) => {
-        props.onChange({
-            ...props.value,
-            scale: s,
-        })
-    }, [props.value]);
-
-    // 原点
-    const {origin = {x: 500, y: 250}} = props.value;
-
-    const svgSize = [props.width, props.height];
     const ref = useRef<HTMLDivElement>(null);
 
+    const [size, setSize] = useState({
+        width: 1000,
+        height: 500,
+    })
 
-    const outerToInner = useCallback((point: Point) => {
-        const {x, y} = point;
-        const containerRect = ref.current?.getClientRects()?.item(0) as DOMRect;
-
-        const outer =  {
-            x: (x - containerRect.left) / scale - origin.x,
-            y: (y - containerRect.top) / scale - origin.y,
+    // 定期同步svg尺寸
+    useEffect(() => {
+        const syncWidth = () => {
+            if (ref.current) {
+                const {clientWidth, clientHeight} = ref.current;
+                setSize(prev => {
+                    if (prev.width != clientWidth || prev.height != clientHeight) {
+                        console.log('sync size', prev, {
+                            width: clientWidth,
+                            height: clientHeight,
+                        });
+                        return {
+                            width: clientWidth,
+                            height: clientHeight,
+                        }
+                    }
+                    return prev;
+                });
+            }
         }
-
-        console.log('inner', point, '=>', outer);
-        return outer;
-    }, [scale, origin.x, origin.y]);
+        syncWidth();
+        const h = setInterval(syncWidth, 50);
+        return () => clearInterval(h);
+    }, [])
 
     return (
         <div className="mindmap-wrapper"
-            // contentEditable={true}
              ref={ref}
+             style={{
+                 width: props.width,
+                 height: props.height,
+             }}
+            // contentEditable={true}
              tabIndex={0}
              onKeyDown={listener}
              onChange={e => {
@@ -148,13 +154,9 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
              suppressContentEditableWarning={true}>
             <DndContextProvider>
                 <MindMapContextProvider value={{
-                    scale,
-                    reset: () => setScale(1),
-                    setScale,
                     nodeMap: nodeMap,
-                    outerToInner,
                 }}>
-                    <Board width={svgSize[0]} height={svgSize[1]}>
+                    <Board width={size.width} height={size.height}>
                         <RectNode nodeConf={node}
                                   pos={{
                                       x: 150,

@@ -1,14 +1,14 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useNodeContext} from "./NodeContext";
 import {useDndContext} from "../dragdrop/DndContext";
-import {useMindMapContext} from "../context/MindMapContext";
+import {useBoardContext} from "../BoardContext";
 
 interface Props {
     select: boolean,
 }
 
 const NodeSelectBorder: FunctionComponent<Props> = (props) => {
-    const {outerToInner} = useMindMapContext();
+    const {outerToInner} = useBoardContext();
     const nodeContext = useNodeContext();
     const {nodePos, nodeConf, hitTest} = nodeContext;
     const {height, width} = nodeConf;

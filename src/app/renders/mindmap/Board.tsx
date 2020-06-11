@@ -1,7 +1,8 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useState} from 'react';
 import {useNotifier} from "./hooks/useListener";
-import {useMindMapContext} from "./context/MindMapContext";
 import {useDndContext} from "./dragdrop/DndContext";
+import {BoardContextProvider} from "./BoardContext";
+import {Point} from "./model/Point";
 
 interface Props {
     width: number,
@@ -10,18 +11,42 @@ interface Props {
 }
 
 const Board: FunctionComponent<Props> = (props) => {
-    const [[x, y], setPos] = useState([0, 0]);
+    const [move, setMove] = useState({
+        moving: false,
+        startX: 0,
+        startY: 0,
+        currentX: 0,
+        currentY: 0,
+    })
 
-    const [start, setStart] = useState([0, 0]);
-    const [move, setMove] = useState([0, 0]);
-    const [moving, setMoving] = useState(false);
-    const [startX, startY] = start;
+    const [scaleOrigin, setScaleOrigin] = useState({
+        scale: 1,
+        origin: {
+            x: 0,
+            y: 0,
+        }
+    });
+
+    const reset = useCallback(() => {
+        setScaleOrigin(prev => {
+            return {
+                ...prev,
+                scale: 1,
+            }
+        })
+    }, []);
+
+    const outerToInner = useCallback((point: Point) => {
+        return point;
+    }, []);
+
+
+    const {moving, startX, startY, currentX, currentY} = move;
+    const {scale, origin} = scaleOrigin;
 
     const dndContext = useDndContext();
 
     useEffect(() => {
-        const [startX, startY] = start;
-        const [moveX, moveY] = move;
 
         const onMove = (e: MouseEvent) => {
             if (!moving) {
@@ -31,7 +56,14 @@ const Board: FunctionComponent<Props> = (props) => {
             if (dndContext.value.moving) {
                 return;
             }
-            setMove([e.clientX, e.clientY]);
+
+            setMove(prev => {
+                return {
+                    ...prev,
+                    currentX: e.clientX,
+                    currentY: e.clientY,
+                }
+            });
         };
         const onMouseUp = (e: MouseEvent) => {
             console.log('svg up');
@@ -44,10 +76,22 @@ const Board: FunctionComponent<Props> = (props) => {
                 return;
             }
 
-            setMoving(false);
-            setPos([x - (moveX - startX), y - (moveY - startY)]);
-            setStart([0, 0]);
-            setMove([0, 0]);
+            setMove(prev => {
+
+                setScaleOrigin(p => {
+                    return {
+                        ...p,
+                        origin: {
+                            x: p.origin.x - (e.clientX - prev.startX ) * p.scale,
+                            y: p.origin.y - (e.clientY - prev.startY) * p.scale,
+                        }
+                    }
+                })
+                return {
+                    ...prev,
+                    moving: false,
+                }
+            })
         };
         window.addEventListener('mousemove', onMove);
         window.addEventListener('mouseup', onMouseUp);
@@ -56,43 +100,75 @@ const Board: FunctionComponent<Props> = (props) => {
             window.removeEventListener('mousemove', onMove);
             window.removeEventListener('mouseup', onMouseUp);
         }
-    }, [moving, start, move, x, y, dndContext.value.moving]);
+    }, [moving, dndContext.value.moving]);
 
     let notifier = useNotifier();
-    const [moveX, moveY] = move;
 
+    console.log({
+        currentX,
+        currentY,
+        startX,
+        startY,
+        scale,
+    })
+    const movedOrigin = !moving ? origin : {
+        x: origin.x - (currentX - startX) * scale,
+        y: origin.y - (currentY - startY) * scale,
+    }
+    return <BoardContextProvider value={{
+        origin: movedOrigin,
+        scale,
+        reset,
+        outerToInner,
+    }}>
+        <svg
+            onClick={e => {
+                e.stopPropagation();
+                notifier('BoardClick');
+            }}
 
+            onWheel={e => {
+                if (e.deltaY > 0) {
+                    setScaleOrigin(prev => {
+                        if (prev.scale < 4) {
+                            return {
+                                ...prev,
+                                scale: prev.scale * 1.1
+                            }
+                        } else {
+                            return prev;
+                        }
+                    });
+                } else {
+                    setScaleOrigin(prev => {
+                        if (prev.scale > 0.2) {
+                            return {
+                                ...prev,
+                                scale: prev.scale / 1.1
+                            }
+                        } else {
+                            return prev;
+                        }
+                    });
+                }
+            }}
 
-    let scaleContext = useMindMapContext();
-    const {scale, setScale} = scaleContext;
-
-    return <svg
-        onClick={e=> {
-            e.stopPropagation();
-            notifier('BoardClick');
-        }}
-
-        onWheel={e => {
-            console.log(e.clientX, e.clientY);
-            if (e.deltaY > 0) {
-                setScale(scale * 1.1);
-            } else {
-                setScale(scale / 1.1);
-            }
-        }}
-
-        onMouseDown={e => {
-            console.log("svg down")
-            setMoving(true);
-            setStart([e.clientX, e.clientY]);
-            setMove([e.clientX, e.clientY]);
-        }}
-        width={'100%'}
-        height={'100%'}
-        className='board'
-        viewBox={`${x - (moveX - startX)} ${y - (moveY - startY)} ${props.width * scale} ${props.height * scale}`}>
-        {props.children}
-    </svg>;
+            onMouseDown={e => {
+                setMove({
+                    moving: true,
+                    currentX: e.clientX,
+                    currentY: e.clientY,
+                    startX: e.clientX,
+                    startY: e.clientY,
+                })
+            }}
+            width={props.width}
+            height={props.height}
+            className='board'
+            viewBox={`${movedOrigin.x} ${movedOrigin.y} ${props.width * scale} ${props.height * scale}`}>
+            {props.children}
+        </svg>
+    </BoardContextProvider>
 };
 
 export default Board;
