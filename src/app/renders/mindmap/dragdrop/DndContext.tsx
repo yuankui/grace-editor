@@ -24,6 +24,12 @@ export interface DndContext {
     value: DndState,
     onChange: React.Dispatch<React.SetStateAction<DndState>>,
     moveEvent: mitt.Emitter,
+    upEvent: mitt.Emitter,
+}
+
+export interface DropEvent {
+    outPoint: Point,
+    src: any,
 }
 
 interface Point {
@@ -69,6 +75,10 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
         return [input, output];
     }, []);
 
+    const upEvent = useMemo(() => {
+        return mitt();
+    }, []);
+
     const moving = value.moving;
     useEffect(() => {
         const movingListener = (e: MouseEvent) => {
@@ -92,10 +102,17 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
             console.log('node up');
 
             onChange(prev => {
+
+                upEvent.emit('up', {
+                    outPoint: {
+                        x: e.clientX,
+                        y: e.clientY,
+                    },
+                    src: prev.src,
+                } as DropEvent);
                 return {
                     ...prev,
                     moving: false,
-                    currentPoint: undefined,
                     startPoint: undefined,
                 }
             })
@@ -113,6 +130,7 @@ export const DndContextProvider: FunctionComponent<Props> = (props) => {
         value,
         moveEvent: outputMoveEvent,
         onChange,
+        upEvent,
     }}>
         {props.children}
     </Context.Provider>;

@@ -15,7 +15,8 @@ import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
 import ExpandIcon from "./ExpandIcon";
-import {useDndContext} from "../dragdrop/DndContext";
+import {DropEvent, useDndContext} from "../dragdrop/DndContext";
+import {useBoardContext} from "../BoardContext";
 
 interface NodeProps {
     pos: Point,
@@ -45,19 +46,20 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         })
     }
 
+    const dndContext = useDndContext();
+
     // 拖动偏移计算
-    const context = useDndContext();
     const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
 
     useEffect(() => {
-        context.moveEvent.on('move', point => {
+        dndContext.moveEvent.on('move', point => {
             setCurrentPoint(point);
         })
     }, []);
 
     let shiftedPos: Point = nodePos as Point;
-    if (context.value.moving && context.value.src.id === nodeConf.id) {
-        const {startPoint} = context.value;
+    if (dndContext.value.moving && dndContext.value.src.id === nodeConf.id) {
+        const {startPoint} = dndContext.value;
         const {y, x} = shiftedPos;
         if (currentPoint && startPoint) {
             shiftedPos = {
@@ -258,6 +260,37 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
         return minX <= x && x <= maxX && minY <= y && y <= maxY;
     }, [shiftedPos.x, shiftedPos.y, nodeConf.widget, nodeConf.height]);
+
+    // 节点移动
+    const {outerToInner} = useBoardContext();
+    useEffect(() => {
+        const listener = (e: DropEvent) => {
+            const point = outerToInner(e.outPoint);
+
+            // 如果命中，就触发drop事件
+            if (hitTest(point.x, point.y)) {
+                // 判断目标节点，是否是当前节点的子节点
+                let isChild = false;
+                let current: NodeConf | undefined = nodeConf;
+                while (true) {
+                    if (current == undefined) {
+                        break;
+                    }
+                    if (current.id == e.src.id) {
+                        isChild = true;
+                        break;
+                    }
+                    current = nodeMap[current.id].parent
+                }
+                if (!isChild) {
+                    console.log('drop', e.src, nodeConf.id);
+                }
+            }
+        };
+        dndContext.upEvent.on('up', listener);
+        return () => dndContext.upEvent.off('up', listener);
+    }, [dndContext.upEvent, outerToInner, hitTest, nodeMap]);
+
 
     return <NodeContextProvider value={{
         parentStart: props.start,
