@@ -8,9 +8,8 @@ import {Point} from "../model/Point";
 import ChildrenNodes from "./ChildrenNodes";
 import NodeRect from "./NodeRect";
 import NodeSelectBorder from "./NodeSelectBorder";
-import {useListener, useNotifier} from "../hooks/useListener";
 import {createEmptyNode} from "../createEmptyNode";
-import {useNodeMap} from "../context/MindMapContext";
+import {useMindMapContext, useNodeMap} from "../context/MindMapContext";
 import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
@@ -38,6 +37,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const nodePos = props.pos;
     const [paddingTop, paddingLeft] = [5, 10];
     const children = nodeConf.children || [];
+    const {eventBus, nodeMap} = useMindMapContext();
+
     const changeNode = (node: NodeConf) => {
         const groupHeight = computeGroupHeight(node.children, node.collapse);
         props.onNodeConfChange({
@@ -71,27 +72,39 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     // 节点选中状态
     const [select, setSelect] = useState(false);
-    let notifier = useNotifier();
-    useListener("NodeClick", (type, id) => {
-        if (id === nodeId) {
+
+    eventBus.useListener("NodeClick", event => {
+        if (event.nodeId === nodeId) {
             setSelect(true);
         } else if (select) {
             setSelect(false);
         }
     }, [select]);
 
-    useListener("BoardClick", () => {
+    eventBus.useListener("BoardClick", () => {
         setSelect(false);
     })
 
     // 删除节点
-    useListener('DeleteNode', () => {
+    // TODO 删除useListener，存在串号的bug
+    eventBus.useListener('DeleteNode', () => {
         if (!select) return;
         props.onDelete();
         // 选择新的几点
-    }, [select]);
+    }, [select, props.onDelete]);
+
+    useEffect(() => {
+        const handler = event => {
+            if (nodeConf.id === event.node.id) {
+                props.onDelete();
+            }
+        };
+        eventBus.on("RemoveNode", handler)
+        return () => eventBus.off('RemoveNode', handler);
+    }, [props.onDelete]);
+
     // 新增子节点
-    useListener("InsertChild", type => {
+    eventBus.useListener("InsertChild", type => {
         if (!select) {
             return;
         }
@@ -105,12 +118,28 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         });
 
         setTimeout(() => {
-            notifier('NodeClick', newChild.id);
+            eventBus.emit('NodeClick', {
+                nodeId: newChild.id
+            });
         }, 100)
     }, [select])
+    useEffect(() => {
+        const handler = event => {
+            if (event.parent.id === nodeConf.id) {
+                const newChildren: Array<NodeConf> = [...children, event.node]
+                props.onNodeConfChange({
+                    ...nodeConf,
+                    children: newChildren,
+                    collapse: false,
+                });
+            }
+        };
+        eventBus.on('AddChild', handler);
+        return () => eventBus.off('AddChild', handler);
+    }, []);
 
     // 新增兄弟节点
-    useListener('InsertSibling', () => {
+    eventBus.useListener('InsertSibling', () => {
         if (!select) return;
         props.onAddSibling();
     }, [select])
@@ -155,23 +184,23 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         y: shiftedPos.y,
     };
 
-    let nodeMap = useNodeMap();
-
 
     // 聚焦节点移动
     // 左移
-    useListener('MoveLeft', () => {
+    eventBus.useListener('MoveLeft', () => {
         if (!select) {
             return;
         }
         const node = nodeMap[nodeId];
         if (node.parent == null) return;
-        notifier('NodeClick', node.parent.id);
+        eventBus.emit('NodeClick', {
+            nodeId: node.parent.id
+        });
     }, [nodeMap, select]);
 
 
     // 展开
-    useListener('ExpandOn', () => {
+    eventBus.useListener('ExpandOn', () => {
         if (!select) {
             return;
         }
@@ -183,7 +212,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     }, [nodeConf, select]);
 
     // 收起
-    useListener('ExpandOff', () => {
+    eventBus.useListener('ExpandOff', () => {
         if (!select) {
             return;
         }
@@ -197,7 +226,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
 
     // 右移
-    useListener('MoveRight', () => {
+    eventBus.useListener('MoveRight', () => {
         if (!select) {
             return;
         }
@@ -206,11 +235,13 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         if (childNodes == null || childNodes.length == 0) return;
 
         const rightNode = childNodes[Math.floor((childNodes.length - 1) / 2)];
-        notifier('NodeClick', rightNode.id);
+        eventBus.emit('NodeClick', {
+            nodeId: rightNode.id,
+        });
     }, [nodeMap, select]);
 
     // 上移
-    useListener('MoveUp', () => {
+    eventBus.useListener('MoveUp', () => {
         if (!select) {
             return;
         }
@@ -225,13 +256,15 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
                 catchError(() => EMPTY),
             )
             .subscribe(n => {
-                notifier('NodeClick', n.id);
+                eventBus.emit('NodeClick', {
+                    nodeId: n.id,
+                });
             })
 
     }, [nodeMap, select]);
 
     // 下移
-    useListener('MoveDown', () => {
+    eventBus.useListener('MoveDown', () => {
         if (!select) {
             return;
         }
@@ -246,7 +279,9 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
                 last(),
             )
             .subscribe(n => {
-                notifier('NodeClick', n.id);
+                eventBus.emit('NodeClick', {
+                    nodeId: n.id,
+                });
             })
 
     }, [nodeMap, select]);
@@ -260,6 +295,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
         return minX <= x && x <= maxX && minY <= y && y <= maxY;
     }, [shiftedPos.x, shiftedPos.y, nodeConf.widget, nodeConf.height]);
+
 
     // 节点移动
     const {outerToInner} = useBoardContext();
@@ -283,7 +319,10 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
                     current = nodeMap[current.id].parent
                 }
                 if (!isChild) {
-                    console.log('drop', e.src, nodeConf.id);
+                    eventBus.emit("MoveNode", {
+                        from: e.src,
+                        to: nodeMap[nodeConf.id].node,
+                    })
                 }
             }
         };

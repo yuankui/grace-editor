@@ -1,15 +1,16 @@
 import React, {FunctionComponent, useEffect, useMemo, useState} from 'react';
-import {useListener, useNotifier} from "../hooks/useListener";
 import {useNodeContext} from "./NodeContext";
 import {Size} from "../model/Size";
 import isHotkey from "is-hotkey";
 import {useDrag} from "../dragdrop/hooks";
+import {useMindMapContext} from "../context/MindMapContext";
 
 interface Props {
     onAreaChange: (area: Size) => void,
 }
 
 const NodeText: FunctionComponent<Props> = (props) => {
+    const {eventBus} = useMindMapContext();
     const nodeContext = useNodeContext();
     const {id: nodeId, text} = nodeContext.nodeConf;
     const {
@@ -25,15 +26,15 @@ const NodeText: FunctionComponent<Props> = (props) => {
     // 显示文本
     const [showTextEdit, setShowTextEdit] = useState(false);
 
-    useListener("NodeDoubleClick", (type, id) => {
-        if (id === nodeId) {
+    eventBus.useListener("NodeDoubleClick", event => {
+        if (event.nodeId === nodeId) {
             setShowTextEdit(true);
         } else {
             setShowTextEdit(false);
         }
     });
 
-    useListener('BoardClick', () => {
+    eventBus.useListener('BoardClick', () => {
         setShowTextEdit(false);
     });
     const texts = text.split('\n');
@@ -65,8 +66,6 @@ const NodeText: FunctionComponent<Props> = (props) => {
     // 拖动节点
     const onMouseDown = useDrag(nodeConf);
 
-
-    let notifier = useNotifier();
     const textElement = texts.map((t, i) => {
         let textY = leftPos.y + fontSize * (i - lineCount / 2 + 0.5);
         return <React.Fragment key={i}>
@@ -83,7 +82,9 @@ const NodeText: FunctionComponent<Props> = (props) => {
                   }}
                   onClick={e => {
                       e.stopPropagation();
-                      notifier('NodeClick', nodeId);
+                      eventBus.emit('NodeClick', {
+                          nodeId,
+                      })
                   }}
                   x={leftPos.x}
                   y={textY}>
@@ -101,10 +102,14 @@ const NodeText: FunctionComponent<Props> = (props) => {
         {nodeContext.nodeConf.groupHeight}
     </text>
 
-    useListener('EditNode', () => {
-        if (select) {
-            setShowTextEdit(!showTextEdit);
-        }
+    useEffect(() => {
+        const listener = () => {
+            if (select) {
+                setShowTextEdit(!showTextEdit);
+            }
+        };
+        eventBus.on('EditNode', listener)
+        return () => eventBus.off("EditNode", listener);
     }, [select, showTextEdit]);
 
     const editY = leftPos.y - size.height / 2;

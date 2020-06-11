@@ -1,8 +1,8 @@
 import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react';
-import {useNotifier} from "./hooks/useListener";
 import {useDndContext} from "./dragdrop/DndContext";
 import {BoardContextProvider} from "./BoardContext";
 import {Point} from "./model/Point";
+import {useMindMapContext} from "./context/MindMapContext";
 
 interface Props {
     width: number,
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const Board: FunctionComponent<Props> = (props) => {
+    const {eventBus} = useMindMapContext();
     const [move, setMove] = useState({
         moving: false,
         startX: 0,
@@ -116,7 +117,6 @@ const Board: FunctionComponent<Props> = (props) => {
         }
     }, [moving, dndContext.value.moving]);
 
-    let notifier = useNotifier();
 
     console.log({
         currentX,
@@ -138,7 +138,7 @@ const Board: FunctionComponent<Props> = (props) => {
         <svg
             onClick={e => {
                 e.stopPropagation();
-                notifier('BoardClick');
+                eventBus.emit('BoardClick');
             }}
             ref={svgRef}
             onWheel={e => {

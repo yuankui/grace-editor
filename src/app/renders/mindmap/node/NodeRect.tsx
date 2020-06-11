@@ -1,25 +1,29 @@
 import React, {FunctionComponent} from 'react';
-import {useNotifier} from "../hooks/useListener";
 import {useNodeContext} from "./NodeContext";
+import {useMindMapContext} from "../context/MindMapContext";
 
 interface Props {
 }
 
 const NodeRect: FunctionComponent<Props> = () => {
     let nodeContext = useNodeContext();
+    const {eventBus} = useMindMapContext();
     const {nodePos, nodeConf, nodeStyle} = nodeContext;
     const {height: nodeHeight, width: nodeWidth} = nodeConf;
     const {id: nodeId} = nodeConf;
     // 矩形背景
-    const notifier = useNotifier();
     return <rect x={nodePos.x}
                  y={nodePos.y - nodeHeight / 2}
                  onClick={e => {
-                     notifier('NodeClick', nodeId);
+                     eventBus.emit('NodeClick', {
+                         nodeId,
+                     });
                      e.stopPropagation();
                  }}
                  onDoubleClick={e => {
-                     notifier("NodeDoubleClick", nodeId);
+                     eventBus.emit("NodeDoubleClick", {
+                         nodeId
+                     });
                      e.stopPropagation();
                  }}
                  fill={nodeStyle.fillColor}

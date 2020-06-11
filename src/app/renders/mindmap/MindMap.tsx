@@ -2,7 +2,6 @@ import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 're
 import Board from "./Board";
 import RectNode from "./node/RectNode";
 import {NodeConf, Value} from "./model";
-import {useNotifier} from "./hooks/useListener";
 import {bindKey} from "./hotkey/hotkeys";
 import {NodeMap, NodeWithParent} from "./context/NodeMap";
 import {MindMapContextProvider} from './context/MindMapContext';
@@ -10,6 +9,8 @@ import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
+import {MoveNodeEvent} from "./events/events";
+import {EventBus} from "./events/eventBus";
 
 export interface MindMapProps {
     value: Value,
@@ -40,6 +41,10 @@ const lazyUpdateNodeMap = lazyExecute(updateNodeMap, 50);
 const MindMap: FunctionComponent<MindMapProps> = (props) => {
     const node = props.value.roots[0];
     let history = useHistory<Value>(props.value);
+    // eventBus
+    const eventBus = useMemo(() => {
+        return new EventBus();
+    }, []);
 
     const setNodeConf = (node: NodeConf) => {
         const newValue: Value = {
@@ -50,27 +55,25 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         props.onChange(newValue);
     }
 
-
     const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
 
     useEffect(() => {
         lazyUpdateNodeMap(props.value, setNodeMap);
     }, [props.value, setNodeMap]);
 
-    let notifier = useNotifier();
 
     const listener = useMemo(() => {
         const listeners = [
-            bindKey('tab', "InsertChild", notifier),
-            bindKey('enter', "InsertSibling", notifier),
-            bindKey('backspace', "DeleteNode", notifier),
-            bindKey('mod+enter', "EditNode", notifier),
-            bindKey('up', "MoveUp", notifier),
-            bindKey('down', "MoveDown", notifier),
-            bindKey('left', "MoveLeft", notifier),
-            bindKey('right', "MoveRight", notifier),
-            bindKey('mod+=', "ExpandOn", notifier),
-            bindKey('mod+-', "ExpandOff", notifier),
+            bindKey('tab', "InsertChild", eventBus),
+            bindKey('enter', "InsertSibling", eventBus),
+            bindKey('backspace', "DeleteNode", eventBus),
+            bindKey('mod+enter', "EditNode", eventBus),
+            bindKey('up', "MoveUp", eventBus),
+            bindKey('down', "MoveDown", eventBus),
+            bindKey('left', "MoveLeft", eventBus),
+            bindKey('right', "MoveRight", eventBus),
+            bindKey('mod+=', "ExpandOn", eventBus),
+            bindKey('mod+-', "ExpandOff", eventBus),
         ]
 
         const historyListener = (e: KeyboardEvent) => {
@@ -137,6 +140,26 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         return () => clearInterval(h);
     }, [])
 
+
+
+    // 移动节点dnd
+    useEffect(() => {
+        const handler = (e: MoveNodeEvent) => {
+            // 通过set来动态获取nodeMap，这样不用让整个useEffect重新编译
+            setNodeMap(nodeMap => {
+                eventBus.emit("RemoveNode", {node: e.from});
+                eventBus.emit("AddChild", {
+                    node: e.from,
+                    parent: e.to,
+                })
+                return nodeMap;
+            })
+        };
+        eventBus.on("MoveNode", handler)
+        return () => eventBus.off("MoveNode", handler);
+    }, []);
+
+
     return (
         <div className="mindmap-wrapper"
              ref={ref}
@@ -154,7 +177,8 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
              suppressContentEditableWarning={true}>
             <DndContextProvider>
                 <MindMapContextProvider value={{
-                    nodeMap: nodeMap,
+                    nodeMap,
+                    eventBus,
                 }}>
                     <Board width={size.width} height={size.height}>
                         <RectNode nodeConf={node}

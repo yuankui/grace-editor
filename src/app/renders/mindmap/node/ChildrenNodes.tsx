@@ -2,15 +2,16 @@ import React, {FunctionComponent} from 'react';
 import {useNodeContext} from "./NodeContext";
 import RectNode from "./RectNode";
 import {createEmptyNode} from "../createEmptyNode";
-import {useNotifier} from "../hooks/useListener";
 import {NodeConf} from "../model";
 import {defaultGutter} from "../Constants";
+import {useMindMapContext} from "../context/MindMapContext";
 
 interface Props {}
 
 // 横坐标便宜
 const xShift = 100;
 const ChildrenNodes: FunctionComponent<Props> = (props) => {
+    const {eventBus} = useMindMapContext();
     let nodeContext = useNodeContext();
     const {
         nodeConf,
@@ -27,8 +28,6 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     let childrenYs = computeChildrenYs(nodePos.y, heights);
 
     const anchorRight = nodePos.x + textSize.width;
-
-    let notifier = useNotifier();
 
     if (nodeConf.collapse) {
         return null;
@@ -69,7 +68,10 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                                  })
 
                                  setTimeout(() => {
-                                     notifier('NodeClick', newChild.id)
+
+                                     eventBus.emit('NodeClick', {
+                                         nodeId: newChild.id
+                                     })
                                  }, 100);
                              }}
                              start={{
