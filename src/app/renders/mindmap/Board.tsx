@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useEffect, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react';
 import {useNotifier} from "./hooks/useListener";
 import {useDndContext} from "./dragdrop/DndContext";
 import {BoardContextProvider} from "./BoardContext";
@@ -36,13 +36,23 @@ const Board: FunctionComponent<Props> = (props) => {
         })
     }, []);
 
-    const outerToInner = useCallback((point: Point) => {
-        return point;
-    }, []);
-
+    const svgRef = useRef<SVGSVGElement>(null);
 
     const {moving, startX, startY, currentX, currentY} = move;
     const {scale, origin} = scaleOrigin;
+
+    const outerToInner = useCallback((point: Point) => {
+        const svg = svgRef.current;
+        if (!svg) return point;
+
+        const rect = svg.getClientRects().item(0) as DOMRect;
+
+        return {
+            x: (point.x - rect.left) * scale + origin.x,
+            y: (point.y - rect.top) * scale + origin.y,
+        } as Point;
+    }, [origin.x, origin.y]);
+
 
     const dndContext = useDndContext();
 
@@ -79,10 +89,14 @@ const Board: FunctionComponent<Props> = (props) => {
             setMove(prev => {
 
                 setScaleOrigin(p => {
+                    console.log('origin', {
+                        x: p.origin.x - (e.clientX - prev.startX) * p.scale,
+                        y: p.origin.y - (e.clientY - prev.startY) * p.scale,
+                    });
                     return {
                         ...p,
                         origin: {
-                            x: p.origin.x - (e.clientX - prev.startX ) * p.scale,
+                            x: p.origin.x - (e.clientX - prev.startX) * p.scale,
                             y: p.origin.y - (e.clientY - prev.startY) * p.scale,
                         }
                     }
@@ -126,7 +140,7 @@ const Board: FunctionComponent<Props> = (props) => {
                 e.stopPropagation();
                 notifier('BoardClick');
             }}
-
+            ref={svgRef}
             onWheel={e => {
                 if (e.deltaY > 0) {
                     setScaleOrigin(prev => {
