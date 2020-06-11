@@ -338,7 +338,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             borderColor: 'white',
             fontSize: 16,
         },
-        onNodeConfChange: changeNode,
+        onNodeConfChange: changeNode, // TODO 更新onNodeConfChange，改用事件机制
         nodeGutter: defaultGutter,
         select: select,
         hitTest,
