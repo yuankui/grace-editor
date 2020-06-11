@@ -9,7 +9,7 @@ import ChildrenNodes from "./ChildrenNodes";
 import NodeRect from "./NodeRect";
 import NodeSelectBorder from "./NodeSelectBorder";
 import {createEmptyNode} from "../createEmptyNode";
-import {useMindMapContext, useNodeMap} from "../context/MindMapContext";
+import {useMindMapContext} from "../context/MindMapContext";
 import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
@@ -25,12 +25,13 @@ interface NodeProps {
 
     nodeConf: NodeConf,
     onNodeConfChange: (node: NodeConf) => void,
-    onDelete: () => void,
     onAddSibling: () => void,
 }
 
 // 节点之间的，垂直方向的间隙
 const defaultGutter = 20;
+
+
 const RectNode: FunctionComponent<NodeProps> = (props) => {
     const {nodeConf} = props;
     const {id: nodeId} = nodeConf;
@@ -39,13 +40,13 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const children = nodeConf.children || [];
     const {eventBus, nodeMap} = useMindMapContext();
 
-    const changeNode = (node: NodeConf) => {
+    const changeNode = useCallback((node: NodeConf) => {
         const groupHeight = computeGroupHeight(node.children, node.collapse);
         props.onNodeConfChange({
             ...node,
             groupHeight: Math.max(groupHeight, node.height),
         })
-    }
+    }, [props.onNodeConfChange]);
 
     const dndContext = useDndContext();
 
@@ -74,37 +75,28 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const [select, setSelect] = useState(false);
 
     eventBus.useListener("NodeClick", event => {
-        if (event.nodeId === nodeId) {
-            setSelect(true);
-        } else if (select) {
-            setSelect(false);
-        }
-    }, [select]);
+        setSelect(event.nodeId === nodeId);
+    });
 
     eventBus.useListener("BoardClick", () => {
         setSelect(false);
     })
 
     // 删除节点
-    // TODO 删除useListener，存在串号的bug
     eventBus.useListener('DeleteNode', () => {
-        if (!select) return;
-        props.onDelete();
-        // 选择新的几点
-    }, [select, props.onDelete]);
-
-    useEffect(() => {
-        const handler = event => {
-            if (nodeConf.id === event.node.id) {
-                props.onDelete();
+        setSelect(select => {
+            if (select) {
+                eventBus.emit('DeleteChildNode', {
+                    nodeId: nodeConf.id,
+                    parentId: nodeMap[nodeConf.id].parent?.id
+                })
             }
-        };
-        eventBus.on("RemoveNode", handler)
-        return () => eventBus.off('RemoveNode', handler);
-    }, [props.onDelete]);
+            return select;
+        })
+    }, [nodeMap])
 
     // 新增子节点
-    eventBus.useListener("InsertChild", type => {
+    eventBus.useListener("InsertChild", () => {
         if (!select) {
             return;
         }
@@ -209,7 +201,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             ...nodeConf,
             collapse: false,
         })
-    }, [nodeConf, select]);
+    }, [nodeConf, select, changeNode]);
 
     // 收起
     eventBus.useListener('ExpandOff', () => {
@@ -221,7 +213,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             ...nodeConf,
             collapse: true,
         })
-    }, [nodeConf, select]);
+    }, [nodeConf, select, changeNode]);
 
 
 

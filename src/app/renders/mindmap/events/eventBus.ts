@@ -13,6 +13,7 @@ export class EventBus {
     }
 
     emit<T extends keyof EventMap>(type: T, event?: EventMap[T]) {
+        console.log('event', type, event);
         this.eventBus.emit(type, event);
     }
 

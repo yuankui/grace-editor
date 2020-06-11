@@ -6,7 +6,8 @@ import {NodeConf} from "../model";
 import {defaultGutter} from "../Constants";
 import {useMindMapContext} from "../context/MindMapContext";
 
-interface Props {}
+interface Props {
+}
 
 // 横坐标便宜
 const xShift = 100;
@@ -32,6 +33,18 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     if (nodeConf.collapse) {
         return null;
     }
+
+    eventBus.useListener('DeleteChildNode', ({parentId, nodeId}) => {
+        if (parentId !== nodeConf.id) return;
+
+        const newChildren = children.filter((v) => {
+            return v.id !== nodeId
+        });
+        onNodeConfChange({
+            ...nodeConf,
+            children: newChildren,
+        })
+    }, [children, onNodeConfChange, nodeConf])
     // 计算子节点
     const childrenEl = children.map(
         (value, index) => {
@@ -42,15 +55,6 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
             };
             return <RectNode key={value.id}
                              pos={childPos}
-                             onDelete={() => {
-                                 const newChildren = children.filter((v, i) => {
-                                     return index !== i;
-                                 });
-                                 onNodeConfChange({
-                                     ...nodeConf,
-                                     children: newChildren,
-                                 })
-                             }}
                              onAddSibling={() => {
 
                                  let newChild: NodeConf;
@@ -122,4 +126,5 @@ function computeChildrenYs(center: number, heights: Array<number>) {
 
     return res.map(r => r + heights[0] / 2 - avg + center);
 }
+
 export default ChildrenNodes;

@@ -141,13 +141,15 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
     }, [])
 
 
-
     // 移动节点dnd
     useEffect(() => {
         const handler = (e: MoveNodeEvent) => {
             // 通过set来动态获取nodeMap，这样不用让整个useEffect重新编译
             setNodeMap(nodeMap => {
-                eventBus.emit("RemoveNode", {node: e.from});
+                eventBus.emit("DeleteChildNode", {
+                    nodeId: e.from.id,
+                    parentId: nodeMap[e.from.id].parent?.id,
+                });
                 eventBus.emit("AddChild", {
                     node: e.from,
                     parent: e.to,
@@ -185,8 +187,6 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                                   pos={{
                                       x: 150,
                                       y: 150,
-                                  }}
-                                  onDelete={() => {
                                   }}
                                   onAddSibling={() => {
                                   }}

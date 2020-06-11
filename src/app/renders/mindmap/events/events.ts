@@ -1,7 +1,6 @@
 import {NodeConf} from "../model";
 
 export interface EventMap {
-    RemoveNode: RemoveNodeEvent,
     AddChild: AddNodeEvent,
     MoveNode: MoveNodeEvent,
     NodeClick: NodeClickEvent,
@@ -17,7 +16,14 @@ export interface EventMap {
     ExpandOn: KeyboardEvent,
     ExpandOff: KeyboardEvent,
     NodeDoubleClick: NodeDoubleClickEvent,
+    DeleteChildNode: DeleteChildNodeEvent,
 }
+
+export interface DeleteChildNodeEvent {
+    nodeId: string,
+    parentId: string | undefined,
+}
+
 export interface NodeClickEvent {
     nodeId: string,
 }
