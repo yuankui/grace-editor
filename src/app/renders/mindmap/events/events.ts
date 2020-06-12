@@ -1,4 +1,5 @@
 import {NodeConf} from "../model";
+import {Size} from "../model/Size";
 
 export interface EventMap {
     AddChild: AddNodeEvent,
@@ -17,8 +18,14 @@ export interface EventMap {
     ExpandOff: KeyboardEvent,
     NodeDoubleClick: NodeDoubleClickEvent,
     DeleteChildNode: DeleteChildNodeEvent,
+
+    NodeSizeChange: NodeSizeChangeEvent,
 }
 
+export interface NodeSizeChangeEvent {
+    nodeId: string,
+    size: Size,
+}
 export interface DeleteChildNodeEvent {
     nodeId: string,
     parentId: string | undefined,

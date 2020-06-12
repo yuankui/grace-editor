@@ -1,32 +1,44 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useMemo, useState} from 'react';
 import {MindMapContext, MindMapContextProvider} from "./MindMapContext";
 import {uuid} from "../uuid";
 import Node from "./Node";
 import Edge from "./Edge";
+import {NodeValue} from "./NodeValue";
+import {EventBus} from "../events/eventBus";
 
 interface Props {
 
 }
 
+const defaultValue: NodeValue = {id: uuid(), text: "Hello", type: "rect"};
+
 const MindMap: FunctionComponent<Props> = (props) => {
+    const eventBus = useMemo(() => {
+        return new EventBus();
+    }, []);
+
     const [state, setState] = useState<MindMapContext>({
-        nodes: [{id: uuid(), text: "Hello", type: "rect"}],
-        childrenMap: {},
-        nodeSize: {},
-        parentMap: {},
+        eventBus,
+        nodes: [defaultValue.id],
+        nodeInfoMap: {
+            [defaultValue.id]: {
+                value: defaultValue,
+                children: [],
+            }
+        }
     });
 
     const {nodes} = state;
-    const nodeList = nodes.map(n => {
-        return <Node id={n.id} key={n.id}/>;
+    const nodeList = nodes.map(id => {
+        return <Node id={id} key={id}/>;
     });
 
-    const edgeList = nodes.map(n => {
-        return <Edge nodeId={n.id} key={n.id}/>
+    const edgeList = nodes.map(id => {
+        return <Edge nodeId={id} key={id}/>
     });
 
     return <MindMapContextProvider value={state}>
-        <svg width="100%" height='100%'>
+        <svg className='mindmap' width="100%" height='100%'>
             {edgeList}
             {nodeList}
         </svg>
