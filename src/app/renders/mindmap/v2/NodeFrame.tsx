@@ -22,7 +22,7 @@ const defaultRect = {
 
 const NodeFrame: FunctionComponent<Props> = ({nodeId}) => {
     const {eventBus, nodeInfoMap} = useMindMapContext();
-    const nodeInfo = nodeInfoMap[nodeId];
+    const nodeInfo = nodeInfoMap.get(nodeId);
 
     const {rect = defaultRect} = nodeInfo;
 

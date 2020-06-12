@@ -2,6 +2,7 @@ import {NodeValue} from "./NodeValue";
 import React, {useContext} from 'react';
 import {EventBus} from "../events/eventBus";
 import {Point} from "../model/Point";
+import Immutable from 'immutable';
 
 interface Map<T> {
     [key: string]: T,
@@ -40,7 +41,7 @@ interface NodeInfo {
 export interface MindMapContext {
     nodes: Array<string>,
     eventBus: EventBus,
-    nodeInfoMap: Map<NodeInfo>,
+    nodeInfoMap: Immutable.Map<string, NodeInfo>,
 }
 
 const Context = React.createContext<MindMapContext>(null as any);

@@ -9,7 +9,7 @@ interface Props {
 const NodeText: FunctionComponent<Props> = ({nodeId}) => {
 
     const {eventBus, nodeInfoMap} = useMindMapContext();
-    const {value, rect = defaultRect} = nodeInfoMap[nodeId];
+    const {value, rect = defaultRect} = nodeInfoMap.get(nodeId);
     // 显示文本
     const [showTextEdit, setShowTextEdit] = useState(false);
 
