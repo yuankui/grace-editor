@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect, useMemo, useState} from 'react';
-import {useDrag} from "../dragdrop/hooks";
 import isHotkey from "is-hotkey";
-import {useMindMapContext} from "./MindMapContext";
+import {defaultRect, useMindMapContext} from "./MindMapContext";
 
 interface Props {
     nodeId: string,
@@ -10,7 +9,7 @@ interface Props {
 const NodeText: FunctionComponent<Props> = ({nodeId}) => {
 
     const {eventBus, nodeInfoMap} = useMindMapContext();
-    const {value} = nodeInfoMap[nodeId];
+    const {value, rect = defaultRect} = nodeInfoMap[nodeId];
     // 显示文本
     const [showTextEdit, setShowTextEdit] = useState(false);
 
@@ -53,68 +52,34 @@ const NodeText: FunctionComponent<Props> = ({nodeId}) => {
         })
     }, []);
 
-    // 拖动节点
+    const frame = <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
+        <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                {texts.map((t) => {
+                    return <span>{t}</span>
+                })}
+            </div>
+        </div>
+    </foreignObject>;
 
-    const textElement = texts.map((t, i) => {
-        let textY = leftPos.y + fontSize * (i - lineCount / 2 + 0.5);
-        return <React.Fragment key={i}>
-            <text fontSize={fontSize}
-                  key={i}
-                  ref={ref => {
-                      refs[i] = ref;
-                  }}
-                  onMouseDown={onMouseDown}
-                  dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
-                  onDoubleClick={e => {
-                      setShowTextEdit(true);
-                      e.stopPropagation();
-                  }}
-                  onClick={e => {
-                      e.stopPropagation();
-                      eventBus.emit('NodeClick', {
-                          nodeId,
-                      })
-                  }}
-                  x={leftPos.x}
-                  y={textY}>
-                {t}
-            </text>
-            {/*<circle cx={leftPos.x} cy={textY} r={2} fill='red'/>*/}
-        </React.Fragment>;
-    });
 
-    // TODO remove height text
-    const heightText = <text fontSize={fontSize}
-                             dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
-                             x={leftPos.x}
-                             y={leftPos.y + 20}>
-        {nodeContext.nodeConf.groupHeight}
-    </text>
-
-    useEffect(() => {
-        const listener = () => {
-            if (select) {
-                setShowTextEdit(!showTextEdit);
-            }
-        };
-        eventBus.on('EditNode', listener)
-        return () => eventBus.off("EditNode", listener);
-    }, [select, showTextEdit]);
-
-    const editY = leftPos.y - size.height / 2;
     const textEditInput = !showTextEdit ? null :
-        <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
-        <textarea style={{height: size.height, width: size.width + 12, fontSize: fontSize - 2}} // 这里fontSize-2，以解决text和textarea字体不一致的情况
-                  ref={e => {
-                      const textarea = e as any;
-                      if (textarea == null) return;
-                      textarea.style.height = textarea.scrollHeight + "px";
-                      textarea.focus();
-                  }}
+        <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
+        <textarea autoFocus={true}
                   onChange={e => {
                       const value = e.target.value;
-                      onNodeConfChange({
-                          ...nodeContext.nodeConf,
+                      eventBus.emit('NodeTextChange', {
+                          nodeId,
                           text: value,
                       })
                   }}
@@ -134,13 +99,11 @@ const NodeText: FunctionComponent<Props> = ({nodeId}) => {
                   onInput={e => {
                       const textarea = e.target as any;
                       textarea.style.height = textarea.scrollHeight + "px";
-                  }} defaultValue={text}/>
+                  }} defaultValue={value.text}/>
         </foreignObject>;
 
-
-
     return <>
-        {textElement}
+        {frame}
         {textEditInput}
     </>;
 };

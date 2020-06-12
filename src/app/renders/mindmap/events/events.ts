@@ -20,8 +20,13 @@ export interface EventMap {
     DeleteChildNode: DeleteChildNodeEvent,
 
     NodeSizeChange: NodeSizeChangeEvent,
+    NodeTextChange: NodeTextChangeEvent,
 }
 
+export interface NodeTextChangeEvent {
+    nodeId: string,
+    text: string,
+}
 export interface NodeSizeChangeEvent {
     nodeId: string,
     size: Size,

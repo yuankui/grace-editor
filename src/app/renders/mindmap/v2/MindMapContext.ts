@@ -12,6 +12,13 @@ interface Size {
     height: string,
 }
 
+export const defaultRect = {
+    left: 0,
+    top: 0,
+    height: 20,
+    width: 60
+};
+
 interface Rect {
     left: number,
     top: number,
