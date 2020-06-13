@@ -47,18 +47,9 @@ const NodeText: FunctionComponent<Props> = (props) => {
     const textRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (textRef.current) {
-            const rect = textRef.current.getClientRects()[0];
-            setSize({
-                width: rect.width,
-                height: rect.height,
-            })
-            eventBus.emit('AdjustNodeSize', {
-                nodeId,
-                width: rect.width,
-                height: rect.height,
-            })
-        }
+        eventBus.emit('RefreshNodeSize', {
+            nodeId,
+        })
     }, []);
 
     // 拖动节点
@@ -75,13 +66,14 @@ const NodeText: FunctionComponent<Props> = (props) => {
             justifyContent: "center",
             alignItems: "start",
         }}>
-            <div ref={textRef} onMouseDown={onMouseDown}
+            <div ref={textRef}
                  onDoubleClick={e => {
                      eventBus.emit('NodeDoubleClick', {
                          nodeId,
                      })
                      e.stopPropagation();
                  }}
+                 onMouseDown={onMouseDown}
                  onClick={(e) => {
                      eventBus.emit('NodeClick', {
                          nodeId: nodeId,
@@ -90,7 +82,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
                  }} style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'start',
             }}>
                 {texts.map((t, i) => {
                     return <span key={i}>{t}</span>
@@ -100,6 +92,21 @@ const NodeText: FunctionComponent<Props> = (props) => {
     </foreignObject>;
 
 
+    eventBus.useListener('RefreshNodeSize', event => {
+        if (event.nodeId != nodeId) return;
+        if (textRef.current) {
+            const rect = textRef.current.getClientRects()[0];
+            const s: Size = {
+                width: Math.max(rect.width, 10),
+                height: Math.max(rect.height, 20),
+            }
+            setSize(s)
+            eventBus.emit('AdjustNodeSize', {
+                nodeId,
+                ...s,
+            })
+        }
+    })
     useEffect(() => {
         const listener = () => {
             if (select) {
@@ -111,11 +118,14 @@ const NodeText: FunctionComponent<Props> = (props) => {
     }, [select, showTextEdit]);
 
     const textEditInput = !showTextEdit ? null :
-        <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
+        <foreignObject x={leftPos.x}
+                       y={editY}
+                       width={size.width + 6}
+                       height={size.height}>
         <textarea style={{
             height: size.height,
             width: size.width + 12,
-            fontSize: fontSize - 2
+            fontSize: fontSize,
         }} // 这里fontSize-2，以解决text和textarea字体不一致的情况
                   ref={e => {
                       const textarea = e as any;
@@ -126,6 +136,9 @@ const NodeText: FunctionComponent<Props> = (props) => {
                   onChange={e => {
                       const value = e.target.value;
                       setText(value);
+                      eventBus.emit('RefreshNodeSize', {
+                          nodeId,
+                      })
                   }}
                   onBlur={e => {
                       onNodeConfChange(old => {

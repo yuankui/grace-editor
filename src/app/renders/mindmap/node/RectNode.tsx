@@ -150,13 +150,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         };
 
         props.onNodeConfChange(old => {
-            if (size.height == old.height) {
-                // 高度没有改变，就不出发上层更新，性能优化
-                return old;
-            }
-
             // 计算子节点高度和
-            const childHeight = computeGroupHeight(nodeConf.children, nodeConf.collapse);
+            const childHeight = computeGroupHeight(old.children, old.collapse);
             return {
                 ...old,
                 width: size.width,

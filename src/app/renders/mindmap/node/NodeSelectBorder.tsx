@@ -2,12 +2,14 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useNodeContext} from "./NodeContext";
 import {useDndContext} from "../dragdrop/DndContext";
 import {useBoardContext} from "../BoardContext";
+import {useMindMapContext} from "../context/MindMapContext";
 
 interface Props {
     select: boolean,
 }
 
 const NodeSelectBorder: FunctionComponent<Props> = (props) => {
+    const {eventBus} = useMindMapContext();
     const {outerToInner} = useBoardContext();
     const nodeContext = useNodeContext();
     const {nodePos, nodeConf, hitTest} = nodeContext;
@@ -25,6 +27,9 @@ const NodeSelectBorder: FunctionComponent<Props> = (props) => {
     const dndContext = useDndContext();
     const {moveEvent} = dndContext;
 
+    eventBus.useListener('BoardClick', event => {
+        setHover(false);
+    })
     useEffect(() => {
         const listener = point => {
             point = outerToInner(point);

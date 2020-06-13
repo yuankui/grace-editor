@@ -8,7 +8,7 @@ interface Props {
 
 const NodeEdge: FunctionComponent<Props> = (props) => {
     let nodeContext = useNodeContext();
-    let parentStart = nodeContext.parentStart;
+    const {parentStart} = nodeContext;
     if (parentStart == null) {
         return null;
     }
@@ -22,7 +22,6 @@ const NodeEdge: FunctionComponent<Props> = (props) => {
 
     const cx2 = x2 - c;
     const cy2 = y2;
-
 
     return <path d={`M ${x1} ${y1} C ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`}
                  className='edge'

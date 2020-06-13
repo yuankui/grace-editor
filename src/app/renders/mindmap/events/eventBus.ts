@@ -12,11 +12,11 @@ export class EventBus {
         this.eventBus = mitt();
     }
 
-    emit<T extends keyof EventMap>(type: T, event?: EventMap[T]) {
+    emit<T extends keyof EventMap>(type: T, event?: EventMap[T], timeout?: number) {
         setTimeout(() => {
             console.log('event', type, event);
             this.eventBus.emit(type, event);
-        }, 0);
+        }, timeout || 0);
     }
 
     on<T extends keyof EventMap>(type: T, listener: Handler<EventMap[T]>) {

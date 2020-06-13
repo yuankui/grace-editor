@@ -4,13 +4,14 @@ import {Size} from "../model/Size";
 export interface EventMap {
     AddChild: AddNodeEvent,
     MoveNode: MoveNodeEvent,
-    NodeClick: NodeClickEvent,
+    NodeClick: NodeEvent,
     BoardClick: any,
     InsertChild: KeyboardEvent,
     InsertSibling: KeyboardEvent,
     DeleteNode: KeyboardEvent,
     EditNode: KeyboardEvent,
     AdjustNodeSize: AdjustNodeSizeEvent,
+    RefreshNodeSize: NodeEvent,
     MoveUp: KeyboardEvent,
     MoveDown: KeyboardEvent,
     MoveLeft: KeyboardEvent,
@@ -24,6 +25,9 @@ export interface EventMap {
     NodeTextChange: NodeTextChangeEvent,
 }
 
+export interface NodeEvent {
+    nodeId: string,
+}
 export interface AdjustNodeSizeEvent {
     nodeId: string,
     width: number,
@@ -43,9 +47,6 @@ export interface DeleteChildNodeEvent {
     parentId: string | undefined,
 }
 
-export interface NodeClickEvent {
-    nodeId: string,
-}
 export interface MoveNodeEvent {
     from: NodeConf,
     to: NodeConf,
