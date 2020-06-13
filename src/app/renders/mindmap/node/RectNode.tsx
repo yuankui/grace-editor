@@ -35,18 +35,19 @@ const defaultGutter = 20;
 
 
 const RectNode: FunctionComponent<NodeProps> = (props) => {
+    const {eventBus, nodeMap} = useMindMapContext();
+    const dndContext = useDndContext();
+    const {scale} = useBoardContext();
     const {nodeConf, anchorLeft} = props;
     const {id: nodeId, width, height} = nodeConf;
     const [paddingTop, paddingLeft] = [5, 10];
+
     const children = nodeConf.children || [];
-    const {eventBus, nodeMap} = useMindMapContext();
 
     const getGroupHeight = useCallback((node: NodeConf) => {
         const groupHeight = computeGroupHeight(node.children, node.collapse);
         return Math.max(groupHeight, node.height);
     }, []);
-
-    const dndContext = useDndContext();
 
     // 拖动偏移计算
     const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
@@ -67,12 +68,12 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         const {y, x} = point;
         if (currentPoint && startPoint) {
             return {
-                x: x + currentPoint.x - startPoint.x,
-                y: y + currentPoint.y - startPoint.y,
+                x: x + (currentPoint.x - startPoint.x) * scale,
+                y: y + (currentPoint.y - startPoint.y) * scale,
             }
         }
         return point;
-    }, [dndContext, currentPoint]);
+    }, [dndContext, currentPoint, scale]);
 
     const shiftAnchorLeft: Point = shift(anchorLeft);
     const shiftAnchorRight: Point = {

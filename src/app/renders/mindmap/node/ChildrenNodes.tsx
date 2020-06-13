@@ -18,6 +18,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         nodeConf,
         anchorRight,
         onNodeConfChange,
+        textSize,
     } = nodeContext;
     const children = (nodeConf.children || []).filter(n => n != null);
 
@@ -31,6 +32,17 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         return null;
     }
 
+    // 改变文本框尺寸
+    eventBus.useListener('AdjustNodeSize', event => {
+        // 某个子节点调整了
+        if (!children.some(c => c.id === event.nodeId)) {
+            return;
+        }
+        eventBus.emit('AdjustNodeSize', {
+            nodeId: nodeConf.id,
+            ...textSize,
+        })
+    }, [children])
     eventBus.useListener('DeleteChildNode', ({parentId, nodeId}) => {
         if (parentId !== nodeConf.id) return;
 
