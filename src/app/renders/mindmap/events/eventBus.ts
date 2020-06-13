@@ -3,7 +3,18 @@ import {EventMap} from "./events";
 import {useEffect} from "react";
 
 export interface Handler<T> {
-    (event: T): void,
+    (event: T, resolve: Resolve): void,
+}
+
+export interface InnerHandler<T> {
+    (event: {
+        event: T,
+        resolve: Resolve,
+    }): void,
+}
+
+export interface Resolve {
+    (): void,
 }
 
 export class EventBus {
@@ -13,24 +24,34 @@ export class EventBus {
     }
 
     emit<T extends keyof EventMap>(type: T, event?: EventMap[T], timeout?: number) {
-        setTimeout(() => {
-            console.log('event', type, event);
-            this.eventBus.emit(type, event);
-        }, timeout || 0);
+        return new Promise(resolve => {
+            setTimeout(() => {
+                console.log('event', type, event);
+                this.eventBus.emit(type, {
+                    event,
+                    resolve,
+                });
+            }, timeout || 0);
+        })
+
     }
 
-    on<T extends keyof EventMap>(type: T, listener: Handler<EventMap[T]>) {
+    private on<T extends keyof EventMap>(type: T, listener: InnerHandler<EventMap[T]>) {
         this.eventBus.on(type, listener);
     }
 
-    off<T extends keyof EventMap>(type: T, listener: Handler<EventMap[T]>) {
+    private off<T extends keyof EventMap>(type: T, listener: InnerHandler<EventMap[T]>) {
         this.eventBus.off(type, listener);
     }
 
     useListener<T extends keyof EventMap>(type: T, listener: Handler<EventMap[T]>, deps?: Array<any>) {
+        const handler: InnerHandler<EventMap[T]> = event => {
+            listener(event.event, event.resolve);
+        }
+
         useEffect(() => {
-            this.on(type, listener);
-            return () => this.off(type, listener);
+            this.on(type, handler);
+            return () => this.off(type, handler);
         }, deps || []);
     }
 }

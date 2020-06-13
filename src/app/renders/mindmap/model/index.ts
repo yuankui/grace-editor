@@ -11,7 +11,7 @@ export interface NodeConf {
     collapse?: boolean, // 默认展开
     color: string,
     widget?: Array<WidgetConf>,
-    children?: Array<NodeConf>,
+    children: Array<NodeConf>,
 }
 
 interface WidgetConf {

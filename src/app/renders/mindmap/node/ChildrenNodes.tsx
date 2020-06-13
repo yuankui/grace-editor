@@ -43,7 +43,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
             ...textSize,
         })
     }, [children])
-    eventBus.useListener('DeleteChildNode', ({parentId, nodeId}) => {
+    eventBus.useListener('DeleteChildNode', ({parentId, nodeId}, resolve) => {
         if (parentId !== nodeConf.id) return;
 
 
@@ -56,6 +56,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                 children: newChildren,
             }
         })
+        resolve();
     }, [onNodeConfChange])
     // 计算子节点
     const childrenEl = children.map(

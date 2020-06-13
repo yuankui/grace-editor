@@ -54,7 +54,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     useEffect(() => {
         dndContext.moveEvent.on('move', point => {
             if (dndContext.value.moving) {
-                console.log('moving', point);
                 setCurrentPoint(point);
             }
         })
@@ -127,22 +126,19 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             });
         }, 100)
     }, [select])
-    useEffect(() => {
-        const handler = event => {
-            if (event.parent.id === nodeConf.id) {
-                const newChildren: Array<NodeConf> = [...children, event.node]
-                props.onNodeConfChange(old => {
-                    return {
-                        ...old,
-                        children: newChildren,
-                        collapse: false,
-                    }
-                });
-            }
-        };
-        eventBus.on('AddChild', handler);
-        return () => eventBus.off('AddChild', handler);
-    }, []);
+
+    eventBus.useListener('AddChild', event => {
+        if (event.parent.id === nodeConf.id) {
+            props.onNodeConfChange(old => {
+                const newChildren: Array<NodeConf> = [...old.children, event.node]
+                return {
+                    ...old,
+                    children: newChildren,
+                    collapse: false,
+                }
+            });
+        }
+    })
 
     // 新增兄弟节点
     eventBus.useListener('InsertSibling', () => {

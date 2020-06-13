@@ -107,15 +107,13 @@ const NodeText: FunctionComponent<Props> = (props) => {
             })
         }
     })
-    useEffect(() => {
-        const listener = () => {
-            if (select) {
-                setShowTextEdit(!showTextEdit);
-            }
-        };
-        eventBus.on('EditNode', listener)
-        return () => eventBus.off("EditNode", listener);
-    }, [select, showTextEdit]);
+
+    eventBus.useListener("EditNode", (event, resolve) => {
+        if (select) {
+            setShowTextEdit(!showTextEdit);
+        }
+        resolve();
+    }, [select, showTextEdit])
 
     const textEditInput = !showTextEdit ? null :
         <foreignObject x={leftPos.x}

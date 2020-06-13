@@ -12,7 +12,9 @@ interface Props {
 }
 
 function createEmptyNode(): NodeValue {
-    return {id: uuid(), text: "Hello", type: "rect"};
+    const id = uuid();
+    // return {id: id, text: "Hello", type: "rect"};
+    return {id: id, text: id.split('-')[0], type: "rect"};
 }
 
 const defaultValue = [createEmptyNode(), createEmptyNode()];

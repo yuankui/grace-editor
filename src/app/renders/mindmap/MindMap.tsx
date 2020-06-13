@@ -68,6 +68,13 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         lazyUpdateNodeMap([nodeConf], setNodeMap);
     }, [nodeConf, setNodeMap]);
 
+    eventBus.useListener('UpdateNodeMap', (event, resolve) => {
+        setNodeConf(old => {
+            updateNodeMap([old], setNodeMap);
+            resolve();
+            return old;
+        })
+    })
 
     const listener = useMemo(() => {
         const listeners = [
@@ -149,25 +156,25 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
 
 
     // 移动节点dnd
-    useEffect(() => {
-        const handler = (e: MoveNodeEvent) => {
-            // 通过set来动态获取nodeMap，这样不用让整个useEffect重新编译
-            setNodeMap(nodeMap => {
-                eventBus.emit("DeleteChildNode", {
+    eventBus.useListener("MoveNode", (e, resolve) => {
+        // 通过set来动态获取nodeMap，这样不用让整个useEffect重新编译
+        setNodeMap(nodeMap => {
+            (async () => {
+                await eventBus.emit("DeleteChildNode", {
                     nodeId: e.from.id,
                     parentId: nodeMap[e.from.id].parent?.id,
                 });
-                eventBus.emit("AddChild", {
+
+                await eventBus.emit('UpdateNodeMap');
+                await eventBus.emit("AddChild", {
                     node: e.from,
                     parent: e.to,
                 })
-                return nodeMap;
-            })
-        };
-        eventBus.on("MoveNode", handler)
-        return () => eventBus.off("MoveNode", handler);
-    }, []);
-
+                resolve(); // TODO 移动节点BUG
+            })();
+            return nodeMap;
+        })
+    }, [])
 
     return (
         <div className="mindmap-wrapper"
