@@ -13,8 +13,10 @@ export class EventBus {
     }
 
     emit<T extends keyof EventMap>(type: T, event?: EventMap[T]) {
-        console.log('event', type, event);
-        this.eventBus.emit(type, event);
+        setTimeout(() => {
+            console.log('event', type, event);
+            this.eventBus.emit(type, event);
+        }, 0);
     }
 
     on<T extends keyof EventMap>(type: T, listener: Handler<EventMap[T]>) {

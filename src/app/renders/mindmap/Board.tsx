@@ -117,14 +117,6 @@ const Board: FunctionComponent<Props> = (props) => {
         }
     }, [moving, dndContext.value.moving]);
 
-
-    console.log({
-        currentX,
-        currentY,
-        startX,
-        startY,
-        scale,
-    })
     const movedOrigin = !moving ? origin : {
         x: origin.x - (currentX - startX) * scale,
         y: origin.y - (currentY - startY) * scale,

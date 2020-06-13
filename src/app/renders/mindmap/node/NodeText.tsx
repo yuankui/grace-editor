@@ -43,10 +43,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
         setShowTextEdit(false);
     });
     const texts = text.split('\n');
-    let lineCount = texts.length;
 
-    // 文字
-    // TODO 通过state保存refs
     const textRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -62,7 +59,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
                 height: rect.height,
             })
         }
-    }, [lineCount, text]);
+    }, []);
 
     // 拖动节点
     const onMouseDown = useDrag(nodeConf);
