@@ -7,7 +7,6 @@ import {useMindMapContext} from "../context/MindMapContext";
 import {computeGroupHeight} from "./computeGroupHeight";
 
 interface Props {
-    onAreaChange: (area: Size) => void,
 }
 
 const NodeText: FunctionComponent<Props> = (props) => {
@@ -15,7 +14,6 @@ const NodeText: FunctionComponent<Props> = (props) => {
     const nodeContext = useNodeContext();
     const {id: nodeId} = nodeContext.nodeConf;
     const {
-        textSize,
         textPos: leftPos,
         onNodeConfChange,
         nodeStyle,
@@ -58,7 +56,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
                 width: rect.width,
                 height: rect.height,
             })
-            props.onAreaChange({
+            eventBus.emit('AdjustNodeSize', {
+                nodeId,
                 width: rect.width,
                 height: rect.height,
             })
@@ -140,7 +139,12 @@ const NodeText: FunctionComponent<Props> = (props) => {
                               text: text,
                               height: h,
                           }
+                      });
 
+                      eventBus.emit('AdjustNodeSize', {
+                          nodeId,
+                          height: size.height,
+                          width: size.width,
                       })
                   }}
                   onKeyDown={e => {

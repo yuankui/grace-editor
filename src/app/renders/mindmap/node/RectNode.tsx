@@ -141,22 +141,22 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     }, [select])
 
     // 改变文本框尺寸
-    const changeTextArea = (textArea: Size) => {
-
+    eventBus.useListener('AdjustNodeSize', event => {
+        if (event.nodeId != nodeId) return;
+        const textArea = event;
         const size = {
             height: textArea.height + paddingTop * 2,
             width: textArea.width + paddingLeft * 2,
         };
 
-        if (size.height == nodeConf.height) {
-            // 高度没有改变，就不出发上层更新，性能优化
-            return;
-        }
-
-        // 计算子节点高度和
-        const childHeight = computeGroupHeight(nodeConf.children, nodeConf.collapse);
-
         props.onNodeConfChange(old => {
+            if (size.height == old.height) {
+                // 高度没有改变，就不出发上层更新，性能优化
+                return old;
+            }
+
+            // 计算子节点高度和
+            const childHeight = computeGroupHeight(nodeConf.children, nodeConf.collapse);
             return {
                 ...old,
                 width: size.width,
@@ -164,7 +164,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
                 groupHeight: Math.max(childHeight, size.height),
             }
         })
-    };
+    })
 
     // 计算边界
     const edgeEnd: Point = {
@@ -362,7 +362,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         <ChildrenNodes/>
         <NodeSelectBorder select={select}/>
         <NodeRect/>
-        <NodeText onAreaChange={changeTextArea}/>
+        <NodeText/>
         <ExpandIcon/>
     </NodeContextProvider>;
 };
