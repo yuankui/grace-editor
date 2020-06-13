@@ -3,10 +3,10 @@ import {useDndContext} from "./DndContext";
 import {HitTest} from "../node/NodeContext";
 
 
-export function useDrag(src: any): React.MouseEventHandler<SVGElement> {
+export function useDrag(src: any): React.MouseEventHandler<Element> {
     const {onChange, moveEvent} = useDndContext();
 
-    return useMemo<React.MouseEventHandler<SVGElement>>(() => {
+    return useMemo<React.MouseEventHandler<Element>>(() => {
         return (e: React.MouseEvent) => {
             console.log("node down");
             e.stopPropagation();

@@ -11,6 +11,7 @@ import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
 import {MoveNodeEvent} from "./events/events";
 import {EventBus} from "./events/eventBus";
+import {createEmptyNode} from "./createEmptyNode";
 
 export interface MindMapProps {
     value: Value,
@@ -24,6 +25,7 @@ const updateNodeMap = (value: Value, setNodeMap: any) => {
 
     const iterNodes = (parent: NodeConf | undefined, nodes: Array<NodeConf>) => {
         for (let node of nodes) {
+            if (node == null) continue;
             map[node.id] = {
                 node,
                 parent
@@ -46,17 +48,17 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         return new EventBus();
     }, []);
 
-    const setNodeConf = useCallback((mapper: Mapper<NodeConf>) => {
-
-        props.onChange(old => {
-            const newValue: Value = {
-                ...old,
-                roots: [mapper(node)]
-            };
-            history.push(newValue);
-            return newValue;
-        });
-    }, []);
+    // const setNodeConf = useCallback((mapper: Mapper<NodeConf>) => {
+    //
+    //     props.onChange(old => {
+    //         const newValue: Value = {
+    //             ...old,
+    //             roots: [mapper(node)]
+    //         };
+    //         history.push(newValue);
+    //         return newValue;
+    //     });
+    // }, []);
 
     const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
 
@@ -111,6 +113,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         }
     }, [])
 
+    const [nodeConf, setNodeConf] = useState<NodeConf>(createEmptyNode());
     const ref = useRef<HTMLDivElement>(null);
 
     const [size, setSize] = useState({
@@ -186,16 +189,14 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                     eventBus,
                 }}>
                     <Board width={size.width} height={size.height}>
-                        <RectNode nodeConf={node}
+                        <RectNode nodeConf={nodeConf}
                                   pos={{
                                       x: 150,
                                       y: 150,
                                   }}
                                   onAddSibling={() => {
                                   }}
-                                  onNodeConfChange={mapper => {
-                                      setNodeConf(mapper);
-                                  }}
+                                  onNodeConfChange={setNodeConf}
                         />
                         <circle r={2} fill={'red'}/>
                     </Board>
