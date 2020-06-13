@@ -191,7 +191,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                 }}>
                     <Board width={size.width} height={size.height}>
                         <RectNode nodeConf={nodeConf}
-                                  pos={{
+                                  anchorLeft={{
                                       x: 150,
                                       y: 150,
                                   }}

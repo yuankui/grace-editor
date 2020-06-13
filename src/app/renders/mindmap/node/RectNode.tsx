@@ -3,7 +3,6 @@ import {NodeConf} from "../model";
 import NodeEdge from "./NodeEdge";
 import NodeText from "./NodeText";
 import {NodeContextProvider} from "./NodeContext";
-import {Size} from "../model/Size";
 import {Point} from "../model/Point";
 import ChildrenNodes from "./ChildrenNodes";
 import NodeRect from "./NodeRect";
@@ -14,15 +13,15 @@ import {EMPTY, from} from "rxjs";
 import {catchError, last, skipWhile, take, takeWhile} from "rxjs/operators";
 import {computeGroupHeight} from "./computeGroupHeight";
 import ExpandIcon from "./ExpandIcon";
-import {DropEvent, useDndContext} from "../dragdrop/DndContext";
+import {DndContext, DropEvent, useDndContext} from "../dragdrop/DndContext";
 import {useBoardContext} from "../BoardContext";
 
 export interface Mapper<T> {
     (old: T): T,
 }
 interface NodeProps {
-    pos: Point,
-    start?: Point, // 父节点连线起点
+    anchorLeft: Point,
+    parentStart?: Point, // 父节点连线起点
     onSelect?: () => void, // 选择 TODO 增加矩形框选择
     select?: boolean, // 选择
 
@@ -36,9 +35,8 @@ const defaultGutter = 20;
 
 
 const RectNode: FunctionComponent<NodeProps> = (props) => {
-    const {nodeConf} = props;
-    const {id: nodeId} = nodeConf;
-    const nodePos = props.pos;
+    const {nodeConf, anchorLeft} = props;
+    const {id: nodeId, width, height} = nodeConf;
     const [paddingTop, paddingLeft] = [5, 10];
     const children = nodeConf.children || [];
     const {eventBus, nodeMap} = useMindMapContext();
@@ -50,6 +48,27 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     const dndContext = useDndContext();
 
+    const shift = useCallback((point: Point, dndContext: DndContext) => {
+        if (!dndContext.value.moving || dndContext.value.src.id !== nodeConf.id) {
+            return point;
+        }
+
+        const {startPoint} = dndContext.value;
+        const {y, x} = point;
+        if (currentPoint && startPoint) {
+            return {
+                x: x + currentPoint.x - startPoint.x,
+                y: y + currentPoint.y - startPoint.y,
+            }
+        }
+        return point;
+    }, []);
+
+    const shiftAnchorLeft: Point = shift(anchorLeft, dndContext);
+    const shiftAnchorRight: Point = {
+        x: shiftAnchorLeft.x + width - paddingLeft * 2,
+        y: shiftAnchorLeft.y,
+    }
     // 拖动偏移计算
     const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
 
@@ -59,17 +78,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         })
     }, []);
 
-    let shiftedPos: Point = nodePos as Point;
-    if (dndContext.value.moving && dndContext.value.src.id === nodeConf.id) {
-        const {startPoint} = dndContext.value;
-        const {y, x} = shiftedPos;
-        if (currentPoint && startPoint) {
-            shiftedPos = {
-                x: x + currentPoint?.x - startPoint?.x,
-                y: y + currentPoint?.y - startPoint?.y,
-            }
-        }
-    }
 
     // 节点选中状态
     const [select, setSelect] = useState(false);
@@ -163,8 +171,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     // 计算边界
     const edgeEnd: Point = {
-        x: shiftedPos.x + paddingLeft,
-        y: shiftedPos.y,
+        x: shiftAnchorLeft.x + paddingLeft,
+        y: shiftAnchorLeft.y,
     };
 
     // 文本
@@ -173,8 +181,8 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         width: nodeConf.width - paddingLeft * 2,
     };
     const textPos = {
-        x: shiftedPos.x + paddingLeft,
-        y: shiftedPos.y,
+        x: shiftAnchorLeft.x + paddingLeft,
+        y: shiftAnchorLeft.y,
     };
 
 
@@ -289,13 +297,13 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
 
     const hitTest = useCallback((x: number, y: number) => {
-        const minX = shiftedPos.x;
-        const maxX = shiftedPos.x + nodeConf.width;
-        const minY = shiftedPos.y - nodeConf.height / 2;
-        const maxY = shiftedPos.y + nodeConf.height / 2;
+        const minX = shiftAnchorLeft.x;
+        const maxX = shiftAnchorLeft.x + nodeConf.width;
+        const minY = shiftAnchorLeft.y - nodeConf.height / 2;
+        const maxY = shiftAnchorLeft.y + nodeConf.height / 2;
 
         return minX <= x && x <= maxX && minY <= y && y <= maxY;
-    }, [shiftedPos.x, shiftedPos.y, nodeConf.widget, nodeConf.height]);
+    }, [shiftAnchorLeft.x, shiftAnchorLeft.y, nodeConf.widget, nodeConf.height]);
 
 
     // 节点移动
@@ -333,13 +341,14 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
 
     return <NodeContextProvider value={{
-        parentStart: props.start,
+        parentStart: props.parentStart,
         nodeConf: props.nodeConf,
         textSize: textArea,
         textPos: textPos,
         paddingLeft: paddingLeft,
         paddingTop: paddingTop,
-        nodePos: shiftedPos,
+        anchorLeft: shiftAnchorLeft,
+        anchorRight: shiftAnchorRight,
         nodeStyle: {
             borderRadius: 5,
             borderWidth: 2,

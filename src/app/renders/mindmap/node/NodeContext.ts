@@ -8,7 +8,8 @@ export interface HitTest {
     (x: number, y: number): boolean,
 }
 export interface NodeContext {
-    nodePos: Point,
+    anchorLeft: Point,
+    anchorRight: Point,
     nodeConf: NodeConf,
     paddingLeft: number,
     paddingTop: number,
@@ -29,20 +30,7 @@ export interface NodeStyle {
     borderRadius: number,
     fontSize: number,
 }
-let Context = React.createContext<NodeContext>({
-    nodePos: null as any,
-    parentStart: null as any,
-    nodeConf: null as any,
-    paddingTop: 0,
-    paddingLeft: 0,
-    textSize: null as any,
-    textPos: null as any,
-    nodeStyle: null as any,
-    onNodeConfChange: () => {},
-    nodeGutter: 0,
-    select: false,
-    hitTest: () => false,
-});
+let Context = React.createContext<NodeContext>(null as any);
 
 export const NodeContextProvider = Context.Provider;
 

@@ -6,7 +6,7 @@ interface Props {
 
 const ExpandIcon: FunctionComponent<Props> = (props) => {
     const context = useNodeContext();
-    const {onNodeConfChange, nodeConf, nodePos, textSize, paddingLeft} = context;
+    const {onNodeConfChange, nodeConf, anchorLeft, textSize, paddingLeft} = context;
 
     if (!nodeConf.collapse) {
         return null;
@@ -15,8 +15,8 @@ const ExpandIcon: FunctionComponent<Props> = (props) => {
         width={24}
         height={24}
         alignmentBaseline={'middle'}
-        x={nodePos.x + paddingLeft * 2 + textSize.width}
-        y={nodePos.y - 12}>
+        x={anchorLeft.x + paddingLeft * 2 + textSize.width}
+        y={anchorLeft.y - 12}>
         <span onClick={e => {
                 onNodeConfChange(old => {
                     return {

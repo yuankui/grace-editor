@@ -12,7 +12,7 @@ const NodeSelectBorder: FunctionComponent<Props> = (props) => {
     const {eventBus} = useMindMapContext();
     const {outerToInner} = useBoardContext();
     const nodeContext = useNodeContext();
-    const {nodePos, nodeConf, hitTest} = nodeContext;
+    const {anchorLeft, nodeConf, hitTest} = nodeContext;
     const {height, width} = nodeConf;
     const selectWidth = 2;
     const selectColor = '#BDDCFF';
@@ -48,8 +48,8 @@ const NodeSelectBorder: FunctionComponent<Props> = (props) => {
 
 
     // 选择边框
-    const border = <rect x={nodePos.x - selectWidth}
-                         y={nodePos.y - height /2 - selectWidth}
+    const border = <rect x={anchorLeft.x - selectWidth}
+                         y={anchorLeft.y - height /2 - selectWidth}
                          fill={'transparent'}
                          stroke={highlight ? selectColor : 'rgba(0,0,0,0)'}
                          strokeWidth={selectWidth}

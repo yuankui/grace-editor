@@ -8,12 +8,12 @@ interface Props {
 const NodeRect: FunctionComponent<Props> = () => {
     let nodeContext = useNodeContext();
     const {eventBus} = useMindMapContext();
-    const {nodePos, nodeConf, nodeStyle} = nodeContext;
+    const {anchorLeft, nodeConf, nodeStyle} = nodeContext;
     const {height: nodeHeight, width: nodeWidth} = nodeConf;
     const {id: nodeId} = nodeConf;
     // 矩形背景
-    return <rect x={nodePos.x}
-                 y={nodePos.y - nodeHeight / 2}
+    return <rect x={anchorLeft.x}
+                 y={anchorLeft.y - nodeHeight / 2}
                  onClick={e => {
                      eventBus.emit('NodeClick', {
                          nodeId,

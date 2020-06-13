@@ -16,7 +16,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     let nodeContext = useNodeContext();
     const {
         nodeConf,
-        nodePos,
+        anchorLeft,
         textSize,
         onNodeConfChange,
     } = nodeContext;
@@ -26,9 +26,9 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     const heights = children.map(child => {
         return child.groupHeight;
     });
-    let childrenYs = computeChildrenYs(nodePos.y, heights);
+    let childrenYs = computeChildrenYs(anchorLeft.y, heights);
 
-    const anchorRight = nodePos.x + textSize.width;
+    const anchorRight = anchorLeft.x + textSize.width;
 
     if (nodeConf.collapse) {
         return null;
@@ -53,11 +53,11 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         (value, index) => {
             const childY = childrenYs[index];
             const childPos = {
-                x: nodePos.x + value.width + xShift,
+                x: anchorLeft.x + value.width + xShift,
                 y: childY,
             };
             return <RectNode key={value.id}
-                             pos={childPos}
+                             anchorLeft={childPos}
                              onAddSibling={() => {
 
 
@@ -84,9 +84,9 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                                      };
                                  })
                              }}
-                             start={{
+                             parentStart={{
                                  x: anchorRight,
-                                 y: nodePos.y,
+                                 y: anchorLeft.y,
                              }}
                              onNodeConfChange={mapper => {
                                  onNodeConfChange(old => {
