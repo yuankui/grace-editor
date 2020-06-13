@@ -1,6 +1,6 @@
-import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import Board from "./Board";
-import RectNode from "./node/RectNode";
+import RectNode, {Mapper} from "./node/RectNode";
 import {NodeConf, Value} from "./model";
 import {bindKey} from "./hotkey/hotkeys";
 import {NodeMap, NodeWithParent} from "./context/NodeMap";
@@ -14,7 +14,7 @@ import {EventBus} from "./events/eventBus";
 
 export interface MindMapProps {
     value: Value,
-    onChange: (value: Value) => void,
+    onChange: (mapper: Mapper<Value>) => void,
     width: string,
     height: string,
 }
@@ -46,14 +46,17 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         return new EventBus();
     }, []);
 
-    const setNodeConf = (node: NodeConf) => {
-        const newValue: Value = {
-            ...props.value,
-            roots: [node]
-        };
-        history.push(newValue);
-        props.onChange(newValue);
-    }
+    const setNodeConf = useCallback((mapper: Mapper<NodeConf>) => {
+
+        props.onChange(old => {
+            const newValue: Value = {
+                ...old,
+                roots: [mapper(node)]
+            };
+            history.push(newValue);
+            return newValue;
+        });
+    }, []);
 
     const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
 
@@ -79,7 +82,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         const historyListener = (e: KeyboardEvent) => {
             if (isHotkey('cmd+z', e)) {
                 history.pop((item: Value) => {
-                    props.onChange(item);
+                    props.onChange(() => item);
                 })
                 e.stopPropagation();
                 e.preventDefault();
@@ -88,7 +91,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
 
             if (isHotkey('cmd+shift+z', e)) {
                 history.forward((item: Value) => {
-                    props.onChange(item);
+                    props.onChange(() => item);
                 })
                 e.stopPropagation();
                 e.preventDefault();
@@ -190,11 +193,11 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                                   }}
                                   onAddSibling={() => {
                                   }}
-                                  onNodeConfChange={n => {
-                                      setNodeConf(n);
+                                  onNodeConfChange={mapper => {
+                                      setNodeConf(mapper);
                                   }}
                         />
-                        <circle r={10} color={'red'}/>
+                        <circle r={2} fill={'red'}/>
                     </Board>
                 </MindMapContextProvider>
             </DndContextProvider>

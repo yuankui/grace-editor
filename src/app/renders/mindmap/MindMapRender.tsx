@@ -29,7 +29,6 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
     const lazySave = useMemo(() => {
         const lazySave = lazyExecute(onChange, 500);
         return (value: Value) => {
-            setState(value);
             lazySave(value);
         };
     }, [])
@@ -38,7 +37,13 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
     return <MindMap value={state}
                     height={'100%'}
                     width={'100%'}
-                    onChange={lazySave}/>;
+                    onChange={mapper => {
+                        setState(old => {
+                            const newV = mapper(old);
+                            lazySave(newV);
+                            return newV;
+                        })
+                    }}/>;
 };
 
 export default MindMapRender;

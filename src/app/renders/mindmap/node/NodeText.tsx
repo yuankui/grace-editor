@@ -65,42 +65,28 @@ const NodeText: FunctionComponent<Props> = (props) => {
 
     // 拖动节点
     const onMouseDown = useDrag(nodeConf);
+    const editY = leftPos.y - size.height / 2;
 
-    const textElement = texts.map((t, i) => {
-        let textY = leftPos.y + fontSize * (i - lineCount / 2 + 0.5);
-        return <React.Fragment key={i}>
-            <text fontSize={fontSize}
-                  key={i}
-                  ref={ref => {
-                      refs[i] = ref;
-                  }}
-                  onMouseDown={onMouseDown}
-                  dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
-                  onDoubleClick={e => {
-                      setShowTextEdit(true);
-                      e.stopPropagation();
-                  }}
-                  onClick={e => {
-                      e.stopPropagation();
-                      eventBus.emit('NodeClick', {
-                          nodeId,
-                      })
-                  }}
-                  x={leftPos.x}
-                  y={textY}>
-                {t}
-            </text>
-            {/*<circle cx={leftPos.x} cy={textY} r={2} fill='red'/>*/}
-        </React.Fragment>;
-    });
+    const textElement = <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
+        <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                {texts.map((t) => {
+                    return <span>{t}</span>
+                })}
+            </div>
+        </div>
+    </foreignObject>
 
-    // TODO remove height text
-    const heightText = <text fontSize={fontSize}
-                             dominantBaseline={'middle'} // https://stackoverflow.com/questions/5546346/how-to-place-and-center-text-in-an-svg-rectangle
-                             x={leftPos.x}
-                             y={leftPos.y + 20}>
-        {nodeContext.nodeConf.groupHeight}
-    </text>
 
     useEffect(() => {
         const listener = () => {
@@ -112,7 +98,6 @@ const NodeText: FunctionComponent<Props> = (props) => {
         return () => eventBus.off("EditNode", listener);
     }, [select, showTextEdit]);
 
-    const editY = leftPos.y - size.height / 2;
     const textEditInput = !showTextEdit ? null :
         <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
         <textarea style={{height: size.height, width: size.width + 12, fontSize: fontSize - 2}} // 这里fontSize-2，以解决text和textarea字体不一致的情况
@@ -124,9 +109,11 @@ const NodeText: FunctionComponent<Props> = (props) => {
                   }}
                   onChange={e => {
                       const value = e.target.value;
-                      onNodeConfChange({
-                          ...nodeContext.nodeConf,
-                          text: value,
+                      onNodeConfChange(old => {
+                          return {
+                              ...old,
+                              text: value,
+                          }
                       })
                   }}
                   onKeyDown={e=> {

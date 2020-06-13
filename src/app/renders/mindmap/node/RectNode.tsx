@@ -17,6 +17,9 @@ import ExpandIcon from "./ExpandIcon";
 import {DropEvent, useDndContext} from "../dragdrop/DndContext";
 import {useBoardContext} from "../BoardContext";
 
+export interface Mapper<T> {
+    (old: T): T,
+}
 interface NodeProps {
     pos: Point,
     start?: Point, // 父节点连线起点
@@ -24,7 +27,7 @@ interface NodeProps {
     select?: boolean, // 选择
 
     nodeConf: NodeConf,
-    onNodeConfChange: (node: NodeConf) => void,
+    onNodeConfChange: (mapper:  Mapper<NodeConf>) => void,
     onAddSibling: () => void,
 }
 
@@ -40,13 +43,10 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
     const children = nodeConf.children || [];
     const {eventBus, nodeMap} = useMindMapContext();
 
-    const changeNode = useCallback((node: NodeConf) => {
+    const getGroupHeight = useCallback((node: NodeConf) => {
         const groupHeight = computeGroupHeight(node.children, node.collapse);
-        props.onNodeConfChange({
-            ...node,
-            groupHeight: Math.max(groupHeight, node.height),
-        })
-    }, [props.onNodeConfChange]);
+        return Math.max(groupHeight, node.height);
+    }, []);
 
     const dndContext = useDndContext();
 
@@ -103,10 +103,12 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
         let newChild = createEmptyNode();
         const newChildren: Array<NodeConf> = [...children, newChild]
-        props.onNodeConfChange({
-            ...nodeConf,
-            children: newChildren,
-            collapse: false,
+        props.onNodeConfChange(old => {
+            return {
+                ...old,
+                children: newChildren,
+                collapse: false,
+            }
         });
 
         setTimeout(() => {
@@ -119,10 +121,12 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         const handler = event => {
             if (event.parent.id === nodeConf.id) {
                 const newChildren: Array<NodeConf> = [...children, event.node]
-                props.onNodeConfChange({
-                    ...nodeConf,
-                    children: newChildren,
-                    collapse: false,
+                props.onNodeConfChange(old => {
+                    return {
+                        ...old,
+                        children: newChildren,
+                        collapse: false,
+                    }
                 });
             }
         };
@@ -152,11 +156,13 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         // 计算子节点高度和
         const childHeight = computeGroupHeight(nodeConf.children, nodeConf.collapse);
 
-        props.onNodeConfChange({
-            ...nodeConf,
-            width: size.width,
-            height: size.height,
-            groupHeight: Math.max(childHeight, size.height),
+        props.onNodeConfChange(old => {
+            return {
+                ...old,
+                width: size.width,
+                height: size.height,
+                groupHeight: Math.max(childHeight, size.height),
+            }
         })
     };
 
@@ -197,11 +203,15 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             return;
         }
 
-        changeNode({
-            ...nodeConf,
-            collapse: false,
+        props.onNodeConfChange(old => {
+            const groupHeight = getGroupHeight({...old, collapse: false});
+            return {
+                ...old,
+                collapse: false,
+                groupHeight,
+            }
         })
-    }, [nodeConf, select, changeNode]);
+    }, [select]);
 
     // 收起
     eventBus.useListener('ExpandOff', () => {
@@ -209,11 +219,15 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             return;
         }
 
-        changeNode({
-            ...nodeConf,
-            collapse: true,
+        props.onNodeConfChange(old => {
+            const groupHeight = getGroupHeight({...old, collapse: true});
+            return {
+                ...old,
+                collapse: true,
+                groupHeight,
+            }
         })
-    }, [nodeConf, select, changeNode]);
+    }, [select]);
 
 
 
@@ -338,7 +352,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             borderColor: 'white',
             fontSize: 16,
         },
-        onNodeConfChange: changeNode, // TODO 更新onNodeConfChange，改用事件机制
+        onNodeConfChange: props.onNodeConfChange, // TODO 更新onNodeConfChange，改用事件机制
         nodeGutter: defaultGutter,
         select: select,
         hitTest,

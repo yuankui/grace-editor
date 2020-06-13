@@ -20,7 +20,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         textSize,
         onNodeConfChange,
     } = nodeContext;
-    const children = nodeConf.children || [];
+    const children = (nodeConf.children || []).filter(n => n != null);
 
     // 计算各个节点的位置
     const heights = children.map(child => {
@@ -37,14 +37,17 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
     eventBus.useListener('DeleteChildNode', ({parentId, nodeId}) => {
         if (parentId !== nodeConf.id) return;
 
-        const newChildren = children.filter((v) => {
-            return v.id !== nodeId
-        });
-        onNodeConfChange({
-            ...nodeConf,
-            children: newChildren,
+
+        onNodeConfChange(old => {
+            const newChildren = (old.children || []).filter((v) => {
+                return v.id !== nodeId;
+            });
+            return {
+                ...old,
+                children: newChildren,
+            }
         })
-    }, [children, onNodeConfChange, nodeConf])
+    }, [onNodeConfChange])
     // 计算子节点
     const childrenEl = children.map(
         (value, index) => {
@@ -57,44 +60,47 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
                              pos={childPos}
                              onAddSibling={() => {
 
-                                 let newChild: NodeConf;
-                                 const newChildren = children.flatMap((v, i) => {
-                                     if (i === index) {
-                                         newChild = createEmptyNode();
-                                         return [value, newChild];
-                                     } else {
-                                         return [v];
-                                     }
-                                 });
-                                 onNodeConfChange({
-                                     ...nodeConf,
-                                     children: newChildren,
+
+                                 onNodeConfChange(old => {
+                                     let newChild: NodeConf;
+                                     const newChildren = (old.children || []).flatMap((v, i) => {
+                                         if (i === index) {
+                                             newChild = createEmptyNode();
+                                             return [value, newChild];
+                                         } else {
+                                             return [v];
+                                         }
+                                     });
+
+                                     setTimeout(() => {
+                                         eventBus.emit('NodeClick', {
+                                             nodeId: newChild.id
+                                         })
+                                     }, 10);
+
+                                     return {
+                                         ...old,
+                                         children: newChildren,
+                                     };
                                  })
-
-                                 setTimeout(() => {
-
-                                     eventBus.emit('NodeClick', {
-                                         nodeId: newChild.id
-                                     })
-                                 }, 100);
                              }}
                              start={{
                                  x: anchorRight,
                                  y: nodePos.y,
                              }}
-                             onNodeConfChange={node => {
-
-                                 const newChildren = children.map((v, i) => {
-                                     if (i === index) {
-                                         return node;
-                                     } else {
-                                         return v;
-                                     }
-                                 });
-
-                                 onNodeConfChange({
-                                     ...nodeConf,
-                                     children: newChildren,
+                             onNodeConfChange={mapper => {
+                                 onNodeConfChange(old => {
+                                     const newChildren = (old.children || []).map((v, i) => {
+                                         if (i === index) {
+                                             return mapper(v);
+                                         } else {
+                                             return v;
+                                         }
+                                     });
+                                     return {
+                                         ...old,
+                                         children: newChildren,
+                                     };
                                  })
                              }}
                              nodeConf={value}/>

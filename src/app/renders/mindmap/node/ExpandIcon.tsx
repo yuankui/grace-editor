@@ -18,9 +18,11 @@ const ExpandIcon: FunctionComponent<Props> = (props) => {
         x={nodePos.x + paddingLeft * 2 + textSize.width}
         y={nodePos.y - 12}>
         <span onClick={e => {
-                onNodeConfChange({
-                    ...nodeConf,
-                    collapse: false,
+                onNodeConfChange(old => {
+                    return {
+                        ...old,
+                        collapse: false,
+                    }
                 })
             }}
             style={{
