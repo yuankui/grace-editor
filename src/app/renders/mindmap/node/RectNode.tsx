@@ -80,10 +80,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         y: shiftAnchorLeft.y,
     }
 
-
-
-
-
     // 节点选中状态
     const [select, setSelect] = useState(false);
 
