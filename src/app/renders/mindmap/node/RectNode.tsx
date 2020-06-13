@@ -48,7 +48,17 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
 
     const dndContext = useDndContext();
 
-    const shift = useCallback((point: Point, dndContext: DndContext) => {
+    // 拖动偏移计算
+    const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
+    useEffect(() => {
+        dndContext.moveEvent.on('move', point => {
+            if (dndContext.value.moving) {
+                console.log('moving', point);
+                setCurrentPoint(point);
+            }
+        })
+    }, [dndContext.value.moving]);
+    const shift = useCallback((point: Point) => {
         if (!dndContext.value.moving || dndContext.value.src.id !== nodeConf.id) {
             return point;
         }
@@ -62,21 +72,16 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
             }
         }
         return point;
-    }, []);
+    }, [dndContext, currentPoint]);
 
-    const shiftAnchorLeft: Point = shift(anchorLeft, dndContext);
+    const shiftAnchorLeft: Point = shift(anchorLeft);
     const shiftAnchorRight: Point = {
         x: shiftAnchorLeft.x + width - paddingLeft * 2,
         y: shiftAnchorLeft.y,
     }
-    // 拖动偏移计算
-    const [currentPoint, setCurrentPoint] = useState<Point>(null as any);
 
-    useEffect(() => {
-        dndContext.moveEvent.on('move', point => {
-            setCurrentPoint(point);
-        })
-    }, []);
+
+
 
 
     // 节点选中状态

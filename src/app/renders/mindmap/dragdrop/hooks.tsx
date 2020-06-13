@@ -1,6 +1,5 @@
 import React, {useMemo} from 'react';
 import {useDndContext} from "./DndContext";
-import {HitTest} from "../node/NodeContext";
 
 
 export function useDrag(src: any): React.MouseEventHandler<Element> {
@@ -30,8 +29,4 @@ export function useDrag(src: any): React.MouseEventHandler<Element> {
 export function useDragMove() {
     const dndContext = useDndContext();
     return dndContext.value;
-}
-
-export function useDrop(hitTest: HitTest, onDrop: () => void) {
-    const dragMove = useDragMove();
 }
