@@ -20,7 +20,7 @@ export interface MindMapProps {
     height: string,
 }
 
-const updateNodeMap = (value: Value, setNodeMap: any) => {
+const updateNodeMap = (nodes: Array<NodeConf>, setNodeMap: any) => {
     const map: NodeMap = {};
 
     const iterNodes = (parent: NodeConf | undefined, nodes: Array<NodeConf>) => {
@@ -34,7 +34,8 @@ const updateNodeMap = (value: Value, setNodeMap: any) => {
             iterNodes(node, node.children);
         }
     }
-    iterNodes(undefined, value.roots);
+    iterNodes(undefined, nodes);
+    console.log('nodemap', map);
     setNodeMap(map);
 };
 
@@ -61,10 +62,11 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
     // }, []);
 
     const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
+    const [nodeConf, setNodeConf] = useState<NodeConf>(createEmptyNode());
 
     useEffect(() => {
-        lazyUpdateNodeMap(props.value, setNodeMap);
-    }, [props.value, setNodeMap]);
+        lazyUpdateNodeMap([nodeConf], setNodeMap);
+    }, [nodeConf, setNodeMap]);
 
 
     const listener = useMemo(() => {
@@ -113,7 +115,6 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
         }
     }, [])
 
-    const [nodeConf, setNodeConf] = useState<NodeConf>(createEmptyNode());
     const ref = useRef<HTMLDivElement>(null);
 
     const [size, setSize] = useState({
