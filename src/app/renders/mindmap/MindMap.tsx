@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
 import Board from "./Board";
 import RectNode, {Mapper} from "./node/RectNode";
 import {NodeConf, Value} from "./model";
@@ -9,7 +9,6 @@ import {useHistory} from "./history/history";
 import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
-import {MoveNodeEvent} from "./events/events";
 import {EventBus} from "./events/eventBus";
 import {createEmptyNode} from "./createEmptyNode";
 
