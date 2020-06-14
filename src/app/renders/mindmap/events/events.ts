@@ -10,7 +10,6 @@ export interface EventMap {
     InsertSibling: KeyboardEvent,
     DeleteNode: KeyboardEvent,
     EditNode: KeyboardEvent,
-    AdjustNodeSize: AdjustNodeSizeEvent,
     RefreshNodeSize: NodeEvent,
     MoveUp: KeyboardEvent,
     MoveDown: KeyboardEvent,
@@ -30,11 +29,6 @@ export interface EventMap {
 export interface NodeEvent {
     nodeId: string,
 }
-export interface AdjustNodeSizeEvent {
-    nodeId: string,
-    width: number,
-    height: number,
-}
 
 export interface NodeTextChangeEvent {
     nodeId: string,
@@ -52,10 +46,6 @@ export interface DeleteChildNodeEvent {
 export interface MoveNodeEvent {
     from: NodeConf,
     to: NodeConf,
-}
-
-export interface RemoveNodeEvent {
-    node: NodeConf,
 }
 
 export interface AddNodeEvent {

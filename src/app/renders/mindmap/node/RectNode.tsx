@@ -146,33 +146,6 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         props.onAddSibling();
     }, [select])
 
-    // 改变文本框尺寸
-    eventBus.useListener('AdjustNodeSize', event => {
-        if (event.nodeId != nodeId) return;
-        const textArea = event;
-        const size = {
-            height: textArea.height + paddingTop * 2,
-            width: textArea.width + paddingLeft * 2,
-        };
-
-        props.onNodeConfChange(old => {
-            // 计算子节点高度和
-            const childHeight = computeGroupHeight(old.children, old.collapse);
-            console.log('update node conf', {
-                ...old,
-                width: size.width,
-                height: size.height,
-                groupHeight: Math.max(childHeight, size.height),
-            });
-            return {
-                ...old,
-                width: size.width,
-                height: size.height,
-                groupHeight: Math.max(childHeight, size.height),
-            }
-        })
-    })
-
     // 计算边界
     const edgeEnd: Point = {
         x: shiftAnchorLeft.x + paddingLeft,

@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {useNodeContext} from "./NodeContext";
 import {Size} from "../model/Size";
 import isHotkey from "is-hotkey";
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const NodeText: FunctionComponent<Props> = (props) => {
-    const {eventBus} = useMindMapContext();
+    const {eventBus, nodeMap} = useMindMapContext();
     const nodeContext = useNodeContext();
     const {id: nodeId} = nodeContext.nodeConf;
     const {
@@ -47,9 +47,12 @@ const NodeText: FunctionComponent<Props> = (props) => {
     const textRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        eventBus.emit('RefreshNodeSize', {
-            nodeId,
-        })
+        eventBus.emit('UpdateNodeMap')
+            .then(() => {
+                eventBus.emit('RefreshNodeSize', {
+                    nodeId,
+                })
+            })
     }, []);
 
     // 拖动节点
@@ -96,17 +99,33 @@ const NodeText: FunctionComponent<Props> = (props) => {
         if (event.nodeId != nodeId) return;
         if (textRef.current) {
             const rect = textRef.current.getClientRects()[0];
-            const s: Size = {
+
+            const s = {
                 width: Math.max(rect.width, 10),
                 height: Math.max(rect.height, 20),
             }
             setSize(s)
-            eventBus.emit('AdjustNodeSize', {
-                nodeId,
-                ...s,
+
+            onNodeConfChange(old => {
+                // 计算子节点高度和
+                const childHeight = computeGroupHeight(old.children, old.collapse);
+
+                return {
+                    ...old,
+                    width: s.width,
+                    height: s.height,
+                    groupHeight: Math.max(childHeight, s.height),
+                }
             })
+
+            const parent = nodeMap[nodeId].parent;
+            if (parent) {
+                eventBus.emit('RefreshNodeSize', {
+                    nodeId: parent.id,
+                })
+            }
         }
-    })
+    }, [nodeMap])
 
     eventBus.useListener("EditNode", (event, resolve) => {
         if (select) {

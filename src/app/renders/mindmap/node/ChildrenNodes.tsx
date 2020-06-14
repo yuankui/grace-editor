@@ -32,17 +32,6 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         return null;
     }
 
-    // 子节点调整，通知父节点
-    eventBus.useListener('AdjustNodeSize', event => {
-        // 某个子节点调整了
-        if (!children.some(c => c.id === event.nodeId)) {
-            return;
-        }
-        eventBus.emit('AdjustNodeSize', {
-            nodeId: nodeConf.id,
-            ...textSize,
-        })
-    }, [children])
     eventBus.useListener('DeleteChildNode', ({parentId, nodeId}, resolve) => {
         if (parentId !== nodeConf.id) return;
 
