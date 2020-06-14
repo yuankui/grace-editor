@@ -216,7 +216,7 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                                   }}
                                   onNodeConfChange={setNodeConf}
                         />
-                        <circle r={2} fill={'red'}/>
+                        {/*<circle r={2} fill={'red'}/>*/}
                     </Board>
                 </MindMapContextProvider>
             </DndContextProvider>

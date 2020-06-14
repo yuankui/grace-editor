@@ -19,6 +19,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
         nodeStyle,
         select,
         nodeConf,
+        paddingLeft,
+        paddingTop,
     } = nodeContext;
 
     const [text, setText] = useState(nodeConf.text);
@@ -81,6 +83,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
                      eventBus.emit('NodeClick', {
                          nodeId: nodeId,
                      })
+
+                     console.log('node-click', nodeConf);
                      e.stopPropagation();
                  }} style={{
                 display: 'flex',
@@ -112,8 +116,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
 
                 return {
                     ...old,
-                    width: s.width,
-                    height: s.height,
+                    width: s.width + paddingLeft * 2,
+                    height: s.height + paddingTop * 2,
                     groupHeight: Math.max(childHeight, s.height),
                 }
             })
