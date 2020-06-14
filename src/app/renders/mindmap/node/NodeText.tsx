@@ -124,7 +124,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
             height: size.height,
             width: size.width + 12,
             fontSize: fontSize,
-        }} // 这里fontSize-2，以解决text和textarea字体不一致的情况
+        }}
                   ref={e => {
                       const textarea = e as any;
                       if (textarea == null) return;
@@ -140,20 +140,13 @@ const NodeText: FunctionComponent<Props> = (props) => {
                   }}
                   onBlur={e => {
                       onNodeConfChange(old => {
-                          const groupHeight = computeGroupHeight(old.children, old.collapse);
-                          const h = Math.max(groupHeight, size.height);
                           return {
                               ...old,
                               text: text,
-                              height: h,
                           }
                       });
 
-                      eventBus.emit('AdjustNodeSize', {
-                          nodeId,
-                          height: size.height,
-                          width: size.width,
-                      })
+                      setShowTextEdit(false);
                   }}
                   onKeyDown={e => {
                       if (isHotkey('mod+enter', e.nativeEvent)) {

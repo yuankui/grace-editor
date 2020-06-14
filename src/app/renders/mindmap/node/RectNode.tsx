@@ -158,6 +158,12 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
         props.onNodeConfChange(old => {
             // 计算子节点高度和
             const childHeight = computeGroupHeight(old.children, old.collapse);
+            console.log('update node conf', {
+                ...old,
+                width: size.width,
+                height: size.height,
+                groupHeight: Math.max(childHeight, size.height),
+            });
             return {
                 ...old,
                 width: size.width,

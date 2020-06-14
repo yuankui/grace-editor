@@ -159,19 +159,29 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
     eventBus.useListener("MoveNode", (e, resolve) => {
         // 通过set来动态获取nodeMap，这样不用让整个useEffect重新编译
         setNodeMap(nodeMap => {
-            (async () => {
-                await eventBus.emit("DeleteChildNode", {
-                    nodeId: e.from.id,
-                    parentId: nodeMap[e.from.id].parent?.id,
-                });
+            const oldParent = nodeMap[e.from.id].parent;
+            eventBus.emit("DeleteChildNode", {
+                nodeId: e.from.id,
+                parentId: oldParent?.id,
+            });
 
-                await eventBus.emit('UpdateNodeMap');
-                await eventBus.emit("AddChild", {
-                    node: e.from,
-                    parent: e.to,
+            eventBus.emit('UpdateNodeMap');
+            eventBus.emit("AddChild", {
+                node: e.from,
+                parent: e.to,
+            })
+
+            // 刷新节点
+            eventBus.emit('RefreshNodeSize', {
+                nodeId: e.to.id,
+            })
+
+            if (oldParent) {
+                eventBus.emit('RefreshNodeSize', {
+                    nodeId: oldParent.id,
                 })
-                resolve(); // TODO 移动节点BUG
-            })();
+            }
+
             return nodeMap;
         })
     }, [])

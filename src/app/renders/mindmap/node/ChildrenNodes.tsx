@@ -32,7 +32,7 @@ const ChildrenNodes: FunctionComponent<Props> = (props) => {
         return null;
     }
 
-    // 改变文本框尺寸
+    // 子节点调整，通知父节点
     eventBus.useListener('AdjustNodeSize', event => {
         // 某个子节点调整了
         if (!children.some(c => c.id === event.nodeId)) {

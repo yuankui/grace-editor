@@ -18,6 +18,7 @@ const NodeRect: FunctionComponent<Props> = () => {
                      eventBus.emit('NodeClick', {
                          nodeId,
                      });
+                     console.log('node-click', nodeConf)
                      e.stopPropagation();
                  }}
                  onDoubleClick={e => {
