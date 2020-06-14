@@ -5,7 +5,7 @@ export function createEmptyNode(): NodeConf {
     const id = uuid();
     return {
         children: [],
-        text: id.split('-')[0],
+        text: "TODO",
         id: id,
         collapse: false,
         height: 10,
