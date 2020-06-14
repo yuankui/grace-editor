@@ -10,7 +10,7 @@ import isHotkey from "is-hotkey";
 import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
 import {EventBus} from "./events/eventBus";
-import {createEmptyNode} from "./createEmptyNode";
+import {Point} from "./model/Point";
 
 export interface MindMapProps {
     value: Value,
@@ -40,36 +40,27 @@ const updateNodeMap = (nodes: Array<NodeConf>, setNodeMap: any) => {
 
 const lazyUpdateNodeMap = lazyExecute(updateNodeMap, 50);
 
+const defaultOrigin: Point = {
+    x: 0,
+    y: 0,
+}
 const MindMap: FunctionComponent<MindMapProps> = (props) => {
-    const node = props.value.roots[0];
+    const nodeConf = props.value.roots[0];
     let history = useHistory<Value>(props.value);
     // eventBus
     const eventBus = useMemo(() => {
         return new EventBus();
     }, []);
 
-    // const setNodeConf = useCallback((mapper: Mapper<NodeConf>) => {
-    //
-    //     props.onChange(old => {
-    //         const newValue: Value = {
-    //             ...old,
-    //             roots: [mapper(node)]
-    //         };
-    //         history.push(newValue);
-    //         return newValue;
-    //     });
-    // }, []);
-
     const [nodeMap, setNodeMap] = useState<{ [key: string]: NodeWithParent }>({});
-    const [nodeConf, setNodeConf] = useState<NodeConf>(createEmptyNode());
 
     useEffect(() => {
         lazyUpdateNodeMap([nodeConf], setNodeMap);
     }, [nodeConf, setNodeMap]);
 
     eventBus.useListener('UpdateNodeMap', (event, resolve) => {
-        setNodeConf(old => {
-            updateNodeMap([old], setNodeMap);
+        props.onChange(old => {
+            updateNodeMap([old.roots[0]], setNodeMap);
             resolve();
             return old;
         })
@@ -205,7 +196,21 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                     nodeMap,
                     eventBus,
                 }}>
-                    <Board width={size.width} height={size.height}>
+                    <Board width={size.width}
+                           scaleOrigin={{
+                               origin: props.value.origin || defaultOrigin,
+                               scale: props.value.scale || 1,
+                           }}
+                           setScaleOrigin={s => {
+                               props.onChange(old => {
+                                   return {
+                                       ...old,
+                                       scale: s.scale,
+                                       origin: s.origin,
+                                   };
+                               })
+                           }}
+                           height={size.height}>
                         <RectNode nodeConf={nodeConf}
                                   anchorLeft={{
                                       x: 150,
@@ -213,7 +218,15 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                                   }}
                                   onAddSibling={() => {
                                   }}
-                                  onNodeConfChange={setNodeConf}
+                                  onNodeConfChange={mapper => {
+                                      props.onChange(old => {
+                                          const newNode = mapper(old.roots[0]);
+                                          return {
+                                              ...old,
+                                              roots: [newNode],
+                                          }
+                                      })
+                                  }}
                         />
                         {/*<circle r={2} fill={'red'}/>*/}
                     </Board>

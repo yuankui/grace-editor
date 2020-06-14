@@ -1,12 +1,11 @@
-const mitt = require('mitt');
+import mitt from 'mitt';
 import {Observable} from "rxjs";
-import Timeout = NodeJS.Timeout;
 
-interface Listener<T> {
+export interface Listener<T> {
     (message: T): void,
 }
 
-interface MessageQueue<T> {
+export interface MessageQueue<T> {
     on(listener: Listener<T>);
     emit(message: T);
 }
@@ -31,7 +30,7 @@ export function createSampleQueue<T>(interval: number): [MessageQueue<T>, Messag
     const input = toMessageQueue<T>(mitt());
     const output = toMessageQueue<T>(mitt());
 
-    let timer: Timeout | null = null;
+    let timer: NodeJS.Timeout | null = null;
     new Observable<T>(subscriber => {
         let cache: T | null = null;
         input.on(message => {

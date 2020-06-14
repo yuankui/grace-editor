@@ -1,19 +1,18 @@
-import React, {FunctionComponent, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {RenderProps} from "../renders";
 import MindMap from "./MindMap";
 import {Value} from "./model";
-import {lazyExecute} from "../../../utils/lazyExecute";
 import {createEmptyNode} from "./createEmptyNode";
+import {useSampleQueue} from "./sampleQueue/useSampleQueue";
 
 const defaultValue: Value = {
     roots: [
         createEmptyNode(),
     ],
-    pos: [],
     scale: 1,
     origin: {
-        x: 500,
-        y: 250,
+        x: -200,
+        y: -80,
     }
 };
 
@@ -26,13 +25,13 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
 
     const [state, setState] = useState<Value>(value || defaultValue);
 
-    const lazySave = useMemo(() => {
-        const lazySave = lazyExecute(onChange, 500);
-        return (value: Value) => {
-            lazySave(value);
-        };
-    }, [])
+    const [valueInput, valueOutput] = useSampleQueue(500);
 
+    useEffect(() => {
+        valueOutput.on(message => {
+            onChange(message);
+        })
+    }, []);
 
     return <MindMap value={state}
                     height={'100%'}
@@ -40,7 +39,7 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
                     onChange={mapper => {
                         setState(old => {
                             const newV = mapper(old);
-                            lazySave(newV);
+                            valueInput.emit(newV);
                             return newV;
                         })
                     }}/>;

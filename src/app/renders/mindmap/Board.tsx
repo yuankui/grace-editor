@@ -1,13 +1,21 @@
-import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDndContext} from "./dragdrop/DndContext";
 import {BoardContextProvider} from "./BoardContext";
 import {Point} from "./model/Point";
 import {useMindMapContext} from "./context/MindMapContext";
+import {Mapper} from "./node/RectNode";
+
+interface ScaleOrigin {
+    scale: number,
+    origin: Point,
+}
 
 interface Props {
     width: number,
     height: number,
     onClick?: () => void,
+    scaleOrigin: ScaleOrigin,
+    setScaleOrigin(s: ScaleOrigin): void,
 }
 
 const Board: FunctionComponent<Props> = (props) => {
@@ -20,13 +28,14 @@ const Board: FunctionComponent<Props> = (props) => {
         currentY: 0,
     })
 
-    const [scaleOrigin, setScaleOrigin] = useState({
-        scale: 1,
-        origin: {
-            x: 0,
-            y: 0,
-        }
-    });
+    const [scaleOrigin, upScaleOrigin] = useState(props.scaleOrigin);
+    const setScaleOrigin = useCallback((mapper: Mapper<ScaleOrigin>) => {
+        upScaleOrigin(prevState => {
+            const current = mapper(prevState);
+            props.setScaleOrigin(current);
+            return current;
+        })
+    }, []);
 
     const reset = useCallback(() => {
         setScaleOrigin(prev => {
