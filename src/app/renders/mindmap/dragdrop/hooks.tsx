@@ -10,6 +10,8 @@ export function useDrag(src: any): React.MouseEventHandler<Element> {
             console.log("node down");
             e.stopPropagation();
             e.preventDefault();
+            console.log("drag start, src:", src);
+
             onChange({
                 src,
                 moving: true,
@@ -23,7 +25,7 @@ export function useDrag(src: any): React.MouseEventHandler<Element> {
                 y: e.clientY,
             })
         };
-    }, []);
+    }, [src]);
 }
 
 export function useDragMove() {

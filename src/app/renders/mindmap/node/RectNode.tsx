@@ -138,7 +138,7 @@ const RectNode: FunctionComponent<NodeProps> = (props) => {
                 }
             });
         }
-    })
+    }, [props.onNodeConfChange])
 
     // 新增兄弟节点
     eventBus.useListener('InsertSibling', () => {
