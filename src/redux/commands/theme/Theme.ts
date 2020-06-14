@@ -31,4 +31,11 @@ export interface Theme {
 
     // input
     '--base-input-background-color': Color,
+
+    // mindmap
+    '--mindmap-background-color': Color,
+    '--mindmap-node-background-color': Color,
+    '--mindmap-text-color': Color,
+    '--mindmap-edge-color': Color,
+    '--mindmap-node-border-color': Color,
 }

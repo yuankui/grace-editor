@@ -62,7 +62,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
     const editY = leftPos.y - size.height / 2;
 
     const textElement = <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
-        <div style={{
+        <div className={'text'} style={{
             flexDirection: "column",
             overflow: "hidden",
             width: "900px",
@@ -143,7 +143,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
                        y={editY}
                        width={size.width + 6}
                        height={size.height}>
-        <textarea style={{
+        <textarea className={'text-edit'} style={{
             height: size.height,
             width: size.width + 12,
             fontSize: fontSize,

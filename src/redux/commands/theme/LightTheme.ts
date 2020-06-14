@@ -39,4 +39,10 @@ export const LightTheme: Theme = {
 
     // input
     "--base-input-background-color": white,
+
+    "--mindmap-background-color": Color("#EEEEF3"),
+    "--mindmap-edge-color": Color("#FF5F8C"),
+    "--mindmap-node-background-color": white,
+    "--mindmap-text-color": Color("#4A4A4A"),
+    "--mindmap-node-border-color": Color("#B3D7FF"),
 };

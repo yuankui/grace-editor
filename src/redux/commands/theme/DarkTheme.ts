@@ -37,4 +37,11 @@ export const DarkTheme: Theme = {
 
     // input
     "--base-input-background-color": Color('#131313'),
+
+    // mindmap
+    "--mindmap-background-color": Color("#032029"),
+    "--mindmap-node-background-color": Color("#092933"),
+    "--mindmap-edge-color": Color("#A57706"),
+    "--mindmap-text-color": Color("#FBF4DC"),
+    "--mindmap-node-border-color": Color("#465B61"),
 };

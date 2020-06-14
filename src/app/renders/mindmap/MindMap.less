@@ -19,7 +19,7 @@
 
 .board {
     color: black;
-    background-color: #EEEEF3;
+    background-color: var(--mindmap-background-color);
     box-shadow: 0 0 5px gray;
     //cursor: pointer;
 
@@ -27,12 +27,11 @@
         cursor: default;
     }
 
-    text {
+    .text {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-        fill: #4B4949;
         user-select: none;
     }
-    textarea {
+    .text-edit {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         border: none;
         outline: none;
@@ -43,6 +42,7 @@
 
     .edge {
         fill: transparent;
+        stroke: var(--mindmap-edge-color);
         stroke-width: 4;
     }
 

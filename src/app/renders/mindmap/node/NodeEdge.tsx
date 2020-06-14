@@ -24,8 +24,7 @@ const NodeEdge: FunctionComponent<Props> = (props) => {
     const cy2 = y2;
 
     return <path d={`M ${x1} ${y1} C ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`}
-                 className='edge'
-                 stroke={'#ff5f8c'}/>; // TODO color
+                 className='edge'/>;
 };
 
 export default NodeEdge;

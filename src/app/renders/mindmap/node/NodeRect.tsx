@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {useNodeContext} from "./NodeContext";
 import {useMindMapContext} from "../context/MindMapContext";
+import useTheme from "../../../hooks/useTheme";
 
 interface Props {
 }
@@ -11,6 +12,8 @@ const NodeRect: FunctionComponent<Props> = () => {
     const {anchorLeft, nodeConf, nodeStyle} = nodeContext;
     const {height: nodeHeight, width: nodeWidth} = nodeConf;
     const {id: nodeId} = nodeConf;
+
+    const theme = useTheme();
     // 矩形背景
     return <rect x={anchorLeft.x}
                  y={anchorLeft.y - nodeHeight / 2}
@@ -27,8 +30,8 @@ const NodeRect: FunctionComponent<Props> = () => {
                      });
                      e.stopPropagation();
                  }}
-                 fill={nodeStyle.fillColor}
-                 stroke={nodeStyle.borderColor}
+                 fill={theme["--mindmap-node-background-color"].toString()}
+                 stroke={theme["--mindmap-node-border-color"].toString()}
                  strokeWidth={nodeStyle.borderWidth}
 
                  width={nodeWidth}
