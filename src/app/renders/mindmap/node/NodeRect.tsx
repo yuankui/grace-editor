@@ -31,7 +31,7 @@ const NodeRect: FunctionComponent<Props> = () => {
                      e.stopPropagation();
                  }}
                  fill={theme["--mindmap-node-background-color"].toString()}
-                 stroke={theme["--mindmap-node-border-color"].toString()}
+                 stroke={theme["--mindmap-node-background-color"].toString()}
                  strokeWidth={nodeStyle.borderWidth}
 
                  width={nodeWidth}
