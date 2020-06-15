@@ -34,8 +34,8 @@ const MindMapRender: FunctionComponent<RenderProps> = (props) => {
     }, []);
 
     return <MindMap value={state}
-                    height={'100%'}
-                    width={'100%'}
+                    height={'98%'}
+                    width={'98%'}
                     onChange={mapper => {
                         setState(old => {
                             const newV = mapper(old);
