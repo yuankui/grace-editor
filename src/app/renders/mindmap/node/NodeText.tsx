@@ -63,16 +63,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
     const onMouseDown = useDrag(nodeConf);
     const editY = leftPos.y - size.height / 2;
 
-    const textElement = <foreignObject x={leftPos.x} y={editY} width={size.width + 6} height={size.height}>
-        <div className={'text'} style={{
-            flexDirection: "column",
-            overflow: "hidden",
-            width: "900px",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-        }}>
+    const textElement = <foreignObject x={leftPos.x} y={editY} width={size.width} height={size.height}>
+        <div className={'text'}>
             <div ref={textRef}
                  onDoubleClick={e => {
                      eventBus.emit('NodeDoubleClick', {
@@ -89,7 +81,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
                      console.log('node-click', nodeConf);
                      e.stopPropagation();
                  }} style={{
-                display: 'flex',
+                display: 'inline-flex',
                 flexDirection: 'column',
                 alignItems: 'start',
             }}>
@@ -110,6 +102,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
                 width: scale * Math.max(rect.width, 10),
                 height: scale * Math.max(rect.height, 20),
             }
+
+            console.log('size', s, [rect.width, rect.height]);
             setSize(s)
 
             onNodeConfChange(old => {
@@ -140,15 +134,14 @@ const NodeText: FunctionComponent<Props> = (props) => {
         resolve();
     }, [select, showTextEdit])
 
-    const expand = 6;
     const textEditInput = !showTextEdit ? null :
-        <foreignObject x={leftPos.x - expand}
+        <foreignObject x={leftPos.x}
                        y={editY}
-                       width={size.width + expand * 2}
-                       height={size.height + 4}>
+                       width={size.width + 20}
+                       height={size.height}>
         <textarea className={'text-edit'} style={{
-            height: size.height + 4,
-            width: size.width + expand * 2,
+            height: size.height,
+            width: size.width + 20,
             fontSize: fontSize,
         }}
                   ref={e => {
@@ -164,16 +157,16 @@ const NodeText: FunctionComponent<Props> = (props) => {
                           nodeId,
                       })
                   }}
-                  onBlur={e => {
-                      onNodeConfChange(old => {
-                          return {
-                              ...old,
-                              text: text,
-                          }
-                      });
-
-                      setShowTextEdit(false);
-                  }}
+            // onBlur={e => {
+            //     onNodeConfChange(old => {
+            //         return {
+            //             ...old,
+            //             text: text,
+            //         }
+            //     });
+            //
+            //     setShowTextEdit(false);
+            // }}
                   onKeyDown={e => {
                       if (isHotkey('mod+enter', e.nativeEvent)) {
                           setShowTextEdit(false);
