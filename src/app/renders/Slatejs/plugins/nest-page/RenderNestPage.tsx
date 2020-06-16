@@ -50,11 +50,17 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
         }
     ];
     const [height, setHeight] = useState(800);
+    const [startHeight, setStartHeight] = useState(0);
     return <Resizable
         size={{ width: '100%', height}}
-        maxHeight={height}
-        onResizeStop={(e, direction, ref, d) => {
-            setHeight(d.height);
+        onResizeStart={() => {
+            setStartHeight(height);
+        }}
+        onResize={(e, direction, ref, d) => {
+            console.log('resize', d);
+            setHeight(() => {
+                return startHeight + d.height;
+            });
         }}
     >
         <Corner className={classes} actions={actions} width={200} title={<Icon type="setting" />}>
