@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, Menu} = require('electron');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
@@ -27,6 +27,38 @@ function createMainWindow() {
     console.log(JSON.stringify(options));
 
     const window = new BrowserWindow(options);
+    const isMac = true;
+    const template = [
+        // { role: 'appMenu' }
+        ...(isMac ? [{
+            label: app.name,
+            submenu: [
+                {role: 'about'},
+                {type: 'separator'},
+                {role: 'services'},
+                {type: 'separator'},
+                {role: 'hide'},
+                {role: 'hideothers'},
+                {role: 'unhide'},
+                {type: 'separator'},
+                {role: 'quit'}
+            ]
+        }] : []),
+        {
+            label: 'View',
+            submenu: [
+                {role: 'reload'},
+                {role: 'forcereload'},
+                {role: 'toggledevtools'},
+                {type: 'separator'},
+                {type: 'separator'},
+                {role: 'togglefullscreen'}
+            ]
+        },
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
 
     if (isDevelopment) {
         window.loadURL(`http://localhost:8089`);
