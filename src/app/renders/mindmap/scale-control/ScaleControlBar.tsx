@@ -12,7 +12,7 @@ const ScaleControlBar: FunctionComponent<Props> = (props) => {
                 e.stopPropagation();
                 eventBus.emit('ScaleDec');
             }}><i className="fas fa-minus-circle"/></a>
-            <span>{parseInt((scale * 100).toString())}%</span>
+            <span>{parseInt((1 / scale * 100).toString())}%</span>
             <a href='#' onClick={e => {
                 e.stopPropagation();
                 eventBus.emit('ScaleInc');
