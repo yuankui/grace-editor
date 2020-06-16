@@ -5,12 +5,14 @@ import isHotkey from "is-hotkey";
 import {useDrag} from "../dragdrop/hooks";
 import {useMindMapContext} from "../context/MindMapContext";
 import {computeGroupHeight} from "./computeGroupHeight";
+import {useBoardContext} from "../BoardContext";
 
 interface Props {
 }
 
 const NodeText: FunctionComponent<Props> = (props) => {
     const {eventBus, nodeMap} = useMindMapContext();
+    const {scale} = useBoardContext();
     const nodeContext = useNodeContext();
     const {id: nodeId} = nodeContext.nodeConf;
     const {
@@ -105,8 +107,8 @@ const NodeText: FunctionComponent<Props> = (props) => {
             const rect = textRef.current.getClientRects()[0];
 
             const s = {
-                width: Math.max(rect.width, 10),
-                height: Math.max(rect.height, 20),
+                width: scale * Math.max(rect.width, 10),
+                height: scale * Math.max(rect.height, 20),
             }
             setSize(s)
 
@@ -129,7 +131,7 @@ const NodeText: FunctionComponent<Props> = (props) => {
                 })
             }
         }
-    }, [nodeMap])
+    }, [nodeMap, scale])
 
     eventBus.useListener("EditNode", (event, resolve) => {
         if (select) {
