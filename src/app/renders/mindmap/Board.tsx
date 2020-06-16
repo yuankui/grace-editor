@@ -184,7 +184,7 @@ const Board: FunctionComponent<Props> = (props) => {
             height={props.height}
             className='board'
             preserveAspectRatio="xMinYMin meet"
-            // viewBox={`${movedOrigin.x} ${movedOrigin.y} ${props.width * scale} ${props.height * scale}`}
+            viewBox={`${movedOrigin.x} ${movedOrigin.y} ${props.width * scale} ${props.height * scale}`}
         >
             {props.children}
         </svg>

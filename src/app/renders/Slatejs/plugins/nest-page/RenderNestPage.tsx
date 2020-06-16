@@ -49,7 +49,7 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
             }
         }
     ];
-    const [height, setHeight] = useState(800);
+    const height = node.data.get('height', 800);
     const [startHeight, setStartHeight] = useState(0);
     return <Resizable
         size={{ width: '100%', height}}
@@ -57,10 +57,10 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
             setStartHeight(height);
         }}
         onResize={(e, direction, ref, d) => {
-            console.log('resize', d);
-            setHeight(() => {
-                return startHeight + d.height;
-            });
+            const newHeight= startHeight + d.height;
+            const oldData = node.data || Map();
+            const newData = oldData.set('height', newHeight);
+            props.editor.setNodeByKey(node.key, {data: newData, type: BlockTypeNestPage});
         }}
     >
         <Corner className={classes} actions={actions} width={200} title={<Icon type="setting" />}>
