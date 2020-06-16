@@ -140,14 +140,15 @@ const NodeText: FunctionComponent<Props> = (props) => {
         resolve();
     }, [select, showTextEdit])
 
+    const expand = 6;
     const textEditInput = !showTextEdit ? null :
-        <foreignObject x={leftPos.x}
+        <foreignObject x={leftPos.x - expand}
                        y={editY}
-                       width={size.width + 6}
-                       height={size.height}>
+                       width={size.width + expand * 2}
+                       height={size.height + 4}>
         <textarea className={'text-edit'} style={{
-            height: size.height,
-            width: size.width + 12,
+            height: size.height + 4,
+            width: size.width + expand * 2,
             fontSize: fontSize,
         }}
                   ref={e => {

@@ -22,6 +22,8 @@ export interface EventMap {
 
     NodeSizeChange: NodeSizeChangeEvent,
     NodeTextChange: NodeTextChangeEvent,
+    ScaleInc: any,
+    ScaleDec: any,
 
     UpdateNodeMap: any,
 }

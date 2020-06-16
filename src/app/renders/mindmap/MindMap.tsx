@@ -11,6 +11,7 @@ import {lazyExecute} from "../../../utils/lazyExecute";
 import {DndContextProvider} from "./dragdrop/DndContext";
 import {EventBus} from "./events/eventBus";
 import {Point} from "./model/Point";
+import ScaleControlBar from "./scale-control/ScaleControlBar";
 
 export interface MindMapProps {
     value: Value,
@@ -195,7 +196,10 @@ const MindMap: FunctionComponent<MindMapProps> = (props) => {
                 <MindMapContextProvider value={{
                     nodeMap,
                     eventBus,
+                    scale: props.value.scale || 1,
+                    origin: props.value.origin || defaultOrigin,
                 }}>
+                    <ScaleControlBar/>
                     <Board width={size.width}
                            scaleOrigin={{
                                origin: props.value.origin || defaultOrigin,

@@ -126,6 +126,34 @@ const Board: FunctionComponent<Props> = (props) => {
         }
     }, [moving, dndContext.value.moving]);
 
+    // 放大
+    eventBus.useListener('ScaleDec', () => {
+        setScaleOrigin(prev => {
+            if (prev.scale < 4) {
+                return {
+                    ...prev,
+                    scale: prev.scale * 1.1
+                }
+            } else {
+                return prev;
+            }
+        });
+    }, [setScaleOrigin]);
+
+    // 缩小
+    eventBus.useListener('ScaleInc', () => {
+        setScaleOrigin(prev => {
+            if (prev.scale > 0.2) {
+                return {
+                    ...prev,
+                    scale: prev.scale / 1.1
+                }
+            } else {
+                return prev;
+            }
+        });
+    });
+
     const movedOrigin = !moving ? origin : {
         x: origin.x - (currentX - startX) * scale,
         y: origin.y - (currentY - startY) * scale,
@@ -142,31 +170,6 @@ const Board: FunctionComponent<Props> = (props) => {
                 eventBus.emit('BoardClick');
             }}
             ref={svgRef}
-            onWheel={e => {
-                if (e.deltaY > 0) {
-                    setScaleOrigin(prev => {
-                        if (prev.scale < 4) {
-                            return {
-                                ...prev,
-                                scale: prev.scale * 1.1
-                            }
-                        } else {
-                            return prev;
-                        }
-                    });
-                } else {
-                    setScaleOrigin(prev => {
-                        if (prev.scale > 0.2) {
-                            return {
-                                ...prev,
-                                scale: prev.scale / 1.1
-                            }
-                        } else {
-                            return prev;
-                        }
-                    });
-                }
-            }}
 
             onMouseDown={e => {
                 setMove({
