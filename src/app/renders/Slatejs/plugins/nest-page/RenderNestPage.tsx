@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {RenderBlockProps} from "slate-react";
 import {Editor} from "slate-react";
 import {useDispatch} from "react-redux";
@@ -11,6 +11,7 @@ import {ListTile} from "../../../../ListTile";
 import {BlockTypeNestPage} from "./NestPagePlugin";
 import {Map} from "immutable";
 import Corner, {CornerAction} from "../../../../../globalPlugins/Diff/component/Corner";
+import {Resizable} from "re-resizable";
 
 interface Props {
     props: RenderBlockProps,
@@ -48,8 +49,18 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
             }
         }
     ];
-    return <Corner className={classes} actions={actions} width={200} title={<Icon type="setting" />}>
-        <div {...attributes}>
+    const [height, setHeight] = useState(800);
+    return <Resizable
+        size={{ width: '100%', height}}
+        maxHeight={height}
+        onResizeStop={(e, direction, ref, d) => {
+            setHeight(d.height);
+        }}
+    >
+        <Corner className={classes} actions={actions} width={200} title={<Icon type="setting" />}>
+        <div {...attributes} style={{
+            height,
+        }}>
             <If test={post == null}>
                 <div className='post-missing'>post missing</div>
             </If>
@@ -68,7 +79,8 @@ const RenderNestPage: FunctionComponent<Props> = (props) => {
                 <Render value={post?.content} readOnly={true} onChange={() =>{}}/>
             </If>
         </div>
-    </Corner>
+        </Corner>
+    </Resizable>
 };
 
 export default RenderNestPage;

@@ -1,6 +1,5 @@
 import {Plugin} from 'slate-react';
 import React from "react";
-import {DecorationJSON} from "slate";
 import PostDropHolder from "./PostDropHolder";
 import RenderNestPage from "./RenderNestPage";
 
