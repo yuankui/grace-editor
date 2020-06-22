@@ -51,6 +51,7 @@ function createMainWindow() {
                 {role: 'forcereload'},
                 {role: 'toggledevtools'},
                 {type: 'separator'},
+                {role: 'resetzoom'},
                 {type: 'separator'},
                 {role: 'togglefullscreen'}
             ]
